@@ -1,12 +1,5 @@
 <script>
-  let current = window.location.hash;
-
-  function onNavigation() {
-    current = window.location.hash;
-  }
-  window.addEventListener("hashchange", onNavigation, false);
-
-  $: console.log(`current page: ${current}`);
+  export let current = window.location.hash;
 </script>
 
 <style>
