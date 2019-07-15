@@ -1,7 +1,10 @@
 <script>
+import Nav from './Nav.svelte'
 </script>
 
 <style>
 </style>
 
-<h1>Got something or want something?</h1>
+<Nav/>
+
+<main class="container">main</main>
