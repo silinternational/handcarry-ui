@@ -1,11 +1,7 @@
 <script>
-	export let name;
 </script>
 
 <style>
-	h1 {
-		color: purple;
-	}
 </style>
 
-<h1>Hello {name}!</h1>
+<h1>Got something or want something?</h1>
