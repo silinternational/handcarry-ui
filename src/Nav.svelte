@@ -1,5 +1,12 @@
 <script>
-  export let current = 'requests';
+  let current = window.location.hash;
+
+  function onNavigation() {
+    current = window.location.hash;
+  }
+  window.addEventListener("hashchange", onNavigation, false);
+
+  $: console.log(`current page: ${current}`);
 </script>
 
 <style>
@@ -14,16 +21,28 @@
    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
          <li class="nav-item">
-           <a class="nav-link" href="#requests">Requests</a>
+            <a class="nav-link" class:active="{current === '#requests'}" href="#requests">
+              Requests
+             {#if current === '#requests'}<span class="sr-only">(current)</span>{/if}
+           </a>
          </li>
          <li class="nav-item">
-           <a class="nav-link" href="#commitments">Commitments</a>
+            <a class="nav-link" class:active="{current === '#commitments'}" href="#commitments">
+              Commitments
+              {#if current === '#commitments'}<span class="sr-only">(current)</span>{/if}
+            </a>
          </li>
-         <li class="nav-item active">
-           <a class="nav-link" href="#messages">Messages <span class="sr-only">(current)</span></a>
+         <li class="nav-item">
+            <a class="nav-link" class:active="{current === '#messages'}" href="#messages">
+              Messages
+              {#if current === '#messages'}<span class="sr-only">(current)</span>{/if}
+            </a>
          </li>
          <li>
-           <a class="nav-link" href="#profile">(avatar)</a>
+            <a class="nav-link" class:active="{current === '#profile'}" href="#profile">
+              (avatar)
+              {#if current === '#profile'}<span class="sr-only">(current)</span>{/if}
+           </a>
          </li>
       </ul>
    </div>
