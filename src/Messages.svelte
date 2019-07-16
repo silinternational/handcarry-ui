@@ -2,6 +2,10 @@
 </script>
 
 <style>
+.conversation-card {
+    border: 2px solid #007bff;
+    border-radius: revert;
+}
 </style>
 
 <div class="row">
@@ -10,9 +14,9 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row no-gutters">
     <div class="col-sm-5 col-lg-4">
-        <div class="list-group" id="myList" role="tablist">
+        <div class="list-group list-group-flush" id="myList" role="tablist">
             <a class="list-group-item list-group-item-action active" data-toggle="list" href="#messages17" role="tab">
                 Peanut Butter - Clark Kent
             </a>
@@ -22,7 +26,7 @@
         </div>
     </div>
     <div class="col-sm-7 col-lg-8">
-        <div class="tab-content card">
+        <div class="tab-content card conversation-card">
             <div class="tab-pane card-body active" id="messages17" role="tabpanel">
                 <h3 class="text-center">Peanut Butter - Clark Kent</h3>
                 <hr />
