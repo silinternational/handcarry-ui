@@ -10,8 +10,13 @@
 
   function onNavigation() {
     current = window.location.hash;
+    if (current === '' || current === '#') {
+      window.location.hash = '#requests';
+    }
   }
   window.addEventListener("hashchange", onNavigation, false);
+
+  onNavigation();
 
   $: console.log(`current page: ${current}`);
 </script>
