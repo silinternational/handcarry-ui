@@ -1,5 +1,5 @@
 <script>
-import {location} from 'svelte-spa-router'
+import {location} from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
 </script>
 
 <style>
