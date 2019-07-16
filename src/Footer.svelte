@@ -6,7 +6,7 @@
 <style>
 </style>
 
-<footer style="display: flex; font-size: .25em">
+<footer style="display: flex; align-items: flex-start; justify-content: space-between; font-size: .25em; background-color: lightgrey">
   {#await get('get')}
     <p>⏳ waiting for data...</p>
   {:then value}

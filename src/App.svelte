@@ -22,6 +22,9 @@
 </script>
 
 <style>
+main {
+  height: 85vh;
+}
 </style>
 
 <Nav current={current} />
