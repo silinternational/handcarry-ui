@@ -22,7 +22,7 @@ h3 {
 
 <div class="row">
     <div class="col-sm-4 col-lg-3">
-        <img src="{avatarUrl}"
+        <img alt="Profile image" src="{avatarUrl}"
              style="width: 100%; max-width: 100px; height: auto;"/>
     </div>
     <div class="col-sm-8 col-lg-9">
