@@ -35,22 +35,5 @@ h3 {
                 {/each}
             </dl>
         </div>
-
-        <h3>Preferences</h3>
-        <div class="container-fluid">
-            <dl class="row">
-                <dt class="col-sm-4 col-lg-3 col-xl-2">Language:</dt>
-                <dd class="col-sm-8 col-lg-9 col-xl-10">English (US)</dd>
-
-                <dt class="col-sm-4 col-lg-3 col-xl-2">Weight:</dt>
-                <dd class="col-sm-8 col-lg-9 col-xl-10">kg</dd>
-
-                <dt class="col-sm-4 col-lg-3 col-xl-2">Dimensions:</dt>
-                <dd class="col-sm-8 col-lg-9 col-xl-10">cm/m/km</dd>
-
-                <dt class="col-sm-4 col-lg-3 col-xl-2">Currency:</dt>
-                <dd class="col-sm-8 col-lg-9 col-xl-10">USD ($)</dd>
-            </dl>
-        </div>
     </div>
 </div>
