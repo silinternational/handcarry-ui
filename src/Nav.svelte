@@ -1,5 +1,5 @@
 <script>
-  export let current = window.location.hash;
+import {location} from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
 </script>
 
 <style>
@@ -14,27 +14,27 @@
    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
          <li class="nav-item">
-            <a class="nav-link" class:active="{current === '#requests'}" href="#requests">
+            <a class="nav-link" class:active="{$location === '/requests'}" href="#/requests">
               Requests
-             {#if current === '#requests'}<span class="sr-only">(current)</span>{/if}
+             {#if $location === '/requests'}<span class="sr-only">(current)</span>{/if}
            </a>
          </li>
          <li class="nav-item">
-            <a class="nav-link" class:active="{current === '#commitments'}" href="#commitments">
+            <a class="nav-link" class:active="{$location === '/commitments'}" href="#/commitments">
               Commitments
-              {#if current === '#commitments'}<span class="sr-only">(current)</span>{/if}
+              {#if $location === '/commitments'}<span class="sr-only">(current)</span>{/if}
             </a>
          </li>
          <li class="nav-item">
-            <a class="nav-link" class:active="{current === '#messages'}" href="#messages">
+            <a class="nav-link" class:active="{$location === '/messages'}" href="#/messages">
               Messages
-              {#if current === '#messages'}<span class="sr-only">(current)</span>{/if}
+              {#if $location === '/messages'}<span class="sr-only">(current)</span>{/if}
             </a>
          </li>
          <li>
-            <a class="nav-link" class:active="{current === '#profile'}" href="#profile">
+            <a class="nav-link" class:active="{$location === '/profile'}" href="#/profile">
               (avatar)
-              {#if current === '#profile'}<span class="sr-only">(current)</span>{/if}
+              {#if $location === '/profile'}<span class="sr-only">(current)</span>{/if}
            </a>
          </li>
       </ul>
