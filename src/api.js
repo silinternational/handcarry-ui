@@ -1,18 +1,29 @@
-import './token.js'
 import token from './token.js';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
-export async function get() {
-  return await f('https://httpbin.org/get')
+export async function get(resource) {
+  return await f(`https://httpbin.org/${resource}`)
 }
 
-export async function gql() {
+export async function gql(query) {
   return await f('https://api.graphloc.com/graphql', {
     method: 'post',
     body: JSON.stringify({
-      query: query.geoLocation('8.8.8.8')
+      query
     }),
   })
+}
+
+export function login(returnTo) {
+  token.reset()
+
+  let loginUrl = `https://example.org/auth/login?client_id=${token.key()}`
+
+  if (returnTo) {
+    loginUrl += `&ReturnTo=${returnTo}`
+  }
+
+  window.location = loginUrl
 }
 
 const headers = {
@@ -26,22 +37,4 @@ async function f(url, config = {}) {
   const response = await fetch(url, config)
   // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
   return response.json()
-}
-
-const query = {
-  geoLocation: ip => `{
-    getLocation(ip: "${ip}") {
-      country {
-        names {
-          en
-        }
-        geoname_id
-        iso_code
-      }
-      location {
-        latitude
-        longitude
-      }
-    }
-  }`
 }
