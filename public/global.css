@@ -1,0 +1,23 @@
+:root{
+    --gold: #dbac35;
+    --platinum: #e8e8e8;
+    --dark-blue:#001696;
+    --light-blue:#0d4ce0;
+    --dark-gray:#292923;
+}
+
+body {
+    background-color: var(--platinum);
+    color:var(--dark-gray);
+}
+
+h2{
+    color:var(--dark-gray);
+}
+
+.bg-primary{
+    background-color: var(--dark-blue)!important;
+}
+.btn {
+    background-color:var(--gold);/*formatting goes here*/
+}
