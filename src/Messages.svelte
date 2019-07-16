@@ -22,9 +22,10 @@
         </div>
     </div>
     <div class="col-sm-7 col-lg-8">
-        <div class="tab-content">
-            <div class="tab-pane active" id="messages17" role="tabpanel">
-                <h3>Peanut Butter - Clark Kent</h3>
+        <div class="tab-content card">
+            <div class="tab-pane card-body active" id="messages17" role="tabpanel">
+                <h3 class="text-center">Peanut Butter - Clark Kent</h3>
+                <hr />
 
                 <blockquote class="blockquote text-right">
                   <p class="mb-0">Any chance you can bring some PB?</p>
@@ -36,8 +37,9 @@
                   <footer class="blockquote-footer">Clark Kent</footer>
                 </blockquote>
             </div>
-            <div class="tab-pane" id="messages21" role="tabpanel">
-                <h3>Peanut Butter - Clark Kent</h3>
+            <div class="tab-pane card-body" id="messages21" role="tabpanel">
+                <h3 class="text-center">Altoids - Jane Doe</h3>
+                <hr />
 
                 <blockquote class="blockquote">
                   <p class="mb-0">Did you find any Wintergreen Altoids?</p>
