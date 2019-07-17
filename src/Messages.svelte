@@ -180,6 +180,9 @@ function whenWas(timestamp) {
                    class:active={ params.id == post.id }
                    href="#/messages/{ post.id }">
                     { post.title } - { post.user }
+                    {#if post.committedUserId == myUserId}
+                        <svg class="lnr lnr-checkmark-circle"><use xlink:href="#lnr-checkmark-circle"></use></svg>
+                    {/if}
                 </a>
             {/each}
 
