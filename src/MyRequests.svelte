@@ -110,13 +110,12 @@ function whenWas(timestamp) {
                    </div>
 
                    {#if conversation.handCarrier.length > 0 }
-                        To be delivered by: <a href="#/profile">{ conversation.handCarrier }</a> <a href="#/messages/21" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></a>
-                     <br>
+                       To be delivered by: <a href="#/profile">{ conversation.handCarrier }</a> <a href="#/messages/21" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></a>
+                        <br>
                    {/if}
-
-                    Deliver to: <a target="_blank" href="https://www.google.com/maps/search/orlando,%20fl?hl=en&source=opensearch"><svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker"></use></svg>{ conversation.destination }</a><br>
+                    Deliver to: <a target="_blank" href="https://www.google.com/maps/search/{ conversation.destination }"><svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker"></use></svg>{ conversation.destination }</a><br>
                     Need After { conversation.needAfter}, Need Before { conversation.needBefore }
-                   <br><br>
+                    <br><br>
                     { conversation.description }
                 </div>
 
