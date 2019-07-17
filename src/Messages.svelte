@@ -1,6 +1,11 @@
 <script>
+import {distanceInWordsToNow} from 'date-fns';
+
 function whenWas(timestamp) {
-    return moment(timestamp).fromNow();
+    return distanceInWordsToNow(
+        new Date(timestamp),
+        {addSuffix: true}
+    );
 }
 </script>
 
