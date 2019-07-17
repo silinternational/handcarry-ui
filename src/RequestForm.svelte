@@ -7,15 +7,13 @@ function updateImage(event) {
 </script>
 
 <style>
-
-    .lnr {
-      display: inline-block;
-      fill: currentColor;
-      width: 1em;
-      height: 1em;
-      vertical-align: -0.05em;
-      align:center;
-    }
+.lnr {
+    display: inline-block;
+    fill: currentColor;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.05em;
+}
 </style>
 <div class="row">
     <div class="col">
@@ -99,7 +97,6 @@ function updateImage(event) {
 
         <div class="col-4">
             <div class="file-field">
-                <!-- add in photo preview later --->
                 <img src={imgSrc} class="img-fluid" alt="Upload Request Image">
             </div>
             <div class="d-flex justify-content-center">
@@ -115,9 +112,9 @@ function updateImage(event) {
         <div class="col-sm-12 col-lg-8 col-xl-8 form-group">
             <label for="requestURL">Request URL</label>
             <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text"><svg class="lnr lnr-link"><use xlink:href="#lnr-link"></use></svg></span>
-                                    </div>
+                <div class="input-group-prepend">
+                    <span class="input-group-text"><svg class="lnr lnr-link"><use xlink:href="#lnr-link"></use></svg></span>
+                </div>
                 <input class="form-control" type="url" id="requestURL" placeholder="URL or Web Address for item (e.g. link to Amazon product)">
             </div>
         </div>
@@ -130,11 +127,11 @@ function updateImage(event) {
         </div>
     </div>
 
-        <div class="row">
-            <div class="col-9"></div>
-            <div class="col-3">
-                        <button type="submit" class="btn btn-primary float-right">Add Request</button>
-                    </div>
-                    </div>
+    <div class="row">
+        <div class="col-9"></div>
+        <div class="col-3">
+            <button type="submit" class="btn btn-primary float-right">Add Request</button>
+        </div>
+    </div>
 
 </form>
