@@ -8,6 +8,7 @@ const routes = {
 	'/requests': Requests,
 	'/commitments': Commitments,
 	'/messages': Messages,
+	'/messages/:id': Messages,
 	'/profile': Profile,
  }
 

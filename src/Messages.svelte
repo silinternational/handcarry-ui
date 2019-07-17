@@ -1,6 +1,8 @@
 <script>
 import {distanceInWordsToNow} from 'date-fns';
 
+export let params; // URL path parameters, provided by router.
+
 export let conversations = [
     {
         id: 17,
@@ -66,6 +68,7 @@ function whenWas(timestamp) {
         <div class="list-group list-group-flush" id="myList" role="tablist">
             {#each conversations as conversation }
                 <a class="list-group-item list-group-item-action"
+                   class:active={ params.id == conversation.id }
                    data-toggle="list" href="#messages{ conversation.id }" role="tab">
                     { conversation.title } - { conversation.user }
                 </a>
