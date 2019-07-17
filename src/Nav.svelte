@@ -1,5 +1,6 @@
 <script>
-import {location} from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
+import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
+import polyglot from './i18n'
 </script>
 
 <style>
@@ -16,23 +17,23 @@ import {location} from 'svelte-spa-router' // https://github.com/ItalyPaleAle/sv
          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" class:active="{ $location.startsWith('/request') }"
                href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Requests
+              { polyglot.t('nav-requests') }
               {#if $location === '/requests'}<span class="sr-only">(current)</span>{/if}
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-               <a class="dropdown-item" href="#/requests">View Requests</a>
-               <a class="dropdown-item" href="#/requestform">Make a Request</a>
+               <a class="dropdown-item" href="#/requests">{ polyglot.t('nav-requests-view') }</a>
+               <a class="dropdown-item" href="#/requestform">{ polyglot.t('nav-requests-create') }</a>
             </div>
          </li>
          <li class="nav-item">
             <a class="nav-link" class:active="{$location === '/commitments'}" href="#/commitments">
-              Commitments
+              { polyglot.t('nav-requests-comittments') }
               {#if $location === '/commitments'}<span class="sr-only">(current)</span>{/if}
             </a>
          </li>
          <li class="nav-item">
             <a class="nav-link" class:active="{$location === '/messages'}" href="#/messages">
-              Messages
+              { polyglot.t('nav-requests-messages') }
               {#if $location === '/messages'}<span class="sr-only">(current)</span>{/if}
             </a>
          </li>
