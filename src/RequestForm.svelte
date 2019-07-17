@@ -2,81 +2,117 @@
 </script>
 
 <style>
-h3 {
-    font-size: 1.4rem;
-}
-</style>
 
+
+</style>
 <div class="row">
     <div class="col">
         <h2>Add a Request</h2>
-        <form>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Need By</label>
-                    <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="7/16/2019">
-                </div>
-                    <div class="form-group">
-                                <label for="need_after">Need After</label>
-                                <input type="date" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-                              </div>
-
-
-        <div class="form-group">
-            <label for="exampleFormControlInput1">Destination</label>
-            <input type="text" id="exampleFormControlInput1" placeholder="name@example.com">
-          </div>
-
-        <label for="max-cost" class="col-2 col-form-label">Max Cost</label>
-          <div class="col-10">
-            <input class="form-control" type="number" value="100" id="max-cost">
-          </div>
-
-<div class="form-group">
-<label class="mr-sm-2" for="inlineFormCustomSelect">Max Size</label>
-  <select class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
-    <option selected>Choose...</option>
-    <option value="1">Small (purse)</option>
-    <option value="2">Medium (laptop)</option>
-    <option value="3">Large (suitcase)</option>
-  </select>
+    </div>
 </div>
-          <div class="form-group">
-            <label for="exampleFormControlSelect2">Categories</label>
-            <select multiple class="form-control" id="exampleFormControlSelect2">
-              <option>Technology</option>
-              <option>Food</option>
-              <option>Personal</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="exampleFormControlTextarea1">Example textarea</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-          </div>
-        </form>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Request</th>
-                    <th>Destination</th>
-                    <th>Needed After</th>
-                    <th>Needed Before</th>
-                </tr>
-             </thead>
-             <tbody>
-                <tr>
-                    <td>Burt's Bee's Lip Balm</td>
-                    <td>Atlanta, GA, USA</td>
-                    <td>18 Jul </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Jif Peanut Butter</td>
-                    <td>JAARS, NC, USA</td>
-                    <td></td>
-                    <td>3 Aug</td>
-                 </tr>
-             </tbody>
-        </table>
+
+<br>
+
+<form>
+
+    <div class="row">
+        <div class="form-group required col-12">
+           <input class="form-control form-control-lg" id="requestTitle" type="text" placeholder="Request Title">
+           <small id="titleHelp" class="form-text text-danger">Required</small>
+        </div>
     </div>
 
-</div>
+
+    <div class="row">
+        <div class="col-8">
+            <div class="row">
+                <div class="col-12 form-group required">
+                    <label for="requestDestination" class="control-label">Destination</label>
+                    <input type="text" class="form-control" id="requestDestination" required placeholder="City, State/Province, Country, or Region, etc.">
+                    <small id="destRequired" class="form-text text-danger">Required</small>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 col-lg-3 col-xl-6 form-group">
+                    <label for="requestNeedBy">Need By</label>
+                    <input type="date" class="form-control" id="requestNeedBy" placeholder="">
+                </div>
+
+                <div class="col-sm-6 col-lg-3 col-xl-6 form-group">
+                    <label for="need_after">Need After</label>
+                    <input type="date" class="form-control" id="need_after" placeholder="7/16/2019">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12 col-lg-2 col-xl-4">
+                    <label for="requestCost">Approximate Cost</label>
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input class="form-control" type="number" value="100" id="requestCost">
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
+                    <label for="requestSize">Approximate Size</label>
+                    <select class="form-control" id="requestSize">
+                         <option selected>Choose...</option>
+                         <option value="1">Small (purse)</option>
+                         <option value="2">Medium (laptop)</option>
+                         <option value="3">Large (suitcase)</option>
+                    </select>
+                </div>
+                <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
+                    <label for="requestCat">Category</label>
+                        <select class="form-control" id="requestCat">
+                            <option>Choose...</option>
+                            <option value="1">Technology</option>
+                            <option value="2">Food</option>
+                            <option value="3">Personal</option>
+                            <option value="4">Other</option>
+                        </select>
+                </div>
+
+             </div>
+        </div>
+
+
+        <div class="col-4">
+            <div class="file-field">
+                <!-- add in photo preview later --->
+                <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" class="img-fluid" alt="Upload Request Image">
+            </div>
+            <div class="d-flex justify-content-center">
+                <div class="btn btn-mdb-color btn-rounded">
+                    <input type="file">
+                </div>
+            </div>
+         </div>
+        <!--Add in URL pull later --->
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-lg-8 col-xl-8 form-group">
+            <label for="requestURL">Request URL</label>
+            <input class="form-control" type="url" id="requestURL" placeholder="URL or Web Address for item (e.g. link to Amazon product)">
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col form-group">
+            <label for="requestDesc">Description</label>
+            <textarea class="form-control" id="requestDesc" rows="3" placeholder="A description of the thing you want brought."></textarea>
+        </div>
+    </div>
+
+        <div class="row">
+            <div class="col-9"></div>
+            <div class="col-3">
+                        <button type="submit" class="btn btn-primary float-right">Add Request</button>
+                    </div>
+                    </div>
+
+</form>

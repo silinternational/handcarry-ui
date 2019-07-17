@@ -1,10 +1,12 @@
 import Commitments from './Commitments.svelte'
 import Messages from './Messages.svelte'
 import Profile from './Profile.svelte'
+import RequestForm from './RequestForm.svelte'
 import Requests from './Requests.svelte'
 
 // https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
+	'/requestform': RequestForm,
 	'/requests': Requests,
 	'/commitments': Commitments,
 	'/messages': Messages,

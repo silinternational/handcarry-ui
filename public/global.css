@@ -1,5 +1,6 @@
 :root{
     --gold: #dbac35;
+    --dark-gold: #CFA230;
     --platinum: #e8e8e8;
     --dark-blue:#001696;
     --light-blue:#0d4ce0;
@@ -19,7 +20,30 @@ h2{
     background-color: var(--dark-blue)!important;
 }
 .btn {
-    background-color:var(--gold);/*formatting goes here*/
+    background-color:var(--gold);
+    border: none;
+}
+
+.btn-primary{
+    border: none;
+}
+
+.btn-primary:hover{
+    background-color: var(--dark-gold);
+}
+
+.form-control:focus {
+    border-color: var(--light-blue);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px var(--dark-blue);
+}
+
+
+
+
+
+.form-group.required .control-label:after {
+    content:"*";
+    color:red;
 }
 
 .nav{

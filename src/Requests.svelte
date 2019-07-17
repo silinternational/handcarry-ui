@@ -1,6 +1,20 @@
 <script>
+
     jQuery(document).ready(function() {
-        jQuery('#allrequests').DataTable();
+        var table = jQuery('#allRequests').DataTable( {
+             "columnDefs": [
+                 {
+                     "targets": [ 7 ],
+                     "visible": false,
+                     "searchable": false
+                 }
+             ]
+         } );
+
+        jQuery('#allRequests tbody').on('click', 'tr', function () {
+                var data = table.row( this ).data();
+                alert( 'You clicked on '+data[7]+'\'s row' );
+            } );
     } );
 </script>
 
@@ -11,7 +25,7 @@ h3 {
 </style>
 
 <div class="row">
-    <h2>Requests</h2>
+    <h2>Requests <a href="#/requestform">[add]</a></h2>
 </div>
 
 <div class="row">
@@ -20,7 +34,7 @@ h3 {
 
 
 
-        <table class="table table-hover" id="allrequests">
+        <table class="table table-hover" id="allRequests">
             <thead>
 
                 <tr>
@@ -31,6 +45,7 @@ h3 {
                     <th>Cost</th>
                     <th>Category</th>
                     <th>Size</th>
+                    <th>ID</th>
                 </tr>
              </thead>
              <tbody>
@@ -42,6 +57,7 @@ h3 {
                     <td>4</td>
                     <td>Personal</td>
                     <td>Tiny</td>
+                    <td>3</td>
                 </tr>
                 <tr>
                     <td>Jif Peanut Butter</td>
@@ -51,6 +67,7 @@ h3 {
                     <td>5</td>
                     <td>Food</td>
                     <td>Small</td>
+                    <td>5</td>
                  </tr>
              </tbody>
         </table>
