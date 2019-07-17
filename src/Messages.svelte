@@ -3,12 +3,13 @@ import {distanceInWordsToNow} from 'date-fns';
 
 export let params = {}; // URL path parameters, provided by router.
 
-export let conversations = [
+export let posts = [
     {
         id: 17,
-        post: 2,
         user: 'Clark Kent',
         title: 'Peanut Butter',
+        destination: 'Somewhere, USA',
+        needBefore: 1564804800000,
         messages: [
             {
                 timestamp: 1563277677000,
@@ -29,9 +30,10 @@ export let conversations = [
     },
     {
         id: 21,
-        post: 5,
         user: 'Jane Doe',
         title: 'Altoids',
+        destination: 'Timbuktu, Mali',
+        needAfter: 1564200000000,
         messages: [
             {
                 timestamp: 1563298577000,
@@ -45,38 +47,57 @@ export let conversations = [
             },
         ],
     },
+    {
+        id: 9,
+        user: 'Denethor',
+        title: 'A ring',
+        destination: 'Gondor',
+        needAfter: 1564200000000,
+        needBefore: 1564804800000,
+        messages: [
+            {
+                timestamp: 1563390232037,
+                from: 'them',
+                content: 'I haven\'t heard from my son, either. Have you seen him recently?',
+            },
+        ],
+    },
 ];
 
 function selectConversation(id) {
     window.location.hash = '#/messages/' + Number(id);
 }
 
-if (!params.id && conversations.length > 0) {
-    selectConversation(conversations[0].id);
+if (!params.id && posts.length > 0) {
+    selectConversation(posts[0].id);
 }
 
 function replyFormSubmitted(event) {
     sendReply(
-        event.currentTarget.elements.conversationId.value,
+        event.currentTarget.elements.postId.value,
         event.currentTarget.elements.replyField.value
     );
     event.currentTarget.elements.replyField.value = '';
 }
 
-function sendReply(conversationId, text) {
+function sendReply(postId, text) {
 
     /* @todo: Send this to the API when it's ready. */
 
-    for (let i = 0; i < conversations.length; i++) {
-        if (conversations[i].id == conversationId) {
+    for (let i = 0; i < posts.length; i++) {
+        if (posts[i].id == postId) {
             let newMessage = {
                 timestamp: Date.now(),
                 from: 'me',
                 content: text,
             };
-            conversations[i].messages = [...conversations[i].messages, newMessage];
+            posts[i].messages = [...posts[i].messages, newMessage];
         }
     }
+}
+
+function asReadableDate(timestamp) {
+    return new Date(timestamp).toLocaleDateString();
 }
 
 function whenWas(timestamp) {
@@ -115,15 +136,15 @@ function whenWas(timestamp) {
 <div class="row no-gutters">
     <div class="col-sm-5 col-lg-4">
         <div class="list-group list-group-flush">
-            {#each conversations as conversation }
+            {#each posts as post }
                 <a class="list-group-item list-group-item-action"
-                   class:active={ params.id == conversation.id }
-                   href="#/messages/{ conversation.id }">
-                    { conversation.title } - { conversation.user }
+                   class:active={ params.id == post.id }
+                   href="#/messages/{ post.id }">
+                    { post.title } - { post.user }
                 </a>
             {/each}
 
-            {#if conversations.length < 1 }
+            {#if posts.length < 1 }
                 <i class="text-muted">none</i>
             {/if}
         </div>
@@ -131,12 +152,24 @@ function whenWas(timestamp) {
     <div class="col-sm-7 col-lg-8">
         <div class="tab-content card conversation-card"
              class:conversation-card-empty={ !params.id }>
-            {#each conversations as conversation }
+            {#each posts as post }
                 <div class="tab-pane card-body"
-                     class:active={ params.id == conversation.id }>
-                    <h3 class="text-center">{ conversation.title } - { conversation.user }</h3>
-                    <hr />
-                    {#each conversation.messages as message}
+                     class:active={ params.id == post.id }>
+                    <h3 class="text-center mb-0">{ post.title } - { post.user }</h3>
+                    <div class="text-center">
+                        <small>
+                            { post.destination }
+                            {#if post.needAfter && post.needBefore }
+                                | between { asReadableDate(post.needAfter) } and { asReadableDate(post.needBefore) }
+                            {:else if post.needAfter }
+                                | after { asReadableDate(post.needAfter) }
+                            {:else if post.needBefore }
+                                | before { asReadableDate(post.needBefore) }
+                            {/if}
+                        </small>
+                    </div>
+                    <hr class="mt-1" />
+                    {#each post.messages as message}
                         {#if message.from === 'me'}
                             <blockquote class="blockquote text-right">
                               <p class="mb-0 message-content">{message.content}</p>
@@ -145,7 +178,7 @@ function whenWas(timestamp) {
                         {:else}
                             <blockquote class="blockquote">
                               <p class="mb-0 message-content">{message.content}</p>
-                              <footer class="blockquote-footer">{conversation.user}, { whenWas(message.timestamp) }</footer>
+                              <footer class="blockquote-footer">{post.user}, { whenWas(message.timestamp) }</footer>
                             </blockquote>
                         {/if}
                     {/each}
@@ -153,7 +186,7 @@ function whenWas(timestamp) {
                         <form on:submit={ replyFormSubmitted }>
                             <div class="row">
                                 <div class="col">
-                                    <input type="hidden" id="conversationId" value="{ conversation.id }" />
+                                    <input type="hidden" id="postId" value="{ post.id }" />
                                     <label class="sr-only" for="replyField">Reply</label>
 
                                     <input type="text" class="form-control mb-2 mr-sm-2" id="replyField"
