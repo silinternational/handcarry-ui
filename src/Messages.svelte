@@ -3,9 +3,11 @@ import {distanceInWordsToNow} from 'date-fns';
 
 export let params = {}; // URL path parameters, provided by router.
 
+export let myUserId = 4;
 export let posts = [
     {
         id: 17,
+        requestingUserId: 4,
         user: 'Clark Kent',
         title: 'Peanut Butter',
         destination: 'Somewhere, USA',
@@ -29,7 +31,23 @@ export let posts = [
         ],
     },
     {
+        id: 22,
+        requestingUserId: 4,
+        committedUserId: 8,
+        user: 'Jane Eyre',
+        title: 'Jam',
+        destination: 'Somewhere, USA',
+        messages: [
+            {
+                timestamp: 1563277777000,
+                from: 'me',
+                content: 'Red plum jam, if possible',
+            },
+        ],
+    },
+    {
         id: 21,
+        requestingUserId: 2,
         user: 'Jane Doe',
         title: 'Altoids',
         destination: 'Timbuktu, Mali',
@@ -49,6 +67,7 @@ export let posts = [
     },
     {
         id: 9,
+        requestingUserId: 7,
         user: 'Denethor',
         title: 'A ring',
         destination: 'Gondor',
@@ -82,7 +101,7 @@ function replyFormSubmitted(event) {
 
 function sendReply(postId, text) {
 
-    /* @todo: Send this to the API when it's ready. */
+    /** @todo: Send this to the API when it's ready. */
 
     for (let i = 0; i < posts.length; i++) {
         if (posts[i].id == postId) {
@@ -98,6 +117,26 @@ function sendReply(postId, text) {
 
 function asReadableDate(timestamp) {
     return new Date(timestamp).toLocaleDateString();
+}
+
+function commitToBring(postId) {
+
+    /** @todo Change this to call an API when it's ready */
+
+    console.log('You committed to bring ' + postId);
+
+    for (let i = 0; i < posts.length; i++) {
+        if (posts[i].id == postId) {
+            posts[i].committedUserId = myUserId;
+        }
+    }
+}
+
+function acceptCommitment(postId, committedUserId) {
+
+    /** @todo Change this to call an API when it's ready */
+
+    console.log('Accepted user ' + committedUserId + '\'s commitement to bring ' + postId);
 }
 
 function whenWas(timestamp) {
@@ -155,18 +194,42 @@ function whenWas(timestamp) {
             {#each posts as post }
                 <div class="tab-pane card-body"
                      class:active={ params.id == post.id }>
-                    <h3 class="text-center mb-0">{ post.title } - { post.user }</h3>
-                    <div class="text-center">
-                        <small>
-                            { post.destination }
-                            {#if post.needAfter && post.needBefore }
-                                | between { asReadableDate(post.needAfter) } and { asReadableDate(post.needBefore) }
-                            {:else if post.needAfter }
-                                | after { asReadableDate(post.needAfter) }
-                            {:else if post.needBefore }
-                                | before { asReadableDate(post.needBefore) }
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="text-center mb-0">{ post.title } - { post.user }</h3>
+                            <div class="text-center">
+                                <small>
+                                    { post.destination }
+                                    {#if post.needAfter && post.needBefore }
+                                        | between { asReadableDate(post.needAfter) } and { asReadableDate(post.needBefore) }
+                                    {:else if post.needAfter }
+                                        | after { asReadableDate(post.needAfter) }
+                                    {:else if post.needBefore }
+                                        | before { asReadableDate(post.needBefore) }
+                                    {/if}
+                                </small>
+                            </div>
+                        </div>
+                        <div class="col-4 text-center">
+                            {#if post.requestingUserId == myUserId }
+                                {#if post.committedUserId }
+                                    User { post.committedUserId } committed to bring this.
+                                    <button class="btn btn-sm btn-outline-success" on:click={ () => acceptCommitment(post.id, post.committedUserId) }>
+                                        Accept
+                                    </button>
+                                {/if}
+                            {:else}
+                                {#if post.committedUserId == myUserId }
+                                    You committed to bring this.
+                                {:else if post.committedUserId }
+                                    Someone else has committed to bring this.
+                                {:else}
+                                    <button class="btn btn-sm btn-info" on:click={ () => commitToBring(post.id) }>
+                                        I'll bring it
+                                    </button>
+                                {/if}
                             {/if}
-                        </small>
+                        </div>
                     </div>
                     <hr class="mt-1" />
                     {#each post.messages as message}
