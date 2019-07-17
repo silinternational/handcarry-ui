@@ -1,46 +1,59 @@
 <script>
 import {distanceInWordsToNow} from 'date-fns';
 
-export let params; // URL path parameters, provided by router.
+export let params = {}; // URL path parameters, provided by router.
 
 export let conversations = [
     {
         id: 17,
         post: 2,
-        'user': 'Clark Kent',
-        'title': 'Peanut Butter',
-        'messages': [
+        user: 'Clark Kent',
+        title: 'Peanut Butter',
+        messages: [
             {
-                'timestamp': 1563298677000,
-                'from': 'me',
-                'content': 'Any chance you can bring some PB?',
+                timestamp: 1563277677000,
+                from: 'me',
+                content: 'Any chance you can bring some PB?',
             },
             {
-                'timestamp': 1563298747000,
-                'from': 'them',
-                'content': 'Absolutely!',
+                timestamp: 1563288747000,
+                from: 'them',
+                content: 'Absolutely!',
+            },
+            {
+                timestamp: 1563299747000,
+                from: 'me',
+                content: 'Thanks 😁',
             },
         ],
     },
     {
-        'id': 21,
-        'post': 5,
-        'user': 'Jane Doe',
-        'title': 'Altoids',
-        'messages': [
+        id: 21,
+        post: 5,
+        user: 'Jane Doe',
+        title: 'Altoids',
+        messages: [
             {
-                'timestamp': 1563298577000,
-                'from': 'them',
-                'content': 'Did you find any Wintergreen Altoids?',
+                timestamp: 1563298577000,
+                from: 'them',
+                content: 'Did you find any Wintergreen Altoids?',
             },
             {
-                'timestamp': 1563298757000,
-                'from': 'me',
-                'content': 'No luck, sorry',
+                timestamp: 1563398757000,
+                from: 'me',
+                content: 'No luck, sorry',
             },
         ],
     },
 ];
+
+function selectConversation(id) {
+    window.location.hash = '#/messages/' + Number(id);
+}
+
+if (!params.id && conversations.length > 0) {
+    selectConversation(conversations[0].id);
+}
 
 function whenWas(timestamp) {
     return distanceInWordsToNow(
@@ -55,6 +68,18 @@ function whenWas(timestamp) {
     border: 2px solid #007bff;
     border-radius: revert;
 }
+.conversation-card-empty {
+    border-color: #999;
+}
+.message-content {
+    border: 1px solid #ccc;
+    border-radius: 12px 12px 12px 0;
+    display: inline-block;
+    padding: 4px 8px;
+}
+.text-right .message-content {
+    border-radius: 12px 12px 0 12px;
+}
 </style>
 
 <div class="row">
@@ -65,11 +90,11 @@ function whenWas(timestamp) {
 
 <div class="row no-gutters">
     <div class="col-sm-5 col-lg-4">
-        <div class="list-group list-group-flush" id="myList" role="tablist">
+        <div class="list-group list-group-flush">
             {#each conversations as conversation }
                 <a class="list-group-item list-group-item-action"
                    class:active={ params.id == conversation.id }
-                   data-toggle="list" href="#messages{ conversation.id }" role="tab">
+                   href="#/messages/{ conversation.id }">
                     { conversation.title } - { conversation.user }
                 </a>
             {/each}
@@ -80,34 +105,32 @@ function whenWas(timestamp) {
         </div>
     </div>
     <div class="col-sm-7 col-lg-8">
-        <div class="tab-content card conversation-card">
-            <div class="tab-pane card-body active" id="messages17" role="tabpanel">
-                <h3 class="text-center">Peanut Butter - Clark Kent</h3>
-                <hr />
+        <div class="tab-content card conversation-card"
+             class:conversation-card-empty={ !params.id }>
+            {#each conversations as conversation }
+                <div class="tab-pane card-body"
+                     class:active={ params.id == conversation.id }>
+                    <h3 class="text-center">{ conversation.title } - { conversation.user }</h3>
+                    <hr />
+                    {#each conversation.messages as message}
+                        {#if message.from === 'me'}
+                            <blockquote class="blockquote text-right">
+                              <p class="mb-0 message-content">{message.content}</p>
+                              <footer class="blockquote-footer">you, { whenWas(message.timestamp) }</footer>
+                            </blockquote>
+                        {:else}
+                            <blockquote class="blockquote">
+                              <p class="mb-0 message-content">{message.content}</p>
+                              <footer class="blockquote-footer">{conversation.user}, { whenWas(message.timestamp) }</footer>
+                            </blockquote>
+                        {/if}
+                    {/each}
+                </div>
+            {/each}
 
-                <blockquote class="blockquote text-right">
-                  <p class="mb-0">Any chance you can bring some PB?</p>
-                  <footer class="blockquote-footer">you, { whenWas(1563298677000) }</footer>
-                </blockquote>
-
-                <blockquote class="blockquote">
-                  <p class="mb-0">Absolutely!</p>
-                  <footer class="blockquote-footer">Clark Kent, { whenWas(1563307287000) }</footer>
-                </blockquote>
-            </div>
-            <div class="tab-pane card-body" id="messages21" role="tabpanel">
-                <h3 class="text-center">Altoids - Jane Doe</h3>
-                <hr />
-
-                <blockquote class="blockquote">
-                  <p class="mb-0">Did you find any Wintergreen Altoids?</p>
-                  <footer class="blockquote-footer">Jane Doe, { whenWas(1563288647000) }</footer>
-                </blockquote>
-
-                <blockquote class="blockquote text-right">
-                  <p class="mb-0">No luck, sorry</p>
-                  <footer class="blockquote-footer">you, { whenWas(1563288648000) }</footer>
-                </blockquote>
+            <div class="tab-pane card-body"
+                 class:active={ !params.id }>
+                <p class="text-center"><i>Please select a conversation to see its messages</i></p>
             </div>
         </div>
     </div>
