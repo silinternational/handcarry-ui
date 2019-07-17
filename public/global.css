@@ -9,11 +9,15 @@
 
 body {
     background-color: var(--platinum);
-    color:var(--dark-gray);
+    color: var(--dark-gray);
 }
 
 h2{
-    color:var(--dark-gray);
+    color: var(--dark-gray);
+}
+
+h3{
+    color: var(--light-blue);
 }
 
 /* Bootstrap */
@@ -33,7 +37,7 @@ h2{
 }
 
 .btn-primary{
-    background-color:var(--gold);
+    background-color: var(--gold);
     border: var(--gold);
 }
 

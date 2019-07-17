@@ -22,6 +22,7 @@ import polyglot from './i18n'
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                <a class="dropdown-item" href="#/requests">{ polyglot.t('nav-requests-view') }</a>
+               <a class="dropdown-item" href="#/myrequests">{ polyglot.t('nav-requests-mine') }</a>
                <a class="dropdown-item" href="#/requestform">{ polyglot.t('nav-requests-create') }</a>
             </div>
          </li>
