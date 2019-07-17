@@ -3,7 +3,14 @@
 
 <style>
 
-
+    .lnr {
+      display: inline-block;
+      fill: currentColor;
+      width: 1em;
+      height: 1em;
+      vertical-align: -0.05em;
+      align:center;
+    }
 </style>
 <div class="row">
     <div class="col">
@@ -28,7 +35,12 @@
             <div class="row">
                 <div class="col-12 form-group required">
                     <label for="requestDestination" class="control-label">Destination</label>
-                    <input type="text" class="form-control" id="requestDestination" required placeholder="City, State/Province, Country, or Region, etc.">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker"></use></svg></span>
+                        </div>
+                        <input type="text" class="form-control" id="requestDestination" required placeholder="City, State/Province, Country, or Region, etc.">
+                    </div>
                     <small id="destRequired" class="form-text text-danger">Required</small>
                 </div>
             </div>
@@ -97,7 +109,12 @@
     <div class="row">
         <div class="col-sm-12 col-lg-8 col-xl-8 form-group">
             <label for="requestURL">Request URL</label>
-            <input class="form-control" type="url" id="requestURL" placeholder="URL or Web Address for item (e.g. link to Amazon product)">
+            <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><svg class="lnr lnr-link"><use xlink:href="#lnr-link"></use></svg></span>
+                                    </div>
+                <input class="form-control" type="url" id="requestURL" placeholder="URL or Web Address for item (e.g. link to Amazon product)">
+            </div>
         </div>
     </div>
 
