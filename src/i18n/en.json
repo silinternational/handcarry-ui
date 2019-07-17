@@ -1,7 +1,8 @@
 {
    "nav-requests": "Requests",
    "nav-requests-view": "View Requests",
+   "nav-requests-mine": "My Requests",
    "nav-requests-create": "Make a Request",
-   "nav-requests-comittments": "Comittments",
+   "nav-requests-comittments": "Commitments",
    "nav-requests-messages": "Messages"
 }
