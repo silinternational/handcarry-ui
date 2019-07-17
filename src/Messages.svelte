@@ -1,6 +1,45 @@
 <script>
 import {distanceInWordsToNow} from 'date-fns';
 
+export let conversations = [
+    {
+        id: 17,
+        post: 2,
+        'user': 'Clark Kent',
+        'title': 'Peanut Butter',
+        'messages': [
+            {
+                'timestamp': 1563298677000,
+                'from': 'me',
+                'content': 'Any chance you can bring some PB?',
+            },
+            {
+                'timestamp': 1563298747000,
+                'from': 'them',
+                'content': 'Absolutely!',
+            },
+        ],
+    },
+    {
+        'id': 21,
+        'post': 5,
+        'user': 'Jane Doe',
+        'title': 'Altoids',
+        'messages': [
+            {
+                'timestamp': 1563298577000,
+                'from': 'them',
+                'content': 'Did you find any Wintergreen Altoids?',
+            },
+            {
+                'timestamp': 1563298757000,
+                'from': 'me',
+                'content': 'No luck, sorry',
+            },
+        ],
+    },
+];
+
 function whenWas(timestamp) {
     return distanceInWordsToNow(
         new Date(timestamp),
@@ -25,12 +64,16 @@ function whenWas(timestamp) {
 <div class="row no-gutters">
     <div class="col-sm-5 col-lg-4">
         <div class="list-group list-group-flush" id="myList" role="tablist">
-            <a class="list-group-item list-group-item-action active" data-toggle="list" href="#messages17" role="tab">
-                Peanut Butter - Clark Kent
-            </a>
-            <a class="list-group-item list-group-item-action" data-toggle="list" href="#messages21" role="tab">
-                Altoids - Jane Doe
-            </a>
+            {#each conversations as conversation }
+                <a class="list-group-item list-group-item-action"
+                   data-toggle="list" href="#messages{ conversation.id }" role="tab">
+                    { conversation.title } - { conversation.user }
+                </a>
+            {/each}
+
+            {#if conversations.length < 1 }
+                <i class="text-muted">none</i>
+            {/if}
         </div>
     </div>
     <div class="col-sm-7 col-lg-8">
