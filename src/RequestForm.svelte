@@ -1,4 +1,9 @@
 <script>
+let imgSrc = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+
+function updateImage(event) {
+    imgSrc = URL.createObjectURL(event.target.files[0])
+}
 </script>
 
 <style>
@@ -95,11 +100,11 @@
         <div class="col-4">
             <div class="file-field">
                 <!-- add in photo preview later --->
-                <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" class="img-fluid" alt="Upload Request Image">
+                <img src={imgSrc} class="img-fluid" alt="Upload Request Image">
             </div>
             <div class="d-flex justify-content-center">
                 <div class="btn btn-mdb-color btn-rounded">
-                    <input type="file">
+                    <input type="file" accept="image/*" on:change={updateImage}>
                 </div>
             </div>
          </div>
