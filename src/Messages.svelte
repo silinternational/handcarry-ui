@@ -125,6 +125,19 @@ function whenWas(timestamp) {
                             </blockquote>
                         {/if}
                     {/each}
+                    <div class="card-footer">
+                        <form on:submit>
+                            <div class="row">
+                                <div class="col">
+                                    <label class="sr-only" for="replyField">Reply</label>
+                                    <input type="text" class="form-control mb-2 mr-sm-2" id="replyField" placeholder="Reply">
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary mb-2">Send</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             {/each}
 
