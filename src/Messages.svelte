@@ -55,6 +55,30 @@ if (!params.id && conversations.length > 0) {
     selectConversation(conversations[0].id);
 }
 
+function replyFormSubmitted(event) {
+    sendReply(
+        event.currentTarget.elements.conversationId.value,
+        event.currentTarget.elements.replyField.value
+    );
+    event.currentTarget.elements.replyField.value = '';
+}
+
+function sendReply(conversationId, text) {
+
+    /* @todo: Send this to the API when it's ready. */
+
+    for (let i = 0; i < conversations.length; i++) {
+        if (conversations[i].id == conversationId) {
+            let newMessage = {
+                timestamp: Date.now(),
+                from: 'me',
+                content: text,
+            };
+            conversations[i].messages = [...conversations[i].messages, newMessage];
+        }
+    }
+}
+
 function whenWas(timestamp) {
     return distanceInWordsToNow(
         new Date(timestamp),
@@ -126,11 +150,14 @@ function whenWas(timestamp) {
                         {/if}
                     {/each}
                     <div class="card-footer">
-                        <form on:submit>
+                        <form on:submit={ replyFormSubmitted }>
                             <div class="row">
                                 <div class="col">
+                                    <input type="hidden" id="conversationId" value="{ conversation.id }" />
                                     <label class="sr-only" for="replyField">Reply</label>
-                                    <input type="text" class="form-control mb-2 mr-sm-2" id="replyField" placeholder="Reply">
+
+                                    <input type="text" class="form-control mb-2 mr-sm-2" id="replyField"
+                                           placeholder="Reply" autocomplete="off" />
                                 </div>
                                 <div class="col-auto">
                                     <button type="submit" class="btn btn-primary mb-2">Send</button>
