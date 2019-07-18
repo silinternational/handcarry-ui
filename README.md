@@ -16,6 +16,8 @@ npm install
 npm run dev
 ```
 
+...then update your `etc/hosts` with a `handcarry.local` to localhost
+
 Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
 
 
