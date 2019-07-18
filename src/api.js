@@ -20,7 +20,7 @@ export async function gql(query) {
 export function login(returnTo) {
   token.reset()
 
-  let loginUrl = `https://example.org/auth/login?client_id=${token.key()}`
+  let loginUrl = `http://localhost:3000/auth/login?client_id=${token.key()}`
 
   if (returnTo) {
     loginUrl += `&ReturnTo=${returnTo}`
