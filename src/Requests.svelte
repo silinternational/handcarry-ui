@@ -1,9 +1,54 @@
 <script>
 
-function format ( d ) {
-    // `d` is the original data object for the row
-    return 'Request description, who made it, picture, etc.';
-}
+    let requests = [
+        {
+            id: 21,
+            title: "Burt's Bee's Lip Balm",
+            destination: "Atlanta, GA, USA",
+            needAfter: 1566100800000,
+            size: 'Tiny',
+            cost: 4,
+            category: 'Personal',
+            mine: true,
+            committed: false,
+        },
+        {
+                    id: 17,
+                    title: "Jif Peanut Butter",
+                    destination: "JAARS, NC, USA",
+                    needBy: 1567310400000,
+                    size: 'Small',
+                    cost: 4,
+                    category: 'Food',
+                    mine: false,
+                    committed: false,
+                },
+                {
+                            id: 1,
+                            title: "Maple Syrup",
+                            destination: "Madrid, Span",
+                            needAfter: 1566100800000,
+                            size: 'Medium',
+                            cost: 443,
+                            category: 'Personal',
+                            mine: false,
+                            committed: true,
+                        },
+    ];
+
+
+
+    function format ( d ) {
+        // `d` is the original data object for the row
+        return 'Request description, who made it, picture, etc.';
+    }
+
+     function asReadableDate(timestamp){
+        if(!timestamp){
+            return '';
+        }
+        return new Date(timestamp).toLocaleDateString();
+     }
 
     jQuery(document).ready(function() {
         var requestTable = jQuery('#allRequests').DataTable( {
@@ -70,7 +115,11 @@ function format ( d ) {
 
     <div class="col-12">
         <p class="lead">requests that show up here are the current user's OR uncommitted OR current user commitments</p>
+        <div class="bd-callout bd-callout-warning">
+            <h5 id="making-tooltips-work-for-keyboard-and-assistive-technology-users">Making tooltips work for keyboard and assistive technology users</h5>
 
+            <p>requests that show up here are the current user's OR uncommitted OR current user commitments</p>
+        </div>
 
         <table class="table table-hover" id="allRequests">
             <thead>
@@ -90,44 +139,26 @@ function format ( d ) {
                 </tr>
              </thead>
              <tbody>
-                <tr>
-
-                    <td><a href="#/messages/21" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></a></td>
-                     <td>Burt's Bee's Lip Balm</td>
-                    <td>Atlanta, GA, USA</td>
-                    <td>18 Jul </td>
-                    <td></td>
-                    <td>4</td>
-                    <td>Personal</td>
-                    <td>Tiny</td>
-                    <td>21</td>
-                    <td><svg class="lnr lnr-star"><use xlink:href="#lnr-star"></use></svg> </td>
-                </tr>
-                <tr>
-
-                    <td><a href="#/messages/17" alt="contact requestor"><svg class="lnr lnr-bubble"><use xlink:href="#lnr-bubble"></use></svg></a></td>
-                     <td>Jif Peanut Butter</td>
-                    <td>JAARS, NC, USA</td>
-                    <td></td>
-                    <td>3 Aug</td>
-                    <td>5</td>
-                    <td>Food</td>
-                    <td>Small</td>
-                    <td>17</td>
-                    <td><svg class="lnr lnr-star"><use xlink:href="#lnr-user"></use></svg> </td>
-                 </tr>
-                 <tr>
-                     <td><a href="#/messages/1" alt="contact requestor"><svg class="lnr lnr-bubble"><use xlink:href="#lnr-bubble"></use></svg></a></td>
-                     <td>Maple Syrup</td>
-                     <td>Madrid, Spain</td>
-                     <td>19 Jul</td>
-                     <td>3 Aug</td>
-                     <td>5</td>
-                     <td></td>
-                     <td>Medium</td>
-                     <td>1</td>
-                     <td></td>
-                  </tr>
+                {#each requests as request}
+                    <tr>
+                        <td><a href="#/messages/{request.id}" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></a></td>
+                        <td>{ request.title }</td>
+                        <td>{ request.destination }</td>
+                        <td>{ asReadableDate(request.needAfter) }</td>
+                        <td>{ asReadableDate(request.needBy) }</td>
+                        <td>{ request.cost }</td>
+                        <td>{ request.category }</td>
+                        <td>{ request.size }</td>
+                        <td>{ request.id }</td>
+                        <td>
+                            { #if request.mine }
+                                <svg class="lnr lnr-user"><use xlink:href="#lnr-user"></use></svg>
+                            {:else if request.committed }
+                                <svg class="lnr lnr-checkmark-circle"><use xlink:href="#lnr-checkmark-circle"></use></svg>
+                            {/if}
+                        </td>
+                    </tr>
+                {/each}
              </tbody>
         </table>
     </div>
