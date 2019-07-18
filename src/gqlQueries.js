@@ -32,3 +32,19 @@ export function post(post) {
     }
   `)
 }
+
+export function sendMessage(message) {
+  return gql(`
+    mutation {
+      createMessage(input: {
+        threadID: "${message.threadID}",
+        content: "${message.content}",
+        senderID: "${message.senderID}",
+        postID: "${message.postID}"
+      }) 
+      {
+        content
+      }
+    }
+  `)
+}

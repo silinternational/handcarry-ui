@@ -1,6 +1,6 @@
 <script>
   import { get, login } from './api'
-  import { posts, post } from './gqlQueries'
+  import { posts, post, sendMessage } from './gqlQueries'
 
   const newPost = {
     orgID: "67356899-a02c-44dd-97df-c7bdb47d11ca", 
@@ -10,6 +10,13 @@
     description: "Five jars please, if you can.", 
     origin: "WAXHAW", 
     size: "medium"
+  }
+
+  const newMessage = {
+    threadID: "243f36b3-f3da-456b-8f7d-350c413ea65e", 
+    content: "Can I transport some for you?",
+    senderID: "e97a244f-465a-46c7-b68a-b8bcc0df530d",
+    postID: "1"
   }
 </script>
 
@@ -28,5 +35,6 @@
   <div>
     <button on:click={() => login()}>login</button>
     <button on:click={() => post(newPost)}>post</button>
+    <button on:click={() => sendMessage(newMessage)}>send msg</button>
   </div>
 </footer>
