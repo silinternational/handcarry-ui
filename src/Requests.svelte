@@ -94,17 +94,6 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
       current user commitments
     </p>
 
-    <div class="bd-callout bd-callout-warning">
-      <h5 id="making-tooltips-work-for-keyboard-and-assistive-technology-users">
-        Making tooltips work for keyboard and assistive technology users
-      </h5>
-
-      <p>
-        requests that show up here are the current user's OR uncommitted OR
-        current user commitments
-      </p>
-    </div>
-
     <table class="table table-hover" id="allRequests">
       <thead>
         <tr>
