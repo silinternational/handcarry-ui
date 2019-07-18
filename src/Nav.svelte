@@ -7,7 +7,7 @@ import polyglot from './i18n'
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">
-   <a class="navbar-brand" href="/">HandCarry</a>
+   <a class="navbar-brand" href="/"><svg class="lnr lnr-briefcase"><use alt="contact requestor" xlink:href="#lnr-briefcase"></use></svg> HandCarry</a>
    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
    </button>
@@ -36,6 +36,7 @@ import polyglot from './i18n'
             <a class="nav-link" class:active="{$location === '/messages'}" href="#/messages">
               { polyglot.t('nav-requests-messages') }
               {#if $location === '/messages'}<span class="sr-only">(current)</span>{/if}
+                <svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg>
             </a>
          </li>
          <li>
