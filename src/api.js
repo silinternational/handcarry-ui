@@ -6,7 +6,8 @@ export async function get(resource) {
 }
 
 export async function gql(query) {
-  return await f('https://api.graphloc.com/graphql', {
+  // return await f('https://api.graphloc.com/graphql', {
+  return await f('http://localhost:3000/gql', {
     method: 'post',
     body: JSON.stringify({
       query
@@ -36,5 +37,6 @@ async function f(url, config = {}) {
   
   const response = await fetch(url, config)
   // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
+  
   return response.json()
 }
