@@ -81,6 +81,9 @@ function whenWas(timestamp) {
     border: 2px solid #007bff;
     border-radius: revert;
 }
+    .highlight:hover{
+        border:1px solid var(--dark-blue);
+    }
 </style>
 
 <div class="row">
@@ -90,14 +93,16 @@ function whenWas(timestamp) {
 </div>
 
 
-<div class="row no-gutters">
+<div class="row">
     <div class="col-sm-12 col-lg-12">
         <div class="list-group list-group-flush" id="myList" role="tablist">
             {#each conversations as conversation }
                 <div class="list-group-item">
                     <div class="row">
                         <div class="col-8">
-                          <h4>{ conversation.title }  <a class="btn btn-sm btn-outline-secondary" href="#/requestform">Edit</a></h4>
+                          <h4>{ conversation.title }  <a class="btn btn-sm btn-outline-secondary" href="#/requestform">Edit</a>
+                          <a class="btn btn-sm btn-outline-danger" href="#/requestform">Cancel</a>
+                          <a class="btn btn-sm btn-outline-info" href="#/requestform">Duplicate</a></h4>
 
                         </div>
                         <div class="col-4">
@@ -124,6 +129,41 @@ function whenWas(timestamp) {
 
             {#if conversations.length < 1 }
                 <i class="text-muted">none</i>
+            {:else}
+                <br>
+
+
+                <p>
+                  <a class="btn btn-outline-secondary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                    Show/Hide Older Requests
+                  </a>
+
+                </p>
+                <div class="collapse" id="collapseExample">
+                    {#each conversations as conversation }
+                        <div class="highlight">
+                            <div class="row">
+                                <div class="col-8">
+                                    <a class="btn btn-sm btn-outline-info" href="#/requestform">Duplicate</a> <strong>{ conversation.title }  </strong>
+                                </div>
+                                <div class="col-4">
+                                     {#if conversation.handCarrier.length > 0 }
+                                         HandCourier: <a href="#/profile">{ conversation.handCarrier }</a> <a href="#/messages/21" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></a>
+                                     {/if}
+                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="float-right">
+                                          <svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker"></use></svg> { conversation.destination }, After { conversation.needAfter}, Before { conversation.needBefore }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {/each}
+                </div>
+
+
             {/if}
         </div>
 
