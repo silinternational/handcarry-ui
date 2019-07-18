@@ -17,7 +17,7 @@ function updateImage(event) {
 </style>
 <div class="row">
     <div class="col">
-        <h2>Add a Request</h2>
+        <h2>Make a Request</h2>
     </div>
 </div>
 
@@ -49,15 +49,26 @@ function updateImage(event) {
             </div>
 
             <div class="row">
-                <div class="col-sm-6 col-lg-3 col-xl-6 form-group">
+                <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
+                   <label for="requestNeedBy" data-toggle="tooltip" data-placement="top" title="If your request is viewable by all trusted orgs, any organization using HandCarry can see it. These organizations have an agreement with your organization." >Viewable By <svg class="lnr lnr-question-circle"><use xlink:href="#lnr-question-circle"></use></svg></label>
+                   <select class="form-control" id="requestSize">
+                        <option value="1">All Trusted Orgs</option>
+                        <option value="2">My Oranization</option>
+                        <option value="3">My Organizational Unit</option>
+                   </select>
+               </div>
+
+               <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
+                    <label for="need_after">Need After</label>
+                    <input type="date" class="form-control" id="need_after" placeholder="7/16/2019">
+                </div>
+
+                <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
                     <label for="requestNeedBy">Need By</label>
                     <input type="date" class="form-control" id="requestNeedBy" placeholder="">
                 </div>
 
-                <div class="col-sm-6 col-lg-3 col-xl-6 form-group">
-                    <label for="need_after">Need After</label>
-                    <input type="date" class="form-control" id="need_after" placeholder="7/16/2019">
-                </div>
+
             </div>
 
             <div class="row">
