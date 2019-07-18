@@ -132,6 +132,30 @@ function onCommit(event) {
   conversations = conversations;
 }
 
+function onSend(event) {
+
+  let conversationId = event.detail.conversationId;
+  let messageContent = event.detail.messageContent;
+
+  /** @todo Change this to call an API when that's ready */
+  let conversation = getConversationById(conversationId);
+  console.log(
+      `Replied in conversation ${conversationId}: "${messageContent}"`
+  );
+  let newMessage = {
+    timestamp: Date.now(),
+    user: {
+      id: me.id,
+      name: me.name
+    },
+    content: messageContent,
+  };
+  conversation.messages = [...conversation.messages, newMessage];
+
+  // Get the each-conversations loops to re-evaluate.
+  conversations = conversations;
+}
+
 function selectConversation(id) {
   window.location.hash = '#/messages/' + Number(id);
 }
@@ -186,7 +210,7 @@ if (!params.id && conversations.length > 0) {
            class:conversation-card-empty={ !params.id }>
           {#each conversations as conversation}
               <Conversation isSelected={ params.id == conversation.id } {me} {conversation}
-                            on:commit={onCommit} />
+                            on:commit={onCommit} on:send={onSend} />
           {/each}
 
           <div class="tab-pane card-body"

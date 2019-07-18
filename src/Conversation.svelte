@@ -22,23 +22,13 @@ function asReadableDate(timestamp) {
 
 function replyFormSubmitted(event) {
   let replyField = event.currentTarget.elements.replyField;
-  sendReply(replyField.value);
-  replyField.value = '';
-}
-
-function sendReply(text) {
-
-  /** @todo: Send this to the API when it's ready. */
-
-  let newMessage = {
-    timestamp: Date.now(),
-    user: {
-      id: me.id,
-      name: me.name
-    },
-    content: text,
-  };
-  conversation.messages = [...conversation.messages, newMessage];
+  if (replyField.value !== '') {
+    dispatch('send', {
+      conversationId: conversation.id,
+      messageContent: replyField.value,
+    });
+    replyField.value = '';
+  }
 }
 
 function whenWas(timestamp) {
@@ -119,7 +109,7 @@ function whenWas(timestamp) {
     {/if}
   {/each}
   <div class="card-footer">
-    <form on:submit={ replyFormSubmitted }>
+    <form on:submit|preventDefault={ replyFormSubmitted }>
       <div class="row">
         <div class="col">
           <label class="sr-only" for="replyField">Reply</label>
