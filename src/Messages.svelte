@@ -83,6 +83,28 @@ let posts = [
     },
 ];
 
+function getPostById(postId) {
+    for (let i = 0; i < posts.length; i++) {
+        if (posts[i].id == postId) {
+            return posts[i];
+        }
+    }
+    throw new Error(`No such post found (id: ${postId})`);
+}
+
+function onCommit(event) {
+
+    let postId = event.detail;
+
+    /** @todo Change this to call an API when that's ready */
+    let post = getPostById(postId);
+    console.log(`You committed to bring ${post.title} to ${post.user}.`);
+    post.committedUserId = myUserId;
+
+    // Get the each-posts loops to re-evaluate.
+    posts.lastChanged = Date.now();
+}
+
 function selectConversation(id) {
     window.location.hash = '#/messages/' + Number(id);
 }
@@ -131,7 +153,8 @@ if (!params.id && posts.length > 0) {
         <div class="tab-content card conversation-card"
              class:conversation-card-empty={ !params.id }>
             {#each posts as post }
-                <Conversation isSelected={ params.id == post.id } {myUserId} {post} />
+                <Conversation isSelected={ params.id == post.id } {myUserId} {post}
+                              on:commit={onCommit} />
             {/each}
 
             <div class="tab-pane card-body"

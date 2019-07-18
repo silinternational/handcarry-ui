@@ -1,5 +1,8 @@
 <script>
-import {distanceInWordsToNow} from 'date-fns';
+import { distanceInWordsToNow } from 'date-fns';
+import { createEventDispatcher } from 'svelte';
+
+const dispatch = createEventDispatcher();
 
 export let isSelected = false;
 export let myUserId;
@@ -14,15 +17,6 @@ function acceptCommitment() {
 
 function asReadableDate(timestamp) {
     return new Date(timestamp).toLocaleDateString();
-}
-
-function commitToBring() {
-
-    /** @todo Change this to call an API when it's ready */
-
-    console.log(`You committed to bring ${post.title} to ${post.user}.`);
-
-    post.committedUserId = myUserId;
 }
 
 function replyFormSubmitted(event) {
@@ -94,7 +88,7 @@ function whenWas(timestamp) {
                 {:else if post.committedUserId }
                     Someone else has committed to bring this.
                 {:else}
-                    <button class="btn btn-sm btn-info" on:click={ commitToBring }>
+                    <button class="btn btn-sm btn-info" on:click={ () => dispatch('commit', post.id) }>
                         I'll bring it
                     </button>
                 {/if}
