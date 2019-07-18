@@ -6,8 +6,7 @@ export async function get(resource) {
 }
 
 export async function gql(query) {
-  // return await f('https://api.graphloc.com/graphql', {
-  const response = await f('http://localhost:3000/gql', {
+  const response = await f('http://handcarry.local:3000/gql', {
     method: 'post',
     body: JSON.stringify({
       query
@@ -20,7 +19,7 @@ export async function gql(query) {
 export function login(returnTo) {
   token.reset()
 
-  let loginUrl = `http://localhost:3000/auth/login?client_id=${token.key()}`
+  let loginUrl = `http://handcarry.local:3000/auth/login?client_id=${token.key()}`
 
   if (returnTo) {
     loginUrl += `&ReturnTo=${returnTo}`
