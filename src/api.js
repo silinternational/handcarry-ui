@@ -7,12 +7,14 @@ export async function get(resource) {
 
 export async function gql(query) {
   // return await f('https://api.graphloc.com/graphql', {
-  return await f('http://localhost:3000/gql', {
+  const response = await f('http://localhost:3000/gql', {
     method: 'post',
     body: JSON.stringify({
       query
     }),
   })
+
+  return response.data
 }
 
 export function login(returnTo) {

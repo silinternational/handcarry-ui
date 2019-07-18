@@ -1,6 +1,6 @@
 <script>
   import { get, login } from './api'
-  import { /* geoLocation ,*/ posts, post } from './gqlQueries'
+  import { posts, post } from './gqlQueries'
 
   const newPost = {
     orgID: "67356899-a02c-44dd-97df-c7bdb47d11ca", 
@@ -25,15 +25,8 @@
     <p>🧨 Something went wrong: {error.message}</p>
   {/await}
 
-  <!-- {#await geoLocation('8.8.8.8')} -->
-  {#await posts()}
-     <p>⏳ waiting for data...</p>
-  {:then gqlResponse}
-     <pre>{ JSON.stringify(gqlResponse.data, null, 2)}</pre>
-  {:catch error}
-     <p>🧨 Something went wrong: {error.message}</p>
-  {/await}
-
-  <button on:click={() => login()}>login</button>
-  <button on:click={() => post(newPost)}>post</button>
+  <div>
+    <button on:click={() => login()}>login</button>
+    <button on:click={() => post(newPost)}>post</button>
+  </div>
 </footer>

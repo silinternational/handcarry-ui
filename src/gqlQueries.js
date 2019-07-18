@@ -1,29 +1,18 @@
 import { gql } from './api'
 
-// export function geoLocation(ip) {
-//    return gql(`{
-//       getLocation(ip: "${ip}") {
-//         country {
-//           names {
-//             en
-//           }
-//           geoname_id
-//           iso_code
-//         }
-//         location {
-//           latitude
-//           longitude
-//         }
-//       }
-//     }`)
-// }
-
 export function posts() {
    return gql(`{
      posts {
+       id
        title
+       destination
+       type
+       status
+       neededAfter
+       neededBefore
+       category
      }
-    }`)
+   }`)
 }
 export function post(post) {
   return gql(`
