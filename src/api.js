@@ -2,7 +2,7 @@ import token from './token.js';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 export async function get(resource) {
-  return await f(`https://httpbin.org/${resource}`)
+  return await f(`http://handcarry.local:3000/${resource}`)
 }
 
 export async function gql(query) {
