@@ -9,7 +9,7 @@ import MyRequests from './MyRequests.svelte'
 const routes = {
 	'/requestform': RequestForm,
 	'/requests': Requests,
-	'/myrequests': MyRequests,
+	'/requestsmine': MyRequests,
 	'/commitments': Commitments,
 	'/messages': Messages,
 	'/messages/:id': Messages,
