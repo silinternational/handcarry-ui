@@ -32,6 +32,22 @@ export function post(post) {
   `)
 }
 
+export function updatePost(post) {
+  return gql(`
+    mutation {
+      updatePostStatus(
+        input: {
+          id: "${post.id}"
+          status: "${post.status}"
+        }
+      ) 
+      {
+        id
+      }
+    }
+  `)
+}
+
 export function sendMessage(message) {
   return gql(`
     mutation {
