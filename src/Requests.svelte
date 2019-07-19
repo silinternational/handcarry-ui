@@ -124,9 +124,9 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
           <tr>
             <td>
               {#if post.myThreadID}
-                <a href="#/messages/{post.post.myThreadID}" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></a>
+                <a href="#/messages/{post.post.myThreadID}" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="Resume conversation" xlink:href="#lnr-bubble"></use></svg></a>
               {:else}
-                <button class="btn btn-link" on:click={ () => startConversation(post.uuid) }><svg class="lnr lnr-plus-circle"><use alt="contact requestor" xlink:href="#lnr-plus-circle"></use></svg></button>
+                <button class="btn btn-link" on:click={ () => startConversation(post.uuid) }><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></button>
               {/if}
             </td>
             <td>{ post.title }</td>
