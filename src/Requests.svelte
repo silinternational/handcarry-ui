@@ -87,9 +87,7 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
       <a class="btn btn-outline-primary" href="#/requests?a=mine" role="button">
         My Requests
       </a>
-      <a class="btn btn-outline-primary" href="#/commitments" role="button">
-        My Commitments
-      </a>
+      
       <a class="btn btn-outline-primary" href="#/requestForm" role="button">
         Add
       </a>
@@ -100,10 +98,8 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
 <div class="row">
   <div class="col-12">
 
-  <div class="alert alert-light" role="alert">
-
-      requests that show up here are the current user's OR uncommitted OR
-      current user commitments
+    <div class="alert alert-secondary" role="alert">
+      Here are your HandCarry requests, those you've committed to, and those still looking for a HandCourier.
     </div>
 
     <table class="table table-hover" id="allRequests">
