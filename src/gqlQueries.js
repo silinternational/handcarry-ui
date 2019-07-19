@@ -4,6 +4,7 @@ export function posts() {
    return gql(`{
      posts {
        id
+       uuid
        title
        destination
        type
@@ -59,6 +60,20 @@ export function sendMessage(message) {
       }) 
       {
         content
+      }
+    }
+  `)
+}
+
+export function sendMessageToNewConversation(message) {
+  return gql(`
+    mutation {
+      createMessage(input: {
+        content: "${message.content}",
+        postID: "${message.postID}"
+      })
+      {
+        thread { id }
       }
     }
   `)

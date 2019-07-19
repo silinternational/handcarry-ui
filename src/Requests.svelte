@@ -1,5 +1,6 @@
 <script>
-import { posts } from "./gqlQueries";
+import { posts, sendMessageToNewConversation } from "./gqlQueries";
+import { push } from "svelte-spa-router";
 
 function format(d) {
   // `d` is the original data object for the row
@@ -12,6 +13,15 @@ function asReadableDate(timestamp) {
   }
   
   return new Date(timestamp).toLocaleDateString();
+}
+
+async function startConversation(postUuid) {
+  let response = await sendMessageToNewConversation({
+    content: 'Hi',
+    postID: postUuid,
+  });
+  console.log(response.createMessage.thread.id);
+  push(`/messages/${response.createMessage.thread.id}`);
 }
 
 // jQuery(document).ready(function() {
@@ -114,7 +124,13 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
         {:then data}
         {#each data.posts as post}
           <tr>
-            <td><a href="#/messages/{post.id}" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></a></td>
+            <td>
+              {#if post.myThreadID}
+                <a href="#/messages/{post.post.myThreadId}" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></a>
+              {:else}
+                <button class="btn btn-link" on:click={ () => startConversation(post.uuid) }><svg class="lnr lnr-plus-circle"><use alt="contact requestor" xlink:href="#lnr-plus-circle"></use></svg></button>
+              {/if}
+            </td>
             <td>{ post.title }</td>
             <td>{ post.destination }</td>
             <td>{ asReadableDate(post.neededAfter) }</td>
