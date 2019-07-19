@@ -18,7 +18,7 @@ export function post(post) {
   return gql(`
     mutation {
       createPost(input: {
-        orgID: "${post.orgID}", // user.authorg.uuid
+        orgID: "${post.orgID}",
         type: ${post.type},
         title: "${post.title}",
         description: "${post.description}",
