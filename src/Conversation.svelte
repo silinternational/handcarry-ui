@@ -57,7 +57,7 @@ function whenWas(timestamp) {
       <h3 class="text-center mb-0">
         { post.title }
         {#if post.createdBy.id !== me.id}
-          - { post.createdBy.name }
+          - { post.createdBy.nickname }
         {/if}
       </h3>
       <div class="text-center">
@@ -76,7 +76,7 @@ function whenWas(timestamp) {
     <div class="col-4 text-center">
       {#if post.createdBy.id == me.id }
         {#if post.provider }
-          User { post.provider.name } committed to bring this.
+          User { post.provider.nickname } committed to bring this.
           <button class="btn btn-sm btn-outline-success" on:click={ acceptCommitment }>
             Accept
           </button>
@@ -104,7 +104,7 @@ function whenWas(timestamp) {
     {:else}
       <blockquote class="blockquote">
         <p class="mb-0 message-content">{message.content}</p>
-        <footer class="blockquote-footer">{message.user.name}, { whenWas(message.timestamp) }</footer>
+        <footer class="blockquote-footer">{message.user.nickname}, { whenWas(message.timestamp) }</footer>
       </blockquote>
     {/if}
   {/each}

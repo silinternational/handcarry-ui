@@ -17,6 +17,7 @@ export function posts() {
      }
    }`)
 }
+
 export function post(post) {
   return gql(`
     mutation {
@@ -53,6 +54,49 @@ export function updatePost(post) {
       }
     }
   `)
+}
+
+// export function myConversations() {
+//   return gql(`{
+//      myThreads {
+//        id
+//        post {
+//         createdBy {
+//           uuid
+//           nickname
+//         }
+//         title
+//         destination
+//         neededAfter
+//         neededBefore
+//        }
+//        messages {
+//         createdAt
+//         sender {
+//           uuid
+//           nickname
+//         }
+//         content
+//        }
+//      }
+//    }`)
+// }
+
+export function myConversations() {
+  return gql(`{
+     myThreads {
+       id
+       postID
+       messages {
+        createdAt
+        sender {
+          uuid
+          nickname
+        }
+        content
+       }
+     }
+   }`)
 }
 
 export function sendMessage(message) {
