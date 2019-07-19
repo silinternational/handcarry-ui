@@ -100,10 +100,9 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
 <div class="row">
   <div class="col-12">
 
-  <div class="alert alert-light" role="alert">
+    <div class="alert alert-secondary" role="alert">
 
-      requests that show up here are the current user's OR uncommitted OR
-      current user commitments
+      Here are your HandCarry requests, those you've committed to, and those still looking for a HandCourier.
     </div>
 
     <table class="table table-hover" id="allRequests">
