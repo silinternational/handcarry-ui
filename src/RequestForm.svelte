@@ -1,5 +1,6 @@
 <script>
-import { post } from './gqlQueries'
+import { post } from './gqlQueries';
+import { push } from "svelte-spa-router";
 
 let imgSrc = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
 
@@ -42,6 +43,7 @@ async function onSubmit(event) {
       category: request.category
     })
      console.log(response);
+    push(`/requests`);
 }
 </script>
 
