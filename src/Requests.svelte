@@ -99,10 +99,12 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
 
 <div class="row">
   <div class="col-12">
-    <p class="lead">
+
+  <div class="alert alert-light" role="alert">
+
       requests that show up here are the current user's OR uncommitted OR
       current user commitments
-    </p>
+    </div>
 
     <table class="table table-hover" id="allRequests">
       <thead>
@@ -134,7 +136,7 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
             <td>{ post.title }</td>
             <td>{ post.destination }</td>
             <td>{ asReadableDate(post.neededAfter) }</td>
-            <td>{ asReadableDate(post.neededBy) }</td>
+            <td>{ asReadableDate(post.neededBefore) }</td>
             <td>{ post.cost || '–'}</td>
             <td>{ post.category || '–' }</td>
             <td>{ post.size || '–' }</td>
