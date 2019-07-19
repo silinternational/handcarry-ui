@@ -1,8 +1,31 @@
 <script>
 let imgSrc = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
 
+let request = {
+    title: '',
+    destination: '',
+    description: '',
+    needAfter: '',
+    needBefore: '',
+    category: '',
+    size: '',
+    cost: '',
+    viewableBy: '',
+    image: '',
+    url: '',
+
+};
+
 function updateImage(event) {
     imgSrc = URL.createObjectURL(event.target.files[0])
+}
+
+jQuery(function () {
+    jQuery('[data-toggle="tooltip"]').tooltip()
+})
+
+function onSubmit(event) {
+    console.log(request);
 }
 </script>
 
@@ -23,11 +46,11 @@ function updateImage(event) {
 
 <br>
 
-<form>
+<form on:submit|preventDefault={ onSubmit }>
 
     <div class="row">
         <div class="form-group required col-12">
-           <input class="form-control form-control-lg" id="requestTitle" type="text" placeholder="Request Title">
+           <input class="form-control form-control-lg" id="requestTitle" type="text" bind:value={ request.title } placeholder="Request Title">
            <small id="titleHelp" class="form-text text-danger">Required</small>
         </div>
     </div>
@@ -42,7 +65,7 @@ function updateImage(event) {
                         <div class="input-group-prepend">
                             <span class="input-group-text"><svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker"></use></svg></span>
                         </div>
-                        <input type="text" class="form-control" id="requestDestination" required placeholder="City, State/Province, Country, or Region, etc.">
+                        <input type="text" bind:value={ request.destination } class="form-control" id="requestDestination" required placeholder="City, State/Province, Country, or Region, etc.">
                     </div>
                     <small id="destRequired" class="form-text text-danger">Required</small>
                 </div>
@@ -50,22 +73,26 @@ function updateImage(event) {
 
             <div class="row">
                 <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
-                   <label for="requestNeedBy" data-toggle="tooltip" data-placement="top" title="If your request is viewable by all trusted orgs, any organization using HandCarry can see it. These organizations have an agreement with your organization." >Viewable By <svg class="lnr lnr-question-circle"><use xlink:href="#lnr-question-circle"></use></svg></label>
-                   <select class="form-control" id="requestSize">
+                   <label for="viewableBy">Viewable By <svg class="lnr lnr-question-circle"><use xlink:href="#lnr-question-circle"></use></svg></label>
+                   <select class="form-control" id="viewableBy"
+                        bind:value={ request.viewableBy }
+                         data-toggle="tooltip" data-placement="top" title="If your request is viewable by all trusted orgs, any organization using HandCarry can see it. These organizations have an agreement with your organization.">
+
                         <option value="1">All Trusted Orgs</option>
                         <option value="2">My Oranization</option>
                         <option value="3">My Organizational Unit</option>
+
                    </select>
                </div>
 
                <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
-                    <label for="need_after">Need After</label>
-                    <input type="date" class="form-control" id="need_after" placeholder="7/16/2019">
+                    <label for="needAfter">Need After</label>
+                    <input type="date" bind:value={ request.needAfter } class="form-control" id="needAfter" placeholder="7/16/2019">
                 </div>
 
                 <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
-                    <label for="requestNeedBy">Need By</label>
-                    <input type="date" class="form-control" id="requestNeedBy" placeholder="">
+                    <label for="needBefore">Need By</label>
+                    <input type="date" class="form-control" bind:value={ request.needBefore } id="needBefore" placeholder="">
                 </div>
 
 
@@ -78,13 +105,13 @@ function updateImage(event) {
                         <div class="input-group-prepend">
                             <span class="input-group-text">$</span>
                         </div>
-                        <input class="form-control" type="number" value="100" id="requestCost">
+                        <input class="form-control" bind:value={ request.cost } type="number" value="100" id="requestCost">
                     </div>
                 </div>
 
                 <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
                     <label for="requestSize">Approximate Size</label>
-                    <select class="form-control" id="requestSize">
+                    <select class="form-control" id="requestSize" bind:value={ request.size }>
                          <option selected>Choose...</option>
                          <option value="1">Small (purse)</option>
                          <option value="2">Medium (laptop)</option>
@@ -92,8 +119,8 @@ function updateImage(event) {
                     </select>
                 </div>
                 <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
-                    <label for="requestCat">Category</label>
-                        <select class="form-control" id="requestCat">
+                    <label for="category">Category</label>
+                        <select class="form-control" id="category" bind:value={ request.category }>
                             <option>Choose...</option>
                             <option value="1">Technology</option>
                             <option value="2">Food</option>
@@ -112,7 +139,7 @@ function updateImage(event) {
             </div>
             <div class="d-flex justify-content-center">
                 <div class="btn btn-mdb-color btn-rounded">
-                    <input type="file" accept="image/*" on:change={updateImage}>
+                    <input type="file" accept="image/*" on:change={updateImage} bind:value={ request.image }>
                 </div>
             </div>
          </div>
@@ -121,27 +148,27 @@ function updateImage(event) {
 
     <div class="row">
         <div class="col-sm-12 col-lg-8 col-xl-8 form-group">
-            <label for="requestURL">Request URL</label>
+            <label for="url">Request URL</label>
             <div class="input-group">
                 <div class="input-group-prepend">
                     <span class="input-group-text"><svg class="lnr lnr-link"><use xlink:href="#lnr-link"></use></svg></span>
                 </div>
-                <input class="form-control" type="url" id="requestURL" placeholder="URL or Web Address for item (e.g. link to Amazon product)">
+                <input class="form-control" type="url" bind:value={ request.url } id="url" placeholder="URL or Web Address for item (e.g. link to Amazon product)">
             </div>
         </div>
     </div>
 
     <div class="row">
         <div class="col form-group">
-            <label for="requestDesc">Description</label>
-            <textarea class="form-control" id="requestDesc" rows="3" placeholder="A description of the thing you want brought."></textarea>
+            <label for="description">Description</label>
+            <textarea class="form-control" id="description" bind:value={ request.description } rows="3" placeholder="A description of the thing you want brought."></textarea>
         </div>
     </div>
 
     <div class="row">
         <div class="col-9"></div>
         <div class="col-3">
-            <button type="submit" class="btn btn-primary float-right">Add Request</button>
+            <button type="submit" class="btn btn-primary float-right">Make Request</button>
         </div>
     </div>
 
