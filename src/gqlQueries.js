@@ -22,7 +22,7 @@ export function post(post) {
         type: ${post.type},
         title: "${post.title}",
         description: "${post.description}",
-        origin: "${post.origin}",
+        origin: "${post.origin || ''}",
         size: "${post.size}",
       }) 
       {
