@@ -8,6 +8,7 @@ import MyRequests from './MyRequests.svelte'
 // https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
 	'/requestform': RequestForm,
+	'/': Requests,
 	'/requests': Requests,
 	'/requestsmine': MyRequests,
 	'/commitments': Commitments,
