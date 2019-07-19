@@ -75,4 +75,15 @@ h3{
     align:center;
 }
 
+.lnr-big{
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.lnr:hover{
+    background-color: var(--platinum);
+    padding:3px;
+    border-radius: 2px;
+    fill: var(--dark-gray);
+}
 

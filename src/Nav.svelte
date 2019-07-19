@@ -15,8 +15,8 @@ import polyglot from './i18n'
    <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" class:active="{ $location.startsWith('/request') }"
-               href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" class:active="{ $location.startsWith('/request') }" href="#/requests"
+                id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               { polyglot.t('nav-requests') }
               {#if $location === '/requests'}<span class="sr-only">(current)</span>{/if}
             </a>
@@ -35,14 +35,14 @@ import polyglot from './i18n'
          <li class="nav-item">
             <a class="nav-link" class:active="{ $location.startsWith('/messages') }" href="#/messages">
               { polyglot.t('nav-requests-messages') }
-              <svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg>
+              <span class="badge badge-warning">3</span>
               {#if $location === '/messages'}<span class="sr-only">(current)</span>{/if}
 
             </a>
          </li>
          <li>
             <a class="nav-link" class:active="{$location === '/profile'}" href="#/profile">
-              (avatar)
+              <svg class="lnr lnr-big lnr-user"><use alt="contact requestor" xlink:href="#lnr-user"></use></svg>
               {#if $location === '/profile'}<span class="sr-only">(current)</span>{/if}
            </a>
          </li>
