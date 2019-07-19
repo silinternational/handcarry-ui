@@ -13,7 +13,7 @@ npm install
 ...then start [Rollup](https://rollupjs.org):
 
 ```bash
-npm run dev
+BASE_API_URL=http://handcarry.local:3000 npm run dev
 ```
 
 ...then update your `etc/hosts` with a `handcarry.local` to localhost
@@ -24,7 +24,7 @@ Navigate to [localhost:5000](http://localhost:5000). You should see your app run
 ## Deploying to the web
 
 ```bash
-npm run build
+BASE_API_URL=http://handcarry.local:3000 npm run build
 ```
 
 And the deploy `public` contents to your host

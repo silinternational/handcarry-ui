@@ -2,11 +2,11 @@ import token from './token.js';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 export async function get(resource) {
-  return await f(`http://handcarry.local:3000/${resource}`)
+  return await f(`<@BASE_API_URL@>/${resource}`)
 }
 
 export async function gql(query) {
-  const response = await f('http://handcarry.local:3000/gql', {
+  const response = await f('<@BASE_API_URL@>/gql', {
     method: 'post',
     body: JSON.stringify({
       query
@@ -19,7 +19,7 @@ export async function gql(query) {
 export function login(returnTo) {
   token.reset()
 
-  let loginUrl = `http://handcarry.local:3000/auth/login?client_id=${token.key()}`
+  let loginUrl = `<@BASE_API_URL@>/auth/login?client_id=${token.key()}`
 
   if (returnTo) {
     loginUrl += `&ReturnTo=${returnTo}`
