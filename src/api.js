@@ -38,6 +38,9 @@ async function f(url, config = {}) {
   
   const response = await fetch(url, config)
   // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
+
+  // 401/403 => login
+  // ! ok => throw
   
   return response.json()
 }
