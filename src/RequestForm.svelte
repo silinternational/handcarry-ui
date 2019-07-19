@@ -1,12 +1,14 @@
 <script>
+import { post } from './gqlQueries'
+
 let imgSrc = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
 
 let request = {
     title: '',
     destination: '',
     description: '',
-    needAfter: '',
-    needBefore: '',
+    neededAfter: '',
+    neededBefore: '',
     category: '',
     size: '',
     cost: '',
@@ -21,28 +23,33 @@ function updateImage(event) {
 }
 
 jQuery(function () {
-    jQuery('[data-toggle="tooltip"]').tooltip()
+    jQuery('[data-toggle="tooltip"]').tooltip();
+
 })
 
-function onSubmit(event) {
+
+async function onSubmit(event) {
     console.log(request);
+    let response = await post({
+      orgID: "5de70d9d-298f-4338-a13b-0801f63513c7",
+      type: "REQUEST",
+      title: request.title,
+      description: request.description,
+      destination: request.destination,
+      size: request.size,
+      neededAfter: request.neededAfter,
+      neededBefore: request.neededBefore,
+      category: request.category
+    })
+     console.log(response);
 }
 </script>
 
 <style>
-.lnr {
-    display: inline-block;
-    fill: currentColor;
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.05em;
-}
+
 </style>
-<div class="row">
-    <div class="col">
-        <h2>Make a Request</h2>
-    </div>
-</div>
+
+<h2>Make a Request</h2>
 
 <br>
 
@@ -87,12 +94,12 @@ function onSubmit(event) {
 
                <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
                     <label for="needAfter">Need After</label>
-                    <input type="date" bind:value={ request.needAfter } class="form-control" id="needAfter" placeholder="7/16/2019">
+                    <input type="date" bind:value={ request.neededAfter } class="form-control" id="neededAfter">
                 </div>
 
                 <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
                     <label for="needBefore">Need By</label>
-                    <input type="date" class="form-control" bind:value={ request.needBefore } id="needBefore" placeholder="">
+                    <input type="date" class="form-control" bind:value={ request.neededBefore } id="neededBefore" placeholder="">
                 </div>
 
 
@@ -111,21 +118,21 @@ function onSubmit(event) {
 
                 <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
                     <label for="requestSize">Approximate Size</label>
-                    <select class="form-control" id="requestSize" bind:value={ request.size }>
+                    <select class="form-control" required id="requestSize" bind:value={ request.size }>
                          <option selected>Choose...</option>
-                         <option value="1">Small (purse)</option>
-                         <option value="2">Medium (laptop)</option>
-                         <option value="3">Large (suitcase)</option>
+                         <option value="Small">Small (purse)</option>
+                         <option value="Medium">Medium (laptop)</option>
+                         <option value="Large">Large (suitcase)</option>
                     </select>
                 </div>
                 <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
                     <label for="category">Category</label>
                         <select class="form-control" id="category" bind:value={ request.category }>
                             <option>Choose...</option>
-                            <option value="1">Technology</option>
-                            <option value="2">Food</option>
-                            <option value="3">Personal</option>
-                            <option value="4">Other</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Food">Food</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Other">Other</option>
                         </select>
                 </div>
 

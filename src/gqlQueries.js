@@ -11,6 +11,7 @@ export function posts() {
        neededAfter
        neededBefore
        category
+       size
      }
    }`)
 }
