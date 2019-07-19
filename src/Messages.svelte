@@ -19,7 +19,7 @@ export let me = {
 };
 conversations = [
   {
-    id: 100,
+    id: 10,
     post: {
       createdBy: {
         id: 1,
@@ -57,7 +57,7 @@ conversations = [
     ],
   },
   {
-    id: 101,
+    id: 11,
     post: {
       createdBy: {
         id: 3,
@@ -82,7 +82,7 @@ conversations = [
     ],
   },
   {
-    id: 102,
+    id: 12,
     post: {
       createdBy: {
         id: 2,
