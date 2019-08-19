@@ -2,6 +2,19 @@
 import { login, get } from './api'
 
 let email = ''
+
+let me = {}
+
+loadMe()
+
+async function loadMe () {
+  try {
+    me = await get('me')
+  }
+  catch (error) {
+    me = error.message
+  }
+}
 </script>
 
 <style>
@@ -17,10 +30,6 @@ let email = ''
   </div>
 </form>
 
-{#await get('me')}
-  <p>⏳ checking to see if I know who you are...</p>
-{:then value}
-  <pre>{ JSON.stringify(value, null, 2) }</pre>
-{:catch error}
-  <p>🧨 Something went wrong: { JSON.stringify(error.message, null, 2) }</p>
-{/await}
+{#if me}
+  <pre>{ JSON.stringify(me, null, 2) }</pre>
+{/if}
