@@ -18,6 +18,8 @@
     senderID: "e97a244f-465a-46c7-b68a-b8bcc0df530d",
     postID: "1"
   }
+
+  let email = 'billy_clark@sil.org'
 </script>
 
 <style>
@@ -27,13 +29,13 @@
   {#await get('me')}
     <p>⏳ waiting for data...</p>
   {:then value}
-    <pre>{ JSON.stringify(value, null, 2)}</pre>
+    <pre>{ JSON.stringify(value, null, 2) }</pre>
   {:catch error}
-    <p>🧨 Something went wrong: {error.message}</p>
+    <p>🧨 Something went wrong: { JSON.stringify(error.message, null, 2) }</p>
   {/await}
 
   <div>
-    <button on:click={() => login()}>login</button>
+    <button on:click={() => login('', email)}>login</button>
     <button on:click={() => post(newPost)}>post</button>
     <button on:click={() => sendMessage(newMessage)}>send msg</button>
   </div>

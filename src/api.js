@@ -2,11 +2,11 @@ import token from './token.js';
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 export async function get(resource) {
-  return await f(`<@BASE_API_URL@>/${resource}`)
+  return await wrappedFetch(`<@BASE_API_URL@>/${resource}`)
 }
 
 export async function gql(query) {
-  const response = await f('<@BASE_API_URL@>/gql', {
+  const response = await wrappedFetch('<@BASE_API_URL@>/gql', {
     method: 'post',
     body: JSON.stringify({
       query
@@ -16,16 +16,22 @@ export async function gql(query) {
   return response.data
 }
 
-export function login(returnTo) {
+export async function login(returnTo, email) {
   token.reset()
 
-  let loginUrl = `<@BASE_API_URL@>/auth/login?client_id=${token.key()}`
+  let loginUrl = `/auth/login?client_id=${token.key()}&authEmail=${email}`
 
   if (returnTo) {
     loginUrl += `&ReturnTo=${returnTo}`
   }
 
-  window.location = loginUrl
+  const response = await get(loginUrl)
+
+// TODO: need errorhandling and additional use cases with this response
+//   "You can also post to login. Need to review response for error or multiple org 
+//    options for login. If multiple options you then also need to provide the org_id 
+//    when resubmitting call to login" --Phillip)
+  window.location = response.RedirectURL
 }
 
 const headers = {
@@ -33,13 +39,13 @@ const headers = {
   Authorization: token.authzHeader(),
 }
 
-async function f(url, config = {}) {
+async function wrappedFetch(url, config = {}) {
   config.headers = headers
   
   const response = await fetch(url, config)
   // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
 
-  // 401/403 => login
+  // 401/403 => login?
   // ! ok => throw
   
   return response.json()
