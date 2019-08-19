@@ -19,7 +19,7 @@ export async function gql(query) {
 export async function login(returnTo, email) {
   token.reset()
 
-  let loginUrl = `/auth/login?client_id=${token.key()}&authEmail=${email}`
+  let loginUrl = `auth/login?client_id=${token.key()}&authEmail=${email}`
 
   if (returnTo) {
     loginUrl += `&ReturnTo=${returnTo}`
