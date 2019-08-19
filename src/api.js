@@ -16,7 +16,7 @@ export async function gql(query) {
   return response.data
 }
 
-export async function login(returnTo, email) {
+export async function login(email, returnTo) {
   token.reset()
 
   let loginUrl = `auth/login?client_id=${token.key()}&authEmail=${email}`
@@ -30,7 +30,7 @@ export async function login(returnTo, email) {
 // TODO: need errorhandling and additional use cases with this response
 //   "You can also post to login. Need to review response for error or multiple org 
 //    options for login. If multiple options you then also need to provide the org_id 
-//    when resubmitting call to login" --Phillip)
+//    when resubmitting call to login" –Phillip)
   window.location = response.RedirectURL
 }
 
