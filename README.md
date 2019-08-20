@@ -1,30 +1,26 @@
 # Handcarry app
 
+## Dependencies
+[Node](https://nodejs.org/en/download) and [Make](https://www.gnu.org/software/make)
 
-## Get started
 
-1. Install Node
-2. Install the dependencies...
+## Local development
+This project utilizes [Rollup](https://rollupjs.org) for its builds
 
-```bash
-npm install
+> Ensure your `etc/hosts` has a `handcarry.local` alias to localhost
+
+Install the project dependencies and start a local server
 ```
-
-...then start [Rollup](https://rollupjs.org):
-
-```bash
-BASE_API_URL=http://handcarry.local:3000 npm run dev
-```
-
-...then update your `etc/hosts` with a `handcarry.local` to localhost
-
-Navigate to [localhost:5000](http://localhost:5000). You should see your app running. Edit a component file in `src`, save it, and reload the page to see your changes.
+make
+``` 
 
 
-## Deploying to the web
+Navigate to [http://handcarry.local:5000](http://http://handcarry.local:5000). You should see your app running. Edit a component file in `src`, save it, and the page will automatically reload with your changes.
+
+## Deployment
 
 ```bash
 BASE_API_URL=http://handcarry.local:3000 npm run build
 ```
 
-And the deploy `public` contents to your host
+The contents of the `public` folder can then be deployed to your host
