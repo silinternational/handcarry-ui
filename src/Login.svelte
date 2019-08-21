@@ -1,20 +1,8 @@
 <script>
-import { login, get } from './api'
+import { login } from './api'
 
 let email = ''
 
-let me = {}
-
-loadUserInfo()
-
-async function loadUserInfo () {
-  try {
-    me = await get('me')
-  }
-  catch (error) {
-    me = error.message
-  }
-}
 </script>
 
 <style>
@@ -29,7 +17,3 @@ async function loadUserInfo () {
     <button type="submit" class="btn btn-primary btn-lg">Sign in</button>
   </div>
 </form>
-
-{#if me}
-  <pre>{ JSON.stringify(me, null, 2) }</pre>
-{/if}

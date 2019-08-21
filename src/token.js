@@ -1,12 +1,9 @@
 init()
 
 export default {
-  authzHeader: () => `${get('token_type')} ${apiToken()}`,
+  authzHeader: () => `${get('token_type')} ${get('key') + get('access_token')}`,
   key: () => get('key'),
   reset,
-//   accessToken: () => get('access_token'),
-//   setAccessToken: t => sessionStorage.setItem('access_token', t),
-//   apiToken,
 }
 
 function init() {
@@ -16,9 +13,9 @@ function init() {
 }
 
 function createKey() {
-  return Math.random() // doesn't need to be cryptographically strong
-    .toString(36) // convert to base-36 so we get more letters
-    .substring(2) // strip off the leading '0.'
+  return Math.random()     // doesn't need to be cryptographically strong
+             .toString(36) // convert to base-36 so we get more letters
+             .substring(2) // strip off the leading '0.'
 }
 
 function get(key) {
@@ -38,8 +35,4 @@ function set(key, defaultValue = '') {
 function reset() {
   sessionStorage.removeItem('token_type')
   sessionStorage.removeItem('access_token')
-}
-
-function apiToken() {
-  return get('key') + get('access_token')
 }

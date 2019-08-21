@@ -34,6 +34,10 @@ export async function login(email, returnTo) {
   window.location = response.RedirectURL
 }
 
+export async function logout() {
+  return await get(`auth/logout`)  
+}
+
 const headers = {
   'content-type': 'application/json',
   Authorization: token.authzHeader(),
