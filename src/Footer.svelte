@@ -19,12 +19,7 @@ const newMessage = {
 }
 </script>
 
-<style>
-</style>
-
-<footer style="display: flex; align-items: flex-start; justify-content: space-between; font-size: .25em; background-color: lightgrey">
-  <div>
-    <button on:click={() => post(newPost)}>post</button>
-    <button on:click={() => sendMessage(newMessage)}>send msg</button>
-  </div>
+<footer class="fixed-bottom bg-secondary">
+  <button class="btn btn-sm btn-outline-warning m-1 float-right" on:click={() => post(newPost)}>post (testing)</button>
+  <button class="btn btn-sm btn-outline-warning m-1 float-right" on:click={() => sendMessage(newMessage)}>send msg (testing)</button>
 </footer>

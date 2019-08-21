@@ -5,12 +5,6 @@ import Footer from './Footer.svelte'
 import routes from './routes'
 </script>
 
-<style>
-main {
-  height: 85vh;
-}
-</style>
-
 <Nav />
 
 <main class="container">
