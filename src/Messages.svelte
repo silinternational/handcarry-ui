@@ -3,117 +3,117 @@ import Conversation from './Conversation.svelte'
 import { myConversations } from './gqlQueries'
 
 export let params = {}; // URL path parameters, provided by router.
-let conversations = [];
+let conversations = []
 
 $: console.log(conversations);
 
-// async function loadConversations() {
-//   let response = await myConversations();
-//   conversations = response.myThreads;
-// }
-// loadConversations();
+async function loadConversations() {
+  let response = await myConversations()
+  conversations = response.myThreads
+}
+loadConversations()
 
 export let me = {
-  id: 2,
-  nickname: 'John Hancock',
+  id: '6a921b58-8385-46f4-822a-15a2d52e10fd',
+  nickname: 'Billy',
 };
-conversations = [
-  {
-    id: 10,
-    post: {
-      createdBy: {
-        id: 1,
-        nickname: 'Clark Kent',
-      },
-      title: 'Peanut Butter',
-      destination: 'Somewhere, USA',
-      needBefore: 1564804800000,
-    },
-    messages: [
-      {
-        timestamp: 1563277677000,
-        user: {
-          id: 1,
-          nickname: 'Clark Kent',
-        },
-        content: 'Any chance you can bring some PB?',
-      },
-      {
-        timestamp: 1563288747000,
-        user: {
-          id: 2,
-          nickname: 'John Hancock',
-        },
-        content: 'Absolutely!',
-      },
-      {
-        timestamp: 1563299747000,
-        user: {
-          id: 1,
-          nickname: 'Clark Kent',
-        },
-        content: 'Thanks 😁',
-      },
-    ],
-  },
-  {
-    id: 11,
-    post: {
-      createdBy: {
-        id: 3,
-        nickname: 'Jane Eyre',
-      },
-      title: 'Jam',
-      destination: 'Somewhere, USA',
-      provider: {
-        id: 2,
-        nickname: 'John Hancock',
-      },
-    },
-    messages: [
-      {
-        timestamp: 1563277777000,
-        user: {
-          id: 3,
-          nickname: 'Jane Eyre',
-        },
-        content: 'Red plum jam, if possible',
-      },
-    ],
-  },
-  {
-    id: 12,
-    post: {
-      createdBy: {
-        id: 2,
-        nickname: 'John Hancock',
-      },
-      title: 'Altoids',
-      destination: 'Timbuktu, Mali',
-      needAfter: 1564200000000,
-    },
-    requestingUserId: 2,
-    destination: 'Timbuktu, Mali',
-    messages: [
-      {
-        timestamp: 1563298577000,
-        user: {
-          id: 2,
-          nickname: 'John Hancock',
-        },
-        content: 'Did you find any Wintergreen Altoids?',
-      },
-      {
-        timestamp: 1563398757000,
-        user: {
-          id: 4,
-          nickname: 'Jane Doe',
-        },
-        content: 'No luck, sorry',
-      },
-    ],
-  },
-];
+// conversations = [
+//   {
+//     id: 10,
+//     post: {
+//       createdBy: {
+//         id: 1,
+//         nickname: 'Clark Kent',
+//       },
+//       title: 'Peanut Butter',
+//       destination: 'Somewhere, USA',
+//       needBefore: 1564804800000,
+//     },
+//     messages: [
+//       {
+//         timestamp: 1563277677000,
+//         user: {
+//           id: 1,
+//           nickname: 'Clark Kent',
+//         },
+//         content: 'Any chance you can bring some PB?',
+//       },
+//       {
+//         timestamp: 1563288747000,
+//         user: {
+//           id: 2,
+//           nickname: 'John Hancock',
+//         },
+//         content: 'Absolutely!',
+//       },
+//       {
+//         timestamp: 1563299747000,
+//         user: {
+//           id: 1,
+//           nickname: 'Clark Kent',
+//         },
+//         content: 'Thanks 😁',
+//       },
+//     ],
+//   },
+//   {
+//     id: 11,
+//     post: {
+//       createdBy: {
+//         id: 3,
+//         nickname: 'Jane Eyre',
+//       },
+//       title: 'Jam',
+//       destination: 'Somewhere, USA',
+//       provider: {
+//         id: 2,
+//         nickname: 'John Hancock',
+//       },
+//     },
+//     messages: [
+//       {
+//         timestamp: 1563277777000,
+//         user: {
+//           id: 3,
+//           nickname: 'Jane Eyre',
+//         },
+//         content: 'Red plum jam, if possible',
+//       },
+//     ],
+//   },
+//   {
+//     id: 12,
+//     post: {
+//       createdBy: {
+//         id: 2,
+//         nickname: 'John Hancock',
+//       },
+//       title: 'Altoids',
+//       destination: 'Timbuktu, Mali',
+//       needAfter: 1564200000000,
+//     },
+//     requestingUserId: 2,
+//     destination: 'Timbuktu, Mali',
+//     messages: [
+//       {
+//         timestamp: 1563298577000,
+//         user: {
+//           id: 2,
+//           nickname: 'John Hancock',
+//         },
+//         content: 'Did you find any Wintergreen Altoids?',
+//       },
+//       {
+//         timestamp: 1563398757000,
+//         user: {
+//           id: 4,
+//           nickname: 'Jane Doe',
+//         },
+//         content: 'No luck, sorry',
+//       },
+//     ],
+//   },
+// ];
 
 function getConversationById(conversationId) {
   for (let i = 0; i < conversations.length; i++) {

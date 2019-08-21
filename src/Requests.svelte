@@ -20,7 +20,7 @@ async function startConversation(postUuid) {
     content: 'Hi',
     postID: postUuid,
   });
-  console.log(response.createMessage.thread.id);
+
   push(`/messages/${response.createMessage.thread.id}`);
 }
 
@@ -79,16 +79,16 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
     <div class="float-right">
       <a
         class="btn btn-primary"
-        href="#/requests?a=all"
+        href="/#/requests"
         aria-pressed="true"
         role="button">
         All
       </a>
-      <a class="btn btn-outline-primary" href="#/requests?a=mine" role="button">
+      <a class="btn btn-outline-primary" href="/#/requests/mine" role="button">
         My Requests
       </a>
       
-      <a class="btn btn-outline-primary" href="#/requestForm" role="button">
+      <a class="btn btn-outline-primary" href="/#/requests/new" role="button">
         Add
       </a>
     </div>
@@ -126,7 +126,7 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
               {#if post.myThreadID}
                 <a href="#/messages/{post.post.myThreadID}" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="Resume conversation" xlink:href="#lnr-bubble"></use></svg></a>
               {:else}
-                <button class="btn btn-link" on:click={ () => startConversation(post.uuid) }><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></button>
+                <button class="btn btn-link" on:click={ () => startConversation(post.id) }><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></button>
               {/if}
             </td>
             <td>{ post.title }</td>
