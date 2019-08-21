@@ -1,10 +1,5 @@
 import token from './token.js';
 
-// https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
-export async function get(resource) {
-  return await wrappedFetch(`<@BASE_API_URL@>/${resource}`)
-}
-
 export async function gql(query) {
   const response = await wrappedFetch('<@BASE_API_URL@>/gql', {
     method: 'post',
@@ -38,11 +33,16 @@ export async function logout() {
   return await get(`auth/logout`)  
 }
 
+async function get(resource) {
+  return await wrappedFetch(`<@BASE_API_URL@>/${resource}`)
+}
+
 const headers = {
   'content-type': 'application/json',
   Authorization: token.authzHeader(),
 }
 
+// https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 async function wrappedFetch(url, config = {}) {
   config.headers = headers
   

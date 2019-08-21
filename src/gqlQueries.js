@@ -1,5 +1,18 @@
 import { gql } from './api'
 
+export function user() {
+  return gql(`{
+    user() {
+      id
+      firstName
+      lastName
+      email
+      nickname
+
+    }
+  }`)
+}
+
 export function posts() {
    return gql(`{
      posts {

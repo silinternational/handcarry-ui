@@ -1,15 +1,21 @@
 <script>
-import { post } from "./gqlQueries"
+import { user, post } from "./gqlQueries"
 import { push } from "svelte-spa-router"
 
 let imgSrc = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+
+let me = {}
+loadMe()
+async function loadMe() {
+    me = await user()
+}
 
 let request = {
     title: "",
     destination: "",
     description: "",
-    neededAfter: "",
-    neededBefore: "",
+    neededAfter: "", // TODO: required, needs default
+    neededBefore: "", // TODO: required, needs default
     category: "",
     size: "",
     cost: "",
@@ -28,7 +34,7 @@ jQuery(function() {
 
 async function onSubmit(event) {
     let response = await post({
-        orgID: "5de70d9d-298f-4338-a13b-0801f63513c7",
+        orgID: "40fe092c-8ff1-45be-bcd4-65ad66c1d0d9", // TODO: get this from orgs list that should appear in me and build the dropdown
         type: "REQUEST",
         title: request.title,
         description: request.description,
@@ -44,7 +50,7 @@ async function onSubmit(event) {
 </script>
 
 <h2>Make a Request</h2>
-
+<pre>{JSON.stringify(me, null, 2)}</pre>
 <form on:submit|preventDefault={onSubmit}>
   <div class="row">
     <div class="form-group required col-12">
@@ -237,5 +243,4 @@ async function onSubmit(event) {
       </button>
     </div>
   </div>
-
 </form>
