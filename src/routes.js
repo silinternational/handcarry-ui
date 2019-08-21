@@ -8,11 +8,11 @@ import Login from './Login.svelte'
 
 // https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
-	'/requestform': RequestForm,
 	'/': Login,
 	'/login': Login,
 	'/requests': Requests,
-	'/requestsmine': MyRequests,
+	'/requests/mine': MyRequests,
+	'/requests/new': RequestForm,
 	'/commitments': Commitments,
 	'/messages': Messages,
 	'/messages/:id': Messages,
