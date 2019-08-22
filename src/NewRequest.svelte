@@ -1,8 +1,9 @@
 <script>
-import { user, post } from "./gqlQueries"
-import { push } from "svelte-spa-router"
+import { user, post } from './gqlQueries'
+import { push } from 'svelte-spa-router'
+import { format, addMonths } from 'date-fns'
 
-let imgSrc = "https://mdbootstrap.com/img/Photos/Others/placeholder.jpg"
+let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 
 let me = {}
 loadMe()
@@ -11,17 +12,17 @@ async function loadMe() {
 }
 
 let request = {
-    title: "",
-    destination: "",
-    description: "",
-    neededAfter: "", // TODO: required, needs default
-    neededBefore: "", // TODO: required, needs default
-    category: "",
-    size: "",
-    cost: "",
-    viewableBy: "",
-    image: "",
-    url: ""
+    title: '',
+    destination: '',
+    description: '',
+    neededAfter: format(Date.now(), 'YYYY-MM-DD'),
+    neededBefore: format(addMonths(Date.now(), 1), 'YYYY-MM-DD'), 
+    category: '',
+    size: '',
+    cost: '',
+    viewableBy: '',
+    image: '',
+    url: ''
 }
 
 function updateImage(event) {

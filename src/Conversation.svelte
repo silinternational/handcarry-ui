@@ -1,5 +1,5 @@
 <script>
-import { distanceInWordsToNow } from 'date-fns';
+import { formatDistanceToNow } from 'date-fns';
 import { createEventDispatcher } from 'svelte';
 
 const dispatch = createEventDispatcher();
@@ -32,7 +32,7 @@ function replyFormSubmitted(event) {
 }
 
 function whenWas(timestamp) {
-  return distanceInWordsToNow(
+  return formatDistanceToNow(
     new Date(timestamp),
     {addSuffix: true}
   );

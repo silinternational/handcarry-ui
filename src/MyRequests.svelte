@@ -1,5 +1,5 @@
 <script>
-import {distanceInWordsToNow} from 'date-fns';
+import {formatDistanceToNow} from 'date-fns';
 
 export let params; // URL path parameters, provided by router.
 
@@ -69,7 +69,7 @@ export let conversations = [
 ];
 
 function whenWas(timestamp) {
-    return distanceInWordsToNow(
+    return formatDistanceToNow(
         new Date(timestamp),
         {addSuffix: true}
     );
