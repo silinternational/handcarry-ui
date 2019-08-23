@@ -33,7 +33,7 @@ export async function logout() {
   return await get(`auth/logout`)  
 }
 
-async function get(resource) {
+async function get(resource) {  
   return await wrappedFetch(`<@BASE_API_URL@>/${resource}`)
 }
 
@@ -44,7 +44,7 @@ async function wrappedFetch(url, config = {}) {
     Authorization: token.authzHeader(),
   }
   
-  config.credentials = 'include'
+  config.credentials = 'include' // ensures the response back from the api will be allowed to "set-cookie"
   
   const response = await fetch(url, config)
   // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
