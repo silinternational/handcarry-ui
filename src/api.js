@@ -37,14 +37,14 @@ async function get(resource) {
   return await wrappedFetch(`<@BASE_API_URL@>/${resource}`)
 }
 
-const headers = {
-  'content-type': 'application/json',
-  Authorization: token.authzHeader(),
-}
-
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 async function wrappedFetch(url, config = {}) {
-  config.headers = headers
+  config.headers = {
+    'content-type': 'application/json',
+    Authorization: token.authzHeader(),
+  }
+  
+  config.credentials = 'include'
   
   const response = await fetch(url, config)
   // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)

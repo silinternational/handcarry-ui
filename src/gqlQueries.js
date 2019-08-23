@@ -2,7 +2,7 @@ import { gql } from './api'
 
 export function user() {
   return gql(`{
-    user() {
+    user {
       id
       firstName
       lastName
