@@ -6,9 +6,13 @@ import { format, addMonths } from 'date-fns'
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 
 let me = {}
+let myOrgs = []
 loadMe()
 async function loadMe() {
-    me = await user()
+    const response = await user()
+    me = response.user
+    myOrgs = me.organizations
+    request.viewableBy = myOrgs[0].id // needed a default
 }
 
 let request = {
@@ -35,7 +39,7 @@ jQuery(function() {
 
 async function onSubmit(event) {
     let response = await post({
-        orgID: "40fe092c-8ff1-45be-bcd4-65ad66c1d0d9", // TODO: get this from orgs list that should appear in me and build the dropdown
+        orgID: request.viewableBy,
         type: "REQUEST",
         title: request.title,
         description: request.description,
@@ -51,7 +55,7 @@ async function onSubmit(event) {
 </script>
 
 <h2>Make a Request</h2>
-<pre>{JSON.stringify(me, null, 2)}</pre>
+
 <form on:submit|preventDefault={onSubmit}>
   <div class="row">
     <div class="form-group required col-12">
@@ -96,26 +100,12 @@ async function onSubmit(event) {
 
       <div class="row">
         <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
-          <label for="viewableBy">
-            Viewable By
-            <svg class="lnr lnr-question-circle">
-              <use xlink:href="#lnr-question-circle" />
-            </svg>
-          </label>
-          <select
-            class="form-control"
-            id="viewableBy"
-            bind:value={request.viewableBy}
-            data-toggle="tooltip"
-            data-placement="top"
-            title="If your request is viewable by all trusted orgs, any
-            organization using HandCarry can see it. These organizations have an
-            agreement with your organization.">
-
-            <option value="1">All Trusted Orgs</option>
-            <option value="2">My Oranization</option>
-            <option value="3">My Organizational Unit</option>
-
+          <label for="viewableBy">Viewable By <svg class="lnr lnr-question-circle"> <use xlink:href="#lnr-question-circle" /></svg></label>
+          <select bind:value={request.viewableBy} class="form-control" id="viewableBy" data-toggle="tooltip" data-placement="top"
+                  title="If your request is viewable by all trusted orgs, any organization using HandCarry can see it. These organizations have an agreement with your organization.">
+            {#each myOrgs as org}
+            <option value={org.id} selected>{org.name}</option>
+            {/each}
           </select>
         </div>
 
