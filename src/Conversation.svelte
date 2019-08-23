@@ -31,9 +31,9 @@ function replyFormSubmitted(event) {
   }
 }
 
-function whenWas(timestamp) {
+function whenWas(dateTimeString) {
   return formatDistanceToNow(
-    new Date(timestamp),
+    new Date(dateTimeString),
     {addSuffix: true}
   );
 }
@@ -63,12 +63,12 @@ function whenWas(timestamp) {
       <div class="text-center">
         <small>
           { post.destination }
-          {#if post.needAfter && post.needBefore }
-            | between { asReadableDate(post.needAfter) } and { asReadableDate(post.needBefore) }
-          {:else if post.needAfter }
-            | after { asReadableDate(post.needAfter) }
-          {:else if post.needBefore }
-            | before { asReadableDate(post.needBefore) }
+          {#if post.neededAfter && post.neededBefore }
+            | between { asReadableDate(post.neededAfter) } and { asReadableDate(post.neededBefore) }
+          {:else if post.neededAfter }
+            | after { asReadableDate(post.neededAfter) }
+          {:else if post.neededBefore }
+            | before { asReadableDate(post.neededBefore) }
           {/if}
         </small>
       </div>
@@ -84,7 +84,7 @@ function whenWas(timestamp) {
       {:else}
         {#if post.provider && post.provider.id == me.id }
           You committed to bring this.
-        {:else if post.committedUserId }
+        {:else if post.provider }
           Someone else has committed to bring this.
         {:else}
           <button class="btn btn-sm btn-info" on:click={ () => dispatch('commit', conversation.id) }>
@@ -96,15 +96,15 @@ function whenWas(timestamp) {
   </div>
   <hr class="mt-1" />
   {#each conversation.messages as message}
-    {#if message.user.id === me.id}
+    {#if message.sender.id === me.id}
       <blockquote class="blockquote text-right">
         <p class="mb-0 message-content">{message.content}</p>
-        <footer class="blockquote-footer">you, { whenWas(message.timestamp) }</footer>
+        <footer class="blockquote-footer">you, { whenWas(message.createdAt) }</footer>
       </blockquote>
     {:else}
       <blockquote class="blockquote">
         <p class="mb-0 message-content">{message.content}</p>
-        <footer class="blockquote-footer">{message.user.nickname}, { whenWas(message.timestamp) }</footer>
+        <footer class="blockquote-footer">{message.sender.nickname}, { whenWas(message.createdAt) }</footer>
       </blockquote>
     {/if}
   {/each}

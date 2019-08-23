@@ -68,19 +68,34 @@ export function updatePost(post) {
 
 export function myConversations() {
   return gql(`{
-     myThreads {
-       id
-       postID
-       messages {
+    myThreads {
+      id
+      post {
+        title
+        createdBy {
+          id
+          nickname
+        }
+        destination
+        neededAfter
+        neededBefore
+        provider {
+          nickname
+        }
+      }
+      messages {
         createdAt
         sender {
           id
           nickname
         }
         content
-       }
-     }
-   }`)
+      }
+    }
+    user {
+      id
+    }
+  }`)
 }
 
 export function sendMessage(message) {
