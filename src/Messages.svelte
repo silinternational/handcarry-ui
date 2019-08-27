@@ -1,15 +1,16 @@
 <script>
 import Conversation from './Conversation.svelte'
-import { myConversations } from './gqlQueries'
+import { myConversations, sendMessage } from './gqlQueries'
 
 export let params = {}; // URL path parameters, provided by router.
 let conversations = []
 let me = {}
 
-$: console.log(conversations);
-
+// TODO: would like to establish a web socket here to receive messages from 
+// the api when a relevant change to conversations takes place, e.g., 
+// a conversation is expired, a new one is added, an existing one is updated...
 async function loadConversations() {
-  let response = await myConversations()
+  let response = await myConversations() // TODO: errorhandling needed?
   conversations = response.myThreads
   me = response.user
 }
@@ -30,9 +31,7 @@ function onCommit(event) {
 
   /** @todo Change this to call an API when that's ready */
   let conversation = getConversationById(conversationId);
-  console.log(
-      `You committed to bring ${conversation.post.title} to ${conversation.post.createdBy.nickname}.`
-  );
+
   conversation.post.provider = {
     id: me.id,
     nickname: me.nickname,
@@ -49,21 +48,21 @@ function onSend(event) {
 
   /** @todo Change this to call an API when that's ready */
   let conversation = getConversationById(conversationId);
-  console.log(
-      `Replied in conversation ${conversationId}: "${messageContent}"`
-  );
-  let newMessage = {
-    timestamp: Date.now(),
-    user: {
-      id: me.id,
-      nickname: me.nickname
-    },
-    content: messageContent,
-  };
-  conversation.messages = [...conversation.messages, newMessage];
 
-  // Get the each-conversations loops to re-evaluate.
-  conversations = conversations;
+// let newMessage = {
+//     timestamp: Date.now(),
+//     user: {
+//       id: me.id,
+//       nickname: me.nickname
+//     },
+//     content: messageContent,
+//   };
+
+//   conversation.messages = [...conversation.messages, newMessage];
+// TODO: gather inputs for newMessage
+// TODO: sendMessage(newMessage)
+// TODO: response *might* have all messages to be used in this selected conversation.
+
 }
 
 function selectConversation(id) {
