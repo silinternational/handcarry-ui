@@ -10,6 +10,7 @@ function init() {
   set('key', createKey())
   set('token_type', 'Bearer')
   set('access_token')
+  // TODO: need to grab the expiry and then setup an automatic logout at that time.
 }
 
 function createKey() {
