@@ -1,75 +1,8 @@
 <script>
-import { posts, sendMessageToNewConversation } from "./gqlQueries";
-import { push } from "svelte-spa-router";
-
-function format(d) {
-  // `d` is the original data object for the row
-  return "Request description, who made it, picture, etc.";
-}
-
-function asReadableDate(timestamp) {
-  if (!timestamp) {
-    return "";
-  }
-  
-  return new Date(timestamp).toLocaleDateString();
-}
-
-async function startConversation(postUuid) {
-  let response = await sendMessageToNewConversation({
-    content: 'Hi',
-    postID: postUuid,
-  });
-
-  push(`/messages/${response.createMessage.thread.id}`);
-}
-
-// jQuery(document).ready(function() {
-//     var requestTable = jQuery('#allRequests').DataTable({
-//          order: [[1, 'desc']],
-//          "columnDefs": [
-//              {
-//                   "targets": [ 0 ],
-//                   "orderable": false,
-//                   "searchable": false
-//               },
-//               {
-//                  "targets": [ 8 ],
-//                  "visible": false,
-//                  "searchable": false
-//               }
-//          ]
-//      });
-// // Add event listener for opening and closing details
-// jQuery('#allRequests tbody').on('click', 'td.details-control', function () {
-//     var tr = jQuery(this).closest('tr');
-//     var row = table.row( tr );
-
-//     if ( row.child.isShown() ) {
-//         // This row is already open - close it
-//         row.child.hide();
-//         tr.removeClass('shown');
-//     }
-//     else {
-//         // Open this row
-//         row.child( format(row.data()) ).show();
-//         tr.addClass('shown');
-//     }
-// } );
-// } );
+import { requests } from './gqlQueries'
+import { push } from 'svelte-spa-router'
+import { format } from 'date-fns'
 </script>
-
-<style>
-/* td.details-control {
-background: url("https://cdn0.iconfinder.com/data/icons/ie_Bright/512/plus_add_green.png")
-    no-repeat center center;
-cursor: pointer;
-}
-tr.details td.details-control {
-background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-minus-icons-red-minus-sign-png.png")
-    no-repeat center center;
-} */
-</style>
 
 <div class="row">
   <div class="col-6">
@@ -77,17 +10,12 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
   </div>
   <div class="col-6">
     <div class="float-right">
-      <a
-        class="btn btn-primary"
-        href="/#/requests"
-        aria-pressed="true"
-        role="button">
+      <a class="btn btn-primary" href="/#/requests" aria-pressed="true" role="button">
         All
       </a>
       <a class="btn btn-outline-primary" href="/#/requests/mine" role="button">
         My Requests
-      </a>
-      
+      </a>      
       <a class="btn btn-outline-primary" href="/#/requests/new" role="button">
         Add
       </a>
@@ -95,17 +23,21 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
   </div>
 </div>
 
+<style>
+tbody > tr {
+  cursor: pointer;
+}
+</style>
+
 <div class="row">
   <div class="col-12">
-
     <div class="alert alert-secondary" role="alert">
       Here are your HandCarry requests, those you've committed to, and those still looking for a HandCourier.
     </div>
 
-    <table class="table table-hover" id="allRequests">
+    <table class="table table-hover">
       <thead>
         <tr>
-          <th />
           <th>Request</th>
           <th>Destination</th>
           <th>Needed After</th>
@@ -113,38 +45,23 @@ background: url("https://www.pinclipart.com/picdir/middle/43-433525_plus-and-min
           <th>Cost</th>
           <th>Category</th>
           <th>Size</th>
-          <th />
         </tr>
       </thead>
       <tbody>
-        {#await posts()}
+        {#await requests()}
           <p>⏳ retrieving requests...</p>
         {:then data}
-        {#each data.posts as post}
-          <tr>
-            <td>
-              {#if post.myThreadID}
-                <a href="#/messages/{post.post.myThreadID}" alt="contact requestor"><svg class="lnr lnr-bubble"><use alt="Resume conversation" xlink:href="#lnr-bubble"></use></svg></a>
-              {:else}
-                <button class="btn btn-link" on:click={ () => startConversation(post.id) }><svg class="lnr lnr-bubble"><use alt="contact requestor" xlink:href="#lnr-bubble"></use></svg></button>
-              {/if}
-            </td>
-            <td>{ post.title }</td>
-            <td>{ post.destination }</td>
-            <td>{ asReadableDate(post.neededAfter) }</td>
-            <td>{ asReadableDate(post.neededBefore) }</td>
-            <td>{ post.cost || '–'}</td>
-            <td>{ post.category || '–' }</td>
-            <td>{ post.size || '–' }</td>
-            <td>
-            <!-- { #if request.mine }
-                <svg class="lnr lnr-user"><use xlink:href="#lnr-user"></use></svg>
-            {:else if request.committed }
-                <svg class="lnr lnr-checkmark-circle"><use xlink:href="#lnr-checkmark-circle"></use></svg>
-            {/if} -->
-            </td>
+          {#each data.posts as request}
+          <tr on:click={ () => push(`/requests/${request.id}`) }>
+            <td>{ request.title }</td>
+            <td>{ request.destination }</td>
+            <td>{ format(new Date(request.neededAfter), 'MMM e, yyyy') }</td>
+            <td>{ format(new Date(request.neededBefore), 'MMM e, yyyy') }</td>
+            <td>{ request.cost || '–'}</td>
+            <td>{ request.category || '–' }</td>
+            <td>{ request.size || '–' }</td>
           </tr>
-        {/each}
+          {/each}
         {:catch error}
           <p>🧨 Something went wrong: {error.message}</p>
         {/await}

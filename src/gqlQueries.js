@@ -1,4 +1,5 @@
 import { gql } from './api'
+//TODO: need to make naming conventions consistent
 
 export function user() {
   return gql(`{
@@ -11,21 +12,52 @@ export function user() {
   }`)
 }
 
-export function posts() {
+export function requests() {
    return gql(`{
      posts {
        id
        title
-       description
        destination
-       type
-       status
        neededAfter
        neededBefore
        category
        size
      }
    }`)
+}
+
+export function getRequest(id) {
+  // TODO: not sure what's actually needded her, just provided many of the properties as a default
+  return gql(`{
+    post(id: "${id}") {
+      title
+      description
+      destination
+      origin
+      size
+      neededAfter
+      neededBefore
+      category
+      status
+      createdAt
+      updatedAt
+      createdBy {
+        nickname
+      }
+      receiver {
+        nickname
+      }
+      provider {
+        nickname
+      }
+      organization {
+        name
+      }
+      threads {
+        id
+      }
+    }
+  }`)
 }
 
 export function post(post) {
