@@ -1,8 +1,9 @@
 import token from './token.js';
 
+const BASE_API_URL = '<@BASE_API_URL@>'
+
 export async function gql(query) {
-  const response = await wrappedFetch('<@BASE_API_URL@>/gql', {
-    method: 'post',
+  const response = await wrappedFetch('gql', {
     body: JSON.stringify({
       query
     }),
@@ -20,7 +21,7 @@ export async function login(email, returnTo) {
     loginUrl += `&ReturnTo=${returnTo}`
   }
 
-  const response = await get(loginUrl)
+  const response = await wrappedFetch(loginUrl)
 
 // TODO: need errorhandling and additional use cases with this response
 //   "You can also post to login. Need to review response for error or multiple org 
@@ -29,24 +30,17 @@ export async function login(email, returnTo) {
   window.location = response.RedirectURL
 }
 
-export async function logout() {
-  return await get(`auth/logout`)  
-}
-
-async function get(resource) {  
-  return await wrappedFetch(`<@BASE_API_URL@>/${resource}`)
-}
-
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 async function wrappedFetch(url, config = {}) {
   config.headers = {
     'content-type': 'application/json',
-    Authorization: token.authzHeader(),
+    authorization: token.authzHeader(),
   }
   
+  config.method = 'post'
   config.credentials = 'include' // ensures the response back from the api will be allowed to "set-cookie"
   
-  const response = await fetch(url, config)
+  const response = await fetch(`${BASE_API_URL}/${url}`, config)
   // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
 
   // 401/403 => login?
