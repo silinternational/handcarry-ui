@@ -20,6 +20,9 @@ async function loadRequest() {
 
 <pre style="font-size: x-small;">{ JSON.stringify(request, null, 2)}</pre>
 
+<a href="#/requests">
+  Back to requests
+</a>
 <button>
   Start a conversation with { requestor } about this item
 </button>
