@@ -103,6 +103,7 @@ export function myConversations() {
     myThreads {
       id
       post {
+        id
         title
         createdBy {
           id
@@ -130,27 +131,37 @@ export function myConversations() {
   }`)
 }
 
-export function sendMessage(message) {
+export function sendMessage(id, message) {
   return gql(`
     mutation {
       createMessage(input: {
-        threadID: "${message.threadID}",
-        content: "${message.content}",
-        postID: "${message.postID}"
+        threadID: "${id}",
+        content: "${message}",
+        postID: ""
       }) 
       {
-        content
+        thread {
+          messages {
+            id
+            sender {
+              id
+              firstName
+            }
+            content
+            createdAt
+          }
+        }    
       }
     }
   `)
 }
 
-export function sendMessageToNewConversation(message) {
+export function startConversation(postId, message) {
   return gql(`
     mutation {
       createMessage(input: {
-        content: "${message.content}",
-        postID: "${message.postID}"
+        postID: "${postId}",
+        content: "${message}"
       })
       {
         thread { id }
