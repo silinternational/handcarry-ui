@@ -58,10 +58,6 @@ async function loadConversations() {
   <div class="col-sm-7 col-lg-8">
     <div class="tab-content card conversation-card" class:conversation-card-empty={ ! selectedConversation.id }>
       <Conversation { me } conversation={ selectedConversation } />
-
-      <div class="tab-pane card-body" class:active={ ! selectedConversation.id }>
-        <p class="text-center"><i>Please select a conversation to see its messages</i></p>
-      </div>
     </div>
   </div>
 </div>

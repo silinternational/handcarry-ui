@@ -53,6 +53,9 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
 </style>
 
 <div class="tab-pane card-body active">
+  {#if ! conversation.id}
+  <p class="text-center"><i>Please select a conversation to see its messages</i></p>
+  {:else}
   <div class="row">
     <div class="col">
       <h3 class="text-center mb-0">{ post.title }</h3>
@@ -122,4 +125,5 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
       </div>
     </form>
   </div>
+  {/if}
 </div>
