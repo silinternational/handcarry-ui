@@ -1,6 +1,6 @@
 <script>
-import Conversation from './Conversation.svelte'
-import { startConversation } from './gqlQueries'
+import Conversation from '../components/Conversation.svelte'
+import { startConversation } from '../data/gqlQueries'
 import { querystring, push } from 'svelte-spa-router'
 
 export let params = {} // URL path parameters, provided by router.

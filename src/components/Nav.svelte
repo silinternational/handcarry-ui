@@ -1,6 +1,6 @@
 <script>
 import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
-import polyglot from './i18n'
+import polyglot from '../i18n'
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">

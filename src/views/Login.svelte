@@ -1,5 +1,5 @@
 <script>
-import { login } from './api'
+import { login } from '../data/api'
 
 let email = ''
 

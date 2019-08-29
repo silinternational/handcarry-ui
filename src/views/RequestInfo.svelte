@@ -1,5 +1,5 @@
 <script>
-import { getRequest } from './gqlQueries'
+import { getRequest } from '../data/gqlQueries'
 
 export let params = {} // URL path parameters, provided by router.
 

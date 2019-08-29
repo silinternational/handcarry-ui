@@ -1,5 +1,5 @@
 <script>
-import { requests } from './gqlQueries'
+import { requests } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
 import { format } from 'date-fns'
 </script>

@@ -1,5 +1,5 @@
 <script>
-import { user, post } from './gqlQueries'
+import { user, post } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 

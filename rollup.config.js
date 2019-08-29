@@ -28,7 +28,7 @@ export default {
 		}),
 
 		replace({
-      include: './src/api.js',
+      include: './src/data/api.js',
 			delimiters: ['<@', '@>'],
 			BASE_API_URL: process.env.BASE_API_URL,
 		}),

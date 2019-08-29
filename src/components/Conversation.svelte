@@ -1,6 +1,6 @@
 <script>
 import { formatDistanceToNow } from 'date-fns'
-import { sendMessage } from './gqlQueries'
+import { sendMessage } from '../data/gqlQueries'
 
 export let me = {}
 export let conversation = {}

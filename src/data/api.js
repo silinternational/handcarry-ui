@@ -1,4 +1,4 @@
-import token from './token.js';
+import token from './token';
 
 const BASE_API_URL = '<@BASE_API_URL@>'
 
