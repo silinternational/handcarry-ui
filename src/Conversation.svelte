@@ -1,42 +1,43 @@
 <script>
-import { formatDistanceToNow } from 'date-fns';
-import { createEventDispatcher } from 'svelte';
+import { formatDistanceToNow } from 'date-fns'
+import { sendMessage } from './gqlQueries'
 
-const dispatch = createEventDispatcher();
+export let me = {}
+export let conversation = {}
+$: post = conversation.post || {}
+$: creator = post.createdBy || {}
+$: provider = post.provider || {}
+$: messages = conversation.messages || []
 
-export let isSelected = false;
-export let me = {};
-export let conversation = {};
-let post = conversation.post || {};
+let reply = ''
 
 function acceptCommitment() {
+  /** TODO: Change this to call an API when it's ready */
 
-  /** @todo Change this to call an API when it's ready */
-
-  console.log(`Accepted user ${post.committedUserId}'s commitment to bring ${post.title}`);
+  console.log(`Accepted user ${post.committedUserId}'s commitment to bring ${post.title}`)
 }
 
 function asReadableDate(timestamp) {
-  return new Date(timestamp).toLocaleDateString();
+  return new Date(timestamp).toLocaleDateString()
 }
 
-function replyFormSubmitted(event) {
-  let replyField = event.currentTarget.elements.replyField;
-  if (replyField.value !== '') {
-    dispatch('send', {
-      conversationId: conversation.id,
-      messageContent: replyField.value,
-    });
-    replyField.value = '';
+async function send() {
+  if (reply !== '') {
+    const response = await sendMessage(conversation.id, reply)
+    messages = response.createMessage.thread.messages
+    reply = ''
   }
 }
 
-function whenWas(dateTimeString) {
-  return formatDistanceToNow(
-    new Date(dateTimeString),
-    {addSuffix: true}
-  );
+function commit() {
+  /** TODO: Change this to call an API when that's ready */
+  conversation.post.provider = {
+    id: me.id,
+    nickname: me.nickname,
+  }
 }
+
+const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})
 </script>
 
 <style>
@@ -51,15 +52,11 @@ function whenWas(dateTimeString) {
 }
 </style>
 
-<div class="tab-pane card-body" class:active={ isSelected }>
+<div class="tab-pane card-body active">
   <div class="row">
     <div class="col">
-      <h3 class="text-center mb-0">
-        { post.title }
-        {#if post.createdBy.id !== me.id}
-          - { post.createdBy.nickname }
-        {/if}
-      </h3>
+      <h3 class="text-center mb-0">{ post.title }</h3>
+
       <div class="text-center">
         <small>
           { post.destination }
@@ -74,28 +71,30 @@ function whenWas(dateTimeString) {
       </div>
     </div>
     <div class="col-4 text-center">
-      {#if post.createdBy.id == me.id }
-        {#if post.provider }
-          User { post.provider.nickname } committed to bring this.
+      {#if creator.id == me.id }
+        {#if provider.nickname }
+          User { provider.nickname } committed to bring this.
           <button class="btn btn-sm btn-outline-success" on:click={ acceptCommitment }>
             Accept
           </button>
         {/if}
       {:else}
-        {#if post.provider && post.provider.id == me.id }
+        {#if provider.id == me.id }
           You committed to bring this.
-        {:else if post.provider }
+        {:else if provider.id }
           Someone else has committed to bring this.
         {:else}
-          <button class="btn btn-sm btn-info" on:click={ () => dispatch('commit', conversation.id) }>
+          <button class="btn btn-sm btn-info" on:click={ commit }>
             I'll bring it
           </button>
         {/if}
       {/if}
     </div>
   </div>
+
   <hr class="mt-1" />
-  {#each conversation.messages as message}
+  
+  {#each messages as message}
     {#if message.sender.id === me.id}
       <blockquote class="blockquote text-right">
         <p class="mb-0 message-content">{message.content}</p>
@@ -109,12 +108,12 @@ function whenWas(dateTimeString) {
     {/if}
   {/each}
   <div class="card-footer">
-    <form on:submit|preventDefault={ replyFormSubmitted }>
+    <form on:submit|preventDefault={ send }>
       <div class="row">
         <div class="col">
           <label class="sr-only" for="replyField">Reply</label>
 
-          <input type="text" class="form-control mb-2 mr-sm-2" id="replyField"
+          <input bind:value={ reply } class="form-control mb-2 mr-sm-2"
                  placeholder="Reply" autocomplete="off" />
         </div>
         <div class="col-auto">

@@ -3,7 +3,16 @@ import Conversation from './Conversation.svelte'
 import { myConversations, sendMessage } from './gqlQueries'
 
 export let params = {}; // URL path parameters, provided by router.
-let conversations = []
+
+let conversations = []; loadConversations()
+let selectedConversation = {}
+$: selectedConversation = conversations.find(conversation => conversation.id === params.id) || conversations[0] || {} 
+// TODO: need to address the following scenarios:
+//        1.  no conversations exist => show a message
+//        2.  no params.id was provided => default to the first conversations if there are conversations.
+//        3.  the prarams.id provided doesn't match any of the conversations => show conversations list without selecting any
+//        4.  the prarams.id matches one of the conversations => select that one
+
 let me = {}
 
 // TODO: would like to establish a web socket here to receive messages from 
@@ -13,64 +22,6 @@ async function loadConversations() {
   let response = await myConversations() // TODO: errorhandling needed?
   conversations = response.myThreads
   me = response.user
-}
-loadConversations()
-
-function getConversationById(conversationId) {
-  for (let i = 0; i < conversations.length; i++) {
-    if (conversations[i].id == conversationId) {
-      return conversations[i];
-    }
-  }
-  throw new Error(`No such conversation found (id: ${conversationId})`);
-}
-
-function onCommit(event) {
-
-  let conversationId = event.detail;
-
-  /** @todo Change this to call an API when that's ready */
-  let conversation = getConversationById(conversationId);
-
-  conversation.post.provider = {
-    id: me.id,
-    nickname: me.nickname,
-  };
-
-  // Get the each-conversations loops to re-evaluate.
-  conversations = conversations;
-}
-
-function onSend(event) {
-
-  let conversationId = event.detail.conversationId;
-  let messageContent = event.detail.messageContent;
-
-  /** @todo Change this to call an API when that's ready */
-  let conversation = getConversationById(conversationId);
-
-// let newMessage = {
-//     timestamp: Date.now(),
-//     user: {
-//       id: me.id,
-//       nickname: me.nickname
-//     },
-//     content: messageContent,
-//   };
-
-//   conversation.messages = [...conversation.messages, newMessage];
-// TODO: gather inputs for newMessage
-// TODO: sendMessage(newMessage)
-// TODO: response *might* have all messages to be used in this selected conversation.
-
-}
-
-function selectConversation(id) {
-  window.location.hash = '#/messages/' + Number(id);
-}
-
-if (!params.id && conversations.length > 0) {
-  selectConversation(conversations[0].id);
 }
 </script>
 
@@ -84,50 +35,32 @@ if (!params.id && conversations.length > 0) {
 }
 </style>
 
-<div class="row">
-  <div class="col">
-    <h2>Messages</h2>
-  </div>
-</div>
+<h2 class="pb-4">Messages</h2>
 
 <div class="row no-gutters">
   <div class="col-sm-5 col-lg-4">
     <div class="list-group list-group-flush">
       {#each conversations as conversation}
-        <a class="list-group-item list-group-item-action"
-            class:active={ params.id == conversation.id }
-            href="#/messages/{ conversation.id }">
-          {#if conversation.post}
-            { conversation.post.title }
-            {#if conversation.post.createdBy && conversation.post.createdBy.id !== me.id}
-              - { conversation.post.createdBy.nickname }
-            {/if}
+        <a href="#/messages/{ conversation.id }" class:active={ selectedConversation.id == conversation.id } class="list-group-item list-group-item-action">
+          { conversation.post.title } { `${conversation.post.createdBy.id !== me.id ? ' – ' + conversation.post.createdBy.nickname : ''}` }
 
-            {#if conversation.post.provider && conversation.post.provider.id == me.id}
-              <svg class="lnr lnr-checkmark-circle"><use xlink:href="#lnr-checkmark-circle"></use></svg>
-            {/if}
-          {:else}
-            <i class="text-muted">No post found for conversation {conversation.id}</i>
+          {#if conversation.post.provider && conversation.post.provider.id === me.id}
+          <svg class="lnr lnr-checkmark-circle"><use xlink:href="#lnr-checkmark-circle"></use></svg>
           {/if}
         </a>
       {/each}
 
       {#if conversations.length < 1 }
-        <i class="text-muted">none</i>
+      <i class="text-muted">No ongoing conversations at this time</i>
       {/if}
     </div>
   </div>
   <div class="col-sm-7 col-lg-8">
-    <div class="tab-content card conversation-card"
-         class:conversation-card-empty={ !params.id }>
-      {#each conversations as conversation}
-          <Conversation isSelected={ params.id == conversation.id } {me} {conversation}
-                        on:commit={onCommit} on:send={onSend} />
-      {/each}
+    <div class="tab-content card conversation-card" class:conversation-card-empty={ ! selectedConversation.id }>
+      <Conversation { me } conversation={ selectedConversation } />
 
-      <div class="tab-pane card-body"
-           class:active={ !params.id }>
-          <p class="text-center"><i>Please select a conversation to see its messages</i></p>
+      <div class="tab-pane card-body" class:active={ ! selectedConversation.id }>
+        <p class="text-center"><i>Please select a conversation to see its messages</i></p>
       </div>
     </div>
   </div>
