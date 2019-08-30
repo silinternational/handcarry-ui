@@ -27,7 +27,7 @@ export function requests() {
 }
 
 export function getRequest(id) {
-  // TODO: not sure what's actually needded her, just provided many of the properties as a default
+  // TODO: not sure what's actually needed here, just provided many of the properties as a default
   return gql(`{
     post(id: "${id}") {
       title
@@ -56,6 +56,28 @@ export function getRequest(id) {
       threads {
         id
       }
+    }
+  }`)
+}
+
+export function getMyRequests() {
+  // TODO: temp impl, backend is going to provide a query that returns only posts where the current user is the createdBy.id, e.g., user {posts(CREATEDBY){...}}
+  return gql(`{
+    posts {
+      title
+      description
+      destination
+      neededAfter
+      neededBefore
+      provider {
+        nickname
+      }
+      createdBy {
+        id
+      }
+    }
+    user {
+      id
     }
   }`)
 }
