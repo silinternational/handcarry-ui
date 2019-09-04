@@ -124,6 +124,9 @@ export function myConversations() {
   return gql(`{
     myThreads {
       id
+      participants {
+        nickname
+      }
       post {
         id
         title

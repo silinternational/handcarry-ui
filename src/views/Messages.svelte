@@ -13,6 +13,14 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 //        3.  the prarams.id provided doesn't match any of the conversations => show conversations list without selecting any
 //        4.  the prarams.id matches one of the conversations => select that one
 
+$: isCreatedByMe = post => post.createdBy.id === me.id
+$: isProvidedByMe = post => post.provider && post.provider.id === me.id
+$: creator = post => post.createdBy && post.createdBy.nickname
+// TODO: for now, this assumes there will only be one other person per conversation
+$: messageFrom = participants => participants[0].nickname
+
+
+
 let me = {}
 
 // TODO: would like to establish a web socket here to receive messages from 
@@ -41,10 +49,10 @@ async function loadConversations() {
   <div class="col-sm-5 col-lg-4">
     <div class="list-group list-group-flush">
       {#each conversations as conversation}
-        <a href="#/messages/{ conversation.id }" class:active={ selectedConversation.id == conversation.id } class="list-group-item list-group-item-action">
-          { conversation.post.title } { `${conversation.post.createdBy.id !== me.id ? ' – ' + conversation.post.createdBy.nickname : ''}` }
+        <a href="#/messages/{ conversation.id }" class:active={ selectedConversation.id === conversation.id } class="list-group-item list-group-item-action">
+          { conversation.post.title } – { `${ isCreatedByMe(conversation.post) ? messageFrom(conversation.participants) : creator(conversation.post) }` }
 
-          {#if conversation.post.provider && conversation.post.provider.id === me.id}
+          {#if isProvidedByMe(conversation.post)}
           <svg class="lnr lnr-checkmark-circle"><use xlink:href="#lnr-checkmark-circle"></use></svg>
           {/if}
         </a>
