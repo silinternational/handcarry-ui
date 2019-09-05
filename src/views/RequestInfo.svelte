@@ -10,6 +10,10 @@ async function loadRequest() {
   request = response.post
   requestor = request.createdBy.nickname
 }
+
+async function cancel() {
+  // TODO: waiting on API (might be updatePost() with a specific status change)
+}
 </script>
 
 <h2 class="pb-4">{ request.title }</h2>
@@ -20,7 +24,8 @@ async function loadRequest() {
 
 <pre style="font-size: x-small;">{ JSON.stringify(request, null, 2)}</pre>
 
-<a href="#/requests" class="btn btn-secondary btn-sm" role="button">Back to requests</a>
+<a href="#/requests" class="btn btn-secondary" role="button">Back to requests</a>
+<button class="btn btn-danger">cancel this request</button>
 <a href={`${window.location.hash}/new-conversation?with=${requestor}`} class="btn btn-success btn-sm" role="button">
   Start a conversation with { requestor } about this item
 </a>
