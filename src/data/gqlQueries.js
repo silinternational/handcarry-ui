@@ -61,23 +61,18 @@ export function getRequest(id) {
 }
 
 export function getMyRequests() {
-  // TODO: temp impl, backend is going to provide a query that returns only posts where the current user is the createdBy.id, e.g., user {posts(CREATEDBY){...}}
   return gql(`{
-    posts {
-      title
-      description
-      destination
-      neededAfter
-      neededBefore
-      provider {
-        nickname
-      }
-      createdBy {
-        id
-      }
-    }
     user {
-      id
+      posts(role: CREATEDBY) {
+        title
+        description
+        destination
+        neededAfter
+        neededBefore
+        provider {
+          nickname
+        }
+      }
     }
   }`)
 }

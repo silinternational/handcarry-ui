@@ -6,10 +6,7 @@ let requests = []; loadMyRequests()
 
 async function loadMyRequests() {
   const response = await getMyRequests()
-  // TODO: temp impl, see gqlQueries.js.getMyRequests note
-  const allRequests = response.posts
-  const me = response.user
-  requests = allRequests.filter(request => request.createdBy.id === me.id)
+  requests = response.user.posts
 }
 </script>
 
