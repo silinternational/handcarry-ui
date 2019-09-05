@@ -1,6 +1,6 @@
 <script>
 import { formatDistanceToNow } from 'date-fns'
-import { sendMessage } from '../data/gqlQueries'
+import { sendMessage, sendCommit } from '../data/gqlQueries'
 
 export let me = {}
 export let conversation = {}
@@ -29,12 +29,12 @@ async function send() {
   }
 }
 
-function commit() {
-  /** TODO: Change this to call an API when that's ready */
+async function commit() {
   conversation.post.provider = {
-    id: me.id,
-    nickname: me.nickname,
+    id: me.id
   }
+
+  post = await sendCommit(conversation.post) //TODO: waiting on API 
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})
@@ -58,7 +58,7 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
   {:else}
   <div class="row">
     <div class="col">
-      <h3 class="text-center mb-0">{ post.title }</h3>
+      <h3 class="text-center pb-2">{ post.title }</h3>
 
       <div class="text-center">
         <small>

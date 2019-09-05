@@ -104,17 +104,29 @@ export function post(post) {
   `)
 }
 
-export function updatePost(post) {
+export function sendCommit(post) {
   return gql(`
     mutation {
-      updatePostStatus(
+      updatePost(
         input: {
-          id: "${post.id}"
-          status: "${post.status}"
+          id: "${post.id}",
+          providerID: "${post.provider.id}",
+          status: COMMIT
         }
       ) 
       {
         id
+        title
+        createdBy {
+          id
+          nickname
+        }
+        destination
+        neededAfter
+        neededBefore
+        provider {
+          nickname
+        }
       }
     }
   `)
