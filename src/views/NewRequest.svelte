@@ -1,13 +1,13 @@
 <script>
-import { user, post } from '../data/gqlQueries'
+import { user, createPost } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 
-let me = {}
+let me = {}; loadMe()
 let myOrgs = []
-loadMe()
+
 async function loadMe() {
     const response = await user()
     me = response.user
@@ -38,7 +38,7 @@ jQuery(function() {
 })
 
 async function onSubmit(event) {
-    let response = await post({
+    await createPost({
         orgID: request.viewableBy,
         type: "REQUEST",
         title: request.title,
@@ -47,7 +47,9 @@ async function onSubmit(event) {
         size: request.size,
         neededAfter: request.neededAfter,
         neededBefore: request.neededBefore,
-        category: request.category
+        category: request.category,
+        url: request.url,
+        cost: request.cost
     })
 
     push(`/requests`)
@@ -59,13 +61,8 @@ async function onSubmit(event) {
 <form on:submit|preventDefault={onSubmit}>
   <div class="row">
     <div class="form-group required col-12">
-      <input
-        class="form-control form-control-lg"
-        id="requestTitle"
-        type="text"
-        bind:value={request.title}
-        placeholder="Request Title" />
-      <small id="titleHelp" class="form-text text-danger">Required</small>
+      <input class="form-control form-control-lg" bind:value={request.title} placeholder="Request Title" />
+      <small class="form-text text-danger">Required</small>
     </div>
   </div>
 
@@ -73,35 +70,23 @@ async function onSubmit(event) {
     <div class="col-8">
       <div class="row">
         <div class="col-12 form-group required">
-          <label for="requestDestination" class="control-label">
-            Destination
-          </label>
+          <label class="control-label">Destination</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
-                <svg class="lnr lnr-map-marker">
-                  <use xlink:href="#lnr-map-marker" />
-                </svg>
+                <svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker" /></svg>
               </span>
             </div>
-            <input
-              type="text"
-              bind:value={request.destination}
-              class="form-control"
-              id="requestDestination"
-              required
-              placeholder="City, State/Province, Country, or Region, etc." />
+            <input bind:value={request.destination} class="form-control" required placeholder="City, State/Province, Country, or Region, etc." />
           </div>
-          <small id="destRequired" class="form-text text-danger">
-            Required
-          </small>
+          <small class="form-text text-danger">Required</small>
         </div>
       </div>
 
       <div class="row">
         <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
-          <label for="viewableBy">Viewable By <svg class="lnr lnr-question-circle"> <use xlink:href="#lnr-question-circle" /></svg></label>
-          <select bind:value={request.viewableBy} class="form-control" id="viewableBy" data-toggle="tooltip" data-placement="top"
+          <label>Viewable By <svg class="lnr lnr-question-circle"> <use xlink:href="#lnr-question-circle" /></svg></label>
+          <select bind:value={request.viewableBy} class="form-control" data-toggle="tooltip" data-placement="top"
                   title="If your request is viewable by all trusted orgs, any organization using HandCarry can see it. These organizations have an agreement with your organization.">
             {#each myOrgs as org}
             <option value={org.id} selected>{org.name}</option>
@@ -110,49 +95,31 @@ async function onSubmit(event) {
         </div>
 
         <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
-          <label for="needAfter">Need After</label>
-          <input
-            type="date"
-            bind:value={request.neededAfter}
-            class="form-control"
-            id="neededAfter" />
+          <label>Need After</label>
+          <input type="date" bind:value={request.neededAfter} class="form-control" />
         </div>
 
         <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
           <label for="needBefore">Need By</label>
-          <input
-            type="date"
-            class="form-control"
-            bind:value={request.neededBefore}
-            id="neededBefore"
-            placeholder="" />
+          <input type="date" class="form-control" bind:value={request.neededBefore} />
         </div>
 
       </div>
 
       <div class="row">
         <div class="col-sm-12 col-lg-2 col-xl-4">
-          <label for="requestCost">Approximate Cost</label>
+          <label>Approximate Cost</label>
           <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">$</span>
             </div>
-            <input
-              class="form-control"
-              bind:value={request.cost}
-              type="number"
-              value="100"
-              id="requestCost" />
+            <input class="form-control" bind:value={request.cost} />
           </div>
         </div>
 
         <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
-          <label for="requestSize">Approximate Size</label>
-          <select
-            class="form-control"
-            required
-            id="requestSize"
-            bind:value={request.size}>
+          <label>Approximate Size</label>
+          <select class="form-control" required bind:value={request.size}>
             <option selected>Choose...</option>
             <option value="Small">Small (purse)</option>
             <option value="Medium">Medium (laptop)</option>
@@ -161,10 +128,7 @@ async function onSubmit(event) {
         </div>
         <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
           <label for="category">Category</label>
-          <select
-            class="form-control"
-            id="category"
-            bind:value={request.category}>
+          <select class="form-control" bind:value={request.category}>
             <option>Choose...</option>
             <option value="Technology">Technology</option>
             <option value="Food">Food</option>
@@ -182,20 +146,15 @@ async function onSubmit(event) {
       </div>
       <div class="d-flex justify-content-center">
         <div class="btn btn-mdb-color btn-rounded">
-          <input
-            type="file"
-            accept="image/*"
-            on:change={updateImage}
-            bind:value={request.image} />
+          <input type="file" accept="image/*" on:change={updateImage} bind:value={request.image} />
         </div>
       </div>
     </div>
-    <!--Add in URL pull later --->
   </div>
 
   <div class="row">
     <div class="col-sm-12 col-lg-8 col-xl-8 form-group">
-      <label for="url">Request URL</label>
+      <label>Request URL</label>
       <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text">
@@ -204,25 +163,16 @@ async function onSubmit(event) {
             </svg>
           </span>
         </div>
-        <input
-          class="form-control"
-          type="url"
-          bind:value={request.url}
-          id="url"
-          placeholder="URL or Web Address for item (e.g. link to Amazon product)" />
+        <input class="form-control" type="url" bind:value={request.url} placeholder="URL or Web Address for item (e.g. link to Amazon product)" />
       </div>
     </div>
   </div>
 
   <div class="row">
     <div class="col form-group">
-      <label for="description">Description</label>
+      <label>Description</label>
       <textarea
-        class="form-control"
-        id="description"
-        bind:value={request.description}
-        rows="3"
-        placeholder="A description of the thing you want brought." />
+        class="form-control" bind:value={request.description} rows="3" placeholder="A description of the thing you want brought." />
     </div>
   </div>
 

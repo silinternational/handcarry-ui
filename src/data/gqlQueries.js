@@ -34,6 +34,8 @@ export function getRequest(id) {
       description
       destination
       origin
+      cost
+      url
       size
       neededAfter
       neededBefore
@@ -77,7 +79,7 @@ export function getMyRequests() {
   }`)
 }
 
-export function post(post) {
+export function createPost(post) {
   return gql(`
     mutation {
       createPost(input: {
@@ -91,6 +93,8 @@ export function post(post) {
         neededBefore: "${post.neededBefore || ''}",
         neededAfter: "${post.neededAfter || ''}",
         size: "${post.size}",
+        url: "${post.url}",
+        cost: "${post.cost}"
       }) 
       {
         title
