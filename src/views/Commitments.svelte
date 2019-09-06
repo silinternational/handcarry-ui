@@ -14,6 +14,12 @@ async function confirmDelivery() {
 }
 </script>
 
+<style>
+div.list-group-item {
+  margin-bottom: 0.25rem
+}
+</style>
+
 <h2 class="pb-4">My Commitments</h2>
 
 <div class="alert alert-warning text-center" role="alert">
@@ -22,7 +28,7 @@ async function confirmDelivery() {
 
 <div class="row">
   <div class="col-sm-12 col-lg-12">
-    <div class="list-group list-group-flush" role="tablist">
+    <div class="list-group" role="tablist">
       {#each commitments as commitment}
         <div class="list-group-item">
           <div class="row pb-4">
@@ -59,7 +65,7 @@ async function confirmDelivery() {
       {/each}
 
       {#if commitments.length < 1}
-        <i class="text-muted">none</i>
+      <i class="text-muted">none</i>
       {/if}
     </div>
   </div>
