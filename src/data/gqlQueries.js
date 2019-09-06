@@ -136,6 +136,7 @@ export function myConversations() {
     myThreads {
       id
       participants {
+        id
         nickname
       }
       post {

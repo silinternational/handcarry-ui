@@ -16,10 +16,7 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 $: isCreatedByMe = post => post.createdBy.id === me.id
 $: isProvidedByMe = post => post.provider && post.provider.id === me.id
 $: creator = post => post.createdBy && post.createdBy.nickname
-// TODO: for now, this assumes there will only be one other person per conversation
-$: messageFrom = participants => participants[0].nickname
-
-
+$: messageFrom = participants => participants.filter(p => p.id !== me.id).map(p => p.nickname).join(', ')
 
 let me = {}
 
