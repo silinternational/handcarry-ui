@@ -2,10 +2,11 @@
 import Conversation from '../components/Conversation.svelte'
 import { myConversations } from '../data/gqlQueries'
 
-export let params = {}; // URL path parameters, provided by router.
+export let params = {} // URL path parameters, provided by router.
 
 let conversations = []; loadConversations()
-let selectedConversation = {}
+let me = {}
+
 $: selectedConversation = conversations.find(conversation => conversation.id === params.id) || conversations[0] || {} 
 // TODO: need to address the following scenarios:
 //        1.  no conversations exist => show a message
@@ -18,13 +19,13 @@ $: isProvidedByMe = post => post.provider && post.provider.id === me.id
 $: creator = post => post.createdBy && post.createdBy.nickname
 $: messageFrom = participants => participants.filter(p => p.id !== me.id).map(p => p.nickname).join(', ')
 
-let me = {}
-
 // TODO: would like to establish a web socket here to receive messages from 
 // the api when a relevant change to conversations takes place, e.g., 
 // a conversation is expired, a new one is added, an existing one is updated...
 async function loadConversations() {
-  let response = await myConversations() // TODO: errorhandling needed?
+  let response = await myConversations() 
+  
+  // TODO: errorhandling needed?
   conversations = response.myThreads
   me = response.user
 }
