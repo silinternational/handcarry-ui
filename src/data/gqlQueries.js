@@ -182,7 +182,7 @@ export function sendMessage(id, message) {
             id
             sender {
               id
-              firstName
+              nickname
             }
             content
             createdAt
