@@ -73,7 +73,7 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
         </small>
       </div>
     </div>
-    <div class="col-4 text-center">
+    <div class="col-4 text-right">
       {#if creator.id == me.id }
         {#if provider.nickname }
           User { provider.nickname } committed to bring this.
