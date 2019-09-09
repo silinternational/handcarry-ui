@@ -4,6 +4,10 @@ import { gql } from './api'
 export function user() {
   return gql(`{
     user {
+      firstName
+      lastName
+      email
+      nickname
       organizations {
         id
         name
