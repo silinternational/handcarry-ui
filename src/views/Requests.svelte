@@ -1,5 +1,5 @@
 <script>
-import { requests } from '../data/gqlQueries'
+import { getRequests } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
 import { format } from 'date-fns'
 </script>
@@ -48,7 +48,7 @@ tbody > tr {
         </tr>
       </thead>
       <tbody>
-        {#await requests()}
+        {#await getRequests()}
           <p>⏳ retrieving requests...</p>
         {:then data}
           {#each data.posts as request}

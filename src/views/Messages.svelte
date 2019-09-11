@@ -1,6 +1,6 @@
 <script>
 import Conversation from '../components/Conversation.svelte'
-import { myConversations } from '../data/gqlQueries'
+import { getMyConversations } from '../data/gqlQueries'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -23,7 +23,7 @@ $: messageFrom = participants => participants.filter(p => p.id !== me.id).map(p 
 // the api when a relevant change to conversations takes place, e.g., 
 // a conversation is expired, a new one is added, an existing one is updated...
 async function loadConversations() {
-  let response = await myConversations() 
+  let response = await getMyConversations() 
   
   // TODO: errorhandling needed?
   conversations = response.myThreads

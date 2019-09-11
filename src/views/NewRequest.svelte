@@ -1,5 +1,5 @@
 <script>
-import { user, createPost } from '../data/gqlQueries'
+import { getUser, createPost } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 
@@ -9,7 +9,7 @@ let me = {}; loadMe()
 let myOrgs = []
 
 async function loadMe() {
-    const response = await user()
+    const response = await getUser()
     me = response.user
     myOrgs = me.organizations
     request.viewableBy = myOrgs[0].id // needed a default

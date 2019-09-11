@@ -1,7 +1,6 @@
 import { gql } from './api'
-//TODO: need to make naming conventions consistent
 
-export function user() {
+export function getUser() {
   return gql(`{
     user {
       firstName
@@ -16,7 +15,7 @@ export function user() {
   }`)
 }
 
-export function requests() {
+export function getRequests() {
    return gql(`{
      posts {
        id
@@ -152,7 +151,7 @@ export function sendCommit(post) {
   `)
 }
 
-export function myConversations() {
+export function getMyConversations() {
   return gql(`{
     myThreads {
       id

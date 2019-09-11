@@ -1,10 +1,10 @@
 <script>
-import { user, createPost } from '../data/gqlQueries'
+import { getUser, createPost } from '../data/gqlQueries'
 
 let me = {}; loadMe()
 
 async function loadMe() {
-    const response = await user()
+    const response = await getUser()
     me = response.user
 }
 </script>
