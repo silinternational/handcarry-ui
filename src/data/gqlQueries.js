@@ -47,6 +47,7 @@ export function getRequest(id) {
       createdAt
       updatedAt
       createdBy {
+        id
         nickname
       }
       receiver {
@@ -61,6 +62,9 @@ export function getRequest(id) {
       threads {
         id
       }
+    }
+    user {
+      id
     }
   }`)
 }
@@ -146,6 +150,22 @@ export function sendCommit(post) {
         provider {
           nickname
         }
+      }
+    }
+  `)
+}
+
+export function cancelPost(postId) {
+  return gql(`
+    mutation {
+      updatePost(
+        input: {
+          id: "${postId}",
+          status: REMOVED
+        }
+      ) 
+      {
+        id
       }
     }
   `)
