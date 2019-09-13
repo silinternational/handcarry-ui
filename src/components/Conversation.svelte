@@ -1,6 +1,6 @@
 <script>
 import { formatDistanceToNow } from 'date-fns'
-import { sendMessage, sendCommit } from '../data/gqlQueries'
+import { sendMessage, sendCommit, acceptCommittment } from '../data/gqlQueries'
 
 export let me = {}
 export let conversation = {}
@@ -11,10 +11,13 @@ $: messages = conversation.messages || []
 
 let reply = ''
 
-function acceptCommitment() {
-  /** TODO: Change this to call an API when it's ready */
-
-  console.log(`Accepted user ${post.committedUserId}'s commitment to bring ${post.title}`)
+async function accept() {
+  try {
+    const response = await acceptCommittment(conversation.post.id)
+    post = response.updatePost
+  } catch (e) {
+    // TODO: need errorhandling
+  }
 }
 
 function asReadableDate(timestamp) {
@@ -77,10 +80,12 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
     <div class="col-4 text-right">
       {#if creator.id == me.id }
         {#if provider.nickname }
-          User { provider.nickname } committed to bring this.
-          <button class="btn btn-sm btn-outline-success" on:click={ acceptCommitment }>
-            Accept
-          </button>
+          { provider.nickname } committed to bring this.
+        {/if}
+        {#if post.status === 'COMMITTED' }
+        <button class="btn btn-sm btn-outline-success" on:click={ accept }>
+          Accept
+        </button>
         {/if}
       {:else}
         {#if provider.id == me.id }

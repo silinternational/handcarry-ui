@@ -138,6 +138,36 @@ export function sendCommit(postId) {
       ) 
       {
         id
+        status
+        title
+        createdBy {
+          id
+          nickname
+        }
+        destination
+        neededAfter
+        neededBefore
+        provider {
+          id
+          nickname
+        }
+      }
+    }
+  `)
+}
+
+export function acceptCommittment(postId) {
+  return gql(`
+    mutation {
+      updatePost(
+        input: {
+          id: "${postId}",
+          status: ACCEPTED
+        }
+      ) 
+      {
+        id
+        status
         title
         createdBy {
           id
@@ -181,6 +211,7 @@ export function getMyConversations() {
       }
       post {
         id
+        status
         title
         createdBy {
           id
