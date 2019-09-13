@@ -30,11 +30,12 @@ async function send() {
 }
 
 async function commit() {
-  conversation.post.provider = {
-    id: me.id
+  try {
+    const response = await sendCommit(conversation.post.id)
+    post = response.updatePost
+  } catch (e) {
+    // TODO: need errorhandling
   }
-
-  post = await sendCommit(conversation.post) //TODO: waiting on API 
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})

@@ -127,14 +127,13 @@ export function createPost(post) {
   `)
 }
 
-export function sendCommit(post) {
+export function sendCommit(postId) {
   return gql(`
     mutation {
       updatePost(
         input: {
-          id: "${post.id}",
-          providerID: "${post.provider.id}",
-          status: COMMIT
+          id: "${postId}",
+          status: COMMITTED
         }
       ) 
       {
@@ -148,6 +147,7 @@ export function sendCommit(post) {
         neededAfter
         neededBefore
         provider {
+          id
           nickname
         }
       }
@@ -190,6 +190,7 @@ export function getMyConversations() {
         neededAfter
         neededBefore
         provider {
+          id
           nickname
         }
       }
