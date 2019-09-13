@@ -73,6 +73,8 @@ export function getMyRequests() {
   return gql(`{
     user {
       posts(role: CREATEDBY) {
+        id
+        status
         title
         description
         destination
@@ -180,6 +182,22 @@ export function acceptCommittment(postId) {
           id
           nickname
         }
+      }
+    }
+  `)
+}
+
+export function confirmReceipt(postId) {
+  return gql(`
+    mutation {
+      updatePost(
+        input: {
+          id: "${postId}",
+          status: RECEIVED
+        }
+      ) 
+      {
+        id
       }
     }
   `)

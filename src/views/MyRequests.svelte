@@ -1,5 +1,5 @@
 <script>
-import { getMyRequests } from '../data/gqlQueries'
+import { getMyRequests, confirmReceipt } from '../data/gqlQueries'
 import { format } from 'date-fns'
 
 let requests = []; loadMyRequests()
@@ -8,6 +8,17 @@ async function loadMyRequests() {
   const response = await getMyRequests()
   requests = response.user.posts
 }
+
+async function received(request) {
+  try {
+    await confirmReceipt(request.id)
+    // TODO: not sure what the UX will be here yet.
+    loadMyRequests()
+  } catch (e) {
+    // TODO: need errorhandling
+  }
+}
+
 </script>
 
 <h2 class="pb-4">My Requests</h2>
@@ -31,15 +42,15 @@ async function loadMyRequests() {
               </h4>
             </div>
             <div class="col-4">
-              {#if request.provider}
-                <a class="btn btn-primary float-right disabled" href="#/requests" aria-pressed="true" role="button">Confirm Receipt</a>
-              {:else}
+              {#if request.status === 'COMMITTED'}
+                <button on:click={ () => received(request) } class="btn btn-primary float-right">Confirm Receipt</button>
+              {:else if ! request.provider.nickname}
                 <button class="btn btn-sm btn-outline-secondary float-right">No HandCourier yet</button>
               {/if}
             </div>
           </div>
 
-          {#if request.provider }
+          {#if request.provider.nickname }
             <div class="row">
               <div class="col pb-1">
                 To be delivered by:
