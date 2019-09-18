@@ -4,7 +4,9 @@ import polyglot from '../i18n'
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">
-   <a class="navbar-brand" href="/#/requests"><svg style="transform:rotate(-45deg);" class="lnr lnr-briefcase"><use alt="contact requestor" xlink:href="#lnr-briefcase"></use></svg> HandCarry</a>
+   <a class="navbar-brand" href="/">
+      <img src="/logo.jpg" alt="WeCarry logo">
+   </a>
    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
    </button>
