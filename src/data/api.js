@@ -1,5 +1,9 @@
 import token from './token';
-
+// TODO: image upload research:
+//  https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
+//  https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_forms_through_JavaScript#Using_XMLHttpRequest_and_the_FormData_object
+//  https://stackoverflow.com/questions/35192841/fetch-post-with-multipart-form-data
+//
 const BASE_API_URL = '<@BASE_API_URL@>'
 
 export async function gql(query) {
