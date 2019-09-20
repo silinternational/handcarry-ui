@@ -32,7 +32,7 @@ tbody > tr {
 <div class="row">
   <div class="col-12">
     <div class="alert alert-secondary" role="alert">
-      Here are your HandCarry requests, those you've committed to, and those still looking for a HandCourier.
+      Here are your WeCarry requests, those you've committed to, and those still looking for a HandCourier.
     </div>
 
     <table class="table table-hover">
