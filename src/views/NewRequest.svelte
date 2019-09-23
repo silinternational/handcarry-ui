@@ -2,6 +2,7 @@
 import { getUser, createPost } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
+import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
 
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 
@@ -43,7 +44,7 @@ async function onSubmit(event) {
         type: "REQUEST",
         title: request.title,
         description: request.description,
-        destination: request.destination,
+        destination: request.destination.formatted_address,
         size: request.size,
         neededAfter: request.neededAfter,
         neededBefore: request.neededBefore,
@@ -77,7 +78,7 @@ async function onSubmit(event) {
                 <svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker" /></svg>
               </span>
             </div>
-            <input bind:value={request.destination} class="form-control" required placeholder="City, State/Province, Country, or Region, etc." />
+            <GooglePlacesAutocomplete bind:value={ request.destination } placeholder="City, State/Province, Country, or Region, etc." styleClass="form-control" apiKey={process.env.GOOGLE_PLACES_API_KEY} />
           </div>
           <small class="form-text text-danger">Required</small>
         </div>

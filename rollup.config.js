@@ -4,7 +4,8 @@ import commonjs from 'rollup-plugin-commonjs'
 import livereload from 'rollup-plugin-livereload'
 import { terser } from 'rollup-plugin-terser'
 import json from 'rollup-plugin-json'
-import replace from 'rollup-plugin-replace'
+import dotenvPlugin from 'rollup-plugin-dotenv'
+
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -27,11 +28,8 @@ export default {
 			}
 		}),
 
-		replace({
-      include: './src/data/api.js',
-			delimiters: ['<@', '@>'],
-			BASE_API_URL: process.env.BASE_API_URL,
-		}),
+		// makes NAME=VALUE pairs in a .env file available in the app as process.env.<NAME> vars
+		dotenvPlugin(),
 		
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In

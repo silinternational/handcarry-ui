@@ -4,7 +4,6 @@ import token from './token';
 //  https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_forms_through_JavaScript#Using_XMLHttpRequest_and_the_FormData_object
 //  https://stackoverflow.com/questions/35192841/fetch-post-with-multipart-form-data
 //
-const BASE_API_URL = '<@BASE_API_URL@>'
 
 export async function gql(query) {
   const response = await wrappedFetch('gql', {
@@ -44,7 +43,7 @@ async function wrappedFetch(url, config = {}) {
   config.method = 'post'
   config.credentials = 'include' // ensures the response back from the api will be allowed to "set-cookie"
   
-  const response = await fetch(`${BASE_API_URL}/${url}`, config)
+  const response = await fetch(`${process.env.BASE_API_URL}/${url}`, config)
   // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
 
   // 401/403 => login?
