@@ -1,4 +1,4 @@
-# Handcarry app
+# WeCarry app
 
 ## Dependencies
 [Node](https://nodejs.org/en/download) and [Make](https://www.gnu.org/software/make)
@@ -14,7 +14,8 @@ Install the project dependencies and start a local server
 make
 ``` 
 
-Navigate to [http://handcarry.local:5000](http://http://handcarry.local:5000). You should see your app running. Edit a component file in `src`, save it, and the page will automatically reload with your changes.
+
+Navigate to [http://wecarry.local:5000](http://wecarry.local:5000). You should see your app running. Edit a component file in `src`, save it, and the page will automatically reload with your changes.
 
 ## Deployment
 

@@ -1,15 +1,15 @@
 init()
 
 export default {
-  authzHeader: () => `${get('token_type')} ${get('key') + get('access_token')}`,
+  authzHeader: () => `${get('token-type')} ${get('key') + get('access-token')}`,
   key: () => get('key'),
   reset,
 }
 
 function init() {
   set('key', createKey())
-  set('token_type', 'Bearer')
-  set('access_token')
+  set('token-type', 'Bearer')
+  set('access-token')
   // TODO: need to grab the expiry and then setup an automatic logout at that time.
 }
 
@@ -34,6 +34,6 @@ function set(key, defaultValue = '') {
 }
 
 function reset() {
-  sessionStorage.removeItem('token_type')
-  sessionStorage.removeItem('access_token')
+  sessionStorage.removeItem('token-type')
+  sessionStorage.removeItem('access-token')
 }

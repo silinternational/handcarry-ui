@@ -88,7 +88,7 @@ async function onSubmit(event) {
         <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
           <label>Viewable By <svg class="lnr lnr-question-circle"> <use xlink:href="#lnr-question-circle" /></svg></label>
           <select bind:value={request.viewableBy} class="form-control" data-toggle="tooltip" data-placement="top"
-                  title="If your request is viewable by all trusted orgs, any organization using HandCarry can see it. These organizations have an agreement with your organization.">
+                  title="If your request is viewable by all trusted orgs, any organization using WeCarry can see it. These organizations have an agreement with your organization.">
             {#each myOrgs as org}
             <option value={org.id} selected>{org.name}</option>
             {/each}

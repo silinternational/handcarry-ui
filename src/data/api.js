@@ -18,10 +18,10 @@ export async function gql(query) {
 export async function login(email, returnTo) {
   token.reset()
 
-  let loginUrl = `auth/login?client_id=${token.key()}&authEmail=${email}`
+  let loginUrl = `auth/login?client-id=${token.key()}&auth-email=${email}`
 
   if (returnTo) {
-    loginUrl += `&ReturnTo=${returnTo}`
+    loginUrl += `&return-to=${returnTo}`
   }
 
   const response = await wrappedFetch(loginUrl)

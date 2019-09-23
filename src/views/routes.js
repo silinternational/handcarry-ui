@@ -7,11 +7,13 @@ import RequestInfo from './RequestInfo.svelte'
 import MyRequests from './MyRequests.svelte'
 import NewConversation from './NewConversation.svelte'
 import Login from './Login.svelte'
+import Welcome from './Welcome.svelte'
 
 // https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
 	'/': Login,
 	'/login': Login,
+	'/welcome': Welcome,
 	'/requests': Requests,
 	'/requests/mine': MyRequests,
 	'/requests/new': NewRequest,
