@@ -19,6 +19,10 @@ async function received(request) {
   }
 }
 
+function hasProvider(request) {
+  return request.provider && request.provider.nickname;
+}
+
 </script>
 
 <h2 class="pb-4">My Requests</h2>
@@ -44,13 +48,13 @@ async function received(request) {
             <div class="col-4">
               {#if request.status === 'COMMITTED'}
                 <button on:click={ () => received(request) } class="btn btn-primary float-right">Confirm Receipt</button>
-              {:else if ! request.provider.nickname}
+              {:else if ! hasProvider(request)}
                 <button class="btn btn-sm btn-outline-secondary float-right">No HandCourier yet</button>
               {/if}
             </div>
           </div>
 
-          {#if request.provider.nickname }
+          {#if hasProvider(request) }
             <div class="row">
               <div class="col pb-1">
                 To be delivered by:
