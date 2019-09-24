@@ -3,6 +3,12 @@ import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/
 import polyglot from '../i18n'
 </script>
 
+<style>
+.nav-link .lnr:hover {
+  padding: 3px;
+}
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">
    <a class="navbar-brand" href="/">
       <img src="/logo.jpg" alt="WeCarry logo">
