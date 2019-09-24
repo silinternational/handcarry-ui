@@ -10,13 +10,13 @@ import { format } from 'date-fns'
   </div>
   <div class="col-6">
     <div class="float-right">
-      <a class="btn btn-primary" href="/#/requests" aria-pressed="true" role="button">
+      <a class="btn btn-sm btn-primary mx-1" href="/#/requests" aria-pressed="true" role="button">
         All
       </a>
-      <a class="btn btn-outline-primary" href="/#/requests/mine" role="button">
+      <a class="btn btn-sm btn-outline-primary mx-1" href="/#/requests/mine" role="button">
         My Requests
       </a>      
-      <a class="btn btn-outline-primary" href="/#/requests/new" role="button">
+      <a class="btn btn-sm btn-outline-primary mx-1" href="/#/requests/new" role="button">
         Add
       </a>
     </div>
