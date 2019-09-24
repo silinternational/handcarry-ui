@@ -63,7 +63,7 @@ function asReadableDate(timestamp) {
       <footer class="blockquote-footer">{ requestorNickname }</footer>
     </blockquote>
     {#if url }
-      <p>{ url }</p>
+      <p><a href="{ url }" target="_blank">{ url }</a></p>
     {/if}
   </div>
   
