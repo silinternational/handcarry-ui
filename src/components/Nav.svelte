@@ -9,7 +9,7 @@ import polyglot from '../i18n'
 }
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">
+<nav class="navbar navbar-expand-md navbar-light bg-light py-0 mb-4">
    <a class="navbar-brand" href="/">
       <img src="/logo.svg" alt="WeCarry logo" style="height: 2rem; width: auto;" />
    </a>
