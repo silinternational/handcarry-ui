@@ -45,6 +45,12 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
 </script>
 
 <style>
+.card-body > .card-footer {
+  /* Counter the padding added by .card-body for the "Reply" section. */
+  margin-right: -1.25rem;
+  margin-bottom: -1.25rem;
+  margin-left: -1.25rem;
+}
 .message-content {
   border: 1px solid #ccc;
   border-radius: 12px 12px 12px 0;
