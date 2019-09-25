@@ -54,7 +54,7 @@ function asReadableDate(timestamp) {
 }
 </script>
 
-<h2 class="text-center m-4">{ title }</h2>
+<h2 class="text-center">{ title }</h2>
 
 <div class="row">
   <div class="col">

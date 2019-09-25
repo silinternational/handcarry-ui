@@ -9,9 +9,9 @@ import polyglot from '../i18n'
 }
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-2">
+<nav class="navbar navbar-expand-md navbar-light bg-light py-0 mb-4">
    <a class="navbar-brand" href="/">
-      <img src="/logo.jpg" alt="WeCarry logo">
+      <img src="/logo.svg" alt="WeCarry logo" style="height: 2rem; width: auto;" />
    </a>
    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
