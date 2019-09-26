@@ -1,5 +1,6 @@
 <script>
 import Conversation from '../components/Conversation.svelte'
+import MessageListEntry from '../components/MessageListEntry.svelte'
 import { getMyConversations } from '../data/gqlQueries'
 
 export let params = {} // URL path parameters, provided by router.
@@ -13,11 +14,6 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 //        2.  no params.id was provided => default to the first conversations if there are conversations.
 //        3.  the prarams.id provided doesn't match any of the conversations => show conversations list without selecting any
 //        4.  the prarams.id matches one of the conversations => select that one
-
-$: isCreatedByMe = post => post.createdBy.id === me.id
-$: isProvidedByMe = post => post.provider && post.provider.id === me.id
-$: creator = post => post.createdBy && post.createdBy.nickname
-$: messageFrom = participants => participants.filter(p => p.id !== me.id).map(p => p.nickname).join(', ')
 
 // TODO: would like to establish a web socket here to receive messages from 
 // the api when a relevant change to conversations takes place, e.g., 
@@ -47,13 +43,7 @@ async function loadConversations() {
   <div class="col-sm-5 col-lg-4">
     <div class="list-group list-group-flush">
       {#each conversations as conversation}
-        <a href="#/messages/{ conversation.id }" class:active={ selectedConversation.id === conversation.id } class="list-group-item list-group-item-action">
-          { conversation.post.title } – { `${ isCreatedByMe(conversation.post) ? messageFrom(conversation.participants) : creator(conversation.post) }` }
-
-          {#if isProvidedByMe(conversation.post)}
-          <svg class="lnr lnr-checkmark-circle"><use xlink:href="#lnr-checkmark-circle"></use></svg>
-          {/if}
-        </a>
+        <MessageListEntry {conversation} {me} active={ selectedConversation.id === conversation.id } />
       {/each}
 
       {#if conversations.length < 1 }
