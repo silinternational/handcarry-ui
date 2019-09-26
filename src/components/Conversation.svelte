@@ -51,14 +51,6 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
   margin-bottom: -1.25rem;
   margin-left: -1.25rem;
 }
-.chat-input,
-.chat-input:focus {
-  background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 1em;
-  box-shadow: none;
-  padding: 0.75em;
-}
 .message-content {
   border: 1px solid #ccc;
   border-radius: 12px 12px 12px 0;
@@ -136,7 +128,7 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
         <div class="col">
           <label class="sr-only" for="replyField">Reply</label>
 
-          <input bind:value={ reply } class="form-control chat-input"
+          <input bind:value={ reply } class="form-control mb-2 mr-sm-2"
                  placeholder="Reply" autocomplete="off" />
         </div>
         <div class="col-auto">

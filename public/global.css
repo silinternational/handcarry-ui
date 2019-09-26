@@ -15,8 +15,6 @@
 
     --danger: #e0221f;
     --red: #e0221f;
-    
-    font-size: 20px; /* Affects all rem units by defining the size of 1 root element (rem). */
 }
 
 body {
@@ -32,12 +30,6 @@ h3{
 }
 
 /* Bootstrap */
-.btn {
-    padding: 0.5rem 0.75rem;
-}
-.form-control {
-    height: calc(1.5em + 1rem);
-}
 .form-control:focus {
     border-color: var(--blue);
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px var(--blue);
