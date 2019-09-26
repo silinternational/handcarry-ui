@@ -56,6 +56,7 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
   border-radius: 12px 12px 12px 0;
   display: inline-block;
   padding: 4px 8px;
+  white-space: pre-wrap;
 }
 .text-right .message-content {
   border-radius: 12px 12px 0 12px;

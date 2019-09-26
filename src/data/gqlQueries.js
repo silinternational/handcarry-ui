@@ -263,7 +263,7 @@ export function sendMessage(id, message) {
     mutation {
       createMessage(input: {
         threadID: "${id}",
-        content: "${message}",
+        content: """${message}""",
         postID: ""
       }) 
       {
@@ -288,7 +288,7 @@ export function startConversation(postId, message) {
     mutation {
       createMessage(input: {
         postID: "${postId}",
-        content: "${message}"
+        content: """${message}"""
       })
       {
         thread { id }
