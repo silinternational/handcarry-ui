@@ -8,6 +8,7 @@ import MyRequests from './MyRequests.svelte'
 import NewConversation from './NewConversation.svelte'
 import Login from './Login.svelte'
 import Welcome from './Welcome.svelte'
+import UploadPlayground from './UploadPlayground.svelte'
 
 // https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
@@ -23,6 +24,7 @@ const routes = {
 	'/messages': Messages,
 	'/messages/:id': Messages,
 	'/profile': Profile,
+	'/upload': UploadPlayground,
  }
 
 export default routes
