@@ -2,18 +2,27 @@
 import Conversation from '../components/Conversation.svelte'
 import MessageListEntry from '../components/MessageListEntry.svelte'
 import { getMyConversations } from '../data/gqlQueries'
+import { replace } from 'svelte-spa-router'
 
 export let params = {} // URL path parameters, provided by router.
 
 let conversations = []; loadConversations()
 let me = {}
 
-$: selectedConversation = conversations.find(conversation => conversation.id === params.id) || conversations[0] || {} 
+$: selectedConversation = conversations.find(conversation => conversation.id === params.id) || {}
 // TODO: need to address the following scenarios:
 //        1.  no conversations exist => show a message
 //        2.  no params.id was provided => default to the first conversations if there are conversations.
 //        3.  the prarams.id provided doesn't match any of the conversations => show conversations list without selecting any
 //        4.  the prarams.id matches one of the conversations => select that one
+
+$: if (urlHasNoId(params) && conversations[0]) {
+  replace('/messages/' + conversations[0].id)
+}
+
+function urlHasNoId(params) {
+  return ! (params.postid || params.id)
+}
 
 // TODO: would like to establish a web socket here to receive messages from 
 // the api when a relevant change to conversations takes place, e.g., 
