@@ -6,6 +6,7 @@
 	height: 1.8em;
 	width: 1.8em;
 	margin: auto;
+	text-align: center;
 }
 </style>
 
