@@ -142,7 +142,7 @@ function asReadableDate(timestamp) {
     {#if isMine()}
       <button on:click={cancel} class="btn btn-danger btn-sm m-1">Cancel this request</button>
     {:else}
-      <a href={`${window.location.hash}/new-conversation?with=${requestor.nickname}`} class="btn btn-success btn-sm m-1" role="button">
+      <a href="#/messages/new-conversation/{ params.id }" class="btn btn-success btn-sm m-1" role="button">
         Chat with { requestor.nickname } about this
       </a>
     {/if}
