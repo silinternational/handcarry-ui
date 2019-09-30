@@ -33,6 +33,7 @@ export function getRequest(id) {
   // TODO: not sure what's actually needed here, just provided many of the properties as a default
   return gql(`{
     post(id: "${id}") {
+      id
       title
       description
       destination
@@ -258,16 +259,17 @@ export function getMyConversations() {
   }`)
 }
 
-export function sendMessage(id, message) {
+export function sendMessage(threadId, message, postId) {
   return gql(`
     mutation {
       createMessage(input: {
-        threadID: "${id}",
+        threadID: "${threadId || ''}",
         content: """${message}""",
-        postID: ""
+        postID: "${postId || ''}"
       }) 
       {
         thread {
+          id
           messages {
             id
             sender {
@@ -278,20 +280,6 @@ export function sendMessage(id, message) {
             createdAt
           }
         }    
-      }
-    }
-  `)
-}
-
-export function startConversation(postId, message) {
-  return gql(`
-    mutation {
-      createMessage(input: {
-        postID: "${postId}",
-        content: """${message}"""
-      })
-      {
-        thread { id }
       }
     }
   `)

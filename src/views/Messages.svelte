@@ -1,23 +1,41 @@
 <script>
 import Conversation from '../components/Conversation.svelte'
-import { getMyConversations } from '../data/gqlQueries'
+import MessageListEntry from '../components/MessageListEntry.svelte'
+import { getMyConversations, getRequest } from '../data/gqlQueries'
+import { replace } from 'svelte-spa-router'
 
 export let params = {} // URL path parameters, provided by router.
 
 let conversations = []; loadConversations()
 let me = {}
+let potentialConversation = {}
 
-$: selectedConversation = conversations.find(conversation => conversation.id === params.id) || conversations[0] || {} 
+$: defaultConversation = params.postId ? potentialConversation : {}
+$: selectedConversation = conversations.find(conversation => conversation.id === params.id) || defaultConversation
 // TODO: need to address the following scenarios:
 //        1.  no conversations exist => show a message
 //        2.  no params.id was provided => default to the first conversations if there are conversations.
 //        3.  the prarams.id provided doesn't match any of the conversations => show conversations list without selecting any
 //        4.  the prarams.id matches one of the conversations => select that one
 
-$: isCreatedByMe = post => post.createdBy.id === me.id
-$: isProvidedByMe = post => post.provider && post.provider.id === me.id
-$: creator = post => post.createdBy && post.createdBy.nickname
-$: messageFrom = participants => participants.filter(p => p.id !== me.id).map(p => p.nickname).join(', ')
+$: if (params.postId) {
+  loadPotentialConversationDetails()
+}
+
+$: if (urlHasNoId(params) && conversations[0]) {
+  replace('/messages/' + conversations[0].id)
+}
+
+function urlHasNoId(params) {
+  return ! (params.postId || params.id)
+}
+
+async function loadPotentialConversationDetails() {
+  let response = await getRequest(params.postId)
+  potentialConversation = {
+    post: response.post
+  }
+}
 
 // TODO: would like to establish a web socket here to receive messages from 
 // the api when a relevant change to conversations takes place, e.g., 
@@ -28,6 +46,24 @@ async function loadConversations() {
   // TODO: errorhandling needed?
   conversations = response.myThreads
   me = response.user
+  
+  if (params.postId) {
+    let matchingConversation = conversations.find(conversation => conversation.post.id === params.postId)
+    if (matchingConversation) {
+        replace('/messages/' + matchingConversation.id)
+    }
+  }
+}
+
+function onConversationStarted(event) {
+  let newConversation = potentialConversation
+  potentialConversation = {}
+  
+  newConversation.id = event.detail.id
+  newConversation.messages = event.detail.messages
+  
+  conversations[conversations.length] = newConversation
+  replace('/messages/' + newConversation.id)
 }
 </script>
 
@@ -47,13 +83,7 @@ async function loadConversations() {
   <div class="col-sm-5 col-lg-4">
     <div class="list-group list-group-flush">
       {#each conversations as conversation}
-        <a href="#/messages/{ conversation.id }" class:active={ selectedConversation.id === conversation.id } class="list-group-item list-group-item-action">
-          { conversation.post.title } – { `${ isCreatedByMe(conversation.post) ? messageFrom(conversation.participants) : creator(conversation.post) }` }
-
-          {#if isProvidedByMe(conversation.post)}
-          <svg class="lnr lnr-checkmark-circle"><use xlink:href="#lnr-checkmark-circle"></use></svg>
-          {/if}
-        </a>
+        <MessageListEntry {conversation} {me} active={ selectedConversation.id === conversation.id } />
       {/each}
 
       {#if conversations.length < 1 }
@@ -62,8 +92,8 @@ async function loadConversations() {
     </div>
   </div>
   <div class="col-sm-7 col-lg-8">
-    <div class="tab-content card conversation-card" class:conversation-card-empty={ ! selectedConversation.id }>
-      <Conversation { me } conversation={ selectedConversation } />
+    <div class="tab-content card conversation-card" class:conversation-card-empty={ ! selectedConversation.post }>
+      <Conversation { me } conversation={ selectedConversation } on:new={ onConversationStarted } />
     </div>
   </div>
 </div>

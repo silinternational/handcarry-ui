@@ -1,6 +1,9 @@
 <script>
 import { formatDistanceToNow } from 'date-fns'
 import { sendMessage, sendCommit, acceptCommittment } from '../data/gqlQueries'
+import { createEventDispatcher } from 'svelte';
+
+const dispatch = createEventDispatcher();
 
 export let me = {}
 export let conversation = {}
@@ -26,9 +29,17 @@ function asReadableDate(timestamp) {
 
 async function send() {
   if (reply !== '') {
-    const response = await sendMessage(conversation.id, reply)
-    messages = response.createMessage.thread.messages
+    let isNewConversation = !conversation.id
+    const response = await sendMessage(conversation.id, reply, post.id)
+    conversation.messages = response.createMessage.thread.messages
     reply = ''
+    
+    if (isNewConversation) {
+      dispatch('new', {
+        id: response.createMessage.thread.id,
+        messages: response.createMessage.thread.messages
+      })
+    }
   }
 }
 
@@ -42,6 +53,10 @@ async function commit() {
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})
+
+function focusOnCreate(element) {
+  element.focus()
+}
 </script>
 
 <style>
@@ -64,22 +79,22 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
 </style>
 
 <div class="tab-pane card-body active">
-  {#if ! conversation.id}
+  {#if ! conversation.post}
   <p class="text-center"><i>Please select a conversation to see its messages</i></p>
   {:else}
   <div class="row">
     <div class="col">
-      <h3 class="text-center pb-2">{ post.title }</h3>
+      <h3 class="text-center">{ post.title }</h3>
 
       <div class="text-center">
         <small>
-          { post.destination }
+          <b>{ post.createdBy.nickname }</b> @ { post.destination }<br />
           {#if post.neededAfter && post.neededBefore }
-            | between { asReadableDate(post.neededAfter) } and { asReadableDate(post.neededBefore) }
+            between { asReadableDate(post.neededAfter) } and { asReadableDate(post.neededBefore) }
           {:else if post.neededAfter }
-            | after { asReadableDate(post.neededAfter) }
+            after { asReadableDate(post.neededAfter) }
           {:else if post.neededBefore }
-            | before { asReadableDate(post.neededBefore) }
+            before { asReadableDate(post.neededBefore) }
           {/if}
         </small>
       </div>
@@ -130,7 +145,7 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
           <label class="sr-only" for="replyField">Reply</label>
 
           <input bind:value={ reply } class="form-control mb-2 mr-sm-2"
-                 placeholder="Reply" autocomplete="off" />
+                 placeholder="Reply" autocomplete="off" use:focusOnCreate />
         </div>
         <div class="col-auto">
           <button type="submit" class="btn btn-primary mb-2">Send</button>

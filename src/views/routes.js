@@ -5,7 +5,6 @@ import NewRequest from './NewRequest.svelte'
 import Requests from './Requests.svelte'
 import RequestInfo from './RequestInfo.svelte'
 import MyRequests from './MyRequests.svelte'
-import NewConversation from './NewConversation.svelte'
 import Login from './Login.svelte'
 import Welcome from './Welcome.svelte'
 import UploadPlayground from './UploadPlayground.svelte'
@@ -19,10 +18,10 @@ const routes = {
 	'/requests/mine': MyRequests,
 	'/requests/new': NewRequest,
 	'/requests/:id': RequestInfo,
-	'/requests/:id/new-conversation': NewConversation,
 	'/commitments': Commitments,
 	'/messages': Messages,
 	'/messages/:id': Messages,
+	'/messages/new-conversation/:postId': Messages,
 	'/profile': Profile,
 	'/upload': UploadPlayground,
  }
