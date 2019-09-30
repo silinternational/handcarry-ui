@@ -108,7 +108,7 @@ async function onSubmit(event) {
       </div>
 
       <div class="row">
-        <div class="col-sm-12 col-lg-2 col-xl-4">
+        <div class="col-sm-12 col-lg-4 col-xl-4">
           <label>Approximate Cost</label>
           <div class="input-group">
             <div class="input-group-prepend">
