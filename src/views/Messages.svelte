@@ -70,7 +70,8 @@ function onConversationStarted(event) {
 <style>
 .conversation-card {
   border: 2px solid #007bff;
-  border-radius: revert;
+  border-top-left-radius: initial; /* blends the corner nicely with a msg list entry */
+  border-top-right-radius: initial; /* blends the corner nicely with a msg list entry (on phones) */
 }
 .conversation-card-empty {
   border-color: #999;
