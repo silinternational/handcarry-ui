@@ -69,17 +69,17 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
   {:else}
   <div class="row">
     <div class="col">
-      <h3 class="text-center pb-2">{ post.title }</h3>
+      <h3 class="text-center">{ post.title }</h3>
 
       <div class="text-center">
         <small>
-          { post.destination }
+          <b>{ post.createdBy.nickname }</b> @ { post.destination }<br />
           {#if post.neededAfter && post.neededBefore }
-            | between { asReadableDate(post.neededAfter) } and { asReadableDate(post.neededBefore) }
+            between { asReadableDate(post.neededAfter) } and { asReadableDate(post.neededBefore) }
           {:else if post.neededAfter }
-            | after { asReadableDate(post.neededAfter) }
+            after { asReadableDate(post.neededAfter) }
           {:else if post.neededBefore }
-            | before { asReadableDate(post.neededBefore) }
+            before { asReadableDate(post.neededBefore) }
           {/if}
         </small>
       </div>
