@@ -21,6 +21,9 @@ export function getRequests() {
        id
        title
        destination
+       createdBy {
+         nickname
+       }
        neededAfter
        neededBefore
        category
