@@ -33,6 +33,7 @@ export function getRequest(id) {
   // TODO: not sure what's actually needed here, just provided many of the properties as a default
   return gql(`{
     post(id: "${id}") {
+      id
       title
       description
       destination
@@ -268,6 +269,7 @@ export function sendMessage(threadId, message, postId) {
       }) 
       {
         thread {
+          id
           messages {
             id
             sender {
