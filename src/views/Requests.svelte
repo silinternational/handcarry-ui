@@ -37,9 +37,9 @@ tbody > tr {
     {#await getRequests()}
       <p>⏳ retrieving requests...</p>
     {:then data}
-      <div class="row">
+      <div class="d-flex justify-content-around flex-wrap">
         {#each data.posts as request}
-          <div class="col-12 col-sm-6 col-lg-4 my-3"><RequestTile {request} /></div>
+          <div class="m-1 flex-fill"><RequestTile {request} /></div>
         {/each}
       </div>
     {:catch error}

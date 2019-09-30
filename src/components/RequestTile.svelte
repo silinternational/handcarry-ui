@@ -14,6 +14,7 @@ let size = request.size
 .request-tile {
   border-color: #444444;
   cursor: pointer;
+  max-width: 360px;
 }
 </style>
 
