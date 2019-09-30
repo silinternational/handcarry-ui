@@ -46,6 +46,13 @@ async function loadConversations() {
   // TODO: errorhandling needed?
   conversations = response.myThreads
   me = response.user
+  
+  if (params.postid) {
+    let matchingConversation = conversations.find(conversation => conversation.post.id === params.postid)
+    if (matchingConversation) {
+        replace('/messages/' + matchingConversation.id)
+    }
+  }
 }
 
 function onConversationStarted(event) {
