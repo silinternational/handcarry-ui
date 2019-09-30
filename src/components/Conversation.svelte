@@ -31,7 +31,7 @@ async function send() {
   if (reply !== '') {
     let isNewConversation = !conversation.id
     const response = await sendMessage(conversation.id, reply, post.id)
-    messages = response.createMessage.thread.messages
+    conversation.messages = response.createMessage.thread.messages
     reply = ''
     
     if (isNewConversation) {
