@@ -284,17 +284,3 @@ export function sendMessage(threadId, message, postId) {
     }
   `)
 }
-
-export function startConversation(postId, message) {
-  return gql(`
-    mutation {
-      createMessage(input: {
-        postID: "${postId}",
-        content: """${message}"""
-      })
-      {
-        thread { id }
-      }
-    }
-  `)
-}
