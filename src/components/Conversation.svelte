@@ -36,7 +36,8 @@ async function send() {
     
     if (isNewConversation) {
       dispatch('new', {
-        conversation: response.createMessage.thread
+        id: response.createMessage.thread.id,
+        messages: response.createMessage.thread.messages
       })
     }
   }
