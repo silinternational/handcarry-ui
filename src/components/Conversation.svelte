@@ -1,6 +1,9 @@
 <script>
 import { formatDistanceToNow } from 'date-fns'
 import { sendMessage, sendCommit, acceptCommittment } from '../data/gqlQueries'
+import { createEventDispatcher } from 'svelte';
+
+const dispatch = createEventDispatcher();
 
 export let me = {}
 export let conversation = {}
@@ -26,9 +29,16 @@ function asReadableDate(timestamp) {
 
 async function send() {
   if (reply !== '') {
+    let isNewConversation = !conversation.id
     const response = await sendMessage(conversation.id, reply, post.id)
     messages = response.createMessage.thread.messages
     reply = ''
+    
+    if (isNewConversation) {
+      dispatch('new', {
+        conversation: response.createMessage.thread
+      })
+    }
   }
 }
 
