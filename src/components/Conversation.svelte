@@ -53,6 +53,10 @@ async function commit() {
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})
+
+function focusOnCreate(element) {
+  element.focus()
+}
 </script>
 
 <style>
@@ -141,7 +145,7 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
           <label class="sr-only" for="replyField">Reply</label>
 
           <input bind:value={ reply } class="form-control mb-2 mr-sm-2"
-                 placeholder="Reply" autocomplete="off" />
+                 placeholder="Reply" autocomplete="off" use:focusOnCreate />
         </div>
         <div class="col-auto">
           <button type="submit" class="btn btn-primary mb-2">Send</button>
