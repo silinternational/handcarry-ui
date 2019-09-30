@@ -26,7 +26,7 @@ function asReadableDate(timestamp) {
 
 async function send() {
   if (reply !== '') {
-    const response = await sendMessage(conversation.id, reply)
+    const response = await sendMessage(conversation.id, reply, post.id)
     messages = response.createMessage.thread.messages
     reply = ''
   }

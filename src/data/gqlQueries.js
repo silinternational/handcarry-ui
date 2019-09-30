@@ -258,13 +258,13 @@ export function getMyConversations() {
   }`)
 }
 
-export function sendMessage(id, message) {
+export function sendMessage(threadId, message, postId) {
   return gql(`
     mutation {
       createMessage(input: {
-        threadID: "${id}",
+        threadID: "${threadId || ''}",
         content: """${message}""",
-        postID: ""
+        postID: "${postId || ''}"
       }) 
       {
         thread {
