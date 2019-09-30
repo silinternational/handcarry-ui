@@ -10,7 +10,7 @@ let conversations = []; loadConversations()
 let me = {}
 let potentialConversation = {}
 
-$: defaultConversation = params.postid ? potentialConversation : {}
+$: defaultConversation = params.postId ? potentialConversation : {}
 $: selectedConversation = conversations.find(conversation => conversation.id === params.id) || defaultConversation
 // TODO: need to address the following scenarios:
 //        1.  no conversations exist => show a message
@@ -18,7 +18,7 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 //        3.  the prarams.id provided doesn't match any of the conversations => show conversations list without selecting any
 //        4.  the prarams.id matches one of the conversations => select that one
 
-$: if (params.postid) {
+$: if (params.postId) {
   loadPotentialConversationDetails()
 }
 
@@ -27,11 +27,11 @@ $: if (urlHasNoId(params) && conversations[0]) {
 }
 
 function urlHasNoId(params) {
-  return ! (params.postid || params.id)
+  return ! (params.postId || params.id)
 }
 
 async function loadPotentialConversationDetails() {
-  let response = await getRequest(params.postid)
+  let response = await getRequest(params.postId)
   potentialConversation = {
     post: response.post
   }
@@ -47,8 +47,8 @@ async function loadConversations() {
   conversations = response.myThreads
   me = response.user
   
-  if (params.postid) {
-    let matchingConversation = conversations.find(conversation => conversation.post.id === params.postid)
+  if (params.postId) {
+    let matchingConversation = conversations.find(conversation => conversation.post.id === params.postId)
     if (matchingConversation) {
         replace('/messages/' + matchingConversation.id)
     }

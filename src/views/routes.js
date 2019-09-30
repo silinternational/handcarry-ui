@@ -21,7 +21,7 @@ const routes = {
 	'/commitments': Commitments,
 	'/messages': Messages,
 	'/messages/:id': Messages,
-	'/messages/new-conversation/:postid': Messages,
+	'/messages/new-conversation/:postId': Messages,
 	'/profile': Profile,
 	'/upload': UploadPlayground,
  }
