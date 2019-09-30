@@ -64,7 +64,7 @@ const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), 
 </style>
 
 <div class="tab-pane card-body active">
-  {#if ! conversation.id}
+  {#if ! conversation.post}
   <p class="text-center"><i>Please select a conversation to see its messages</i></p>
   {:else}
   <div class="row">
