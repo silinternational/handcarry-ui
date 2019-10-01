@@ -22,7 +22,7 @@ let size = request.size
 
   <div class="row">
     <div class="col">
-      <img src={ request.imageUrl } aria-label="Photo of an example" class:d-none={ !request.imageUrl } />
+      <img src={ request.imageUrl } alt="Photo of an example" class:d-none={ !request.imageUrl } />
     </div>
     
     <div class="col-4 text-center">
