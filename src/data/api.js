@@ -1,16 +1,38 @@
 import token from './token';
-// TODO: image upload research:
-//  https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file
-//  https://developer.mozilla.org/en-US/docs/Learn/HTML/Forms/Sending_forms_through_JavaScript#Using_XMLHttpRequest_and_the_FormData_object
-//  https://stackoverflow.com/questions/35192841/fetch-post-with-multipart-form-data
-//
+
+// https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
+async function wrappedFetch(url, body) {
+  const headers = {
+    authorization: token.authzHeader(),
+  }
+
+  // boundary information was missing when setting content-type to 'multipart/form-data` so 
+  // the content-type should not be set at all so the browser can set the request up appropriately
+  // when dealing with FormData, i.e., when uploading files
+  if (!(body instanceof FormData)) {
+    headers['content-type'] = 'application/json'
+  }
+
+  const response = await fetch(`${process.env.BASE_API_URL}/${url}`, {
+    method: 'post',
+    credentials: 'include', // ensures the response back from the api will be allowed to "set-cookie"
+    headers,
+    body,
+  })
+  // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
+
+  // 401/403 => login?
+  // ! ok => throw
+  
+  return await response.json()
+}
 
 export async function gql(query) {
-  const response = await wrappedFetch('gql', {
-    body: JSON.stringify({
-      query
-    }),
+  const body = JSON.stringify({
+    query
   })
+  
+  const response = await wrappedFetch('gql', body)
 
   return response.data
 }
@@ -33,21 +55,6 @@ export async function login(email, returnTo) {
   window.location = response.RedirectURL
 }
 
-// https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
-async function wrappedFetch(url, config = {}) {
-  config.headers = {
-    'content-type': 'application/json',
-    authorization: token.authzHeader(),
-  }
-  
-  config.method = 'post'
-  config.credentials = 'include' // ensures the response back from the api will be allowed to "set-cookie"
-  
-  const response = await fetch(`${process.env.BASE_API_URL}/${url}`, config)
-  // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
-
-  // 401/403 => login?
-  // ! ok => throw
-  
-  return response.json()
+export async function upload(formData) {
+  return await wrappedFetch('upload', formData)
 }
