@@ -22,8 +22,6 @@ let request = {
     title: '',
     destination: '',
     description: '',
-    neededAfter: format(Date.now(), 'yyyy-MM-dd'),
-    neededBefore: format(addMonths(Date.now(), 1), 'yyyy-MM-dd'), 
     size: '',
     image: '',
     weight: 0,
@@ -43,8 +41,6 @@ async function onSubmit(event) {
         description: request.description,
         destination: request.destination.formatted_address,
         size: request.size,
-        neededAfter: request.neededAfter,
-        neededBefore: request.neededBefore,
     })
 
     push(`/requests`)
