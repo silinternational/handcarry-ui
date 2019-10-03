@@ -6,7 +6,7 @@
 ## Local development
 This project utilizes [Rollup](https://rollupjs.org) for its builds
 
-> Ensure your `etc/hosts` has a `handcarry.local` alias to localhost
+> Ensure your `etc/hosts` has a `handcarry.local` and `minio` alias to localhost
 > `cp .env.example .env` and update the values as needed
 
 Install the project dependencies and start a local server

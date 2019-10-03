@@ -1,13 +1,11 @@
 <script>
-export let user;
+export let user
 
-let nickname = user.nickname || ''
+$: initial = Array.from(user.nickname)[0]
 </script>
 
-<div class="text-truncate">
-  {#if user.imageUrl }
-    <img src={ user.imageUrl } alt="{ nickname }" />
-  {:else}
-    <i>{ nickname }</i>
-  {/if}
-</div>
+{#if user.photoURL }
+<img src={ user.photoURL } alt="{ user.nickname }" />
+{:else}
+<span>{ initial }</span>
+{/if}
