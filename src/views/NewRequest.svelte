@@ -57,7 +57,7 @@ async function onSubmit(event) {
 
 <h2 class="mb-3">Make a Request</h2>
 
-<form on:submit|preventDefault={onSubmit}>
+<form on:submit|preventDefault={onSubmit} autocomplete="off">
 
   {#if errorMessage}
     <div class="alert alert-danger">{ errorMessage }</div>
