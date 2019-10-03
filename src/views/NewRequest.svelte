@@ -42,6 +42,7 @@ function validate(request) {
   assertHas(request.title, 'Please tell us what you are requesting')
   assertHas(request.destination, 'Please provide a destination')
   assertHas(request.size, 'Please tell us the size of the item you are requesting')
+  errorMessage = ''
 }
 
 async function onSubmit(event) {
