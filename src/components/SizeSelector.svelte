@@ -69,7 +69,7 @@ label {
 <div class="form-row">
   {#each sizes as size }
     <div class="col-10 offset-1 col-sm offset-sm-0 col-lg-2 d-flex align-items-stretch">
-      <label class="form-check-label d-block" for="size{size.name}">
+      <label class="form-check-label d-block mb-1" for="size{size.name}">
         <input type="radio" name="size" id="size{size.name}" value={size.name} class="form-check-input" bind:group={selectedName}>
         <div class="btn btn-block h-100 d-flex align-items-end flex-column" class:btn-primary={selectedName === size.name} class:btn-outline-dark={selectedName !== size.name}>
           <div class="description w-100 d-sm-inline">{size.description}</div>
