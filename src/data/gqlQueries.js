@@ -27,6 +27,9 @@ export function getRequests() {
        neededBefore
        category
        size
+       photo {
+         url
+       }
      }
    }`)
 }
