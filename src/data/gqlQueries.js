@@ -5,6 +5,7 @@ export function getUser() {
     user {
       email
       nickname
+      photoURL
       organizations {
         id
         name
