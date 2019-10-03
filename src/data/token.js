@@ -1,8 +1,9 @@
 init()
 
 export default {
-  authzHeader: () => `${get('token-type')} ${get('key') + get('access-token')}`,
+  authzHeader: () => `${get('token-type')} ${pair()}`,
   key: () => get('key'),
+  pair,
   reset,
 }
 
@@ -36,4 +37,8 @@ function set(key, defaultValue = '') {
 function reset() {
   sessionStorage.removeItem('token-type')
   sessionStorage.removeItem('access-token')
+}
+
+function pair() {
+  return `${get('key') + get('access-token')}`
 }

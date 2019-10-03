@@ -55,6 +55,8 @@ export async function login(email, returnTo) {
   window.location = response.RedirectURL
 }
 
+export const logoutUrl = `${process.env.BASE_API_URL}/auth/logout?token=${token.pair()}`
+
 export async function upload(formData) {
   return await wrappedFetch('upload', formData)
 }

@@ -3,6 +3,7 @@ import { getUser } from '../data/gqlQueries'
 import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
 import polyglot from '../i18n'
 import UserAvatar from './UserAvatar.svelte'
+import { logoutUrl } from '../data/api'
 
 let me = {}; loadMe()
 
@@ -22,6 +23,7 @@ nav :global(img) {
   <a class="navbar-brand" href="/">
     <img src="/logo.svg" alt="WeCarry logo" />
   </a>
+
   <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon" />
   </button>
@@ -30,7 +32,7 @@ nav :global(img) {
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto align-items-center">
       <li class="nav-item dropdown">
-        <a href="/#/requests" class:active={$location.startsWith('/request')} data-toggle="dropdown" id="navbarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+        <a href="#" class:active={$location.startsWith('/request')} data-toggle="dropdown" id="navbarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
           {polyglot.t('nav-requests')}
           {#if $location.startsWith('/request')}
           <span class="sr-only">(current)</span>
@@ -58,7 +60,7 @@ nav :global(img) {
         </a>
       </li>
 
-      <li class="nav-item pr-3">
+      <li class="nav-item">
         <a href="/#/messages" class:active={$location.startsWith('/messages')} class="nav-link">
           {polyglot.t('nav-requests-messages')}
           {#if $location.startsWith('/messages')}
@@ -67,8 +69,21 @@ nav :global(img) {
         </a>
       </li>
 
-      <li class="nav-item bg-white rounded-circle text-center" style="height: 24px; width: 24px;">
-        <UserAvatar user={me} />
+      <li class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" id="avatarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+          <UserAvatar user={me} />
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="avatarDropdown">
+          <a class="dropdown-item" href="/#/profile">
+            My profile
+          </a>
+          
+          <div class="dropdown-divider"></div>
+          
+          <a class="dropdown-item" href={logoutUrl}>
+            Sign out
+          </a>
+        </div>
       </li>
     </ul>
   </div>
