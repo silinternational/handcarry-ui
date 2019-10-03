@@ -32,8 +32,22 @@ function updateImage(event) {
     imgSrc = URL.createObjectURL(event.target.files[0])
 }
 
+function assertHas(value, errorMessage) {
+  if (!value) {
+    throw new Error(errorMessage)
+  }
+}
+
+function validate(request) {
+  assertHas(request.title, 'Please tell us what you are requesting')
+  assertHas(request.destination, 'Please provide a destination')
+  assertHas(request.size, 'Please tell us the size of the item you are requesting')
+}
+
 async function onSubmit(event) {
   try {
+    validate(request)
+    
     await createPost({
         orgID: request.viewableBy,
         type: "REQUEST",
@@ -73,7 +87,7 @@ async function onSubmit(event) {
       to
     </label>
     <div class="col">
-      <div class="form-group required">
+      <div class="form-group">
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">
