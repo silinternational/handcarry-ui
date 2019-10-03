@@ -3,8 +3,6 @@ import { gql } from './api'
 export function getUser() {
   return gql(`{
     user {
-      firstName
-      lastName
       email
       nickname
       organizations {

@@ -13,8 +13,7 @@ async function loadMe() {
   Kate, make me beautiful please
 </div>
 
-<h2 class="pt-2">{ me.firstName } { me.lastName }</h2>
-Nickname: <em>{ me.nickname }</em>
+<h2 class="pt-2">{ me.nickname } }</h2>
 
 <div class="row">
   <div class="col-sm-4 col-lg-3">
