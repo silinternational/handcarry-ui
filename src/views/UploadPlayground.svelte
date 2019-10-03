@@ -1,5 +1,6 @@
 <script>
 import token from '../data/token'
+import Uploader from '../components/Uploader.svelte'
 
 let files = []
 let httpBinResponse = {}
@@ -41,6 +42,10 @@ async function upload() {
 
   files.map(file => URL.revokeObjectURL(file.url))
   files = []
+}
+
+function log(e) {
+  console.log('gotit: ', e.detail)
 }
 </script>
 
@@ -84,3 +89,5 @@ div.card {
 {#if uploads}
 <img src={uploads} alt='uploaded pics'>
 {/if}
+
+<Uploader on:uploaded={log}/>

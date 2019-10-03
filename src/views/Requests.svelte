@@ -22,12 +22,6 @@ import { getRequests } from '../data/gqlQueries'
   </div>
 </div>
 
-<style>
-tbody > tr {
-  cursor: pointer;
-}
-</style>
-
 <div class="row">
   <div class="col-12">
     <div class="alert alert-secondary" role="alert">
