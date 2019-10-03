@@ -46,7 +46,7 @@ let sizes = [
   height: 0;
 }
 
-[type=radio]:focus + .btn {
+[type=radio]:focus + .btn-outline-dark {
   border-color: var(--blue);
   color: var(--blue);
 }
