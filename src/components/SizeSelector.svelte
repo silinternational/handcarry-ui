@@ -1,5 +1,5 @@
 <script>
-let selectedName
+export let selectedName
 
 let sizes = [
   {
