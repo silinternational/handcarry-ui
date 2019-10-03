@@ -7,6 +7,7 @@ import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://g
 
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 
+let errorMessage = ''
 let me = {}; loadMe()
 let myOrgs = []
 
@@ -34,9 +35,7 @@ function updateImage(event) {
 }
 
 async function onSubmit(event) {
-
-    console.log(request)
-    
+  try {
     await createPost({
         orgID: request.viewableBy,
         type: "REQUEST",
@@ -49,6 +48,10 @@ async function onSubmit(event) {
     })
 
     push(`/requests`)
+  } catch (error) {
+    errorMessage = error.message
+    scrollTo(0, 0)
+  }  
 }
 </script>
 
@@ -56,6 +59,10 @@ async function onSubmit(event) {
 
 <form on:submit|preventDefault={onSubmit}>
 
+  {#if errorMessage}
+    <div class="alert alert-danger">{ errorMessage }</div>
+  {/if}
+  
   <div class="form-group form-row mb-0">
     <label for="request-title" class="col-12 col-sm-auto col-form-label-lg mb-1">
       Looking for someone to bring
