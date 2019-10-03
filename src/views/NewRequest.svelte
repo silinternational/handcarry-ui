@@ -1,4 +1,5 @@
 <script>
+import SizeSelector from '../components/SizeSelector.svelte'
 import { getUser, createPost } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
@@ -6,6 +7,7 @@ import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://g
 
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 
+let errorMessage = ''
 let me = {}; loadMe()
 let myOrgs = []
 
@@ -20,25 +22,33 @@ let request = {
     title: '',
     destination: '',
     description: '',
-    neededAfter: format(Date.now(), 'yyyy-MM-dd'),
-    neededBefore: format(addMonths(Date.now(), 1), 'yyyy-MM-dd'), 
-    category: '',
     size: '',
-    cost: '',
-    viewableBy: '',
     image: '',
-    url: ''
+    weight: 0,
+    weightUnits: ''
 }
 
 function updateImage(event) {
     imgSrc = URL.createObjectURL(event.target.files[0])
 }
 
-jQuery(function() {
-    jQuery('[data-toggle="tooltip"]').tooltip()
-})
+function assertHas(value, errorMessage) {
+  if (!value) {
+    throw new Error(errorMessage)
+  }
+}
+
+function validate(request) {
+  assertHas(request.title, 'Please tell us what you are requesting')
+  assertHas(request.destination, 'Please provide a destination')
+  assertHas(request.size, 'Please tell us the size of the item you are requesting')
+  errorMessage = ''
+}
 
 async function onSubmit(event) {
+  try {
+    validate(request)
+    
     await createPost({
         orgID: request.viewableBy,
         type: "REQUEST",
@@ -46,134 +56,84 @@ async function onSubmit(event) {
         description: request.description,
         destination: request.destination.formatted_address,
         size: request.size,
-        neededAfter: request.neededAfter,
-        neededBefore: request.neededBefore,
-        category: request.category,
-        url: request.url,
-        cost: request.cost
     })
 
     push(`/requests`)
+  } catch (error) {
+    errorMessage = error.message
+    scrollTo(0, 0)
+  }  
 }
 </script>
 
-<h2>Make a Request</h2>
+<h2 class="mb-3">Make a Request</h2>
 
-<form on:submit|preventDefault={onSubmit}>
-  <div class="row">
-    <div class="form-group required col-12">
-      <input class="form-control form-control-lg" bind:value={request.title} placeholder="Request Title" />
-      <small class="form-text text-danger">Required</small>
+<form on:submit|preventDefault={onSubmit} autocomplete="off">
+
+  {#if errorMessage}
+    <div class="alert alert-danger">{ errorMessage }</div>
+  {/if}
+  
+  <div class="form-group form-row mb-0">
+    <label for="request-title" class="col-12 col-sm-auto col-form-label-lg mb-1">
+      Looking for someone to bring
+    </label>
+    <div class="col-12 col-sm mb-2">
+      <input type="text" class="form-control form-control-lg" id="request-title" bind:value={request.title} placeholder="What?">
     </div>
   </div>
-
-  <div class="row">
-    <div class="col-8">
-      <div class="row">
-        <div class="col-12 form-group required">
-          <label class="control-label">Destination</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker" /></svg>
-              </span>
-            </div>
-            <GooglePlacesAutocomplete bind:value={ request.destination } placeholder="City, State/Province, Country, or Region, etc." styleClass="form-control" apiKey={process.env.GOOGLE_PLACES_API_KEY} />
+  
+  <div class="form-group form-row">
+    <label class="col-auto col-form-label-lg">
+      to
+    </label>
+    <div class="col">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker" /></svg>
+            </span>
           </div>
-          <small class="form-text text-danger">Required</small>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
-          <label>Viewable By <svg class="lnr lnr-question-circle"> <use xlink:href="#lnr-question-circle" /></svg></label>
-          <select bind:value={request.viewableBy} class="form-control" data-toggle="tooltip" data-placement="top"
-                  title="If your request is viewable by all trusted orgs, any organization using WeCarry can see it. These organizations have an agreement with your organization.">
-            {#each myOrgs as org}
-            <option value={org.id} selected>{org.name}</option>
-            {/each}
-          </select>
-        </div>
-
-        <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
-          <label>Need After</label>
-          <input type="date" bind:value={request.neededAfter} class="form-control" />
-        </div>
-
-        <div class="col-sm-6 col-lg-4 col-xl-4 form-group">
-          <label for="needBefore">Need By</label>
-          <input type="date" class="form-control" bind:value={request.neededBefore} />
-        </div>
-
-      </div>
-
-      <div class="row">
-        <div class="col-sm-12 col-lg-4 col-xl-4">
-          <label>Approximate Cost</label>
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">$</span>
-            </div>
-            <input class="form-control" bind:value={request.cost} />
-          </div>
-        </div>
-
-        <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
-          <label>Approximate Size</label>
-          <select class="form-control" required bind:value={request.size}>
-            <option selected>Choose...</option>
-            <option value="Small">Small (purse)</option>
-            <option value="Medium">Medium (laptop)</option>
-            <option value="Large">Large (suitcase)</option>
-          </select>
-        </div>
-        <div class="col-sm-12 col-lg-4 col-xl-4 form-group">
-          <label for="category">Category</label>
-          <select class="form-control" bind:value={request.category}>
-            <option>Choose...</option>
-            <option value="Technology">Technology</option>
-            <option value="Food">Food</option>
-            <option value="Personal">Personal</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-      </div>
-    </div>
-
-    <div class="col-4">
-      <div class="file-field">
-        <img src={imgSrc} class="img-fluid" alt="Upload Request Image" />
-      </div>
-      <div class="d-flex justify-content-center">
-        <div class="btn btn-mdb-color btn-rounded">
-          <input type="file" accept="image/*" on:change={updateImage} bind:value={request.image} />
+          <GooglePlacesAutocomplete bind:value={ request.destination } placeholder="Where?" styleClass="form-control form-control-lg" apiKey={process.env.GOOGLE_PLACES_API_KEY} />
         </div>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-sm-12 col-lg-8 col-xl-8 form-group">
-      <label>Request URL</label>
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">
-            <svg class="lnr lnr-link">
-              <use xlink:href="#lnr-link" />
-            </svg>
-          </span>
-        </div>
-        <input class="form-control" type="url" bind:value={request.url} placeholder="URL or Web Address for item (e.g. link to Amazon product)" />
-      </div>
+  <div class="form-group form-row">
+    <div class="col-12 col-lg-1 col-form-label-lg">Size: </div>
+    <div class="col-12 col-lg-11"><SizeSelector bind:selectedName={ request.size } /></div>
+  </div>
+  
+  <div class="form-group form-row">
+    <div class="col-auto col-form-label-lg">
+      <label for="request-weight">Weight:</label>
+    </div>
+    <div class="col-auto">
+      <input type="text" class="form-control form-control-lg" id="request-weight" bind:value={request.weight} />
+    </div>
+    <div class="col-auto">
+      <select class="form-control form-control-lg" bind:value={request.weightUnits}>
+        <option>lb</option>
+        <option>kg</option>
+      </select>
     </div>
   </div>
-
+  
+  <div class="form-row form-group">
+    <div class="col col-form-label-lg mt-0">
+      It looks like this:
+      <button class="btn btn-outline-dark mx-2">Add image</button>
+      <i class="text-muted">(optional)</i>
+    </div>
+  </div>
+  
   <div class="row">
     <div class="col form-group">
       <label>Description</label>
-      <textarea
-        class="form-control" bind:value={request.description} rows="3" placeholder="A description of the thing you want brought." />
+      <textarea class="form-control" bind:value={request.description} rows="3" 
+                placeholder="Please describe the item" />
     </div>
   </div>
 

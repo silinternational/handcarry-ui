@@ -117,13 +117,7 @@ export function createPost(post) {
         title: "${post.title}",
         description: "${post.description}",
         destination: "${post.destination}",
-        origin: "${post.origin || ''}",
-        category: "${post.category || ''}",
-        neededBefore: "${post.neededBefore || ''}",
-        neededAfter: "${post.neededAfter || ''}",
-        size: "${post.size}",
-        url: "${post.url}",
-        cost: "${post.cost}"
+        size: "${post.size}"
       }) 
       {
         title
