@@ -139,7 +139,7 @@ function imageUploaded(event) {
       <i class="text-muted">(optional)</i>
     </div>
     <div class="col">
-      <img src={ imageUrl } class="image-preview" />
+      <img src={ imageUrl } alt="The image you chose" class="image-preview" class:d-none={ !imageUrl } />
     </div>
   </div>
   
