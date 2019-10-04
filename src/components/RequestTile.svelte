@@ -25,7 +25,7 @@ let size = request.size
       <img src={ request.imageUrl } alt="Photo of an example" class:d-none={ !request.imageUrl } />
     </div>
     
-    <div class="col-4 text-center">
+    <div class="col-auto">
       <SizeIndicator {size} />
     </div>
   </div>
@@ -41,7 +41,7 @@ let size = request.size
       <p>{ request.destination }</p>
     </div>
     
-    <div class="col-5 text-center">
+    <div class="col-auto">
       <UserAvatar {user} />
     </div>
   </div>
