@@ -1,5 +1,7 @@
 <script>
+import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
+import Uploader from '../components/Uploader.svelte'
 import { getUser, createPost } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
@@ -8,6 +10,7 @@ import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://g
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 
 let errorMessage = ''
+let imageUrl = ''
 let me = {}; loadMe()
 let myOrgs = []
 
@@ -23,13 +26,9 @@ let request = {
     destination: '',
     description: '',
     size: '',
-    image: '',
+    photoID: '',
     weight: 0,
     weightUnits: ''
-}
-
-function updateImage(event) {
-    imgSrc = URL.createObjectURL(event.target.files[0])
 }
 
 function assertHas(value, errorMessage) {
@@ -55,6 +54,7 @@ async function onSubmit(event) {
         title: request.title,
         description: request.description,
         destination: request.destination.formatted_address,
+        photoID: request.photoID,
         size: request.size,
     })
 
@@ -64,7 +64,18 @@ async function onSubmit(event) {
     scrollTo(0, 0)
   }  
 }
+
+function imageUploaded(event) {
+  request.photoID = event.detail.id
+  imageUrl = event.detail.url 
+}
 </script>
+
+<style>
+.image-preview {
+  max-height: 160px;
+}
+</style>
 
 <h2 class="mb-3">Make a Request</h2>
 
@@ -122,10 +133,13 @@ async function onSubmit(event) {
   </div>
   
   <div class="form-row form-group">
-    <div class="col col-form-label-lg mt-0">
+    <div class="col-auto col-form-label-lg">
       It looks like this:
-      <button class="btn btn-outline-dark mx-2">Add image</button>
+      <Uploader on:uploaded={imageUploaded} />
       <i class="text-muted">(optional)</i>
+    </div>
+    <div class="col image-preview">
+      <RequestImage url={imageUrl} alt="The image you chose" />
     </div>
   </div>
   

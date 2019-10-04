@@ -27,6 +27,9 @@ export function getRequests() {
        neededBefore
        category
        size
+       photo {
+         url
+       }
      }
    }`)
 }
@@ -114,9 +117,10 @@ export function createPost(post) {
       createPost(input: {
         orgID: "${post.orgID}",
         type: ${post.type},
-        title: "${post.title}",
-        description: "${post.description}",
-        destination: "${post.destination}",
+        title: """${post.title}""",
+        description: """${post.description}""",
+        destination: """${post.destination}""",
+        photoID: "${post.photoID}",
         size: "${post.size}"
       }) 
       {
