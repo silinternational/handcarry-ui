@@ -15,8 +15,7 @@ let photoUrl = photo.url || ''
 
 <style>
 .request-image {
-  max-height: 200px;
-  max-width: 200px;
+  max-height: 160px;
 }
 
 .request-tile {
@@ -29,8 +28,8 @@ let photoUrl = photo.url || ''
 <div class="container-fluid request-tile border rounded-lg shadow-sm p-3" on:click={ () => push(`/requests/${request.id}`) }>
 
   <div class="row">
-    <div class="col">
-      <RequestImage url={photoUrl} />
+    <div class="col request-image text-center">
+      <RequestImage url={photoUrl} alt="An example picture of {request.title}" />
     </div>
     
     <div class="col-auto">

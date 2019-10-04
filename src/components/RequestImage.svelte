@@ -4,12 +4,10 @@ export let url
 </script>
 
 <style>
-div {
-	background-position: center center;
-	background-size: cover;
-	background-repeat: no-repeat;
-  height: 160px;
+img {
+  max-height: 100%;
+  max-width: 100%;
 }
 </style>
 
-<div class="request-image" class:d-none={!url} style="background-image: url({url})" />
+<img src={url} {alt} class:d-none={!url} />
