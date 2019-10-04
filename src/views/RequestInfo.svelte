@@ -1,6 +1,6 @@
 <script>
 import CategoryIcon from '../components/CategoryIcon.svelte'
-import SizeIcon from '../components/SizeIcon.svelte'
+import SizeIndicator from '../components/SizeIndicator.svelte'
 import { getRequest, cancelPost } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
 
@@ -81,12 +81,9 @@ function asReadableDate(timestamp) {
     
     <div class="row">
       <div class="col">
-        {#if size }
-          <p class="text-center">
-            <SizeIcon {size} />
-            <small><i>{ size }</i></small>
-          </p>
-        {/if}
+        <p class="text-center">
+          <SizeIndicator {size} />
+        </p>
       </div>
     </div>
   </div>

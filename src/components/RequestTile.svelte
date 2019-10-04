@@ -1,5 +1,5 @@
 <script>
-import SizeIcon from '../components/SizeIcon.svelte'
+import SizeIndicator from '../components/SizeIndicator.svelte'
 import UserAvatar from '../components/UserAvatar.svelte'
 import { push } from 'svelte-spa-router'
 import { format } from 'date-fns'
@@ -32,8 +32,8 @@ let photoUrl = photo.url || ''
       <img src={ photoUrl } alt="Photo of an example" class="request-image" class:d-none={ !photoUrl } />
     </div>
     
-    <div class="col-4 text-center">
-      <SizeIcon {size} />
+    <div class="col-auto">
+      <SizeIndicator {size} />
     </div>
   </div>
   
@@ -48,7 +48,7 @@ let photoUrl = photo.url || ''
       <p>{ request.destination }</p>
     </div>
     
-    <div class="col-5 text-center">
+    <div class="col-auto">
       <UserAvatar {user} />
     </div>
   </div>

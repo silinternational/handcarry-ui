@@ -1,4 +1,6 @@
 <script>
+import SizeIndicator from './SizeIndicator.svelte'
+
 export let selectedName
 
 let sizes = [
@@ -74,7 +76,7 @@ label {
         <div class="btn btn-block h-100 d-flex align-items-end flex-column" class:btn-primary={selectedName === size.name} class:btn-outline-dark={selectedName !== size.name}>
           <div class="description w-100 d-sm-inline">{size.description}</div>
           <div class="picture mt-auto w-100 d-sm-inline">{size.picture}</div>
-          <div class="title w-100 d-sm-inline">{size.title}</div>
+          <div class="title w-100 d-sm-inline"><SizeIndicator size={size.name} /></div>
         </div>
       </label>
     </div>
