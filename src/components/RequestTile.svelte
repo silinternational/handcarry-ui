@@ -33,7 +33,7 @@ let photoUrl = photo.url || ''
 <div class="container-fluid request-tile border rounded-lg shadow-sm p-3" on:click={ () => push(`/requests/${request.id}`) }>
 
   <div class="row">
-    <div class="col request-image text-center">
+    <div class="col request-image text-center" class:mb-1={photoUrl}>
       <RequestImage url={photoUrl} alt="An example picture of {request.title}" />
     </div>
     
