@@ -1,4 +1,5 @@
 <script>
+import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { getUser, createPost } from '../data/gqlQueries'
@@ -72,8 +73,7 @@ function imageUploaded(event) {
 
 <style>
 .image-preview {
-  max-height: 200px;
-  max-width: 200px;
+  max-height: 160px;
 }
 </style>
 
@@ -138,8 +138,8 @@ function imageUploaded(event) {
       <Uploader on:uploaded={imageUploaded} />
       <i class="text-muted">(optional)</i>
     </div>
-    <div class="col">
-      <img src={ imageUrl } alt="The image you chose" class="image-preview" class:d-none={ !imageUrl } />
+    <div class="col image-preview">
+      <RequestImage url={imageUrl} alt="The image you chose" />
     </div>
   </div>
   
