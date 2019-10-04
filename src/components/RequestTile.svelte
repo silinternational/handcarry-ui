@@ -1,4 +1,5 @@
 <script>
+import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import UserAvatar from '../components/UserAvatar.svelte'
 import { push } from 'svelte-spa-router'
@@ -29,7 +30,7 @@ let photoUrl = photo.url || ''
 
   <div class="row">
     <div class="col">
-      <img src={ photoUrl } alt="Photo of an example" class="request-image" class:d-none={ !photoUrl } />
+      <RequestImage url={photoUrl} />
     </div>
     
     <div class="col-auto">
