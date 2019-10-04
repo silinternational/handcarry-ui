@@ -82,7 +82,9 @@ function asReadableDate(timestamp) {
     <div class="row">
       <div class="col">
         <p class="text-center">
-          <SizeIndicator {size} />
+          {#if size }
+            <SizeIndicator {size} />
+          {/if}
         </p>
       </div>
     </div>

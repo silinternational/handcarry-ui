@@ -1,22 +1,9 @@
 <script>
+import sizes from '../data/sizes'
+
 export let size
 
-$: normalizedSize = new String(size).toLowerCase()
-
-const sizeToColorMap = {
-  tiny: 'success',
-  small: 'info',
-  medium: 'warning',
-  large: 'danger',
-  xlarge: 'purple',
-}
+$: color = sizes.find(s => s.name === size).color
 </script>
 
-<style>
-.badge-purple {
-  color: white;
-  background-color: purple;
-}
-</style>
-
-<span class="badge badge-pill badge-{sizeToColorMap[normalizedSize]}">{ normalizedSize }</span>
+<span class="badge badge-pill badge-{color}">{ size }</span>

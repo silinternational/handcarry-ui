@@ -1,40 +1,8 @@
 <script>
 import SizeIndicator from './SizeIndicator.svelte'
+import sizes from '../data/sizes'
 
 export let selectedName
-
-let sizes = [
-  {
-    'name': 'Tiny',
-    'title': 'Tiny',
-    'picture': '[altoids]',
-    'description': 'Fits in a purse'
-  },
-  {
-    'name': 'Small',
-    'title': 'Small',
-    'picture': '[book]',
-    'description': 'Fits in a carry-on bag'
-  },
-  {
-    'name': 'Medium',
-    'title': 'Medium',
-    'picture': '[laptop]',
-    'description': 'Fits in a backpack'
-  },
-  {
-    'name': 'Large',
-    'title': 'Large',
-    'picture': '[ ? ]',
-    'description': 'Fits in a suitcase'
-  },
-  {
-    'name': 'XLarge',
-    'title': 'X-Large',
-    'picture': '[ ? ]',
-    'description': 'Is bigger than that...'
-  },
-]
 </script>
 
 <style>
@@ -75,7 +43,7 @@ label {
         <input type="radio" name="size" id="size{size.name}" value={size.name} class="form-check-input" bind:group={selectedName}>
         <div class="btn btn-block h-100 d-flex align-items-end flex-column" class:btn-primary={selectedName === size.name} class:btn-outline-dark={selectedName !== size.name}>
           <div class="description w-100 d-sm-inline">{size.description}</div>
-          <div class="picture mt-auto w-100 d-sm-inline">{size.picture}</div>
+          <div class="picture mt-auto w-100 d-sm-inline">{size.pictureUrl}</div>
           <div class="title w-100 d-sm-inline"><SizeIndicator size={size.name} /></div>
         </div>
       </label>
