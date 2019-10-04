@@ -23,6 +23,11 @@ let photoUrl = photo.url || ''
   cursor: pointer;
   max-width: 360px;
 }
+.size-indicator-container {
+  position: relative;
+  right: -8px;
+  top: -8px;
+}
 </style>
 
 <div class="container-fluid request-tile border rounded-lg shadow-sm p-3" on:click={ () => push(`/requests/${request.id}`) }>
@@ -33,7 +38,7 @@ let photoUrl = photo.url || ''
     </div>
     
     <div class="col-auto">
-      <SizeIndicator {size} />
+      <div class="size-indicator-container"><SizeIndicator {size} /></div>
     </div>
   </div>
   
