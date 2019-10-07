@@ -43,7 +43,7 @@ async function loadRequests() {
 </div>
 
 <div class="row">
-  <div class="col-3">
+  <div class="col-12 col-md-5 col-lg-4 col-xl-3">
     <div class="accordion" id="requestFilters">
       
       <div class="card border-bottom"><!-- Note: Removed "border-bottom" if another card is added. -->
