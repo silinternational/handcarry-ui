@@ -12,8 +12,7 @@ async function loadMe() {
       const response = await getUser()
       me = response.user
     } catch (e) {
-      // TODO: need errorhandling
-      console.error(e)      
+      // TODO: need errorhandling?
     }
 }
 </script>
