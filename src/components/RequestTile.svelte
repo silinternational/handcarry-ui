@@ -7,10 +7,10 @@ import { format } from 'date-fns'
 
 export let request;
 
-let user = request.createdBy || {}
-let size = request.size
-let photo = request.photo || {}
-let photoUrl = photo.url || ''
+$: user = request.createdBy || {}
+$: size = request.size
+$: photo = request.photo || {}
+$: photoUrl = photo.url || ''
 </script>
 
 <style>
