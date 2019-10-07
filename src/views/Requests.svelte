@@ -46,7 +46,7 @@ async function loadRequests() {
   <div class="col-3">
     <div class="accordion" id="requestFilters">
       
-      <div class="card">
+      <div class="card border-bottom"><!-- Note: Removed "border-bottom" if another card is added. -->
         <div class="card-header" id="headingOne">
           <h2 class="mb-0">
             <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">

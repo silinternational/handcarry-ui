@@ -42,7 +42,7 @@ label {
 }
 </style>
 
-<div>
+<div class="text-center">
   {#each sizes as size }
     <div class="d-inline-block" style="font-size: {heights[size.name]}">
       <label class="form-check-label d-block" for="size{size.name}" title="{size.name}">
