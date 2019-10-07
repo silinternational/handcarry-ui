@@ -1,4 +1,4 @@
-import Commitments from './Commitments.svelte'
+import MyCommitments from './MyCommitments.svelte'
 import Messages from './Messages.svelte'
 import Profile from './Profile.svelte'
 import NewRequest from './NewRequest.svelte'
@@ -18,7 +18,7 @@ const routes = {
 	'/requests/mine': MyRequests,
 	'/requests/new': NewRequest,
 	'/requests/:id': RequestInfo,
-	'/commitments': Commitments,
+	'/commitments': MyCommitments,
 	'/messages': Messages,
 	'/messages/:id': Messages,
 	'/messages/new-conversation/:postId': Messages,
