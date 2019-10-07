@@ -1,8 +1,10 @@
 {
    "nav-requests": "Requests",
-   "nav-requests-view": "View Requests",
-   "nav-requests-mine": "My Requests",
-   "nav-requests-create": "Make a Request",
-   "nav-requests-comittments": "Commitments",
-   "nav-requests-messages": "Messages"
+   "nav-requests-view": "View requests",
+   "nav-requests-mine": "My requests",
+   "nav-requests-create": "Make a request",
+   "nav-requests-comittments": "My commitments",
+   "nav-requests-messages": "Messages",
+   "nav-sign-out": "Sign out",
+   "nav-profile": "My profile"
 }
