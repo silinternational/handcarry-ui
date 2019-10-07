@@ -1,6 +1,6 @@
 <script>
 import SizeIndicator from './SizeIndicator.svelte'
-import sizes from '../data/sizes'
+import { sizes } from '../data/sizes'
 
 export let selectedName
 </script>
