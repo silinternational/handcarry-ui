@@ -92,19 +92,21 @@ function imageUploaded(event) {
     <div class="alert alert-danger">{ errorMessage }</div>
   {/if}
   
-  <div class="form-group form-row mb-0">
-    <label for="request-title" class="col-12 col-sm-auto col-form-label-lg mb-1">
-      Looking for someone to bring
+  <div class="form-row form-group">
+    <label for="request-title" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      Requesting:
     </label>
-    <div class="col-12 col-sm mb-2">
+    
+    <div class="col">
       <input type="text" class="form-control form-control-lg" id="request-title" bind:value={request.title} placeholder="What?">
     </div>
   </div>
   
-  <div class="form-group form-row">
-    <label class="col-auto col-form-label-lg">
-      to
+  <div class="form-row form-group">
+    <label class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      Destination:
     </label>
+    
     <div class="col">
       <div class="form-group">
         <div class="input-group">
@@ -120,16 +122,16 @@ function imageUploaded(event) {
     </div>
   </div>
 
-  <div class="form-group form-row">
-    <div class="col-12 col-lg-1 col-form-label-lg">Size: </div>
-    <div class="col-12 col-lg-11"><SizeSelector bind:selectedName={ request.size } /></div>
+  <div class="form-row form-group">
+    <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">Size: </div>
+    <div class="col"><SizeSelector bind:selectedName={ request.size } /></div>
   </div>
   
-  <div class="form-group form-row">
-    <div class="col-auto col-form-label-lg">
-      <label for="request-weight">Weight:</label>
+  <div class="form-row form-group">
+    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      <label for="request-weight">Est. weight:</label>
     </div>
-    <div class="col-auto">
+    <div class="col-4 col-sm-3 col-md-2 col-xl-1">
       <input type="text" class="form-control form-control-lg" id="request-weight" bind:value={request.weight} />
     </div>
     <div class="col-auto">
@@ -141,27 +143,30 @@ function imageUploaded(event) {
   </div>
   
   <div class="form-row form-group">
-    <div class="col-auto col-form-label-lg">
-      It looks like this:
-      <Uploader on:uploaded={imageUploaded} />
-      <i class="text-muted">(optional)</i>
+    <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
+      Upload image: <br />
+      <small class="text-muted font-italic">(optional)</small>
     </div>
-    <div class="col image-preview">
-      <RequestImage url={imageUrl} alt="The image you chose" />
+    <div class="col-auto mt-1">
+      <Uploader on:uploaded={imageUploaded} />
+    </div>
+    <div class="col-12 col-sm-5 image-preview text-center text-sm-left">
+      <RequestImage url={imageUrl} alt="Your image" />
     </div>
   </div>
   
-  <div class="row">
-    <div class="col form-group">
-      <label>Description</label>
+  <div class="form-row form-group">
+    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      <label for="request-description">Description:</label>
+    </div>
+    <div class="col">
       <textarea class="form-control" bind:value={request.description} rows="3" 
-                placeholder="Please describe the item" />
+                id="request-description" placeholder="Please describe the item" />
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-9" />
-    <div class="col-3">
+  <div class="form-row form-group">
+    <div class="col text-right">
       <button type="submit" class="btn btn-primary float-right">
         Make Request
       </button>
