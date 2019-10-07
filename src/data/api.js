@@ -1,4 +1,5 @@
-import token from './token';
+import token from './token'
+import { push } from 'svelte-spa-router'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 async function wrappedFetch(url, body) {
@@ -19,12 +20,21 @@ async function wrappedFetch(url, body) {
     headers,
     body,
   })
-  // TODO: check response is ok before assuming anything (https://developer.mozilla.org/en-US/docs/Web/API/Response/ok)
-
-  // 401/403 => login?
-  // ! ok => throw
-  
+    
+  if (response.status === 401) {
+    push('/login')
+  }
+  // TODO: need to think through errorhandling here since there can be "ok"
+  // responses from gql that are actually errors and there can be "! ok" 
+  // responses form gql, e.g., 422... (it may require a custom error type to house
+  //     the details of the error as properties)
+  // 
+  //  we should probably work with backend to ensure no error responses are 200's
+  // if (response.ok) {
   return await response.json()
+  // }
+  //
+  // return throw (something)
 }
 
 export async function gql(query) {
@@ -36,6 +46,7 @@ export async function gql(query) {
   if (response.errors !== undefined) {
     throw new Error(response.errors[0].message)
   }
+    
   return response.data
 }
 
@@ -48,13 +59,17 @@ export async function login(email, returnTo) {
     loginUrl += `&return-to=${returnTo}`
   }
 
-  const response = await wrappedFetch(loginUrl)
+  try {
+    const response = await wrappedFetch(loginUrl)
 
-// TODO: need errorhandling and additional use cases with this response
-//   "You can also post to login. Need to review response for error or multiple org 
-//    options for login. If multiple options you then also need to provide the org_id 
-//    when resubmitting call to login" –Phillip)
-  window.location = response.RedirectURL
+    window.location = response.RedirectURL
+  } catch (error) {
+    // TODO: need errorhandling and additional use cases with this response
+    //   "Need to review response for error or multiple org 
+    //    options for login. If multiple options you then also need to provide the org_id 
+    //    when resubmitting call to login" –Phillip)
+  }
+
 }
 
 export const logoutUrl = `${process.env.BASE_API_URL}/auth/logout?token=${token.pair()}`

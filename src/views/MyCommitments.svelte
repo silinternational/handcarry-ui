@@ -22,10 +22,6 @@ div.list-group-item {
 
 <h2 class="pb-4">My Commitments</h2>
 
-<div class="alert alert-warning text-center" role="alert">
-  Kate, make me beautiful please
-</div>
-
 <div class="row">
   <div class="col-sm-12 col-lg-12">
     <div class="list-group" role="tablist">

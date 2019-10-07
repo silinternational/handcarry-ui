@@ -7,6 +7,13 @@ import { push } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
 
+// Needed to override the default 'regions' restriction in the GooglePlacesAutocomplete component
+// so we could use house addresses, lat/long, etc...no need for restrictions.  See 
+// (https://developers.google.com/places/supported_types#table3 && https://github.com/beyonk-adventures/svelte-googlemaps/blob/master/src/GooglePlacesAutocomplete.svelte#L15)
+const options = {
+  types: []
+}
+
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 
 let errorMessage = ''
@@ -106,7 +113,8 @@ function imageUploaded(event) {
               <svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker" /></svg>
             </span>
           </div>
-          <GooglePlacesAutocomplete bind:value={ request.destination } placeholder="Where?" styleClass="form-control form-control-lg" apiKey={process.env.GOOGLE_PLACES_API_KEY} />
+          
+          <GooglePlacesAutocomplete bind:value={ request.destination } placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
         </div>
       </div>
     </div>

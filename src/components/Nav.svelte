@@ -8,8 +8,12 @@ import { logoutUrl } from '../data/api'
 let me = {}; loadMe()
 
 async function loadMe() {
-    const response = await getUser()
-    me = response.user
+    try {
+      const response = await getUser()
+      me = response.user
+    } catch (e) {
+      // TODO: need errorhandling?
+    }
 }
 </script>
 
@@ -20,68 +24,56 @@ nav :global(img) {
 </style>
 
 <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
-  <a class="navbar-brand" href="/">
+  <a class="navbar-brand" href={me.nickname ? '/#/requests' : '/#/login'}>
     <img src="/logo.svg" alt="WeCarry logo" />
   </a>
 
+  {#if me.nickname}
   <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon" />
   </button>
 
-  {#if me.nickname}
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto align-items-center">
-      <li class="nav-item dropdown">
-        <a href="#" class:active={$location.startsWith('/request')} data-toggle="dropdown" id="navbarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+      <li class="nav-item pr-2">
+        <a href="/#/requests/new" class="btn btn-sm btn-success">
+          {polyglot.t('nav-requests-create')}
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="/#/requests" class="nav-link" class:active={$location === '/requests'}>
           {polyglot.t('nav-requests')}
-          {#if $location.startsWith('/request')}
-          <span class="sr-only">(current)</span>
-          {/if}
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/#/requests">
-            {polyglot.t('nav-requests-view')}
-          </a>
-          <a class="dropdown-item" href="/#/requests/mine">
-            {polyglot.t('nav-requests-mine')}
-          </a>
-          <a class="dropdown-item" href="/#/requests/new">
-            {polyglot.t('nav-requests-create')}
-          </a>
-        </div>
-      </li>
-
-      <li class="nav-item">
-        <a href="/#/commitments" class:active={$location.startsWith('/commitments')} class="nav-link">
-          {polyglot.t('nav-requests-comittments')}
-          {#if $location.startsWith('/commitments')}
-          <span class="sr-only">(current)</span>
-          {/if}
         </a>
       </li>
 
       <li class="nav-item">
-        <a href="/#/messages" class:active={$location.startsWith('/messages')} class="nav-link">
+        <a href="/#/messages" class="nav-link" class:active={$location.startsWith('/messages')}>
           {polyglot.t('nav-requests-messages')}
-          {#if $location.startsWith('/messages')}
-          <span class="sr-only">(current)</span>
-          {/if}
         </a>
       </li>
 
       <li class="nav-item dropdown">
-        <a href="#" data-toggle="dropdown" id="avatarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+        <a href="/#/profile" data-toggle="dropdown" id="avatarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
           <UserAvatar user={me} />
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="avatarDropdown">
-          <a class="dropdown-item" href="/#/profile">
-            My profile
+          <a href="/#/profile" class="dropdown-item">
+            {polyglot.t('nav-profile')}
           </a>
-          
+
+          <a href="/#/requests/mine" class="dropdown-item">
+            {polyglot.t('nav-requests-mine')}
+          </a>
+
+          <a href="/#/commitments" class="dropdown-item">
+            {polyglot.t('nav-requests-comittments')}
+          </a>
+
           <div class="dropdown-divider"></div>
           
-          <a class="dropdown-item" href={logoutUrl}>
-            Sign out
+          <a href={logoutUrl} class="dropdown-item">
+            {polyglot.t('nav-sign-out')}
           </a>
         </div>
       </li>
