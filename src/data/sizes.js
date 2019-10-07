@@ -2,31 +2,31 @@
 export default [
   {
     name: 'tiny',
-    pictureUrl: '[altoids]',
+    pictureUrl: '/icons/envelope.svg',
     color: 'success',
     description: 'Fits in a purse'
   },
   {
     name: 'small',
-    pictureUrl: '[book]',
+    pictureUrl: '/icons/book.svg',
     color: 'info',
     description: 'Fits in a carry-on bag'
   },
   {
     name: 'medium',
-    pictureUrl: '[laptop]',
+    pictureUrl: '/icons/laptop.svg',
     color: 'warning',
     description: 'Fits in a backpack'
   },
   {
     name: 'large',
-    pictureUrl: '[?]',
+    pictureUrl: '/icons/tools.svg',
     color: 'danger',
     description: 'Fits in a suitcase'
   },
   {
     name: 'xlarge',
-    pictureUrl: '[?]',
+    pictureUrl: '/icons/question-mark.svg',
     color: 'dark',
     description: 'Is bigger than that...'
   },
