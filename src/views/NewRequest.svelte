@@ -165,7 +165,11 @@ function imageUploaded(event) {
   </div>
 
   <div class="form-row form-group">
-    <div class="col text-right">
+    <div class="col-auto">
+      <a href="#/requests" class="btn btn-outline-dark">Cancel</a>
+    </div>
+    <div class="col"></div>
+    <div class="col-auto">
       <button type="submit" class="btn btn-primary float-right">
         Make Request
       </button>
