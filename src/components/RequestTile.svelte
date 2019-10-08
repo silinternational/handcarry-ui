@@ -36,10 +36,11 @@ $: photoUrl = photo.url || ''
   </div>
   <div class="card-body p-2 position-relative">
     <div class="size-indicator-container"><SizeIndicator {size} /></div>
-    <h3 class="card-title text-center">{request.title}</h3>
+    <h3 class="card-title">{request.title}</h3>
+    <div class="card-text">{request.destination}</div>
   </div>
-  <div class="card-footer">
-    <div class="float-right mr-n2"><UserAvatar {user} /></div>
-    <p class="card-text">{request.destination}</p>
+  <div class="card-footer p-2">
+    <div class="float-left"><UserAvatar {user} /></div>
+    <a class="float-right py-0 px-1" href="#/requests/{request.id}">View</a>
   </div>
 </div>
