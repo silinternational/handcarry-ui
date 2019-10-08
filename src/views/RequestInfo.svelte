@@ -1,5 +1,4 @@
 <script>
-import CategoryIcon from '../components/CategoryIcon.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import { getRequest, cancelPost } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
@@ -7,7 +6,6 @@ import { push } from 'svelte-spa-router'
 export let params = {} // URL path parameters, provided by router.
 
 let request = {}; loadRequest()
-let category = ''
 let cost = ''
 let description = ''
 let destination = ''
@@ -23,7 +21,6 @@ let me = {}
 async function loadRequest() {
   const response = await getRequest(params.id)
   request = response.post
-  category = request.category
   cost = request.cost || ''
   description = request.description
   destination = request.destination
@@ -54,7 +51,7 @@ function asReadableDate(timestamp) {
 }
 </script>
 
-<h2 class="text-center">{ title }</h2>
+<h3 class="text-center">{ title }</h3>
 
 <div class="row">
   <div class="col">
@@ -65,29 +62,6 @@ function asReadableDate(timestamp) {
     {#if url }
       <p><a href="{ url }" target="_blank">{ url }</a></p>
     {/if}
-  </div>
-  
-  <div class="col-3 col-sm-2">
-    <div class="row">
-      <div class="col">
-        {#if category }
-          <p class="text-center">
-            <CategoryIcon {category} />
-            <small><i>{ category }</i></small>
-          </p>
-        {/if}
-      </div>
-    </div>
-    
-    <div class="row">
-      <div class="col">
-        <p class="text-center">
-          {#if size }
-            <SizeIndicator {size} />
-          {/if}
-        </p>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -112,12 +86,8 @@ function asReadableDate(timestamp) {
   
   <div class="col-md">
     <p>
-      {#if category }
-        <b>Category:</b> { category }<br />
-      {/if}
-      
       {#if size }
-        <b>Size:</b> { size }<br />
+        <b>Size:</b> <SizeIndicator { size } /><br />
       {/if}
       
       {#if cost }

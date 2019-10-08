@@ -3,7 +3,7 @@ import { sizes } from '../data/sizes'
 
 export let size
 
-$: color = sizes.find(s => s.name === size).color
+$: color = sizes.find(s => s.type === size).color
 </script>
 
-<span class="badge badge-pill badge-{color}">{ size }</span>
+<span class="badge badge-pill badge-{color}">{ size.toLowerCase() }</span>

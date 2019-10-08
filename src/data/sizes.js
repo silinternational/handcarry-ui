@@ -2,6 +2,7 @@
 export const sizes =  [
   {
     name: 'tiny',
+    type: 'TINY',
     pictureUrl: '/icons/envelope.svg',
     genericGraphicUrl: '/icons/generic-envelope.svg',
     color: 'success',
@@ -9,6 +10,7 @@ export const sizes =  [
   },
   {
     name: 'small',
+    type: 'SMALL',
     pictureUrl: '/icons/book.svg',
     genericGraphicUrl: '/icons/generic-book.svg',
     color: 'info',
@@ -16,6 +18,7 @@ export const sizes =  [
   },
   {
     name: 'medium',
+    type: 'MEDIUM',
     pictureUrl: '/icons/laptop.svg',
     genericGraphicUrl: '/icons/generic-laptop.svg',
     color: 'warning',
@@ -23,6 +26,7 @@ export const sizes =  [
   },
   {
     name: 'large',
+    type: 'LARGE',
     pictureUrl: '/icons/tools.svg',
     genericGraphicUrl: '/icons/generic-tools.svg',
     color: 'danger',
@@ -30,6 +34,7 @@ export const sizes =  [
   },
   {
     name: 'xlarge',
+    type: 'XLARGE',
     pictureUrl: '/icons/question-mark.svg',
     genericGraphicUrl: '/icons/generic-question-mark.svg',
     color: 'dark',
@@ -37,7 +42,7 @@ export const sizes =  [
   },
 ]
 
-export function getSelectedSizes(selectedSizeName) {
+function getSelectedSizes(selectedSizeName) {
   switch (selectedSizeName) {
     case 'tiny': return ['tiny']
     case 'small': return ['tiny', 'small']
