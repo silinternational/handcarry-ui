@@ -8,10 +8,10 @@ let genericGraphicUrl
 
 $: genericGraphicUrl = getGraphicForSize(request.size)
 
-function getGraphicForSize(size) {
+function getGraphicForSize(requestSize) {
   for (const size of sizes) {
     genericGraphicUrl = size.genericGraphicUrl
-    if (size.name === request.size) {
+    if (size.type === requestSize) {
       break;
     }
   }
