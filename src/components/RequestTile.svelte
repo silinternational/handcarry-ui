@@ -19,6 +19,10 @@ $: photoUrl = photo.url || ''
   cursor: pointer;
   height: 100%;
 }
+.request-tile > .request-image {
+  background-color: #ccc;
+  max-height: 10rem;
+}
 .size-indicator-container {
   position: absolute;
   right: 0.3rem;
@@ -27,7 +31,9 @@ $: photoUrl = photo.url || ''
 </style>
 
 <div class="card request-tile" on:click={ () => push(`/requests/${request.id}`) }>
-  <RequestImage {request} cssClass="card-img-top" />
+  <div class="card-img-top request-image text-center">
+    <RequestImage {request} />
+  </div>
   <div class="card-body p-2 position-relative">
     <div class="size-indicator-container"><SizeIndicator {size} /></div>
     <h3 class="card-title text-center">{request.title}</h3>
