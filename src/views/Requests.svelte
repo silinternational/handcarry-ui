@@ -1,5 +1,6 @@
 <script>
 import RequestTile from '../components/RequestTile.svelte'
+import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
 import { getRequests } from '../data/gqlQueries'
 import { includedInSizeSelection } from '../data/sizes'
@@ -71,6 +72,7 @@ async function loadRequests() {
       {#each filteredRequests as request}
         <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><RequestTile {request} /></div>
       {/each}
+      <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><NewRequestTile /></div>
     </div>
     
     <p class:d-none={!errorMessage}>🧨 Something went wrong: {errorMessage}</p>
