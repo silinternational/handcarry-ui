@@ -24,6 +24,10 @@ export let selectedName
   color: var(--light);
 }
 
+[type=radio]:hover + .btn {
+  background-color: var(--blue);
+}
+
 label {
   cursor: pointer;
 }
