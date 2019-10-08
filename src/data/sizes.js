@@ -2,37 +2,42 @@
 export const sizes =  [
   {
     name: 'tiny',
+    type: 'TINY',
     pictureUrl: '/icons/envelope.svg',
     color: 'success',
     description: 'Fits in a purse'
   },
   {
     name: 'small',
+    type: 'SMALL',
     pictureUrl: '/icons/book.svg',
     color: 'info',
     description: 'Fits in a carry-on bag'
   },
   {
     name: 'medium',
+    type: 'MEDIUM',
     pictureUrl: '/icons/laptop.svg',
     color: 'warning',
     description: 'Fits in a backpack'
   },
   {
     name: 'large',
+    type: 'LARGE',
     pictureUrl: '/icons/tools.svg',
     color: 'danger',
     description: 'Fits in a suitcase'
   },
   {
     name: 'xlarge',
+    type: 'XLARGE',
     pictureUrl: '/icons/question-mark.svg',
     color: 'dark',
     description: 'Is bigger than that...'
   },
 ]
 
-export function getSelectedSizes(selectedSizeName) {
+function getSelectedSizes(selectedSizeName) {
   switch (selectedSizeName) {
     case 'tiny': return ['tiny']
     case 'small': return ['tiny', 'small']
