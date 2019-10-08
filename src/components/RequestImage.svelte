@@ -1,6 +1,22 @@
 <script>
-export let alt
-export let url
+import { sizes } from '../data/sizes'
+
+export let request
+export let cssClass = ''
+
+let genericGraphicUrl
+
+$: genericGraphicUrl = getGraphicForSize(request.size)
+
+function getGraphicForSize(size) {
+  for (const size of sizes) {
+    genericGraphicUrl = size.genericGraphicUrl
+    if (size.name === request.size) {
+      break;
+    }
+  }
+  return genericGraphicUrl
+}
 </script>
 
 <style>
@@ -10,4 +26,8 @@ img {
 }
 </style>
 
-<img src={url} {alt} class:d-none={!url} />
+{#if request.photoUrl }
+  <img src={request.photoUrl} class="request-photo {cssClass}" alt="An example picture of {request.title}" />
+{:else}
+  <img src={genericGraphicUrl} class="generic-graphic {cssClass}" alt="A generic {request.size} item graphic" />
+{/if}

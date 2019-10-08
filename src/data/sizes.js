@@ -3,30 +3,35 @@ export const sizes =  [
   {
     name: 'tiny',
     pictureUrl: '/icons/envelope.svg',
+    genericGraphicUrl: '/icons/generic-envelope.svg',
     color: 'success',
     description: 'Fits in a purse'
   },
   {
     name: 'small',
     pictureUrl: '/icons/book.svg',
+    genericGraphicUrl: '/icons/generic-book.svg',
     color: 'info',
     description: 'Fits in a carry-on bag'
   },
   {
     name: 'medium',
     pictureUrl: '/icons/laptop.svg',
+    genericGraphicUrl: '/icons/generic-laptop.svg',
     color: 'warning',
     description: 'Fits in a backpack'
   },
   {
     name: 'large',
     pictureUrl: '/icons/tools.svg',
+    genericGraphicUrl: '/icons/generic-tools.svg',
     color: 'danger',
     description: 'Fits in a suitcase'
   },
   {
     name: 'xlarge',
     pictureUrl: '/icons/question-mark.svg',
+    genericGraphicUrl: '/icons/generic-question-mark.svg',
     color: 'dark',
     description: 'Is bigger than that...'
   },

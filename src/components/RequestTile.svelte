@@ -14,48 +14,26 @@ $: photoUrl = photo.url || ''
 </script>
 
 <style>
-.request-image {
-  max-height: 160px;
-}
-
 .request-tile {
   border-color: #444444;
   cursor: pointer;
-  max-width: 360px;
+  height: 100%;
 }
 .size-indicator-container {
-  position: relative;
-  right: -8px;
-  top: -8px;
+  position: absolute;
+  right: 0.3rem;
+  top: -1.75rem;
 }
 </style>
 
-<div class="container-fluid request-tile border rounded-lg shadow-sm p-3" on:click={ () => push(`/requests/${request.id}`) }>
-
-  <div class="row">
-    <div class="col request-image text-center" class:mb-1={photoUrl}>
-      <RequestImage url={photoUrl} alt="An example picture of {request.title}" />
-    </div>
-    
-    <div class="col-auto">
-      <div class="size-indicator-container"><SizeIndicator {size} /></div>
-    </div>
+<div class="card request-tile" on:click={ () => push(`/requests/${request.id}`) }>
+  <RequestImage {request} cssClass="card-img-top" />
+  <div class="card-body p-2 position-relative">
+    <div class="size-indicator-container"><SizeIndicator {size} /></div>
+    <h3 class="card-title text-center">{request.title}</h3>
   </div>
-  
-  <div class="row">
-    <div class="col">
-      <h3>{ request.title }</h3>
-    </div>
+  <div class="card-footer">
+    <div class="float-right mr-n2"><UserAvatar {user} /></div>
+    <p class="card-text">{request.destination}</p>
   </div>
-  
-  <div class="row">
-    <div class="col">
-      <p>{ request.destination }</p>
-    </div>
-    
-    <div class="col-auto">
-      <UserAvatar {user} />
-    </div>
-  </div>
-
 </div>
