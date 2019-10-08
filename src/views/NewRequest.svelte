@@ -135,8 +135,8 @@ function imageUploaded(event) {
     </div>
     <div class="col-auto">
       <select class="form-control form-control-lg" bind:value={request.weightUnits}>
-        <option>lb</option>
         <option>kg</option>
+        <option>lb</option>
       </select>
     </div>
   </div>
