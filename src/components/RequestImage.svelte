@@ -5,7 +5,10 @@ export let request
 export let cssClass = ''
 
 let genericGraphicUrl
+let photoUrl
 
+$: photo = request.photo || {}
+$: photoUrl = photo.url || ''
 $: genericGraphicUrl = getGraphicForSize(request.size)
 
 function getGraphicForSize(requestSize) {
@@ -26,8 +29,8 @@ img {
 }
 </style>
 
-{#if request.photoUrl }
-  <img src={request.photoUrl} class="request-photo {cssClass}" alt="An example picture of {request.title}" />
+{#if photoUrl }
+  <img src={photoUrl} class="request-photo {cssClass}" alt="An example picture of {request.title}" />
 {:else}
   <img src={genericGraphicUrl} class="generic-graphic {cssClass}" alt="A generic {request.size} item graphic" />
 {/if}
