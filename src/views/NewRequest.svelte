@@ -151,7 +151,7 @@ function imageUploaded(event) {
       <Uploader on:uploaded={imageUploaded} />
     </div>
     <div class="col-12 col-sm-5 image-preview text-center text-sm-left">
-      <RequestImage url={imageUrl} alt="Your image" />
+      <img src={imageUrl} alt="Your image" class:d-none={!imageUrl} class="image-preview" />
     </div>
   </div>
   
