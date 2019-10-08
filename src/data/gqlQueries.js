@@ -22,6 +22,7 @@ export function getRequests() {
        destination
        createdBy {
          nickname
+         photoURL
        }
        neededAfter
        neededBefore

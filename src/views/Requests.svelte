@@ -24,10 +24,10 @@ async function loadRequests() {
 </script>
 
 <div class="row">
-  <div class="col-6">
+  <div class="col">
     <h2>Requests</h2>
   </div>
-  <div class="col-6">
+  <div class="col-auto">
     <div class="float-right">
       <a class="btn btn-sm btn-primary mx-1" href="/#/requests" aria-pressed="true" role="button">
         All
@@ -42,8 +42,8 @@ async function loadRequests() {
   </div>
 </div>
 
-<div class="row">
-  <div class="col-12 col-md-5 col-lg-4 col-xl-3">
+<div class="row mt-2">
+  <div class="col-12 col-md-5 col-lg-4 col-xl-3 mb-2">
     <div class="accordion" id="requestFilters">
       
       <div class="card border-bottom"><!-- Note: Removed "border-bottom" if another card is added. -->
@@ -64,12 +64,12 @@ async function loadRequests() {
       
     </div>
   </div>
-  <div class="col">
+  <div class="col col-sm-10 offset-sm-1 col-md offset-md-0">
     <p class:d-none={hasLoaded}>⏳ retrieving requests...</p>
     
-    <div class:d-none={!hasLoaded} class="d-flex justify-content-around flex-wrap">
+    <div class:d-none={!hasLoaded} class="form-row align-items-stretch">
       {#each filteredRequests as request}
-        <div class="m-1 flex-fill"><RequestTile {request} /></div>
+        <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><RequestTile {request} /></div>
       {/each}
     </div>
     
