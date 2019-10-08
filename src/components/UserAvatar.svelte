@@ -16,10 +16,10 @@ img {
 }
 </style>
 
-<div class="d-inline-block rounded-circle border text-center">
+<div class="d-inline-block">
   {#if user.photoURL }
-  <img src={ user.photoURL } alt="{ nickname }" />
+    <img class="rounded-circle border text-center" src={user.photoURL} alt={nickname} title={nickname} />
   {:else}
-  <span>{ initial }</span>
+    <span class="badge badge-pill badge-primary" title={nickname}>{initial}</span>
   {/if}
 </div>
