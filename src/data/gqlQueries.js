@@ -121,7 +121,7 @@ export function createPost(post) {
         description: """${post.description}""",
         destination: """${post.destination}""",
         photoID: "${post.photoID}",
-        size: "${post.size}"
+        size: ${post.size}
       }) 
       {
         title
