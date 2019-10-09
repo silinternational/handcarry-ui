@@ -141,17 +141,17 @@ function isProviderSelected(requestFilter) {
 </script>
 
 <div class="row">
-  <div class="col-12 col-sm text-center text-sm-left">
+  <div class="col-12 col-sm-auto text-center text-sm-left">
     <h2>Requests</h2>
   </div>
   <div class="col text-right">
-    <button class="btn btn-sm mx-1" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
+    <button class="btn btn-sm m-1" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
       All
     </button>
-    <button class="btn btn-sm mx-1" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
+    <button class="btn btn-sm m-1" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
       My Requests
     </button>
-    <button class="btn btn-sm mx-1" on:click={() => selectProvider(me.id)} class:btn-primary={isJustMyCommitments} class:btn-outline-primary={!isJustMyCommitments}>
+    <button class="btn btn-sm m-1" on:click={() => selectProvider(me.id)} class:btn-primary={isJustMyCommitments} class:btn-outline-primary={!isJustMyCommitments}>
       My Commitments
     </button>
   </div>
