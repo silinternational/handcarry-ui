@@ -21,6 +21,7 @@ function createKey() {
 }
 
 function get(key) {
+  // TODO: Consider using the `qs` npm library we are now using elsewhere.
   // TODO: currently no IE support for URLSearchParams (https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams#Browser_compatibility)
   // check this out for further info:  https://developers.google.com/web/updates/2016/01/urlsearchparams
   // polyfill if needed (https://github.com/jerrybendy/url-search-params-polyfill) or the WebReflection one...
