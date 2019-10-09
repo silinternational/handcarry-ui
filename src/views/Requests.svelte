@@ -36,9 +36,6 @@ async function loadRequests() {
       <a class="btn btn-sm btn-outline-primary mx-1" href="/#/requests/mine" role="button">
         My Requests
       </a>      
-      <a class="btn btn-sm btn-outline-primary mx-1" href="/#/requests/new" role="button">
-        Add
-      </a>
     </div>
   </div>
 </div>
