@@ -48,8 +48,7 @@ export function getSelectedSizes(selectedSizeType) {
     case 'SMALL': return ['TINY', 'SMALL']
     case 'MEDIUM': return ['TINY', 'SMALL', 'MEDIUM']
     case 'LARGE': return ['TINY', 'SMALL', 'MEDIUM', 'LARGE']
-    case 'XLARGE': return ['TINY', 'SMALL', 'MEDIUM', 'LARGE', 'XLARGE']
-    default: return []
+    default: return ['TINY', 'SMALL', 'MEDIUM', 'LARGE', 'XLARGE']
   }
 }
 
