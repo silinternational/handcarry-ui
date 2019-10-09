@@ -2,7 +2,7 @@ import Messages from './Messages.svelte'
 import Profile from './Profile.svelte'
 import NewRequest from './NewRequest.svelte'
 import Requests from './Requests.svelte'
-import RequestInfo from './RequestInfo.svelte'
+import Request from './Request.svelte'
 import Login from './Login.svelte'
 import Welcome from './Welcome.svelte'
 import UploadPlayground from './UploadPlayground.svelte'
@@ -14,7 +14,7 @@ const routes = {
 	'/welcome': Welcome,
 	'/requests': Requests,
 	'/requests/new': NewRequest,
-	'/requests/:id': RequestInfo,
+	'/requests/:id': Request,
 	'/messages': Messages,
 	'/messages/:id': Messages,
 	'/messages/new-conversation/:postId': Messages,
