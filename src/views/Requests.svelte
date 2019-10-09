@@ -19,12 +19,14 @@ let requests = []; loadRequests()
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
 $: filteredRequests = filterRequests(requests, requestFilter)
-$: isAllRequests = !isCreatorSelected(requestFilter)
+$: isAllRequests = !isCreatorSelected(requestFilter) && !isProviderSelected(requestFilter)
 $: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
+$: isJustMyCommitments = isSelectedProvider(me.id, requestFilter)
 
 function populateFilterFrom(queryStringData) {
   return {
     createdBy: { id: queryStringData.creator },
+    provider: { id: queryStringData.provider },
     size: getSelectedSizes(String(queryStringData.size).toUpperCase()),
   }
 }
@@ -42,6 +44,10 @@ function filterRequests(requests, requestFilter) {
 function matches(request, requestFilter, property) {
   if (!requestFilter[property]) {
     return true
+  }
+  
+  if (!request) {
+    return false
   }
   
   if (Array.isArray(requestFilter[property])) {
@@ -73,16 +79,22 @@ function selectSize(sizeString) {
   if (lowerCaseSize === 'xlarge') {
     lowerCaseSize = null
   }
-  updateQueryString('size', lowerCaseSize)
+  updateQueryString({
+    size: lowerCaseSize,
+  })
 }
 
-function updateQueryString(key, value) {
+function updateQueryString(updates) {
   let queryStringData = qs.parse($querystring)
   
-  if (value) {
-    queryStringData[key] = value
-  } else if (queryStringData.hasOwnProperty(key)) {
-    delete queryStringData[key]
+  let value
+  for (const key in updates) {
+    value = updates[key]
+    if (value) {
+      queryStringData[key] = value
+    } else if (queryStringData.hasOwnProperty(key)) {
+      delete queryStringData[key]
+    }
   }
   
   const queryStringForUrl = qs.stringify(queryStringData)
@@ -90,7 +102,19 @@ function updateQueryString(key, value) {
 }
 
 function selectCreator(userId) {
-  updateQueryString('creator', userId)
+  updateQueryString({
+    creator: userId,
+    provider: null,
+    size: null,
+  })
+}
+
+function selectProvider(userId) {
+  updateQueryString({
+    creator: null,
+    provider: userId,
+    size: null,
+  })
 }
 
 function isSelectedCreator(userId, requestFilter) {
@@ -100,8 +124,19 @@ function isSelectedCreator(userId, requestFilter) {
   return false
 }
 
+function isSelectedProvider(userId, requestFilter) {
+  if (userId) {
+    return requestFilter.provider && requestFilter.provider.id && requestFilter.provider.id == userId
+  }
+  return false
+}
+
 function isCreatorSelected(requestFilter) {
   return requestFilter.createdBy && requestFilter.createdBy.id
+}
+
+function isProviderSelected(requestFilter) {
+  return requestFilter.provider && requestFilter.provider.id
 }
 </script>
 
@@ -115,6 +150,9 @@ function isCreatorSelected(requestFilter) {
     </button>
     <button class="btn btn-sm mx-1" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
       My Requests
+    </button>
+    <button class="btn btn-sm mx-1" on:click={() => selectProvider(me.id)} class:btn-primary={isJustMyCommitments} class:btn-outline-primary={!isJustMyCommitments}>
+      My Commitments
     </button>
   </div>
 </div>
