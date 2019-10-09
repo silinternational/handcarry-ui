@@ -42,18 +42,17 @@ export const sizes =  [
   },
 ]
 
-function getSelectedSizes(selectedSizeName) {
-  switch (selectedSizeName) {
-    case 'tiny': return ['tiny']
-    case 'small': return ['tiny', 'small']
-    case 'medium': return ['tiny', 'small', 'medium']
-    case 'large': return ['tiny', 'small', 'medium', 'large']
-    case 'xlarge': return ['tiny', 'small', 'medium', 'large', 'xlarge']
-    default: return []
+export function getSelectedSizes(selectedSizeType) {
+  switch (selectedSizeType) {
+    case 'TINY': return ['TINY']
+    case 'SMALL': return ['TINY', 'SMALL']
+    case 'MEDIUM': return ['TINY', 'SMALL', 'MEDIUM']
+    case 'LARGE': return ['TINY', 'SMALL', 'MEDIUM', 'LARGE']
+    default: return ['TINY', 'SMALL', 'MEDIUM', 'LARGE', 'XLARGE']
   }
 }
 
-export function includedInSizeSelection(sizeName, selectedSizeName) {
-  let selectedSizes = getSelectedSizes(selectedSizeName)
-  return (selectedSizes.indexOf(String(sizeName).toLowerCase()) >= 0)
+export function includedInSizeSelection(sizeType, selectedSizeType) {
+  let selectedSizes = getSelectedSizes(selectedSizeType)
+  return (selectedSizes.indexOf(sizeType) >= 0)
 }

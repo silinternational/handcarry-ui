@@ -3,18 +3,64 @@ import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
 import { getRequests } from '../data/gqlQueries'
-import { includedInSizeSelection } from '../data/sizes'
+import { getSelectedSizes } from '../data/sizes'
+import { push, querystring } from 'svelte-spa-router'
+import qs from 'qs'
 
 let errorMessage = ''
 let hasLoaded = false
 
+let isAllRequests
+let isJustMyRequests
+let requestFilter = {}
+let me = {}
 let requests = []; loadRequests()
-let selectedSizeName = 'xlarge'
-$: filteredRequests = requests.filter((request) => includedInSizeSelection(request.size, selectedSizeName))
+
+$: queryStringData = qs.parse($querystring)
+$: requestFilter = populateFilterFrom(queryStringData)
+$: filteredRequests = filterRequests(requests, requestFilter)
+$: isAllRequests = !isCreatorSelected(requestFilter)
+$: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
+
+function populateFilterFrom(queryStringData) {
+  return {
+    createdBy: { id: queryStringData.creator },
+    size: getSelectedSizes(String(queryStringData.size).toUpperCase()),
+  }
+}
+
+function filterRequests(requests, requestFilter) {
+  let results = requests.slice(0); // Shallow-clone the array quickly.
+  
+  for (const property in requestFilter) {
+    results = results.filter((request) => matches(request, requestFilter, property))
+  }
+  
+  return results
+}
+
+function matches(request, requestFilter, property) {
+  if (!requestFilter[property]) {
+    return true
+  }
+  
+  if (Array.isArray(requestFilter[property])) {
+    return (requestFilter[property].indexOf(request[property]) >= 0)
+  } else if (typeof requestFilter[property] === 'object') {
+    for (const subProperty in requestFilter[property]) {
+      if (!matches(request[property], requestFilter[property], subProperty)) {
+        return false
+      } 
+    }
+    return true
+  }
+  return request[property] === requestFilter[property]
+}
 
 async function loadRequests() {
   try {
-    let response = await getRequests()
+    const response = await getRequests()
+    me = response.user
     requests = response.posts
   } catch (error) {
     errorMessage = error.message
@@ -22,24 +68,54 @@ async function loadRequests() {
   hasLoaded = true
 }
 
+function selectSize(sizeString) {
+  let lowerCaseSize = String(sizeString).toLowerCase()
+  if (lowerCaseSize === 'xlarge') {
+    lowerCaseSize = null
+  }
+  updateQueryString('size', lowerCaseSize)
+}
+
+function updateQueryString(key, value) {
+  let queryStringData = qs.parse($querystring)
+  
+  if (value) {
+    queryStringData[key] = value
+  } else if (queryStringData.hasOwnProperty(key)) {
+    delete queryStringData[key]
+  }
+  
+  const queryStringForUrl = qs.stringify(queryStringData)
+  queryStringForUrl ? push(`/requests?${queryStringForUrl}`) : push('/requests')
+}
+
+function selectCreator(userId) {
+  updateQueryString('creator', userId)
+}
+
+function isSelectedCreator(userId, requestFilter) {
+  if (userId) {
+    return requestFilter.createdBy && requestFilter.createdBy.id && requestFilter.createdBy.id == userId
+  }
+  return false
+}
+
+function isCreatorSelected(requestFilter) {
+  return requestFilter.createdBy && requestFilter.createdBy.id
+}
 </script>
 
 <div class="row">
-  <div class="col">
+  <div class="col-12 col-sm text-center text-sm-left">
     <h2>Requests</h2>
   </div>
-  <div class="col-auto">
-    <div class="float-right">
-      <a class="btn btn-sm btn-primary mx-1" href="/#/requests" aria-pressed="true" role="button">
-        All
-      </a>
-      <a class="btn btn-sm btn-outline-primary mx-1" href="/#/requests/mine" role="button">
-        My Requests
-      </a>      
-      <a class="btn btn-sm btn-outline-primary mx-1" href="/#/requests/new" role="button">
-        Add
-      </a>
-    </div>
+  <div class="col text-right">
+    <button class="btn btn-sm mx-1" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
+      All
+    </button>
+    <button class="btn btn-sm mx-1" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
+      My Requests
+    </button>
   </div>
 </div>
 
@@ -47,18 +123,19 @@ async function loadRequests() {
   <div class="col-12 col-md-5 col-lg-4 col-xl-3 mb-2">
     <div class="accordion" id="requestFilters">
       
-      <div class="card border-bottom"><!-- Note: Removed "border-bottom" if another card is added. -->
-        <div class="card-header" id="headingOne">
-          <h2 class="mb-0">
+      <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
+        <div class="card-header p-0" id="headingOne">
+          <h4 class="m-0">
             <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Maximum Size
+              Filters
             </button>
-          </h2>
+          </h4>
         </div>
         
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#requestFilters">
-          <div class="card-body">
-            <SizeFilter bind:selectedName={selectedSizeName} />
+          <div class="card-body text-center">
+            <b>Max. size: </b>
+            <SizeFilter initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
           </div>
         </div>
       </div>

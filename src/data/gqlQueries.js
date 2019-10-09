@@ -16,24 +16,28 @@ export function getUser() {
 }
 
 export function getRequests() {
-   return gql(`{
-     posts {
-       id
-       title
-       destination
-       createdBy {
-         nickname
-         photoURL
-       }
-       neededAfter
-       neededBefore
-       category
-       size
-       photo {
-         url
-       }
-     }
-   }`)
+  return gql(`{
+    posts {
+      id
+      title
+      destination
+      createdBy {
+        id
+        nickname
+        photoURL
+      }
+      neededAfter
+      neededBefore
+      category
+      size
+      photo {
+        url
+      }
+    }
+    user {
+      id
+    }
+  }`)
 }
 
 export function getRequest(id) {
