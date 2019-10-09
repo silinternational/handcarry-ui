@@ -62,11 +62,11 @@ nav :global(img) {
             {polyglot.t('nav-profile')}
           </a>
 
-          <a href="/#/requests/mine" class="dropdown-item">
+          <a href="/#/requests?requestor={me.id}" class="dropdown-item">
             {polyglot.t('nav-requests-mine')}
           </a>
 
-          <a href="/#/commitments" class="dropdown-item">
+          <a href="/#/requests?provider={me.id}" class="dropdown-item">
             {polyglot.t('nav-requests-comittments')}
           </a>
 
