@@ -65,7 +65,7 @@ div.card-img {
             {#if ! isMine}
             <a href="#/messages/new-conversation/{ params.id }" class="btn btn-success btn-sm m-1" role="button">
               <svg class="lnr lnr-bubble mr-2"><use xlink:href="#lnr-bubble"></use></svg>
-              Start a discussion
+              Discuss this
             </a>
             {/if}
           </footer>
