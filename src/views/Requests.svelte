@@ -106,18 +106,16 @@ function isCreatorSelected(requestFilter) {
 </script>
 
 <div class="row">
-  <div class="col">
+  <div class="col-12 col-sm text-center text-sm-left">
     <h2>Requests</h2>
   </div>
-  <div class="col-auto">
-    <div class="float-right">
-      <button class="btn btn-sm mx-1" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
-        All
-      </button>
-      <button class="btn btn-sm mx-1" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
-        My Requests
-      </button>      
-    </div>
+  <div class="col text-right">
+    <button class="btn btn-sm mx-1" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
+      All
+    </button>
+    <button class="btn btn-sm mx-1" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
+      My Requests
+    </button>
   </div>
 </div>
 
