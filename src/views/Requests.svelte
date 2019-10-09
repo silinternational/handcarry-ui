@@ -123,17 +123,18 @@ function isCreatorSelected(requestFilter) {
   <div class="col-12 col-md-5 col-lg-4 col-xl-3 mb-2">
     <div class="accordion" id="requestFilters">
       
-      <div class="card border-bottom"><!-- Note: Removed "border-bottom" if another card is added. -->
-        <div class="card-header" id="headingOne">
-          <h2 class="mb-0">
+      <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
+        <div class="card-header p-0" id="headingOne">
+          <h4 class="m-0">
             <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Maximum Size
+              Filters
             </button>
-          </h2>
+          </h4>
         </div>
         
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#requestFilters">
-          <div class="card-body">
+          <div class="card-body text-center">
+            <b>Max. size: </b>
             <SizeFilter initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
           </div>
         </div>
