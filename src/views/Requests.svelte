@@ -4,15 +4,24 @@ import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
 import { getRequests } from '../data/gqlQueries'
 import { getSelectedSizes } from '../data/sizes'
+import { push, querystring } from 'svelte-spa-router'
+import qs from 'qs'
 
 let errorMessage = ''
 let hasLoaded = false
 
 let requestFilter = {}
 let requests = []; loadRequests()
-let selectedSizeType = 'XLARGE'
-$: requestFilter.size = getSelectedSizes(selectedSizeType)
+
+$: queryStringData = qs.parse($querystring)
+$: requestFilter = populateFilterFrom(queryStringData)
 $: filteredRequests = filterRequests(requests, requestFilter)
+
+function populateFilterFrom(queryStringData) {
+  return {
+    size: getSelectedSizes(String(queryStringData.size).toUpperCase())
+  }
+}
 
 function filterRequests(requests, requestFilter) {
   let results = requests.slice(0); // Shallow-clone the array quickly.
@@ -39,6 +48,27 @@ async function loadRequests() {
     errorMessage = error.message
   }
   hasLoaded = true
+}
+
+function selectSize(sizeString) {
+  let lowerCaseSize = String(sizeString).toLowerCase()
+  if (lowerCaseSize === 'xlarge') {
+    lowerCaseSize = null
+  }
+  updateQueryString('size', lowerCaseSize)
+}
+
+function updateQueryString(key, value) {
+  let queryStringData = qs.parse($querystring)
+  
+  if (value) {
+    queryStringData[key] = value
+  } else if (queryStringData.hasOwnProperty(key)) {
+    delete queryStringData[key]
+  }
+  
+  const queryStringForUrl = qs.stringify(queryStringData)
+  queryStringForUrl ? push(`/requests?${queryStringForUrl}`) : push('/requests')
 }
 
 </script>
@@ -74,7 +104,7 @@ async function loadRequests() {
         
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#requestFilters">
           <div class="card-body">
-            <SizeFilter bind:selectedSizeType={selectedSizeType} />
+            <SizeFilter initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
           </div>
         </div>
       </div>
