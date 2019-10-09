@@ -10,16 +10,22 @@ import qs from 'qs'
 let errorMessage = ''
 let hasLoaded = false
 
+let isAllRequests
+let isJustMyRequests
 let requestFilter = {}
+let me = {}
 let requests = []; loadRequests()
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
 $: filteredRequests = filterRequests(requests, requestFilter)
+$: isAllRequests = !isCreatorSelected(requestFilter)
+$: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
 
 function populateFilterFrom(queryStringData) {
   return {
-    size: getSelectedSizes(String(queryStringData.size).toUpperCase())
+    createdBy: { id: queryStringData.creator },
+    size: getSelectedSizes(String(queryStringData.size).toUpperCase()),
   }
 }
 
@@ -34,15 +40,27 @@ function filterRequests(requests, requestFilter) {
 }
 
 function matches(request, requestFilter, property) {
+  if (!requestFilter[property]) {
+    return true
+  }
+  
   if (Array.isArray(requestFilter[property])) {
     return (requestFilter[property].indexOf(request[property]) >= 0)
+  } else if (typeof requestFilter[property] === 'object') {
+    for (const subProperty in requestFilter[property]) {
+      if (!matches(request[property], requestFilter[property], subProperty)) {
+        return false
+      } 
+    }
+    return true
   }
   return request[property] === requestFilter[property]
 }
 
 async function loadRequests() {
   try {
-    let response = await getRequests()
+    const response = await getRequests()
+    me = response.user
     requests = response.posts
   } catch (error) {
     errorMessage = error.message
@@ -71,6 +89,20 @@ function updateQueryString(key, value) {
   queryStringForUrl ? push(`/requests?${queryStringForUrl}`) : push('/requests')
 }
 
+function selectCreator(userId) {
+  updateQueryString('creator', userId)
+}
+
+function isSelectedCreator(userId, requestFilter) {
+  if (userId) {
+    return requestFilter.createdBy && requestFilter.createdBy.id && requestFilter.createdBy.id == userId
+  }
+  return false
+}
+
+function isCreatorSelected(requestFilter) {
+  return requestFilter.createdBy && requestFilter.createdBy.id
+}
 </script>
 
 <div class="row">
@@ -79,12 +111,12 @@ function updateQueryString(key, value) {
   </div>
   <div class="col-auto">
     <div class="float-right">
-      <a class="btn btn-sm btn-primary mx-1" href="/#/requests" aria-pressed="true" role="button">
+      <button class="btn btn-sm mx-1" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
         All
-      </a>
-      <a class="btn btn-sm btn-outline-primary mx-1" href="/#/requests/mine" role="button">
+      </button>
+      <button class="btn btn-sm mx-1" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
         My Requests
-      </a>      
+      </button>      
     </div>
   </div>
 </div>
