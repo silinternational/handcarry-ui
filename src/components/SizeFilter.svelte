@@ -1,16 +1,22 @@
 <script>
 import SizeIndicator from './SizeIndicator.svelte'
 import { sizes, includedInSizeSelection } from '../data/sizes'
+import { createEventDispatcher } from 'svelte';
 
-export let selectedSizeType
+export let initialValue
 
-let heights = {
+const dispatch = createEventDispatcher();
+const heights = {
   'TINY': '17px',
   'SMALL': '20px',
   'MEDIUM': '24px',
   'LARGE': '28px',
   'XLARGE': '32px',
 }
+
+let selectedSizeType
+$: selectedSizeType = initialValue ? String(initialValue).toUpperCase() : 'XLARGE'
+$: dispatch('selection', selectedSizeType)
 
 function getBadgeColorFor(size, selectedSizeType) {
   return includedInSizeSelection(size.type, selectedSizeType) ? size.color : 'light'
