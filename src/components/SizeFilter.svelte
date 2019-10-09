@@ -2,22 +2,22 @@
 import SizeIndicator from './SizeIndicator.svelte'
 import { sizes, includedInSizeSelection } from '../data/sizes'
 
-export let selectedName
+export let selectedSizeType
 
 let heights = {
-  'tiny': '17px',
-  'small': '20px',
-  'medium': '24px',
-  'large': '28px',
-  'xlarge': '32px',
+  'TINY': '17px',
+  'SMALL': '20px',
+  'MEDIUM': '24px',
+  'LARGE': '28px',
+  'XLARGE': '32px',
 }
 
-function getBadgeColorFor(size, selectedSizeName) {
-  return includedInSizeSelection(size.name, selectedSizeName) ? size.color : 'light'
+function getBadgeColorFor(size, selectedSizeType) {
+  return includedInSizeSelection(size.type, selectedSizeType) ? size.color : 'light'
 }
 
-function getTextColorFor(size, selectedSizeName) {
-  return includedInSizeSelection(size.name, selectedSizeName) ? 'white' : size.color
+function getTextColorFor(size, selectedSizeType) {
+  return includedInSizeSelection(size.type, selectedSizeType) ? 'white' : size.color
 }
 </script>
 
@@ -44,11 +44,11 @@ label {
 
 <div class="text-center">
   {#each sizes as size }
-    <div class="d-inline-block" style="font-size: {heights[size.name]}">
-      <label class="form-check-label d-block" for="size{size.name}" title="{size.name}">
-        <div class="badge badge-{getBadgeColorFor(size, selectedName)}">
-          <input type="radio" name="size" id="size{size.name}" value={size.name} class="form-check-input" bind:group={selectedName}>
-          <svg class="lnr lnr-briefcase text-{getTextColorFor(size, selectedName)}"><use xlink:href="#lnr-briefcase"></use></svg>
+    <div class="d-inline-block" style="font-size: {heights[size.type]}">
+      <label class="form-check-label d-block" for="size{size.type}" title="{size.name}">
+        <div class="badge badge-{getBadgeColorFor(size, selectedSizeType)}">
+          <input type="radio" name="size" id="size{size.type}" value={size.type} class="form-check-input" bind:group={selectedSizeType}>
+          <svg class="lnr lnr-briefcase text-{getTextColorFor(size, selectedSizeType)}"><use xlink:href="#lnr-briefcase"></use></svg>
         </div>
       </label>
     </div>
