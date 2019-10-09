@@ -48,6 +48,9 @@ export function getRequest(id) {
       cost
       url
       size
+      photo {
+        url
+      }
       neededAfter
       neededBefore
       category

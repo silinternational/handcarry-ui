@@ -1,4 +1,5 @@
 <script>
+import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import { getRequest, cancelPost } from '../data/gqlQueries'
 import { push } from 'svelte-spa-router'
@@ -6,35 +7,16 @@ import { push } from 'svelte-spa-router'
 export let params = {} // URL path parameters, provided by router.
 
 let request = {}; loadRequest()
-let cost = ''
-let description = ''
-let destination = ''
-let origin = ''
-let requestor = ''
-let requestorNickname = ''
-let size = ''
-let status = ''
-let title = ''
-let url = ''
 let me = {}
 
 async function loadRequest() {
   const response = await getRequest(params.id)
   request = response.post
-  cost = request.cost || ''
-  description = request.description
-  destination = request.destination
-  origin = request.origin
-  requestor = request.createdBy
-  requestorNickname = requestor.nickname
-  size = request.size
-  status = request.status
-  title = request.title
-  url = request.url
   me = response.user
 }
 
-$: isMine = () => requestor.id === me.id
+$: requestor = request.createdBy || {}
+$: isMine = requestor.id === me.id
 
 async function cancel() {
   try {
@@ -51,69 +33,55 @@ function asReadableDate(timestamp) {
 }
 </script>
 
-<h3 class="text-center">{ title }</h3>
+<style>
+div.card-img {
+  min-height: 215px; /* wanted to keep short squatty images from making the whole card look weird. */
+}
+</style>
 
-<div class="row">
-  <div class="col">
-    <blockquote class="blockquote">
-      <p class="mb-0">{ description }</p>
-      <footer class="blockquote-footer">{ requestorNickname }</footer>
-    </blockquote>
-    {#if url }
-      <p><a href="{ url }" target="_blank">{ url }</a></p>
-    {/if}
+<h3 class="pb-4">Request detail</h3>
+
+<div class="card mb-3">
+  <div class="row no-gutters">
+    <div class="col-12 col-md-3 card-img">
+      <RequestImage {request} />
+    </div>
+
+    <div class="col-md-9">
+      <div class="card-body">
+        <h5 class="card-title">
+          { request.title || ''}
+          {#if isMine}
+          <button on:click={cancel} class="btn btn-sm btn-outline-danger rounded-circle float-right">
+            <svg class="lnr lnr-trash"><use xlink:href="#lnr-trash"></use></svg>
+          </button>
+          {/if}
+        </h5>
+        <p>{ request.destination || ''}</p>
+        <blockquote class="blockquote">
+          { request.description }
+          <footer class="blockquote-footer">
+            { requestor.nickname } 
+            {#if ! isMine}
+            <a href="#/messages/new-conversation/{ params.id }" class="btn btn-success btn-sm m-1" role="button">
+              <svg class="lnr lnr-bubble mr-2"><use xlink:href="#lnr-bubble"></use></svg>
+              Start a discussion
+            </a>
+            {/if}
+          </footer>
+        </blockquote>
+      </div>
+
+      <div class="row p-2">
+        <div class="col" />
+        <div class="col-auto">
+          {#if isMine}
+          <button class="btn btn-sm btn-warning" disabled title="unavailable at this time">Edit</button>
+          {/if}
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<hr />
-
-<div class="row">
-  <div class="col-md">
-    {#if destination }
-      <p>
-        <b>Destination:</b><br />
-        { destination }
-      </p>
-    {/if}
-      
-    {#if origin }
-      <p>
-        <b>Origin:</b><br />
-        { origin }
-      </p>
-    {/if}
-  </div>
-  
-  <div class="col-md">
-    <p>
-      {#if size }
-        <b>Size:</b> <SizeIndicator { size } /><br />
-      {/if}
-      
-      {#if cost }
-        <b>Cost:</b> { cost }<br />
-      {/if}
-    </p>
-  </div>
-  
-  <div class="col-md">
-    <p>
-      <b>Status:</b> { status }<br />
-    </p>
-  </div>
-</div>
-
-<hr />
-
-<div class="row">
-  <div class="col text-center">
-    <a href="#/requests" class="btn btn-secondary btn-sm m-1" role="button">Back to requests</a>
-    {#if isMine()}
-      <button on:click={cancel} class="btn btn-danger btn-sm m-1">Cancel this request</button>
-    {:else}
-      <a href="#/messages/new-conversation/{ params.id }" class="btn btn-success btn-sm m-1" role="button">
-        Chat with { requestor.nickname } about this
-      </a>
-    {/if}
-  </div>
-</div>
+<a href="#/requests" class="text-secondary">« back to requests</a>
