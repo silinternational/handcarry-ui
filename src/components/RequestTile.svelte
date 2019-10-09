@@ -20,19 +20,13 @@ $: size = request.size
 .request-tile > .request-image {
   height: 10rem;
 }
-.size-indicator-container {
-  position: absolute;
-  right: 0.3rem;
-  top: -1.75rem;
-}
 </style>
 
 <div class="card request-tile" on:click={ () => push(`/requests/${request.id}`) }>
   <div class="card-img-top request-image text-center">
     <RequestImage {request} />
   </div>
-  <div class="card-body p-2 position-relative">
-    <div class="size-indicator-container"><SizeIndicator {size} /></div>
+  <div class="card-body p-2">
     <h3 class="card-title">{request.title}</h3>
     <div class="card-text">{request.destination}</div>
   </div>
