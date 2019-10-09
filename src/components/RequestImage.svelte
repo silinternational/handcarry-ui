@@ -23,14 +23,24 @@ function getGraphicForSize(requestSize) {
 </script>
 
 <style>
-img {
-  max-height: 100%;
-  max-width: 100%;
+.generic-graphic {
+  background-size: cover;
+}
+.request-photo {
+  background-size: contain;
+}
+
+.generic-graphic,
+.request-photo {
+  background-position: center center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
 }
 </style>
 
 {#if photoUrl }
-  <img src={photoUrl} class="request-photo {cssClass}" alt="An example picture of {request.title}" />
+  <div style="background-image: url({photoUrl})" class="request-photo {cssClass}" />
 {:else}
-  <img src={genericGraphicUrl} class="generic-graphic {cssClass}" alt="A generic {request.size} item graphic" />
+  <div style="background-image: url({genericGraphicUrl})" class="generic-graphic {cssClass}" />
 {/if}

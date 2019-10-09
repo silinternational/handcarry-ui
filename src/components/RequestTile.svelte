@@ -20,8 +20,7 @@ $: photoUrl = photo.url || ''
   height: 100%;
 }
 .request-tile > .request-image {
-  background-color: #ccc;
-  max-height: 10rem;
+  height: 10rem;
 }
 .size-indicator-container {
   position: absolute;
