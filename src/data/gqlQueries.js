@@ -26,6 +26,9 @@ export function getRequests() {
         nickname
         photoURL
       }
+      provider {
+        id
+      }
       neededAfter
       neededBefore
       category
