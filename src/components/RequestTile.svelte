@@ -9,8 +9,6 @@ export let request;
 
 $: user = request.createdBy || {}
 $: size = request.size
-$: photo = request.photo || {}
-$: photoUrl = photo.url || ''
 </script>
 
 <style>

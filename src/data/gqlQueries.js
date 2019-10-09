@@ -3,6 +3,7 @@ import { gql } from './api'
 export function getUser() {
   return gql(`{
     user {
+      id
       email
       nickname
       photoURL
