@@ -3,14 +3,33 @@ import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
 import { getRequests } from '../data/gqlQueries'
-import { includedInSizeSelection } from '../data/sizes'
+import { getSelectedSizes } from '../data/sizes'
 
 let errorMessage = ''
 let hasLoaded = false
 
+let requestFilter = {}
 let requests = []; loadRequests()
-let selectedSizeName = 'xlarge'
-$: filteredRequests = requests.filter((request) => includedInSizeSelection(request.size, selectedSizeName))
+let selectedSizeType = 'XLARGE'
+$: requestFilter.size = getSelectedSizes(selectedSizeType)
+$: filteredRequests = filterRequests(requests, requestFilter)
+
+function filterRequests(requests, requestFilter) {
+  let results = requests.slice(0); // Shallow-clone the array quickly.
+  
+  for (const property in requestFilter) {
+    results = results.filter((request) => matches(request, requestFilter, property))
+  }
+  
+  return results
+}
+
+function matches(request, requestFilter, property) {
+  if (Array.isArray(requestFilter[property])) {
+    return (requestFilter[property].indexOf(request[property]) >= 0)
+  }
+  return request[property] === requestFilter[property]
+}
 
 async function loadRequests() {
   try {
@@ -55,7 +74,7 @@ async function loadRequests() {
         
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#requestFilters">
           <div class="card-body">
-            <SizeFilter bind:selectedName={selectedSizeName} />
+            <SizeFilter bind:selectedSizeType={selectedSizeType} />
           </div>
         </div>
       </div>
