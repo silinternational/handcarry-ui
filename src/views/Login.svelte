@@ -2,11 +2,7 @@
 import { login } from '../data/api'
 
 let email = ''
-
 </script>
-
-<style>
-</style>
 
 <form on:submit|preventDefault={ () => login(email, '/requests') }>
   <div class="form-row">
