@@ -84,7 +84,7 @@ function focusOnCreate(element) {
   {:else}
   <div class="row">
     <div class="col">
-      <h3 class="text-center">{ post.title }</h3>
+      <h3 class="text-center"><a href="#/requests/{post.id}">{ post.title }</a></h3>
 
       <div class="text-center">
         <small>
