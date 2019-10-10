@@ -18,6 +18,7 @@ async function loadRequest() {
 $: requestor = request.createdBy || {}
 $: isMine = requestor.id === me.id
 $: hasConversation = request.threads && request.threads.length > 0
+$: conversationUrl = hasConversation ? `${request.threads[0].id}` : `new-conversation/${params.id}`
 
 async function cancel() {
   try {
@@ -64,7 +65,7 @@ div.card-img {
           <footer class="blockquote-footer">
             { requestor.nickname } 
             {#if !isMine || hasConversation}
-            <a href="#/messages/new-conversation/{ params.id }" class="btn btn-success btn-sm m-1" role="button">
+            <a href="#/messages/{ conversationUrl }" class="btn btn-success btn-sm m-1" role="button">
               <svg class="lnr lnr-bubble mr-2"><use xlink:href="#lnr-bubble"></use></svg>
               Discuss this
             </a>
