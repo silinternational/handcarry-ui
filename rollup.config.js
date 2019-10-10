@@ -6,6 +6,9 @@ import { terser } from 'rollup-plugin-terser'
 import json from 'rollup-plugin-json'
 import dotenvPlugin from 'rollup-plugin-dotenv'
 
+
+const production = !process.env.ROLLUP_WATCH
+
 export default {
 	input: 'src/main.js',
 	output: {
@@ -16,6 +19,8 @@ export default {
 	},
 	plugins: [
 		svelte({
+			// enable run-time checks when not in production
+			dev: !production,
 			// we'll extract any component CSS out into
 			// a separate file — better for performance
 			css: css => {
@@ -42,11 +47,11 @@ export default {
 
 		// Watch the `public` directory and refresh the
 		// browser on changes when not in production
-		livereload('public'),
+		!production && livereload('public'),
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		terser()
+		production && terser()
 	],
 	watch: {
 		clearScreen: false
