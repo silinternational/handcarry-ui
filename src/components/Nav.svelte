@@ -21,7 +21,20 @@ async function loadMe() {
 nav :global(img) {
    height: 2rem;
 }
+
+.fab {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 1030; /* matches bootstrap's suggestion for z-index-fixed */
+}
 </style>
+
+{#if me.nickname && $location === '/requests'}
+<a href="/#/requests/new" title="{polyglot.t('nav-requests-create')}" class="btn btn-lg btn-success rounded-circle fab shadow-lg text-monospace d-block d-md-none"> <!-- only shown on phones -->
+  +
+</a>
+{/if}
 
 <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
   <a class="navbar-brand" href={me.nickname ? '/#/requests' : '/#/login'}>
@@ -35,11 +48,13 @@ nav :global(img) {
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav ml-auto align-items-center">
-      <li class="nav-item pr-2">
+      {#if $location !== '/requests/new'}
+      <li class="nav-item pr-2 d-none d-md-block"> <!-- hidden on phones -->
         <a href="/#/requests/new" class="btn btn-sm btn-success">
           {polyglot.t('nav-requests-create')}
         </a>
       </li>
+      {/if}
 
       <li class="nav-item">
         <a href="/#/requests" class="nav-link" class:active={$location === '/requests'}>
