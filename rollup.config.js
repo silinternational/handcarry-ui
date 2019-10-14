@@ -5,8 +5,9 @@ import livereload from 'rollup-plugin-livereload'
 import { terser } from 'rollup-plugin-terser'
 import json from 'rollup-plugin-json'
 import dotenvPlugin from 'rollup-plugin-dotenv'
+import htmlTemplate from 'rollup-plugin-generate-html-template'
 
-
+const cacheBust = Date.now()
 const production = !process.env.ROLLUP_WATCH
 
 export default {
@@ -15,7 +16,7 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/bundle.js'
+		file: `public/bundle.${cacheBust}.js`
 	},
 	plugins: [
 		svelte({
@@ -51,7 +52,17 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
+
+		htmlTemplate({
+      template: 'src/index.html',
+			target: 'public/index.html',
+			attrs: ['defer'],
+			replaceVars: {
+				'__GLOBAL_CSS_CACHE_BUST__': cacheBust,
+				'__BUNDLE_CSS_CACHE_BUST__': cacheBust
+			}
+    })
 	],
 	watch: {
 		clearScreen: false

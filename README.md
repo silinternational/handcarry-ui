@@ -20,7 +20,7 @@ Navigate to [http://wecarry.local:5000](http://wecarry.local:5000). You should s
 ## Deployment
 
 ```bash
-npm run build
+make build
 ```
 
 The contents of the `public` folder can then be deployed to your host
