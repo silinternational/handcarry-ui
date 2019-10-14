@@ -54,6 +54,8 @@ export default {
 		// instead of npm run dev), minify
 		production && terser(),
 
+		// generates a public/index.html that pulls in the newly cache-busted
+		// app files, e.g., public/bundle.[timestamp].js
 		htmlTemplate({
       template: 'src/index.html',
 			target: 'public/index.html',
