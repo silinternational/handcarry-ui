@@ -144,22 +144,46 @@ function isCreatorSelected(requestFilter) {
 function isProviderSelected(requestFilter) {
   return requestFilter.provider && requestFilter.provider.id
 }
+
+function viewAsGrid() {
+  updateQueryString({
+    list: null,
+  })
+}
+
+function viewAsList() {
+  updateQueryString({
+    list: 1,
+  })
+}
 </script>
 
 <div class="row">
-  <div class="col-12 col-sm-auto text-center text-sm-left">
+  <div class="col-12 col-md-auto text-center text-sm-left">
     <h2>Requests</h2>
   </div>
   <div class="col text-right">
-    <button class="btn btn-sm m-1" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
-      All
-    </button>
-    <button class="btn btn-sm m-1" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
-      My Requests
-    </button>
-    <button class="btn btn-sm m-1" on:click={() => selectProvider(me.id)} class:btn-primary={isJustMyCommitments} class:btn-outline-primary={!isJustMyCommitments}>
-      My Commitments
-    </button>
+    <div class="row">
+      <div class="col-12 text-center col-sm text-sm-left text-md-right">
+        <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
+          All
+        </button>
+        <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
+          My Requests
+        </button>
+        <button class="btn btn-sm my-1 mx-0" on:click={() => selectProvider(me.id)} class:btn-primary={isJustMyCommitments} class:btn-outline-primary={!isJustMyCommitments}>
+          My Commitments
+        </button>
+      </div>
+      <div class="col-12 text-center col-sm-auto text-sm-right">
+        <button class="btn btn-sm my-1 mx-0" on:click={() => viewAsGrid()} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
+          Grid
+        </button>
+        <button class="btn btn-sm my-1 mx-0" on:click={() => viewAsList()} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
+          List
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
