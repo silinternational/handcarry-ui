@@ -9,13 +9,13 @@ import { format } from 'date-fns'
 
 <style>
 .plus-icon {
-  margin: 25% 0;
+  padding: 25% 0;
   text-align: center;
   font-size: 5rem;
   line-height: 1em;
 }
 .request-tile {
-  border-color: #63c774;
+  border-color: var(--success);
   cursor: pointer;
   height: 100%;
 }
