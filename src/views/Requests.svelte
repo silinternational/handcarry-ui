@@ -176,11 +176,11 @@ function viewAsList() {
         </button>
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
-        <button class="btn btn-sm my-1 mx-0" on:click={() => viewAsGrid()} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
-          Grid
+        <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={() => viewAsGrid()} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
+          <svg class="lnr lnr-file-empty"><use xlink:href="#lnr-file-empty"></use></svg>
         </button>
-        <button class="btn btn-sm my-1 mx-0" on:click={() => viewAsList()} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
-          List
+        <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={() => viewAsList()} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
+          <svg class="lnr lnr-list"><use xlink:href="#lnr-list"></use></svg>
         </button>
       </div>
     </div>
