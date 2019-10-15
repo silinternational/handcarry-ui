@@ -5,6 +5,10 @@ import Footer from './Footer.svelte'
 import routes from '../views/routes'
 </script>
 
+<style type="text/scss" global>
+@import "../custom.scss";
+</style>
+
 <Nav />
 
 <main class="container">
