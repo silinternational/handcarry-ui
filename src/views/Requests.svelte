@@ -1,4 +1,5 @@
 <script>
+import RequestListEntry from '../components/RequestListEntry.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
@@ -18,6 +19,7 @@ let requestFilter = {}
 let me = {}
 let queryStringData
 let requests = []; loadRequests()
+let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
@@ -25,6 +27,7 @@ $: filteredRequests = filterRequests(requests, requestFilter)
 $: isAllRequests = !isCreatorSelected(requestFilter) && !isProviderSelected(requestFilter)
 $: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
 $: isJustMyCommitments = isSelectedProvider(me.id, requestFilter)
+$: showAsList = queryStringData.hasOwnProperty('list')
 
 function populateFilterFrom(queryStringData) {
   return {
@@ -188,9 +191,17 @@ function isProviderSelected(requestFilter) {
     
     <div class:d-none={!hasLoaded} class="form-row align-items-stretch">
       {#each filteredRequests as request}
-        <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><RequestTile {request} /></div>
+        {#if showAsList }
+          <div class="col-12 my-1"><RequestListEntry {request} /></div>
+        {:else}
+          <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><RequestTile {request} /></div>
+        {/if}
       {/each}
-      <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><NewRequestTile /></div>
+      
+      <div class:d-md-block={showAsList} class="d-none col-12 my-1 text-right">
+        <a href="#/requests/new" class="btn btn-success btn-sm"><span style="font-size: larger">+</span> Make a request</a>
+      </div>
+      <div class:d-md-block={!showAsList} class="d-none col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><NewRequestTile /></div>
     </div>
     
     <p class:d-none={!errorMessage}>🧨 Something went wrong: {errorMessage}</p>
