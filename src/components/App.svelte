@@ -16,8 +16,8 @@ $theme-colors: (
   "success": #67ae09,
   "green": #67ae09,
   
-  //"info": #37c89e,
-  "teal": #37c89e,
+  "info": #0d98aa,
+  "teal": #0d98aa,
   
   "warning": #ff731b,
   "orange": #ff731b,
