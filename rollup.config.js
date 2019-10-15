@@ -63,7 +63,7 @@ export default {
 		// generates a public/index.html that pulls in the newly cache-busted
 		// app files, e.g., public/bundle.[timestamp].js
 		htmlTemplate({
-      template: 'src/index.html',
+      template: 'src/prebuild-index.html',
 			target: 'public/index.html',
 			attrs: ['defer'],
 			replaceVars: {

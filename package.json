@@ -28,10 +28,9 @@
   },
   "scripts": {
     "build": "rollup -c",
+    "dev": "run-p start autobuild",
+    "start": "sirv public --single --dev",
     "autobuild": "rollup -c -w",
-    "dev": "run-p start:dev autobuild",
-    "start": "sirv public --single",
-    "start:dev": "sirv public --single --dev",
     "clean": "rimraf public/bundle.* public/index.html"
   }
 }
