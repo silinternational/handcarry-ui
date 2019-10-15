@@ -15,7 +15,7 @@ import { format } from 'date-fns'
   line-height: 1em;
 }
 .request-tile {
-  border-color: #7ca8cf;
+  border-color: #63c774;
   cursor: pointer;
   height: 100%;
 }
@@ -23,11 +23,11 @@ import { format } from 'date-fns'
 
 <div class="card request-tile bg-light" on:click={ () => push(`/requests/new`) }>
   <div class="card-body p-2 position-relative">
-    <div class="card-text plus-icon text-primary">+</div>
+    <div class="card-text plus-icon text-success">+</div>
   </div>
-  <div class="card-footer p-2 bg-primary">
+  <div class="card-footer p-2 bg-success">
     <div class="row">
-      <div class="col text-center"><a class="text-light" href="#/requests/new">Make a new request</a></div>
+      <div class="col text-center"><a class="text-light" href="#/requests/new">Make a request</a></div>
     </div>
   </div>
 </div>
