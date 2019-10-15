@@ -12,9 +12,17 @@ $: size = request.size
 </script>
 
 <style>
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
 .request-list-entry {
   border-color: rgba(0, 0, 0, 0.25);
   cursor: pointer;
+}
+.request-list-entry:hover {
+  border-color: var(--blue);
 }
 </style>
 
@@ -27,8 +35,8 @@ $: size = request.size
     </div>
     <div class="col">
       <div class="card-body p-2">
-        <b class="card-title">{request.title}</b>
-        <span class="card-text">{request.destination}</span>
+        <h3 class="card-title d-inline-block">{request.title}</h3>
+        <span class="card-text">| {request.destination}</span>
       </div>
     </div>
     <div class="col-auto p-2"><SizeIndicator {size} /></div>
