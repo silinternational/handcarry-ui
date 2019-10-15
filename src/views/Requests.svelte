@@ -222,7 +222,7 @@ function viewAsList() {
         {/if}
       {/each}
       
-      <div class:d-md-block={showAsList} class="d-none col-12 my-1 text-right">
+      <div class:d-md-block={showAsList} class="d-none col-12 my-1">
         <a href="#/requests/new" class="btn btn-success btn-sm"><span style="font-size: larger">+</span> Make a request</a>
       </div>
       <div class:d-md-block={!showAsList} class="d-none col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><NewRequestTile /></div>
