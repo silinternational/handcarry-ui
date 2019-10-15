@@ -12,8 +12,11 @@ let hasLoaded = false
 
 let isAllRequests
 let isJustMyRequests
+let isJustMyCommitments
+let filteredRequests
 let requestFilter = {}
 let me = {}
+let queryStringData
 let requests = []; loadRequests()
 
 $: queryStringData = qs.parse($querystring)
