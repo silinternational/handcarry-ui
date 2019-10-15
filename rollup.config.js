@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser'
 import json from 'rollup-plugin-json'
 import dotenvPlugin from 'rollup-plugin-dotenv'
 import htmlTemplate from 'rollup-plugin-generate-html-template'
+import autoPreprocess from 'svelte-preprocess'
 
 const cacheBust = Date.now()
 const production = !process.env.ROLLUP_WATCH
@@ -20,8 +21,11 @@ export default {
 	},
 	plugins: [
 		svelte({
+			preprocess: autoPreprocess(),
+			
 			// enable run-time checks when not in production
 			dev: !production,
+			
 			// we'll extract any component CSS out into
 			// a separate file — better for performance
 			css: css => {
