@@ -31,6 +31,8 @@ $: size = request.size
         <span class="card-text">{request.destination}</span>
       </div>
     </div>
-    <div class="col-auto p-1"><UserAvatar {user} /></div>
+    <div class="col-auto p-2"><SizeIndicator {size} /></div>
+    <div class="col-auto p-2"><UserAvatar {user} />
+    </div>
   </div>
 </div>
