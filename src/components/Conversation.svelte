@@ -11,6 +11,7 @@ $: post = conversation.post || {}
 $: creator = post.createdBy || {}
 $: provider = post.provider || {}
 $: messages = conversation.messages || []
+$: destination = post.destination && post.destination.description
 
 let reply = ''
 
@@ -88,7 +89,7 @@ function focusOnCreate(element) {
 
       <div class="text-center">
         <small>
-          <b>{ post.createdBy.nickname }</b> @ { post.destination }<br />
+          <strong>{ post.createdBy.nickname }</strong> @ { destination }<br />
           {#if post.neededAfter && post.neededBefore }
             between { asReadableDate(post.neededAfter) } and { asReadableDate(post.neededBefore) }
           {:else if post.neededAfter }

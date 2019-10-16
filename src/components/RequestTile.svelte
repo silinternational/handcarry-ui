@@ -28,7 +28,7 @@ $: size = request.size
   </div>
   <div class="card-body p-2">
     <h3 class="card-title">{request.title}</h3>
-    <div class="card-text">{request.destination}</div>
+    <div class="card-text">{request.destination.description}</div>
   </div>
   <div class="card-footer p-2">
     <div class="row">
