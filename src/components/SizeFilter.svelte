@@ -12,16 +12,13 @@ let selectedSizeType
 $: selectedSizeType = initialValue ? String(initialValue).toUpperCase() : 'XLARGE'
 $: dispatch('selection', selectedSizeType)
 
-function getButtonColorFor(size, selectedSizeType) {
+function getBadgeColorFor(size, selectedSizeType) {
   return includedInSizeSelection(size.type, selectedSizeType) ? size.color : 'light'
 }
 
-function getTextColorFor(size, selectedSizeType) {
-  return includedInSizeSelection(size.type, selectedSizeType) ? 'white' : size.color
-}
-
-function selectSize(size) {
+function onChange(size, event) {
   selectedSizeType = size.type
+  event.target.checked = true
 }
 </script>
 
@@ -33,7 +30,11 @@ button {
 </style>
 
 {#each sizes as size }
-  <button class="btn btn-sm btn-{getButtonColorFor(size, selectedSizeType)} text-{getTextColorFor(size, selectedSizeType)} {cssClass}" on:click={() => selectSize(size)}>
-    {size.name}
-  </button>
+  <div class="form-check {cssClass}">
+    <input type="checkbox" class="form-check-input" id="sizeFilter{size.type}" checked={includedInSizeSelection(size.type, selectedSizeType)}
+           on:change={(event) => onChange(size, event)} />
+    <label class="form-check-label" for="sizeFilter{size.type}">
+      <SizeIndicator size={size.type} />
+    </label>
+  </div>
 {/each}
