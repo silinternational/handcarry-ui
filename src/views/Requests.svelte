@@ -24,6 +24,7 @@ let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
+$: searchText = queryStringData.search || ''
 $: filteredRequests = filterRequests(requests, requestFilter, searchText)
 $: isAllRequests = !isCreatorSelected(requestFilter) && !isProviderSelected(requestFilter)
 $: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
@@ -173,6 +174,12 @@ function viewAsList() {
     list: 1,
   })
 }
+
+function searchForText(searchText) {
+  updateQueryString({
+    search: searchText,
+  })
+}
 </script>
 
 <div class="row">
@@ -238,7 +245,7 @@ function viewAsList() {
           <div class="input-group-prepend">
             <div class="input-group-text"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></div>
           </div>
-          <input type="text" class="form-control" placeholder="Search" bind:value={searchText} />
+          <input type="text" class="form-control" placeholder="Search" value={searchText} on:input={event => searchForText(event.target.value)} />
         </div>
       </div>
       {#each filteredRequests as request}
