@@ -41,7 +41,7 @@ function filterRequests(requests, requestFilter) {
   let results = requests.slice(0); // Shallow-clone the array quickly.
   
   for (const property in requestFilter) {
-    results = results.filter((request) => matches(request, requestFilter, property))
+    results = results.filter(request => matches(request, requestFilter, property))
   }
   
   return results
@@ -93,9 +93,8 @@ function selectSize(sizeString) {
 function updateQueryString(updates) {
   let queryStringData = qs.parse($querystring)
   
-  let value
   for (const key in updates) {
-    value = updates[key]
+    const value = updates[key]
     if (value) {
       queryStringData[key] = value
     } else if (queryStringData.hasOwnProperty(key)) {
@@ -176,10 +175,10 @@ function viewAsList() {
         </button>
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
-        <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={() => viewAsGrid()} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
+        <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={viewAsGrid} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
           <svg class="lnr lnr-file-empty"><use xlink:href="#lnr-file-empty"></use></svg>
         </button>
-        <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={() => viewAsList()} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
+        <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={viewAsList} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
           <svg class="lnr lnr-list"><use xlink:href="#lnr-list"></use></svg>
         </button>
       </div>
@@ -190,7 +189,6 @@ function viewAsList() {
 <div class="row mt-2">
   <div class="col-12 col-md-4 col-lg-3 mb-2">
     <div class="accordion" id="requestFilters">
-      
       <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
         <div class="card-header p-0" id="headingOne">
           <h4 class="m-0">
@@ -204,12 +202,11 @@ function viewAsList() {
           <div class="card-body text-center">
             <b class="d-inline-block d-md-block">Max. size:</b>
             <div class="d-inline-block text-md-left">
-              <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
+              <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={event => selectSize(event.detail)} />
             </div>
           </div>
         </div>
       </div>
-      
     </div>
   </div>
   <div class="col col-sm-10 offset-sm-1 col-md offset-md-0">
