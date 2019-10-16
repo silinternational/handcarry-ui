@@ -188,7 +188,7 @@ function viewAsList() {
 </div>
 
 <div class="row mt-2">
-  <div class="col-12 col-md-5 col-lg-4 col-xl-3 mb-2">
+  <div class="col-12 col-md-4 col-lg-3 mb-2">
     <div class="accordion" id="requestFilters">
       
       <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
@@ -202,8 +202,10 @@ function viewAsList() {
         
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#requestFilters">
           <div class="card-body text-center">
-            <b>Max. size: </b>
-            <SizeFilter initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
+            <b class="d-inline-block d-md-block">Max. size:</b>
+            <div class="d-inline-block text-md-left">
+              <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
+            </div>
           </div>
         </div>
       </div>
