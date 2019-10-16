@@ -256,6 +256,10 @@ function searchForText(searchText) {
         {/if}
       {/each}
       
+      {#if !filteredRequests.length}
+        <div class="col-12 my-2 mx-5"><i class="text-muted">None found</i></div>
+      {/if}
+      
       <div class:d-md-block={showAsList} class="d-none col-12 my-1">
         <a href="#/requests/new" class="btn btn-success btn-sm"><span style="font-size: larger">+</span> Make a request</a>
       </div>
