@@ -166,7 +166,7 @@ function imageUploaded(event) {
 
   <div class="form-row form-group">
     <div class="col-auto">
-      <a href="#/requests" on:click|preventDefault={() => pop()} class="btn btn-outline-dark">« cancel</a>
+      <a href="#/requests" on:click|preventDefault={pop} class="btn btn-outline-dark">« cancel</a>
     </div>
     <div class="col"></div>
     <div class="col-auto">
