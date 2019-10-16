@@ -1,4 +1,5 @@
 <script>
+import RequestListEntry from '../components/RequestListEntry.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
@@ -12,9 +13,13 @@ let hasLoaded = false
 
 let isAllRequests
 let isJustMyRequests
+let isJustMyCommitments
+let filteredRequests
 let requestFilter = {}
 let me = {}
+let queryStringData
 let requests = []; loadRequests()
+let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
@@ -22,6 +27,7 @@ $: filteredRequests = filterRequests(requests, requestFilter)
 $: isAllRequests = !isCreatorSelected(requestFilter) && !isProviderSelected(requestFilter)
 $: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
 $: isJustMyCommitments = isSelectedProvider(me.id, requestFilter)
+$: showAsList = queryStringData.hasOwnProperty('list')
 
 function populateFilterFrom(queryStringData) {
   return {
@@ -138,27 +144,51 @@ function isCreatorSelected(requestFilter) {
 function isProviderSelected(requestFilter) {
   return requestFilter.provider && requestFilter.provider.id
 }
+
+function viewAsGrid() {
+  updateQueryString({
+    list: null,
+  })
+}
+
+function viewAsList() {
+  updateQueryString({
+    list: 1,
+  })
+}
 </script>
 
 <div class="row">
-  <div class="col-12 col-sm-auto text-center text-sm-left">
+  <div class="col-12 col-md-auto text-center text-sm-left">
     <h2>Requests</h2>
   </div>
   <div class="col text-right">
-    <button class="btn btn-sm m-1" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
-      All
-    </button>
-    <button class="btn btn-sm m-1" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
-      My Requests
-    </button>
-    <button class="btn btn-sm m-1" on:click={() => selectProvider(me.id)} class:btn-primary={isJustMyCommitments} class:btn-outline-primary={!isJustMyCommitments}>
-      My Commitments
-    </button>
+    <div class="row">
+      <div class="col-12 text-center col-sm text-sm-left text-md-right">
+        <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
+          All
+        </button>
+        <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
+          My Requests
+        </button>
+        <button class="btn btn-sm my-1 mx-0" on:click={() => selectProvider(me.id)} class:btn-primary={isJustMyCommitments} class:btn-outline-primary={!isJustMyCommitments}>
+          My Commitments
+        </button>
+      </div>
+      <div class="col-12 text-center col-sm-auto text-sm-right">
+        <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={() => viewAsGrid()} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
+          <svg class="lnr lnr-file-empty"><use xlink:href="#lnr-file-empty"></use></svg>
+        </button>
+        <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={() => viewAsList()} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
+          <svg class="lnr lnr-list"><use xlink:href="#lnr-list"></use></svg>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
 <div class="row mt-2">
-  <div class="col-12 col-md-5 col-lg-4 col-xl-3 mb-2">
+  <div class="col-12 col-md-4 col-lg-3 mb-2">
     <div class="accordion" id="requestFilters">
       
       <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
@@ -172,8 +202,10 @@ function isProviderSelected(requestFilter) {
         
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#requestFilters">
           <div class="card-body text-center">
-            <b>Max. size: </b>
-            <SizeFilter initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
+            <b class="d-inline-block d-md-block">Max. size:</b>
+            <div class="d-inline-block text-md-left">
+              <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
+            </div>
           </div>
         </div>
       </div>
@@ -185,9 +217,17 @@ function isProviderSelected(requestFilter) {
     
     <div class:d-none={!hasLoaded} class="form-row align-items-stretch">
       {#each filteredRequests as request}
-        <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><RequestTile {request} /></div>
+        {#if showAsList }
+          <div class="col-12 my-1"><RequestListEntry {request} /></div>
+        {:else}
+          <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><RequestTile {request} /></div>
+        {/if}
       {/each}
-      <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><NewRequestTile /></div>
+      
+      <div class:d-md-block={showAsList} class="d-none col-12 my-1">
+        <a href="#/requests/new" class="btn btn-success btn-sm"><span style="font-size: larger">+</span> Make a request</a>
+      </div>
+      <div class:d-md-block={!showAsList} class="d-none col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><NewRequestTile /></div>
     </div>
     
     <p class:d-none={!errorMessage}>🧨 Something went wrong: {errorMessage}</p>

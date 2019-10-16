@@ -2,7 +2,7 @@
 import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import { getRequest, cancelPost } from '../data/gqlQueries'
-import { push } from 'svelte-spa-router'
+import { push, pop } from 'svelte-spa-router'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -87,4 +87,4 @@ div.card-img {
   </div>
 </div>
 
-<a href="#/requests" class="text-secondary">« back to requests</a>
+<a href="#/requests" on:click|preventDefault={pop} class="text-secondary">« back to requests</a>

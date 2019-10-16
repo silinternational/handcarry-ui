@@ -3,7 +3,7 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { getUser, createPost } from '../data/gqlQueries'
-import { push } from 'svelte-spa-router'
+import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
 
@@ -169,7 +169,7 @@ function imageUploaded(event) {
 
   <div class="form-row form-group">
     <div class="col-auto">
-      <a href="#/requests" class="btn btn-outline-dark">Cancel</a>
+      <a href="#/requests" on:click|preventDefault={pop} class="btn btn-outline-dark">« Cancel</a>
     </div>
     <div class="col"></div>
     <div class="col-auto">
