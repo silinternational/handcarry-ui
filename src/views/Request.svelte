@@ -86,4 +86,4 @@ div.card-img {
   </div>
 </div>
 
-<a href="#/requests" on:click|preventDefault={() => pop()} class="text-secondary">« back to requests</a>
+<a href="#/requests" on:click|preventDefault={pop} class="text-secondary">« back to requests</a>
