@@ -202,9 +202,9 @@ function viewAsList() {
         
         <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#requestFilters">
           <div class="card-body text-center">
-            <b class="d-inline-block">Max. size: </b>
-            <div class="d-inline-block d-md-block">
-              <SizeFilter cssClass="mx-md-auto d-md-block" initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
+            <b class="d-inline-block d-md-block">Max. size:</b>
+            <div class="d-inline-block text-md-left">
+              <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
             </div>
           </div>
         </div>
