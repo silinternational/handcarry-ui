@@ -188,7 +188,7 @@ function viewAsList() {
 </div>
 
 <div class="row mt-2">
-  <div class="col-12 col-md-4 col-lg-3 col-xl-2 mb-2">
+  <div class="col-12 col-md-4 col-lg-3 mb-2">
     <div class="accordion" id="requestFilters">
       
       <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
