@@ -19,11 +19,12 @@ let requestFilter = {}
 let me = {}
 let queryStringData
 let requests = []; loadRequests()
+let searchText = ''
 let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
-$: filteredRequests = filterRequests(requests, requestFilter)
+$: filteredRequests = filterRequests(requests, requestFilter, searchText)
 $: isAllRequests = !isCreatorSelected(requestFilter) && !isProviderSelected(requestFilter)
 $: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
 $: isJustMyCommitments = isSelectedProvider(me.id, requestFilter)
@@ -37,17 +38,21 @@ function populateFilterFrom(queryStringData) {
   }
 }
 
-function filterRequests(requests, requestFilter) {
+function filterRequests(requests, requestFilter, searchText) {
   let results = requests.slice(0); // Shallow-clone the array quickly.
   
   for (const property in requestFilter) {
-    results = results.filter((request) => matches(request, requestFilter, property))
+    results = results.filter(request => matchesProperty(request, requestFilter, property))
+  }
+  
+  if (searchText) {
+    results = results.filter(request => matchesSearchText(request, searchText))
   }
   
   return results
 }
 
-function matches(request, requestFilter, property) {
+function matchesProperty(request, requestFilter, property) {
   if (!requestFilter[property]) {
     return true
   }
@@ -60,13 +65,25 @@ function matches(request, requestFilter, property) {
     return (requestFilter[property].indexOf(request[property]) >= 0)
   } else if (typeof requestFilter[property] === 'object') {
     for (const subProperty in requestFilter[property]) {
-      if (!matches(request[property], requestFilter[property], subProperty)) {
+      if (!matchesProperty(request[property], requestFilter[property], subProperty)) {
         return false
       } 
     }
     return true
   }
   return request[property] === requestFilter[property]
+}
+
+function matchesSearchText(request, searchText) {
+  const lowerCaseSearchText = searchText.toLowerCase()
+  
+  return stringIsIn(lowerCaseSearchText, request.title) ||
+         stringIsIn(lowerCaseSearchText, request.destination) ||
+         stringIsIn(lowerCaseSearchText, request.createdBy.nickname)
+}
+
+function stringIsIn(needle, haystack) {
+  return (haystack || '').toLowerCase().indexOf(needle) >= 0
 }
 
 async function loadRequests() {
@@ -216,6 +233,14 @@ function viewAsList() {
     <p class:d-none={hasLoaded}>⏳ retrieving requests...</p>
     
     <div class:d-none={!hasLoaded} class="form-row align-items-stretch">
+      <div class="col-12">
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></div>
+          </div>
+          <input type="text" class="form-control" placeholder="Search" bind:value={searchText} />
+        </div>
+      </div>
       {#each filteredRequests as request}
         {#if showAsList }
           <div class="col-12 my-1"><RequestListEntry {request} /></div>
