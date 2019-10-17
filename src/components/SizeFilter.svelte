@@ -1,12 +1,12 @@
 <script>
 import SizeIndicator from './SizeIndicator.svelte'
 import { sizes, includedInSizeSelection } from '../data/sizes'
-import { createEventDispatcher } from 'svelte';
+import { createEventDispatcher } from 'svelte'
 
 export let initialValue
 export let cssClass = ''
 
-const dispatch = createEventDispatcher();
+const dispatch = createEventDispatcher()
 
 let selectedSizeType
 $: selectedSizeType = initialValue ? String(initialValue).toUpperCase() : 'XLARGE'
