@@ -22,13 +22,6 @@ function onChange(size, event) {
 }
 </script>
 
-<style>
-button {
-  margin: 0.25rem 0.125rem;
-  padding: 0.125rem 0.25rem;
-}
-</style>
-
 {#each sizes as size }
   <div class="form-check form-check-inline {cssClass}">
     <input type="checkbox" class="form-check-input" id="sizeFilter{size.type}" checked={includedInSizeSelection(size.type, selectedSizeType)}

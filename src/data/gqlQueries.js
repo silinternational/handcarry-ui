@@ -20,7 +20,9 @@ export function getRequests() {
     posts {
       id
       title
-      destination
+      destination {
+        description
+      }
       createdBy {
         id
         nickname
@@ -50,20 +52,14 @@ export function getRequest(id) {
       id
       title
       description
-      destination
-      origin
-      cost
+      destination {
+        description
+      }
       url
       size
       photo {
         url
       }
-      neededAfter
-      neededBefore
-      category
-      status
-      createdAt
-      updatedAt
       createdBy {
         id
         nickname
@@ -95,7 +91,9 @@ export function getMyRequests() {
         status
         title
         description
-        destination
+        destination {
+          description
+        }
         neededAfter
         neededBefore
         provider {
@@ -112,7 +110,9 @@ export function getMyCommitments() {
       posts(role: PROVIDING) {
         title
         description
-        destination
+        destination {
+          description
+        }
         neededAfter
         neededBefore
         provider {
@@ -131,7 +131,12 @@ export function createPost(post) {
         type: ${post.type},
         title: """${post.title}""",
         description: """${post.description}""",
-        destination: """${post.destination}""",
+        destination: {
+          description: """${post.destination.description}""",
+          latitude: ${post.destination.latitude},
+          longitude: ${post.destination.longitude},
+          country: "${post.destination.country}"
+        },
         photoID: "${post.photoID}",
         size: ${post.size}
       }) 
@@ -159,7 +164,9 @@ export function sendCommit(postId) {
           id
           nickname
         }
-        destination
+        destination {
+          description
+        }
         neededAfter
         neededBefore
         provider {
@@ -188,7 +195,9 @@ export function acceptCommittment(postId) {
           id
           nickname
         }
-        destination
+        destination {
+          description
+        }
         neededAfter
         neededBefore
         provider {
@@ -248,7 +257,9 @@ export function getMyConversations() {
           id
           nickname
         }
-        destination
+        destination {
+          description
+        }
         neededAfter
         neededBefore
         provider {

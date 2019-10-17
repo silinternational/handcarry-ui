@@ -39,6 +39,7 @@ function populateFilterFrom(queryStringData) {
   }
 }
 
+// TODO:  would like to discuss the possibility of extracting the search/filter logic to a separate module and possibly combining if possible.
 function filterRequests(requests, requestFilter, searchText) {
   let results = requests.slice(0); // Shallow-clone the array quickly.
   
@@ -79,7 +80,7 @@ function matchesSearchText(request, searchText) {
   const lowerCaseSearchText = searchText.toLowerCase()
   
   return stringIsIn(lowerCaseSearchText, request.title) ||
-         stringIsIn(lowerCaseSearchText, request.destination) ||
+         stringIsIn(lowerCaseSearchText, request.destination.description) ||
          stringIsIn(lowerCaseSearchText, request.createdBy.nickname)
 }
 
@@ -111,9 +112,8 @@ function selectSize(sizeString) {
 function updateQueryString(updates) {
   let queryStringData = qs.parse($querystring)
   
-  let value
   for (const key in updates) {
-    value = updates[key]
+    const value = updates[key]
     if (value) {
       queryStringData[key] = value
     } else if (queryStringData.hasOwnProperty(key)) {
@@ -189,6 +189,7 @@ function searchForText(searchText) {
   <div class="col text-right">
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
+        <!-- TODO: consider making a comp here, e.g., <RequestFilterType on:all={selectCreator} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} /> -->
         <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
           All
         </button>
@@ -200,10 +201,11 @@ function searchForText(searchText) {
         </button>
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
-        <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={() => viewAsGrid()} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
+        <!-- TODO: consider making a comp here, e.g., <GridListAction on:list={viewAsList} on:grid={viewAsGrid} /> -->
+        <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={viewAsGrid} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
           <svg class="lnr lnr-file-empty"><use xlink:href="#lnr-file-empty"></use></svg>
         </button>
-        <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={() => viewAsList()} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
+        <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={viewAsList} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
           <svg class="lnr lnr-list"><use xlink:href="#lnr-list"></use></svg>
         </button>
       </div>
@@ -214,7 +216,6 @@ function searchForText(searchText) {
 <div class="row mt-2">
   <div class="col-12 col-md-4 col-lg-3 mb-2">
     <div class="accordion" id="requestFilters">
-      
       <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
         <div class="card-header p-0" id="headingOne">
           <h4 class="m-0">
@@ -228,12 +229,11 @@ function searchForText(searchText) {
           <div class="card-body text-center">
             <b class="d-inline-block d-md-block">Max. size:</b>
             <div class="d-inline-block text-md-left">
-              <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={(event) => selectSize(event.detail)} />
+              <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={event => selectSize(event.detail)} />
             </div>
           </div>
         </div>
       </div>
-      
     </div>
   </div>
   <div class="col col-sm-10 offset-sm-1 col-md offset-md-0">

@@ -19,6 +19,7 @@ $: requestor = request.createdBy || {}
 $: isMine = requestor.id === me.id
 $: hasConversation = request.threads && request.threads.length > 0
 $: conversationUrl = hasConversation ? `${request.threads[0].id}` : `new-conversation/${params.id}`
+$: destination = request.destination && request.destination.description || ''
 
 async function cancel() {
   try {
@@ -59,7 +60,7 @@ div.card-img {
           </button>
           {/if}
         </h5>
-        <p>{ request.destination || ''}</p>
+        <p>{ destination }</p>
         <blockquote class="blockquote">
           { request.description }
           <footer class="blockquote-footer">

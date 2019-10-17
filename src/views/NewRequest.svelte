@@ -28,14 +28,12 @@ async function loadMe() {
     request.viewableBy = myOrgs[0].id // needed a default
 }
 
+function extractCountryCode(addressComponents) {
+  return addressComponents.filter(component => component.types.includes('country'))[0].short_name
+}
+
 let request = {
-    title: '',
-    destination: '',
-    description: '',
-    size: '',
-    photoID: '',
-    weight: 0,
-    weightUnits: ''
+  weight: 0,
 }
 
 function assertHas(value, errorMessage) {
@@ -54,13 +52,18 @@ function validate(request) {
 async function onSubmit(event) {
   try {
     validate(request)
-    
+
     await createPost({
         orgID: request.viewableBy,
         type: "REQUEST",
         title: request.title,
         description: request.description,
-        destination: request.destination.formatted_address,
+        destination: {
+          description: request.destination.formatted_address,
+          latitude: request.destination.geometry.location.lat(),
+          longitude: request.destination.geometry.location.lng(),
+          country: extractCountryCode(request.destination.address_components),
+        },
         photoID: request.photoID,
         size: request.size,
     })
@@ -90,7 +93,7 @@ function imageUploaded(event) {
   {#if errorMessage}
     <div class="alert alert-danger">{ errorMessage }</div>
   {/if}
-  
+
   <div class="form-row form-group">
     <label for="request-title" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Requesting:

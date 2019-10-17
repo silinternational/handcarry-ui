@@ -36,7 +36,7 @@ $: size = request.size
     <div class="col">
       <div class="card-body p-2">
         <h3 class="card-title d-inline-block">{request.title}</h3>
-        <span class="card-text">| {request.destination}</span>
+        <span class="card-text">| {request.destination.description}</span>
       </div>
     </div>
     <div class="col-auto p-2"><SizeIndicator {size} /></div>
