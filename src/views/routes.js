@@ -5,7 +5,6 @@ import Requests from './Requests.svelte'
 import Request from './Request.svelte'
 import Login from './Login.svelte'
 import Welcome from './Welcome.svelte'
-import UploadPlayground from './UploadPlayground.svelte'
 
 // https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
@@ -19,7 +18,6 @@ const routes = {
 	'/messages/:id': Messages,
 	'/messages/new-conversation/:postId': Messages,
 	'/profile': Profile,
-	'/upload': UploadPlayground,
  }
 
 export default routes
