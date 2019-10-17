@@ -79,7 +79,7 @@ function matchesSearchText(request, searchText) {
   const lowerCaseSearchText = searchText.toLowerCase()
   
   return stringIsIn(lowerCaseSearchText, request.title) ||
-         stringIsIn(lowerCaseSearchText, request.destination) ||
+         stringIsIn(lowerCaseSearchText, request.destination.description) ||
          stringIsIn(lowerCaseSearchText, request.createdBy.nickname)
 }
 
