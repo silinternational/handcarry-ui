@@ -38,7 +38,7 @@ label.disabled {
   <span class="spinner-grow spinner-grow-sm mr-3" role="status" aria-hidden="true"></span>
   <span>Adding image</span>
   {:else}
-  <svg class="lnr lnr-big lnr-cloud-upload mr-3"><use xlink:href="#lnr-cloud-upload" /></svg>
+  <i class="fa fa-cloud-upload-alt mr-2" />
   <span>Add image</span>
   {/if}
 </label>

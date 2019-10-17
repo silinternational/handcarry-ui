@@ -203,10 +203,10 @@ function searchForText(searchText) {
       <div class="col-12 text-center col-sm-auto text-sm-right">
         <!-- TODO: consider making a comp here, e.g., <GridListAction on:list={viewAsList} on:grid={viewAsGrid} /> -->
         <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={viewAsGrid} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
-          <svg class="lnr lnr-file-empty"><use xlink:href="#lnr-file-empty"></use></svg>
+          <i class="fa fa-th" />
         </button>
         <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={viewAsList} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
-          <svg class="lnr lnr-list"><use xlink:href="#lnr-list"></use></svg>
+          <i class="fa fa-th-list" />
         </button>
       </div>
     </div>
@@ -243,7 +243,7 @@ function searchForText(searchText) {
       <div class="col-12">
         <div class="input-group mb-2">
           <div class="input-group-prepend">
-            <div class="input-group-text"><svg class="lnr lnr-magnifier"><use xlink:href="#lnr-magnifier"></use></svg></div>
+            <div class="input-group-text"><i class="fa fa-search" /></div>
           </div>
           <input type="text" class="form-control" placeholder="Search" value={searchText} on:input={event => searchForText(event.target.value)} />
         </div>

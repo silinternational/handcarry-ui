@@ -43,19 +43,3 @@ h3{
     content: " * ";
     color: red;
 }
-
-/* SVG Icons */
-.lnr {
-    display: inline-block;
-    fill: currentColor;
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.05em;
-    text-align: center;
-}
-
-.lnr-big{
-    width: 1.5em;
-    height: 1.5em;
-}
-

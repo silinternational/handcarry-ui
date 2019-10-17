@@ -114,7 +114,7 @@ function imageUploaded(event) {
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">
-              <svg class="lnr lnr-map-marker"><use xlink:href="#lnr-map-marker" /></svg>
+              <i class="fa fa-map-marker-alt" />
             </span>
           </div>
           

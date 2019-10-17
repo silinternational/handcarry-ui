@@ -9,13 +9,10 @@ $: creator = post => post.createdBy && post.createdBy.nickname
 $: messageFrom = participants => participants.filter(p => p.id !== me.id).map(p => p.nickname).join(', ')
 </script>
 
-<style>
-</style>
-
 <a href="#/messages/{ conversation.id }" class:active={ active } class="list-group-item list-group-item-action">
   { conversation.post.title } &ndash; { `${ isCreatedByMe(conversation.post) ? messageFrom(conversation.participants) : creator(conversation.post) }` }
 
   {#if isProvidedByMe(conversation.post)}
-  <svg class="lnr lnr-checkmark-circle"><use xlink:href="#lnr-checkmark-circle"></use></svg>
+  <i class="fa fa-check-circle ml-2" />
   {/if}
 </a>

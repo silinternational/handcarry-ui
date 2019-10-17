@@ -56,7 +56,7 @@ div.card-img {
           { request.title || ''}
           {#if isMine}
           <button on:click={cancel} class="btn btn-sm btn-outline-danger rounded-circle float-right">
-            <svg class="lnr lnr-trash"><use xlink:href="#lnr-trash"></use></svg>
+            <i class="fa fa-trash" />
           </button>
           {/if}
         </h5>
@@ -67,7 +67,7 @@ div.card-img {
             { requestor.nickname } 
             {#if !isMine || hasConversation}
             <a href="#/messages/{ conversationUrl }" class="btn btn-success btn-sm m-1" role="button">
-              <svg class="lnr lnr-bubble mr-2"><use xlink:href="#lnr-bubble"></use></svg>
+              <i class="fa fa-comment mr-2" />
               Discuss this
             </a>
             {/if}
