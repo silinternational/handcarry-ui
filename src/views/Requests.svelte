@@ -39,6 +39,7 @@ function populateFilterFrom(queryStringData) {
   }
 }
 
+// TODO:  would like to discuss the possibility of extracting the search/filter logic to a separate module and possibly combining if possible.
 function filterRequests(requests, requestFilter, searchText) {
   let results = requests.slice(0); // Shallow-clone the array quickly.
   
@@ -188,6 +189,7 @@ function searchForText(searchText) {
   <div class="col text-right">
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
+        <!-- TODO: consider making a comp here, e.g., <RequestFilterType on:all={selectCreator} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} /> -->
         <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
           All
         </button>
@@ -199,6 +201,7 @@ function searchForText(searchText) {
         </button>
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
+        <!-- TODO: consider making a comp here, e.g., <GridListAction on:list={viewAsList} on:grid={viewAsGrid} /> -->
         <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={viewAsGrid} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
           <svg class="lnr lnr-file-empty"><use xlink:href="#lnr-file-empty"></use></svg>
         </button>
