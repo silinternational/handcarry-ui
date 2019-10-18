@@ -1,6 +1,8 @@
 <script>
 import { upload } from '../data/api'
 import { createEventDispatcher } from 'svelte'
+import Icon from 'fa-svelte'
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
 
 const dispatch = createEventDispatcher()
 
@@ -38,7 +40,7 @@ label.disabled {
   <span class="spinner-grow spinner-grow-sm mr-3" role="status" aria-hidden="true"></span>
   <span>Adding image</span>
   {:else}
-  <i class="fa fa-cloud-upload-alt mr-2" />
+  <Icon icon={faCloudUploadAlt} class="mr-2" />
   <span>Add image</span>
   {/if}
 </label>

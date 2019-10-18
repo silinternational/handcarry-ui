@@ -6,6 +6,8 @@ import { getUser, createPost } from '../data/gqlQueries'
 import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
+import Icon from 'fa-svelte'
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
 // Needed to override the default 'regions' restriction in the GooglePlacesAutocomplete component
 // so we could use house addresses, lat/long, etc...no need for restrictions.  See 
@@ -114,7 +116,7 @@ function imageUploaded(event) {
         <div class="input-group">
           <div class="input-group-prepend">
             <span class="input-group-text">
-              <i class="fa fa-map-marker-alt" />
+              <Icon icon={faMapMarkerAlt} />
             </span>
           </div>
           

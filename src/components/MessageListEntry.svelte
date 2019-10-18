@@ -1,4 +1,7 @@
 <script>
+import Icon from 'fa-svelte'
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
+
 export let active = false
 export let conversation = {}
 export let me = {}
@@ -13,6 +16,6 @@ $: messageFrom = participants => participants.filter(p => p.id !== me.id).map(p 
   { conversation.post.title } &ndash; { `${ isCreatedByMe(conversation.post) ? messageFrom(conversation.participants) : creator(conversation.post) }` }
 
   {#if isProvidedByMe(conversation.post)}
-  <i class="fa fa-check-circle ml-2" />
+  <Icon icon={faCheckCircle} class="ml-2" />
   {/if}
 </a>

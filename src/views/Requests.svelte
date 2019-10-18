@@ -7,6 +7,8 @@ import { getRequests } from '../data/gqlQueries'
 import { getSelectedSizes } from '../data/sizes'
 import { push, querystring } from 'svelte-spa-router'
 import qs from 'qs'
+import Icon from 'fa-svelte'
+import { faThList, faTh, faSearch } from '@fortawesome/free-solid-svg-icons'
 
 let errorMessage = ''
 let hasLoaded = false
@@ -203,10 +205,10 @@ function searchForText(searchText) {
       <div class="col-12 text-center col-sm-auto text-sm-right">
         <!-- TODO: consider making a comp here, e.g., <GridListAction on:list={viewAsList} on:grid={viewAsGrid} /> -->
         <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={viewAsGrid} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
-          <i class="fa fa-th" />
+          <Icon icon={faTh} />
         </button>
         <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={viewAsList} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
-          <i class="fa fa-th-list" />
+          <Icon icon={faThList} />
         </button>
       </div>
     </div>
@@ -243,7 +245,7 @@ function searchForText(searchText) {
       <div class="col-12">
         <div class="input-group mb-2">
           <div class="input-group-prepend">
-            <div class="input-group-text"><i class="fa fa-search" /></div>
+            <div class="input-group-text"><Icon icon={faSearch} /></div>
           </div>
           <input type="text" class="form-control" placeholder="Search" value={searchText} on:input={event => searchForText(event.target.value)} />
         </div>

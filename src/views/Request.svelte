@@ -3,6 +3,8 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import { getRequest, cancelPost } from '../data/gqlQueries'
 import { push, pop } from 'svelte-spa-router'
+import Icon from 'fa-svelte'
+import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -56,7 +58,7 @@ div.card-img {
           { request.title || ''}
           {#if isMine}
           <button on:click={cancel} class="btn btn-sm btn-outline-danger rounded-circle float-right">
-            <i class="fa fa-trash" />
+            <Icon icon={faTrash} />
           </button>
           {/if}
         </h5>
@@ -67,7 +69,7 @@ div.card-img {
             { requestor.nickname } 
             {#if !isMine || hasConversation}
             <a href="#/messages/{ conversationUrl }" class="btn btn-success btn-sm m-1" role="button">
-              <i class="fa fa-comment mr-2" />
+              <Icon icon={faComment} class="mr-2" />
               Discuss this
             </a>
             {/if}
