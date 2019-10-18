@@ -46,7 +46,6 @@ export function getRequests() {
 }
 
 export function getRequest(id) {
-  // TODO: not sure what's actually needed here, just provided many of the properties as a default
   return gql(`{
     post(id: "${id}") {
       id
@@ -68,6 +67,7 @@ export function getRequest(id) {
         nickname
       }
       provider {
+        id
         nickname
       }
       organization {
@@ -75,6 +75,33 @@ export function getRequest(id) {
       }
       threads {
         id
+        participants {
+          nickname
+        }
+        post {
+          id
+          title
+          createdBy {
+            id
+            nickname
+          }
+          destination {
+            description
+          }
+          neededAfter
+          neededBefore
+          provider {
+            nickname
+          }
+        }
+        messages {
+          createdAt
+          sender {
+            id
+            nickname
+          }
+          content
+        }
       }
     }
     user {

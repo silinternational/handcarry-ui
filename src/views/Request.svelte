@@ -5,6 +5,7 @@ import { getRequest, cancelPost } from '../data/gqlQueries'
 import { push, pop } from 'svelte-spa-router'
 import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
+import Conversation from '../components/Conversation.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -18,10 +19,13 @@ async function loadRequest() {
 }
 
 $: requestor = request.createdBy || {}
+$: provider = request.provider || {}
 $: isMine = requestor.id === me.id
+$: imProviding = provider.id === me.id
 $: hasConversation = request.threads && request.threads.length > 0
 $: conversationUrl = hasConversation ? `${request.threads[0].id}` : `new-conversation/${params.id}`
 $: destination = request.destination && request.destination.description || ''
+$: conversation = hasConversation && request.threads.find(thread => request.id === thread.post.id)
 
 async function cancel() {
   try {
@@ -90,3 +94,7 @@ div.card-img {
 </div>
 
 <a href="#/requests" on:click|preventDefault={pop} class="text-secondary">« back to requests</a>
+
+{#if isMine || imProviding}
+<Conversation {conversation} />
+{/if}
