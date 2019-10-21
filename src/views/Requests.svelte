@@ -15,9 +15,6 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons'
 let errorMessage = ''
 let hasLoaded = false
 
-let isAllRequests
-let isJustMyRequests
-let isJustMyCommitments
 let filteredRequests
 let requestFilter = {}
 let me = {}
@@ -30,9 +27,6 @@ $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
 $: searchText = queryStringData.search || ''
 $: filteredRequests = filterRequests(requests, requestFilter, searchText)
-$: isAllRequests = !isCreatorSelected(requestFilter) && !isProviderSelected(requestFilter)
-$: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
-$: isJustMyCommitments = isSelectedProvider(me.id, requestFilter)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
 function populateFilterFrom(queryStringData) {
@@ -145,28 +139,6 @@ function selectProvider(userId) {
   })
 }
 
-function isSelectedCreator(userId, requestFilter) {
-  if (userId) {
-    return requestFilter.createdBy && requestFilter.createdBy.id && requestFilter.createdBy.id == userId
-  }
-  return false
-}
-
-function isSelectedProvider(userId, requestFilter) {
-  if (userId) {
-    return requestFilter.provider && requestFilter.provider.id && requestFilter.provider.id == userId
-  }
-  return false
-}
-
-function isCreatorSelected(requestFilter) {
-  return requestFilter.createdBy && requestFilter.createdBy.id
-}
-
-function isProviderSelected(requestFilter) {
-  return requestFilter.provider && requestFilter.provider.id
-}
-
 function viewAsGrid() {
   updateQueryString({
     list: null,
@@ -193,7 +165,7 @@ function searchForText(searchText) {
   <div class="col text-right">
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
-        <RequestQuickFilter {isAllRequests} {isJustMyRequests} {isJustMyCommitments} buttonCssClass="my-1 mx-0"
+        <RequestQuickFilter {me} {requestFilter} buttonCssClass="my-1 mx-0"
                             on:all={() => selectCreator()} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} />
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">

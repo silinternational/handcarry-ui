@@ -2,11 +2,40 @@
 import { createEventDispatcher } from 'svelte'
 
 export let buttonCssClass = ''
-export let isAllRequests
-export let isJustMyRequests
-export let isJustMyCommitments
+export let me = {}
+export let requestFilter = {}
 
 const dispatch = createEventDispatcher()
+
+let isAllRequests
+let isJustMyRequests
+let isJustMyCommitments
+
+$: isAllRequests = !isCreatorSelected(requestFilter) && !isProviderSelected(requestFilter)
+$: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
+$: isJustMyCommitments = isSelectedProvider(me.id, requestFilter)
+
+function isCreatorSelected(requestFilter) {
+  return requestFilter.createdBy && requestFilter.createdBy.id
+}
+
+function isProviderSelected(requestFilter) {
+  return requestFilter.provider && requestFilter.provider.id
+}
+
+function isSelectedCreator(userId, requestFilter) {
+  if (userId) {
+    return requestFilter.createdBy && requestFilter.createdBy.id && requestFilter.createdBy.id == userId
+  }
+  return false
+}
+
+function isSelectedProvider(userId, requestFilter) {
+  if (userId) {
+    return requestFilter.provider && requestFilter.provider.id && requestFilter.provider.id == userId
+  }
+  return false
+}
 </script>
 
 <button class="btn btn-sm my-1 mx-0" on:click={() => dispatch('all')} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
