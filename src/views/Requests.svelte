@@ -37,6 +37,15 @@ function populateFilterFrom(queryStringData) {
   }
 }
 
+/** NOTE: This should clear all values used by `populateFilterFrom()` */
+function clearFilter() {
+  updateQueryString({
+    creator: null,
+    provider: null,
+    size: null,
+  })
+}
+
 // TODO:  would like to discuss the possibility of extracting the search/filter logic to a separate module and possibly combining if possible.
 function filterRequests(requests, requestFilter, searchText) {
   let results = requests.slice(0); // Shallow-clone the array quickly.
@@ -166,7 +175,7 @@ function searchForText(searchText) {
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
         <RequestQuickFilter {me} {requestFilter} buttonCssClass="my-1 mx-0"
-                            on:all={() => selectCreator()} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} />
+                            on:all={clearFilter} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} />
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
         <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
