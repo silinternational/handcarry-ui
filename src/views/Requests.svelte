@@ -1,4 +1,5 @@
 <script>
+import GridListToggle from '../components/GridListToggle.svelte'
 import RequestListEntry from '../components/RequestListEntry.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
@@ -8,7 +9,7 @@ import { getSelectedSizes } from '../data/sizes'
 import { push, querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import Icon from 'fa-svelte'
-import { faThList, faTh, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 let errorMessage = ''
 let hasLoaded = false
@@ -203,13 +204,7 @@ function searchForText(searchText) {
         </button>
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
-        <!-- TODO: consider making a comp here, e.g., <GridListAction on:list={viewAsList} on:grid={viewAsGrid} /> -->
-        <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={viewAsGrid} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
-          <Icon icon={faTh} />
-        </button>
-        <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={viewAsList} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
-          <Icon icon={faThList} />
-        </button>
+        <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
       </div>
     </div>
   </div>
