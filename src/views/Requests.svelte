@@ -1,6 +1,7 @@
 <script>
 import GridListToggle from '../components/GridListToggle.svelte'
 import RequestListEntry from '../components/RequestListEntry.svelte'
+import RequestQuickFilter from '../components/RequestQuickFilter.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
@@ -192,16 +193,8 @@ function searchForText(searchText) {
   <div class="col text-right">
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
-        <!-- TODO: consider making a comp here, e.g., <RequestFilterType on:all={selectCreator} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} /> -->
-        <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
-          All
-        </button>
-        <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
-          My Requests
-        </button>
-        <button class="btn btn-sm my-1 mx-0" on:click={() => selectProvider(me.id)} class:btn-primary={isJustMyCommitments} class:btn-outline-primary={!isJustMyCommitments}>
-          My Commitments
-        </button>
+        <RequestQuickFilter {isAllRequests} {isJustMyRequests} {isJustMyCommitments} buttonCssClass="my-1 mx-0"
+                            on:all={() => selectCreator()} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} />
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
         <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
