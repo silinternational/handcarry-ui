@@ -9,6 +9,7 @@ import { getRequests } from '../data/gqlQueries'
 import { getSelectedSizes } from '../data/sizes'
 import { push, querystring } from 'svelte-spa-router'
 import qs from 'qs'
+import { updateQueryString } from '../data/url'
 import Icon from 'fa-svelte'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
@@ -39,7 +40,7 @@ function populateFilterFrom(queryStringData) {
 
 /** NOTE: This should clear all values used by `populateFilterFrom()` */
 function clearFilter() {
-  updateQueryString({
+  updateQueryString($querystring, {
     creator: null,
     provider: null,
     size: null,
@@ -111,29 +112,13 @@ function selectSize(sizeString) {
   if (lowerCaseSize === 'xlarge') {
     lowerCaseSize = null
   }
-  updateQueryString({
+  updateQueryString($querystring, {
     size: lowerCaseSize,
   })
 }
 
-function updateQueryString(updates) {
-  let queryStringData = qs.parse($querystring)
-  
-  for (const key in updates) {
-    const value = updates[key]
-    if (value) {
-      queryStringData[key] = value
-    } else if (queryStringData.hasOwnProperty(key)) {
-      delete queryStringData[key]
-    }
-  }
-  
-  const queryStringForUrl = qs.stringify(queryStringData)
-  queryStringForUrl ? push(`/requests?${queryStringForUrl}`) : push('/requests')
-}
-
 function selectCreator(userId) {
-  updateQueryString({
+  updateQueryString($querystring, {
     creator: userId,
     provider: null,
     size: null,
@@ -141,7 +126,7 @@ function selectCreator(userId) {
 }
 
 function selectProvider(userId) {
-  updateQueryString({
+  updateQueryString($querystring, {
     creator: null,
     provider: userId,
     size: null,
@@ -149,19 +134,19 @@ function selectProvider(userId) {
 }
 
 function viewAsGrid() {
-  updateQueryString({
+  updateQueryString($querystring, {
     list: null,
   })
 }
 
 function viewAsList() {
-  updateQueryString({
+  updateQueryString($querystring, {
     list: 1,
   })
 }
 
 function searchForText(searchText) {
-  updateQueryString({
+  updateQueryString($querystring, {
     search: searchText,
   })
 }
