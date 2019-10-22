@@ -43,9 +43,12 @@ async function loadRequests() {
 
 function selectSize(sizeString) {
   let lowerCaseSize = String(sizeString).toLowerCase()
+  
+  // If it's the default value, just remove the size filter from the query string.
   if (lowerCaseSize === 'xlarge') {
     lowerCaseSize = null
   }
+  
   updateQueryString($querystring, {
     size: lowerCaseSize,
   })
