@@ -6,12 +6,12 @@ import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
 import { getRequests } from '../data/gqlQueries'
-import { getSelectedSizes } from '../data/sizes'
-import { push, querystring } from 'svelte-spa-router'
+import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
 import Icon from 'fa-svelte'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import { clearFilter, filterRequests, populateFilterFrom } from '../data/requestFiltering'
 
 let errorMessage = ''
 let hasLoaded = false
@@ -29,72 +29,6 @@ $: requestFilter = populateFilterFrom(queryStringData)
 $: searchText = queryStringData.search || ''
 $: filteredRequests = filterRequests(requests, requestFilter, searchText)
 $: showAsList = queryStringData.hasOwnProperty('list')
-
-function populateFilterFrom(queryStringData) {
-  return {
-    createdBy: { id: queryStringData.creator },
-    provider: { id: queryStringData.provider },
-    size: getSelectedSizes(String(queryStringData.size).toUpperCase()),
-  }
-}
-
-/** NOTE: This should clear all values used by `populateFilterFrom()` */
-function clearFilter() {
-  updateQueryString($querystring, {
-    creator: null,
-    provider: null,
-    size: null,
-  })
-}
-
-// TODO:  would like to discuss the possibility of extracting the search/filter logic to a separate module and possibly combining if possible.
-function filterRequests(requests, requestFilter, searchText) {
-  let results = requests.slice(0); // Shallow-clone the array quickly.
-  
-  for (const property in requestFilter) {
-    results = results.filter(request => matchesProperty(request, requestFilter, property))
-  }
-  
-  if (searchText) {
-    results = results.filter(request => matchesSearchText(request, searchText))
-  }
-  
-  return results
-}
-
-function matchesProperty(request, requestFilter, property) {
-  if (!requestFilter[property]) {
-    return true
-  }
-  
-  if (!request) {
-    return false
-  }
-  
-  if (Array.isArray(requestFilter[property])) {
-    return (requestFilter[property].indexOf(request[property]) >= 0)
-  } else if (typeof requestFilter[property] === 'object') {
-    for (const subProperty in requestFilter[property]) {
-      if (!matchesProperty(request[property], requestFilter[property], subProperty)) {
-        return false
-      } 
-    }
-    return true
-  }
-  return request[property] === requestFilter[property]
-}
-
-function matchesSearchText(request, searchText) {
-  const lowerCaseSearchText = searchText.toLowerCase()
-  
-  return stringIsIn(lowerCaseSearchText, request.title) ||
-         stringIsIn(lowerCaseSearchText, request.destination.description) ||
-         stringIsIn(lowerCaseSearchText, request.createdBy.nickname)
-}
-
-function stringIsIn(needle, haystack) {
-  return (haystack || '').toLowerCase().indexOf(needle) >= 0
-}
 
 async function loadRequests() {
   try {
@@ -133,6 +67,10 @@ function selectProvider(userId) {
   })
 }
 
+function showAll() {
+  clearFilter($querystring)
+}
+
 function viewAsGrid() {
   updateQueryString($querystring, {
     list: null,
@@ -160,7 +98,7 @@ function searchForText(searchText) {
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
         <RequestQuickFilter {me} {requestFilter} buttonCssClass="my-1 mx-0"
-                            on:all={clearFilter} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} />
+                            on:all={showAll} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} />
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
         <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
