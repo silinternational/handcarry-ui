@@ -10,8 +10,8 @@ export function populateFilterFrom(queryStringData) {
 }
 
 /** NOTE: This should clear all values used by `populateFilterFrom()` */
-export function clearFilter(queryString) {
-  updateQueryString(queryString, {
+export function clearFilter(location, queryString) {
+  updateQueryString(location, queryString, {
     creator: null,
     provider: null,
     size: null,

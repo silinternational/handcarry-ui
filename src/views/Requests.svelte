@@ -6,7 +6,7 @@ import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
 import { getRequests } from '../data/gqlQueries'
-import { querystring } from 'svelte-spa-router'
+import { location, querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
 import Icon from 'fa-svelte'
@@ -49,13 +49,13 @@ function selectSize(sizeString) {
     lowerCaseSize = null
   }
   
-  updateQueryString($querystring, {
+  updateQueryString($location, $querystring, {
     size: lowerCaseSize,
   })
 }
 
 function selectCreator(userId) {
-  updateQueryString($querystring, {
+  updateQueryString($location, $querystring, {
     creator: userId,
     provider: null,
     size: null,
@@ -63,7 +63,7 @@ function selectCreator(userId) {
 }
 
 function selectProvider(userId) {
-  updateQueryString($querystring, {
+  updateQueryString($location, $querystring, {
     creator: null,
     provider: userId,
     size: null,
@@ -71,23 +71,23 @@ function selectProvider(userId) {
 }
 
 function showAll() {
-  clearFilter($querystring)
+  clearFilter($location, $querystring)
 }
 
 function viewAsGrid() {
-  updateQueryString($querystring, {
+  updateQueryString($location, $querystring, {
     list: null,
   })
 }
 
 function viewAsList() {
-  updateQueryString($querystring, {
+  updateQueryString($location, $querystring, {
     list: 1,
   })
 }
 
 function searchForText(searchText) {
-  updateQueryString($querystring, {
+  updateQueryString($location, $querystring, {
     search: searchText,
   })
 }
