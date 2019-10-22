@@ -1,5 +1,7 @@
 <script>
+import GridListToggle from '../components/GridListToggle.svelte'
 import RequestListEntry from '../components/RequestListEntry.svelte'
+import RequestQuickFilter from '../components/RequestQuickFilter.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
@@ -8,14 +10,11 @@ import { getSelectedSizes } from '../data/sizes'
 import { push, querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import Icon from 'fa-svelte'
-import { faThList, faTh, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
 
 let errorMessage = ''
 let hasLoaded = false
 
-let isAllRequests
-let isJustMyRequests
-let isJustMyCommitments
 let filteredRequests
 let requestFilter = {}
 let me = {}
@@ -28,9 +27,6 @@ $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
 $: searchText = queryStringData.search || ''
 $: filteredRequests = filterRequests(requests, requestFilter, searchText)
-$: isAllRequests = !isCreatorSelected(requestFilter) && !isProviderSelected(requestFilter)
-$: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
-$: isJustMyCommitments = isSelectedProvider(me.id, requestFilter)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
 function populateFilterFrom(queryStringData) {
@@ -39,6 +35,15 @@ function populateFilterFrom(queryStringData) {
     provider: { id: queryStringData.provider },
     size: getSelectedSizes(String(queryStringData.size).toUpperCase()),
   }
+}
+
+/** NOTE: This should clear all values used by `populateFilterFrom()` */
+function clearFilter() {
+  updateQueryString({
+    creator: null,
+    provider: null,
+    size: null,
+  })
 }
 
 // TODO:  would like to discuss the possibility of extracting the search/filter logic to a separate module and possibly combining if possible.
@@ -143,28 +148,6 @@ function selectProvider(userId) {
   })
 }
 
-function isSelectedCreator(userId, requestFilter) {
-  if (userId) {
-    return requestFilter.createdBy && requestFilter.createdBy.id && requestFilter.createdBy.id == userId
-  }
-  return false
-}
-
-function isSelectedProvider(userId, requestFilter) {
-  if (userId) {
-    return requestFilter.provider && requestFilter.provider.id && requestFilter.provider.id == userId
-  }
-  return false
-}
-
-function isCreatorSelected(requestFilter) {
-  return requestFilter.createdBy && requestFilter.createdBy.id
-}
-
-function isProviderSelected(requestFilter) {
-  return requestFilter.provider && requestFilter.provider.id
-}
-
 function viewAsGrid() {
   updateQueryString({
     list: null,
@@ -191,25 +174,11 @@ function searchForText(searchText) {
   <div class="col text-right">
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
-        <!-- TODO: consider making a comp here, e.g., <RequestFilterType on:all={selectCreator} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} /> -->
-        <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(null)} class:btn-primary={isAllRequests} class:btn-outline-primary={!isAllRequests}>
-          All
-        </button>
-        <button class="btn btn-sm my-1 mx-0" on:click={() => selectCreator(me.id)} class:btn-primary={isJustMyRequests} class:btn-outline-primary={!isJustMyRequests}>
-          My Requests
-        </button>
-        <button class="btn btn-sm my-1 mx-0" on:click={() => selectProvider(me.id)} class:btn-primary={isJustMyCommitments} class:btn-outline-primary={!isJustMyCommitments}>
-          My Commitments
-        </button>
+        <RequestQuickFilter {me} {requestFilter} buttonCssClass="my-1 mx-0"
+                            on:all={clearFilter} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} />
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
-        <!-- TODO: consider making a comp here, e.g., <GridListAction on:list={viewAsList} on:grid={viewAsGrid} /> -->
-        <button class="btn btn-sm my-1 mx-0" title="Show as a grid" on:click={viewAsGrid} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
-          <Icon icon={faTh} />
-        </button>
-        <button class="btn btn-sm my-1 mx-0" title="Show as a list" on:click={viewAsList} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
-          <Icon icon={faThList} />
-        </button>
+        <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
       </div>
     </div>
   </div>
