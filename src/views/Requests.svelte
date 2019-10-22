@@ -12,6 +12,7 @@ import { updateQueryString } from '../data/url'
 import Icon from 'fa-svelte'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { clearFilter, filterRequests, populateFilterFrom } from '../data/requestFiltering'
+import { isDefaultSizeFilter } from '../data/sizes'
 
 let errorMessage = ''
 let hasLoaded = false
@@ -43,12 +44,9 @@ async function loadRequests() {
 
 function selectSize(sizeString) {
   let lowerCaseSize = String(sizeString).toLowerCase()
-  
-  // If it's the default value, just remove the size filter from the query string.
-  if (lowerCaseSize === 'xlarge') {
+  if (isDefaultSizeFilter(lowerCaseSize)) {
     lowerCaseSize = null
   }
-  
   updateQueryString($location, $querystring, {
     size: lowerCaseSize,
   })

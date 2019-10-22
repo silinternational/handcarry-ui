@@ -56,3 +56,7 @@ export function includedInSizeSelection(sizeType, selectedSizeType) {
   let selectedSizes = getSelectedSizes(selectedSizeType)
   return (selectedSizes.indexOf(sizeType) >= 0)
 }
+
+export function isDefaultSizeFilter(lowerCaseSize) {
+  return lowerCaseSize === 'xlarge'
+}
