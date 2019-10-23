@@ -16,14 +16,6 @@ $: if (params.postId) {
   loadPotentialConversationDetails()
 }
 
-$: if (urlHasNoId(params) && conversations[0]) {
-  replace('/messages/' + conversations[0].id)
-}
-
-function urlHasNoId(params) {
-  return ! (params.postId || params.id)
-}
-
 function goToConversation(conversationId) {
   replace('/messages/' + conversationId)
 }

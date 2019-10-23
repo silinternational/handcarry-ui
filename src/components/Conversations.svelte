@@ -20,6 +20,14 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 //        2.  no conversationId was provided => default to the first conversations if there are conversations.
 //        3.  the conversationId provided doesn't match any of the conversations => show conversations list without selecting any
 //        4.  the conversationId matches one of the conversations => select that one
+
+$: if (noConversationIsActive(conversationId, potentialConversation) && conversations.length > 0) {
+  dispatch('conversation-selected', conversations[0].id)
+}
+
+function noConversationIsActive(conversationId, potentialConversation) {
+  return !(conversationId || potentialConversation.post)
+}
 </script>
 
 <style>
