@@ -23,7 +23,6 @@ $: provider = request.provider || {}
 $: isMine = requestor.id === me.id
 $: imProviding = provider.id === me.id
 $: hasConversation = request.threads && request.threads.length > 0
-$: conversationUrl = hasConversation ? `${request.threads[0].id}` : `new-conversation/${params.id}`
 $: destination = request.destination && request.destination.description || ''
 $: conversation = hasConversation && request.threads.find(thread => request.id === thread.post.id)
 
@@ -72,7 +71,7 @@ div.card-img {
           <footer class="blockquote-footer">
             { requestor.nickname } 
             {#if !isMine || hasConversation}
-            <a href="#/messages/{ conversationUrl }" class="btn btn-success btn-sm m-1" role="button">
+            <a href="#/messages/new-conversation/{ request.id }" class="btn btn-success btn-sm m-1" role="button">
               <Icon icon={faComment} class="mr-2" />
               Discuss this
             </a>
