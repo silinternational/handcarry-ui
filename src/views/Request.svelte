@@ -47,9 +47,11 @@ div.card-img {
 }
 </style>
 
-<h3 class="pb-4">Request detail</h3>
+<h3>Request detail</h3>
 
-<div class="card mb-3">
+<a href="#/requests" on:click|preventDefault={pop} class="text-secondary">« back to requests</a>
+
+<div class="card my-3">
   <div class="row no-gutters">
     <div class="col-12 col-md-3 card-img">
       <RequestImage {request} />
@@ -91,8 +93,6 @@ div.card-img {
     </div>
   </div>
 </div>
-
-<a href="#/requests" on:click|preventDefault={pop} class="text-secondary">« back to requests</a>
 
 {#if isMine || imProviding}
 <Conversation {conversation} />
