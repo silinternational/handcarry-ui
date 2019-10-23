@@ -80,7 +80,7 @@ div.card-img {
           { request.description }
           <footer class="blockquote-footer">
             { requestor.nickname } 
-            {#if !isMine || hasConversation}
+            {#if !isMine && !hasConversation}
             <a href="#/messages/new-conversation/{ request.id }" class="btn btn-success btn-sm m-1" role="button">
               <Icon icon={faComment} class="mr-2" />
               Discuss this
