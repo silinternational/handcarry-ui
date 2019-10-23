@@ -26,6 +26,9 @@ $: isMine = me.id && (requestor.id === me.id)
 $: imProviding = me.id && (provider.id === me.id)
 $: hasConversation = conversations.length > 0
 $: destination = request.destination && request.destination.description || ''
+$: if (!conversationId && conversations.length > 0) {
+  conversationId = conversations[0].id
+}
 
 async function cancel() {
   try {

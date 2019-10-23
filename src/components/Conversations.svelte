@@ -1,14 +1,11 @@
 <script>
 import Conversation from '../components/Conversation.svelte'
 import MessageListEntry from '../components/MessageListEntry.svelte'
-import { createEventDispatcher, tick } from 'svelte';
 
 export let conversations
 export let me
 export let potentialConversation = {}
 export let conversationId = null
-
-const dispatch = createEventDispatcher();
 
 let defaultConversation = {}
 let selectedConversation = {}
@@ -20,19 +17,6 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 //        2.  no conversationId was provided => default to the first conversations if there are conversations.
 //        3.  the conversationId provided doesn't match any of the conversations => show conversations list without selecting any
 //        4.  the conversationId matches one of the conversations => select that one
-
-$: if (noConversationIsActive(conversationId, potentialConversation.post) && conversations.length > 0) {
-  goToConversation(conversations[0].id)
-}
-
-function noConversationIsActive(conversationId, potentialConversationPost) {
-  return !(conversationId || potentialConversationPost)
-}
-
-async function goToConversation(conversationId) {
-    await tick()
-    dispatch('conversation-selected', conversationId)
-}
 </script>
 
 <style>

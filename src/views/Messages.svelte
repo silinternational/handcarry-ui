@@ -14,6 +14,8 @@ $: conversationId = params.id
 
 $: if (params.postId) {
   loadPotentialConversationDetails()
+} else if (!conversationId && conversations.length > 0) {
+  goToConversation(conversations[0].id)
 }
 
 function goToConversation(conversationId) {
