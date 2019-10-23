@@ -5,7 +5,7 @@ import { getRequest, cancelPost } from '../data/gqlQueries'
 import { push, pop } from 'svelte-spa-router'
 import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
-import Conversations from '../components/Conversations.svelte'
+import Messaging from '../components/Messaging.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -103,5 +103,5 @@ div.card-img {
 </div>
 
 {#if isMine || imProviding || hasConversation }
-  <Conversations {conversations} {me} {conversationId} on:conversation-selected={event => showConversation(event.detail)} />
+  <Messaging {conversations} {me} {conversationId} on:conversation-selected={event => showConversation(event.detail)} />
 {/if}
