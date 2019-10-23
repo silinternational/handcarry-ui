@@ -18,6 +18,7 @@ $: size = request.size
   height: 100%;
 }
 .request-tile > .request-image {
+  overflow: hidden;
   height: 10rem;
 }
 </style>
