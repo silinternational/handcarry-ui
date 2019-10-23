@@ -41,7 +41,7 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
   <div class="col-sm-5 col-lg-4">
     <div class="list-group list-group-flush">
       {#each conversations as conversation}
-        <MessageListEntry {conversation} {me} active={ selectedConversation.id === conversation.id } />
+        <MessageListEntry {conversation} {me} on:conversation-selected active={ selectedConversation.id === conversation.id } />
       {/each}
 
       {#if conversations.length < 1 }

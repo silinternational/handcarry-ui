@@ -24,6 +24,10 @@ function urlHasNoId(params) {
   return ! (params.postId || params.id)
 }
 
+function goToConversation(conversationId) {
+  replace('/messages/' + conversationId)
+}
+
 async function loadPotentialConversationDetails() {
   let response = await getRequest(params.postId)
   potentialConversation = {
@@ -63,4 +67,5 @@ function onConversationStarted(event) {
 
 <h2 class="pb-4">Messages</h2>
 
-<Conversations {conversations} {me} {potentialConversation} {conversationId} on:new={onConversationStarted} />
+<Conversations {conversations} {me} {potentialConversation} {conversationId} on:new={onConversationStarted}
+               on:conversation-selected={event => goToConversation(event.detail)} />
