@@ -22,8 +22,8 @@ async function loadRequest() {
 $: requestor = request.createdBy || {}
 $: provider = request.provider || {}
 $: conversations = request.threads || []
-$: isMine = requestor.id === me.id
-$: imProviding = provider.id === me.id
+$: isMine = me.id && (requestor.id === me.id)
+$: imProviding = me.id && (provider.id === me.id)
 $: hasConversation = conversations.length > 0
 $: destination = request.destination && request.destination.description || ''
 
