@@ -1,7 +1,7 @@
 <script>
 import Conversation from '../components/Conversation.svelte'
 import MessageListEntry from '../components/MessageListEntry.svelte'
-import { createEventDispatcher } from 'svelte';
+import { createEventDispatcher, tick } from 'svelte';
 
 export let conversations
 export let me
@@ -21,12 +21,17 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 //        3.  the conversationId provided doesn't match any of the conversations => show conversations list without selecting any
 //        4.  the conversationId matches one of the conversations => select that one
 
-$: if (noConversationIsActive(conversationId, potentialConversation) && conversations.length > 0) {
-  dispatch('conversation-selected', conversations[0].id)
+$: if (noConversationIsActive(conversationId, potentialConversation.post) && conversations.length > 0) {
+  goToConversation(conversations[0].id)
 }
 
-function noConversationIsActive(conversationId, potentialConversation) {
-  return !(conversationId || potentialConversation.post)
+function noConversationIsActive(conversationId, potentialConversationPost) {
+  return !(conversationId || potentialConversationPost)
+}
+
+async function goToConversation(conversationId) {
+    await tick()
+    dispatch('conversation-selected', conversationId)
 }
 </script>
 

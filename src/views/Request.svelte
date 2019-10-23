@@ -40,6 +40,10 @@ async function cancel() {
 function asReadableDate(timestamp) {
   return new Date(timestamp).toLocaleDateString()
 }
+
+function showConversation(id) {
+  conversationId = id
+}
 </script>
 
 <style>
@@ -96,5 +100,5 @@ div.card-img {
 </div>
 
 {#if isMine || imProviding || hasConversation }
-  <Conversations {conversations} {me} {conversationId} on:conversation-selected={event => conversationId = event.detail} />
+  <Conversations {conversations} {me} {conversationId} on:conversation-selected={event => showConversation(event.detail)} />
 {/if}
