@@ -95,6 +95,6 @@ div.card-img {
   </div>
 </div>
 
-{#if isMine || imProviding}
+{#if isMine || imProviding || hasConversation }
   <Conversations {conversations} {me} {conversationId} on:conversation-selected={event => conversationId = event.detail} />
 {/if}
