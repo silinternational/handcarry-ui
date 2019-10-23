@@ -1,5 +1,9 @@
 import { gql } from './api'
 
+function json(value) {
+  return JSON.stringify(value)
+}
+
 export function getUser() {
   return gql(`{
     user {
@@ -47,7 +51,7 @@ export function getRequests() {
 
 export function getRequest(id) {
   return gql(`{
-    post(id: "${id}") {
+    post(id: ${json(id)}) {
       id
       title
       description
@@ -155,17 +159,17 @@ export function createPost(post) {
   return gql(`
     mutation {
       createPost(input: {
-        orgID: "${post.orgID}",
+        orgID: ${json(post.orgID)},
         type: ${post.type},
-        title: """${post.title}""",
-        description: """${post.description}""",
+        title: ${json(post.title)},
+        description: ${json(post.description || '')},
         destination: {
-          description: """${post.destination.description}""",
-          latitude: ${post.destination.latitude},
-          longitude: ${post.destination.longitude},
-          country: "${post.destination.country}"
+          description: ${json(post.destination.description)},
+          latitude: ${json(post.destination.latitude)},
+          longitude: ${json(post.destination.longitude)},
+          country: ${json(post.destination.country)}
         },
-        photoID: "${post.photoID}",
+        photoID: ${json(post.photoID)},
         size: ${post.size}
       }) 
       {
@@ -180,7 +184,7 @@ export function sendCommit(postId) {
     mutation {
       updatePost(
         input: {
-          id: "${postId}",
+          id: ${json(postId)},
           status: COMMITTED
         }
       ) 
@@ -211,7 +215,7 @@ export function acceptCommittment(postId) {
     mutation {
       updatePost(
         input: {
-          id: "${postId}",
+          id: ${json(postId)},
           status: ACCEPTED
         }
       ) 
@@ -242,7 +246,7 @@ export function confirmReceipt(postId) {
     mutation {
       updatePost(
         input: {
-          id: "${postId}",
+          id: ${json(postId)},
           status: RECEIVED
         }
       ) 
@@ -258,7 +262,7 @@ export function cancelPost(postId) {
     mutation {
       updatePost(
         input: {
-          id: "${postId}",
+          id: ${json(postId)},
           status: REMOVED
         }
       ) 
@@ -314,9 +318,9 @@ export function sendMessage(threadId, message, postId) {
   return gql(`
     mutation {
       createMessage(input: {
-        threadID: "${threadId || ''}",
-        content: """${message}""",
-        postID: "${postId || ''}"
+        threadID: ${json(threadId || '')},
+        content: ${json(message)},
+        postID: ${json(postId || '')}
       }) 
       {
         thread {
