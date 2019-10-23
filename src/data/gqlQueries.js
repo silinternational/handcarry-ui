@@ -76,6 +76,7 @@ export function getRequest(id) {
       threads {
         id
         participants {
+          id
           nickname
         }
         post {
