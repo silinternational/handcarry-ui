@@ -5,10 +5,11 @@ import { getRequest, cancelPost } from '../data/gqlQueries'
 import { push, pop } from 'svelte-spa-router'
 import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
-import Conversation from '../components/Conversation.svelte'
+import Conversations from '../components/Conversations.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
+let conversationId = null
 let request = {}; loadRequest()
 let me = {}
 
@@ -20,11 +21,11 @@ async function loadRequest() {
 
 $: requestor = request.createdBy || {}
 $: provider = request.provider || {}
+$: conversations = request.threads || []
 $: isMine = requestor.id === me.id
 $: imProviding = provider.id === me.id
-$: hasConversation = request.threads && request.threads.length > 0
+$: hasConversation = conversations.length > 0
 $: destination = request.destination && request.destination.description || ''
-$: conversation = hasConversation && request.threads.find(thread => request.id === thread.post.id)
 
 async function cancel() {
   try {
@@ -95,5 +96,5 @@ div.card-img {
 </div>
 
 {#if isMine || imProviding}
-<Conversation {conversation} />
+  <Conversations {conversations} {me} {conversationId} on:conversation-selected={event => conversationId = event.detail} />
 {/if}
