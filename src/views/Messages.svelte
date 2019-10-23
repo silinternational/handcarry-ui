@@ -1,5 +1,5 @@
 <script>
-import Conversations from '../components/Conversations.svelte'
+import Messaging from '../components/Messaging.svelte'
 import { getMyConversations, getRequest } from '../data/gqlQueries'
 import { replace } from 'svelte-spa-router'
 
@@ -61,5 +61,5 @@ function onConversationStarted(event) {
 
 <h2 class="pb-4">Messages</h2>
 
-<Conversations {conversations} {me} {potentialConversation} {conversationId} on:new={onConversationStarted}
+<Messaging {conversations} {me} {potentialConversation} {conversationId} on:new={onConversationStarted}
                on:conversation-selected={event => goToConversation(event.detail)} />
