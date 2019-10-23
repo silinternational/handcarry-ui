@@ -1,6 +1,6 @@
 <script>
 import Conversation from '../components/Conversation.svelte'
-import MessageListEntry from '../components/MessageListEntry.svelte'
+import ConversationListEntry from './ConversationListEntry.svelte'
 
 export let conversations
 export let me
@@ -38,7 +38,7 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
   <div class="col-sm-5 col-lg-4">
     <div class="list-group list-group-flush">
       {#each conversations as conversation}
-        <MessageListEntry {conversation} {me} on:conversation-selected active={ selectedConversation.id === conversation.id } />
+        <ConversationListEntry {conversation} {me} on:conversation-selected active={ selectedConversation.id === conversation.id } />
       {/each}
 
       {#if conversations.length < 1 }
