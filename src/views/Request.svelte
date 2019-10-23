@@ -5,10 +5,11 @@ import { getRequest, cancelPost } from '../data/gqlQueries'
 import { push, pop } from 'svelte-spa-router'
 import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
-import Conversation from '../components/Conversation.svelte'
+import Conversations from '../components/Conversations.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
+let conversationId = null
 let request = {}; loadRequest()
 let me = {}
 
@@ -20,12 +21,14 @@ async function loadRequest() {
 
 $: requestor = request.createdBy || {}
 $: provider = request.provider || {}
-$: isMine = requestor.id === me.id
-$: imProviding = provider.id === me.id
-$: hasConversation = request.threads && request.threads.length > 0
-$: conversationUrl = hasConversation ? `${request.threads[0].id}` : `new-conversation/${params.id}`
+$: conversations = request.threads || []
+$: isMine = me.id && (requestor.id === me.id)
+$: imProviding = me.id && (provider.id === me.id)
+$: hasConversation = conversations.length > 0
 $: destination = request.destination && request.destination.description || ''
-$: conversation = hasConversation && request.threads.find(thread => request.id === thread.post.id)
+$: if (!conversationId && conversations.length > 0) {
+  conversationId = conversations[0].id
+}
 
 async function cancel() {
   try {
@@ -40,6 +43,10 @@ async function cancel() {
 function asReadableDate(timestamp) {
   return new Date(timestamp).toLocaleDateString()
 }
+
+function showConversation(id) {
+  conversationId = id
+}
 </script>
 
 <style>
@@ -48,9 +55,11 @@ div.card-img {
 }
 </style>
 
-<h3 class="pb-4">Request detail</h3>
+<h3>Request detail</h3>
 
-<div class="card mb-3">
+<a href="#/requests" on:click|preventDefault={pop} class="text-secondary">« back to requests</a>
+
+<div class="card my-3">
   <div class="row no-gutters">
     <div class="col-12 col-md-3 card-img">
       <RequestImage {request} />
@@ -72,7 +81,7 @@ div.card-img {
           <footer class="blockquote-footer">
             { requestor.nickname } 
             {#if !isMine || hasConversation}
-            <a href="#/messages/{ conversationUrl }" class="btn btn-success btn-sm m-1" role="button">
+            <a href="#/messages/new-conversation/{ request.id }" class="btn btn-success btn-sm m-1" role="button">
               <Icon icon={faComment} class="mr-2" />
               Discuss this
             </a>
@@ -93,8 +102,6 @@ div.card-img {
   </div>
 </div>
 
-<a href="#/requests" on:click|preventDefault={pop} class="text-secondary">« back to requests</a>
-
-{#if isMine || imProviding}
-<Conversation {conversation} />
+{#if isMine || imProviding || hasConversation }
+  <Conversations {conversations} {me} {conversationId} on:conversation-selected={event => showConversation(event.detail)} />
 {/if}
