@@ -24,10 +24,6 @@ async function accept() {
   }
 }
 
-function asReadableDate(timestamp) {
-  return new Date(timestamp).toLocaleDateString()
-}
-
 async function send() {
   if (reply !== '') {
     let isNewConversation = !conversation.id
@@ -90,13 +86,6 @@ function focusOnCreate(element) {
       <div class="text-center">
         <small>
           <strong>{ post.createdBy.nickname }</strong> @ { destination }<br />
-          {#if post.neededAfter && post.neededBefore }
-            between { asReadableDate(post.neededAfter) } and { asReadableDate(post.neededBefore) }
-          {:else if post.neededAfter }
-            after { asReadableDate(post.neededAfter) }
-          {:else if post.neededBefore }
-            before { asReadableDate(post.neededBefore) }
-          {/if}
         </small>
       </div>
     </div>
