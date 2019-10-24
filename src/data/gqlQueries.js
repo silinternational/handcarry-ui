@@ -93,9 +93,11 @@ export function getRequest(id) {
           destination {
             description
           }
+          status
           neededAfter
           neededBefore
           provider {
+            id
             nickname
           }
         }

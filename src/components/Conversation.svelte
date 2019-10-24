@@ -12,6 +12,7 @@ $: creator = post.createdBy || {}
 $: provider = post.provider || {}
 $: messages = conversation.messages || []
 $: destination = post.destination && post.destination.description
+$: isConversingWithProvider = messages.some(msg => msg.sender.id === provider.id)
 
 let reply = ''
 
@@ -85,19 +86,18 @@ function focusOnCreate(element) {
 
       <div class="text-center">
         <small>
-          <strong>{ post.createdBy.nickname }</strong> @ { destination }<br />
+          <strong>{ post.createdBy.nickname }</strong> @ { destination }
         </small>
       </div>
     </div>
+
     <div class="col-4 text-right">
       {#if creator.id == me.id }
         {#if provider.nickname }
           { provider.nickname } committed to bring this.
         {/if}
-        {#if post.status === 'COMMITTED' }
-        <button class="btn btn-sm btn-outline-success" on:click={ accept }>
-          Accept
-        </button>
+        {#if post.status === 'COMMITTED' && isConversingWithProvider}
+          <button class="btn btn-sm btn-success" on:click={ accept }>Accept</button>
         {/if}
       {:else}
         {#if provider.id == me.id }
@@ -128,6 +128,7 @@ function focusOnCreate(element) {
       </blockquote>
     {/if}
   {/each}
+
   <div class="card-footer">
     <form on:submit|preventDefault={ send }>
       <div class="row">
@@ -137,6 +138,7 @@ function focusOnCreate(element) {
           <input bind:value={ reply } class="form-control mb-2 mr-sm-2"
                  placeholder="Reply" autocomplete="off" use:focusOnCreate />
         </div>
+  
         <div class="col-auto">
           <button type="submit" class="btn btn-primary mb-2">Send</button>
         </div>
