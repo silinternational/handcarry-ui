@@ -103,5 +103,5 @@ div.card-img {
 </div>
 
 {#if isMine || imProviding || hasConversation }
-  <Messaging minimal {conversations} {me} {conversationId} on:conversation-selected={event => showConversation(event.detail)} />
+  <Messaging minimal listColumns="col-12 col-md-3" {conversations} {me} {conversationId} on:conversation-selected={event => showConversation(event.detail)} />
 {/if}

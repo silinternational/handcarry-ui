@@ -7,6 +7,7 @@ export let me
 export let potentialConversation = {}
 export let conversationId = null
 export let minimal = false
+export let listColumns = "col-12 col-sm-5 col-lg-4"
 
 let defaultConversation = {}
 let selectedConversation = {}
@@ -36,7 +37,7 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 </style>
 
 <div class="row no-gutters">
-  <div class="col-sm-5 col-lg-4">
+  <div class="{listColumns}">
     <div class="list-group list-group-flush">
       {#each conversations as conversation}
         <ConversationListEntry {conversation} {me} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
@@ -47,7 +48,7 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
       {/if}
     </div>
   </div>
-  <div class="col-sm-7 col-lg-8">
+  <div class="col">
     <div class="tab-content card conversation-card" class:conversation-card-empty={!selectedConversation.post}>
       <Conversation {me} conversation={selectedConversation} on:new {minimal} />
     </div>
