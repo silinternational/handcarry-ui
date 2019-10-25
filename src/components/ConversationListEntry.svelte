@@ -6,6 +6,7 @@ import { createEventDispatcher } from 'svelte';
 export let active = false
 export let conversation = {}
 export let me = {}
+export let minimal = false
 
 const dispatch = createEventDispatcher();
 
@@ -16,7 +17,11 @@ $: messageFrom = participants => participants.filter(p => p.id !== me.id).map(p 
 </script>
 
 <button on:click={() => dispatch('conversation-selected', conversation.id)} class:active={active} class="list-group-item list-group-item-action">
-  { conversation.post.title } &ndash; { `${ isCreatedByMe(conversation.post) ? messageFrom(conversation.participants) : creator(conversation.post) }` }
+  {#if !minimal }
+    { conversation.post.title } &ndash; 
+  {/if}
+  
+  { `${ isCreatedByMe(conversation.post) ? messageFrom(conversation.participants) : creator(conversation.post) }` }
 
   {#if isProvidedByMe(conversation.post)}
   <Icon icon={faCheckCircle} class="ml-2" />
