@@ -23,7 +23,7 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 
 <style>
 .conversation-card {
-  border: 2px solid #007bff;
+  border: 2px solid var(--blue);
   border-top-left-radius: initial; /* blends the corner nicely with a msg list entry */
 }
 @media (max-width: 576px) { 
