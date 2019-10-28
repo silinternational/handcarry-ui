@@ -12,7 +12,7 @@ export let params = {} // URL path parameters, provided by router.
 let conversationId = null
 let request = {}; loadRequest()
 let me = {}
-let potentialConversation = {}
+let potentialConversation = null
 
 async function loadRequest() {
   const response = await getRequest(params.id)
@@ -25,9 +25,9 @@ $: provider = request.provider || {}
 $: conversations = request.threads || []
 $: isMine = me.id && (requestor.id === me.id)
 $: imProviding = me.id && (provider.id === me.id)
-$: hasConversation = conversations.length > 0 || potentialConversation.post
+$: hasConversation = conversations.length > 0 || potentialConversation
 $: destination = request.destination && request.destination.description || ''
-$: if (!potentialConversation.post && !conversationId && conversations.length > 0) {
+$: if (!potentialConversation && !conversationId && conversations.length > 0) {
   conversationId = conversations[0].id
 }
 
@@ -65,7 +65,7 @@ function onConversationStarted(event) {
   conversations[conversations.length] = newConversation
   conversationId = newConversation.id
   
-  delete potentialConversation.post
+  potentialConversation = null
 }
 </script>
 
