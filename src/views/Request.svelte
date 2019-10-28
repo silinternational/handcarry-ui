@@ -27,6 +27,8 @@ $: isMine = me.id && (requestor.id === me.id)
 $: imProviding = me.id && (provider.id === me.id)
 $: hasConversation = conversations.length > 0 || potentialConversation
 $: destination = request.destination && request.destination.description || ''
+
+// Select a default conversation (when appropriate)
 $: if (!potentialConversation && !conversationId && conversations.length > 0) {
   conversationId = conversations[0].id
 }
