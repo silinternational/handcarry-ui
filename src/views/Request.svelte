@@ -56,7 +56,7 @@ function discussThis() {
 }
 
 function onConversationStarted(event) {
-  let newConversation = {
+  const newConversation = {
     post: request,
     id: event.detail.id,
     messages: event.detail.messages,
