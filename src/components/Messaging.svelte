@@ -4,7 +4,7 @@ import ConversationListEntry from './ConversationListEntry.svelte'
 
 export let conversations
 export let me
-export let potentialConversation = {}
+export let potentialConversation = null
 export let conversationId = null
 export let minimal = false
 export let listColumns = "col-12 col-sm-5 col-lg-4"
@@ -12,7 +12,7 @@ export let listColumns = "col-12 col-sm-5 col-lg-4"
 let defaultConversation = {}
 let selectedConversation = {}
 
-$: defaultConversation = potentialConversation.post ? potentialConversation : {}
+$: defaultConversation = potentialConversation || {}
 $: selectedConversation = conversations.find(conversation => conversation.id === conversationId) || defaultConversation
 // TODO: need to address the following scenarios:
 //        1.  no conversations exist => show a message
@@ -42,8 +42,10 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
       {#each conversations as conversation}
         <ConversationListEntry {conversation} {me} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
       {/each}
-
-      {#if conversations.length < 1 }
+      
+      {#if potentialConversation }
+        <ConversationListEntry conversation={potentialConversation} {me} active {minimal} />
+      {:else if conversations.length < 1 }
         <i class="text-muted">No ongoing conversations at this time</i>
       {/if}
     </div>
