@@ -7,6 +7,8 @@ const dispatch = createEventDispatcher();
 
 export let me = {}
 export let conversation = {}
+export let minimal = false
+
 $: post = conversation.post || {}
 $: creator = post.createdBy || {}
 $: provider = post.provider || {}
@@ -81,7 +83,7 @@ function focusOnCreate(element) {
   <p class="text-center"><i>Please select a conversation to see its messages</i></p>
   {:else}
   <div class="row">
-    <div class="col">
+    <div class="col-8" class:d-none={minimal}>
       <h3 class="text-center"><a href="#/requests/{post.id}">{ post.title }</a></h3>
 
       <div class="text-center">
@@ -91,7 +93,7 @@ function focusOnCreate(element) {
       </div>
     </div>
 
-    <div class="col-4 text-right">
+    <div class="col text-right mb-1">
       {#if creator.id == me.id }
         {#if provider.nickname }
           { provider.nickname } committed to bring this.
