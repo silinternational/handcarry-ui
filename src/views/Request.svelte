@@ -101,7 +101,7 @@ div.card-img {
           <footer class="blockquote-footer">
             { requestor.nickname } 
             {#if !isMine && !hasConversation}
-            <button on:click={discussThis} class="btn btn-success btn-sm m-1">
+            <button on:click={discussThis} class="btn btn-success btn-sm mt-1 align-top">
               <Icon icon={faComment} class="mr-2" />
               Discuss this
             </button>
