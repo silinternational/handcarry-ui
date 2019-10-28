@@ -42,8 +42,10 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
       {#each conversations as conversation}
         <ConversationListEntry {conversation} {me} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
       {/each}
-
-      {#if conversations.length < 1 }
+      
+      {#if potentialConversation.post }
+        <ConversationListEntry conversation={potentialConversation} {me} active {minimal} />
+      {:else if conversations.length < 1 }
         <i class="text-muted">No ongoing conversations at this time</i>
       {/if}
     </div>
