@@ -12,6 +12,7 @@ export let params = {} // URL path parameters, provided by router.
 let conversationId = null
 let request = {}; loadRequest()
 let me = {}
+let potentialConversation = {}
 
 async function loadRequest() {
   const response = await getRequest(params.id)
@@ -24,9 +25,9 @@ $: provider = request.provider || {}
 $: conversations = request.threads || []
 $: isMine = me.id && (requestor.id === me.id)
 $: imProviding = me.id && (provider.id === me.id)
-$: hasConversation = conversations.length > 0
+$: hasConversation = conversations.length > 0 || potentialConversation.post
 $: destination = request.destination && request.destination.description || ''
-$: if (!conversationId && conversations.length > 0) {
+$: if (!potentialConversation.post && !conversationId && conversations.length > 0) {
   conversationId = conversations[0].id
 }
 
@@ -46,6 +47,25 @@ function asReadableDate(timestamp) {
 
 function showConversation(id) {
   conversationId = id
+}
+
+function discussThis() {
+  potentialConversation = {
+    post: request
+  }
+}
+
+function onConversationStarted(event) {
+  let newConversation = {
+    post: request,
+    id: event.detail.id,
+    messages: event.detail.messages,
+  }
+  
+  conversations[conversations.length] = newConversation
+  conversationId = newConversation.id
+  
+  delete potentialConversation.post
 }
 </script>
 
@@ -81,10 +101,10 @@ div.card-img {
           <footer class="blockquote-footer">
             { requestor.nickname } 
             {#if !isMine && !hasConversation}
-            <a href="#/messages/new-conversation/{ request.id }" class="btn btn-success btn-sm m-1" role="button">
+            <button on:click={discussThis} class="btn btn-success btn-sm m-1">
               <Icon icon={faComment} class="mr-2" />
               Discuss this
-            </a>
+            </button>
             {/if}
           </footer>
         </blockquote>
@@ -104,5 +124,7 @@ div.card-img {
 
 {#if isMine || imProviding || hasConversation }
   <h4 class="text-center mt-4">Messages</h4>
-  <Messaging minimal listColumns="col-12 col-md-3" {conversations} {me} {conversationId} on:conversation-selected={event => showConversation(event.detail)} />
+  <Messaging minimal listColumns="col-12 col-md-3" {conversations} {me} {conversationId} {potentialConversation}
+             on:conversation-selected={event => showConversation(event.detail)}
+             on:new={onConversationStarted} />
 {/if}
