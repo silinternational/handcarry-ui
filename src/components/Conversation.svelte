@@ -2,7 +2,7 @@
 import { formatDistanceToNow } from 'date-fns'
 import { sendMessage, sendCommit, acceptCommittment } from '../data/gqlQueries'
 import { createEventDispatcher } from 'svelte'
-import { saw } from '../data/unreads'
+import { unreads, saw } from '../data/messaging'
 
 export let me = {}
 export let conversation = {}
@@ -17,7 +17,8 @@ $: provider = post.provider || {}
 $: messages = conversation.messages || []
 $: destination = post.destination && post.destination.description
 $: isConversingWithProvider = messages.some(msg => msg.sender.id === provider.id)
-$: conversation.unreadMessageCount > 0 && setTimeout(markAsSeen, FIVE_SECONDS)
+$: unread = $unreads.find(({ id }) => id === conversation.id) || {}
+$: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
 async function accept() {
   try {
@@ -48,14 +49,6 @@ async function commit() {
   try {
     const response = await sendCommit(conversation.post.id)
     post = response.updatePost
-  } catch (e) {
-    // TODO: need errorhandling
-  }
-}
-
-async function markAsSeen() {
-  try {
-    await saw(conversation.id)
   } catch (e) {
     // TODO: need errorhandling
   }

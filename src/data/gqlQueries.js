@@ -309,7 +309,6 @@ export function getMyConversations() {
         }
         content
       }
-      unreadMessageCount
     }
     user {
       id
@@ -360,6 +359,7 @@ export function markMessagesAsRead(threadId) {
         time: ${json(new Date().toISOString())}
       }) 
       {
+        id
         unreadMessageCount
       }
     }
