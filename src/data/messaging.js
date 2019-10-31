@@ -7,7 +7,7 @@ const EVERY_MINUTE = 60 * 1000
 setInterval(loadMessageCounts, EVERY_MINUTE)
 
 async function loadMessageCounts() {
-  const unread = ({ unreadMessageCount }) => unreadMessageCount > 0
+  const excludeRead = ({ unreadMessageCount }) => unreadMessageCount > 0
   const transform = ({ id, unreadMessageCount }) => ({
     id,
     count: unreadMessageCount,
