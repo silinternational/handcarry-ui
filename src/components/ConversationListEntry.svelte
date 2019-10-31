@@ -8,6 +8,7 @@ import { unreads } from '../data/messaging'
 export let active = false
 export let conversation = {}
 export let me = {}
+export let minimal = false
 
 const dispatch = createEventDispatcher()
 
@@ -20,7 +21,11 @@ $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 
 <button on:click={() => dispatch('conversation-selected', conversation.id)} class:active={active} class="list-group-item list-group-item-action d-flex align-items-center">
   <span class="flex-fill">
-    { conversation.post.title } – { `${ isCreatedByMe(conversation.post) ? messageFrom(conversation.participants) : creator(conversation.post) }` }
+    {#if !minimal }
+      { conversation.post.title } – 
+    {/if}
+    
+    { `${ isCreatedByMe(conversation.post) ? messageFrom(conversation.participants) : creator(conversation.post) }` }
   </span>
 
   <CountIndicator number={unread.count} />

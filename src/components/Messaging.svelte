@@ -4,13 +4,15 @@ import ConversationListEntry from './ConversationListEntry.svelte'
 
 export let conversations
 export let me
-export let potentialConversation = {}
+export let potentialConversation = null
 export let conversationId = null
+export let minimal = false
+export let listColumns = "col-12 col-sm-5 col-lg-4"
 
 let defaultConversation = {}
 let selectedConversation = {}
 
-$: defaultConversation = potentialConversation.post ? potentialConversation : {}
+$: defaultConversation = potentialConversation || {}
 $: selectedConversation = conversations.find(conversation => conversation.id === conversationId) || defaultConversation
 // TODO: need to address the following scenarios:
 //        1.  no conversations exist => show a message
@@ -21,7 +23,7 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 
 <style>
 .conversation-card {
-  border: 2px solid #007bff;
+  border: 2px solid var(--blue);
   border-top-left-radius: initial; /* blends the corner nicely with a msg list entry */
 }
 @media (max-width: 576px) { 
@@ -35,20 +37,22 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 </style>
 
 <div class="row no-gutters">
-  <div class="col-sm-5 col-lg-4">
+  <div class="{listColumns}">
     <div class="list-group list-group-flush">
       {#each conversations as conversation}
-        <ConversationListEntry {conversation} {me} on:conversation-selected active={ selectedConversation.id === conversation.id } />
+        <ConversationListEntry {conversation} {me} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
       {/each}
-
-      {#if conversations.length < 1 }
+      
+      {#if potentialConversation }
+        <ConversationListEntry conversation={potentialConversation} {me} active {minimal} />
+      {:else if conversations.length < 1 }
         <i class="text-muted">No ongoing conversations at this time</i>
       {/if}
     </div>
   </div>
-  <div class="col-sm-7 col-lg-8">
+  <div class="col">
     <div class="tab-content card conversation-card" class:conversation-card-empty={!selectedConversation.post}>
-      <Conversation {me} conversation={selectedConversation} on:new />
+      <Conversation {me} conversation={selectedConversation} on:new {minimal} />
     </div>
   </div>
 </div>

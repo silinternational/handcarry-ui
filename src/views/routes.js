@@ -16,7 +16,6 @@ const routes = {
 	'/requests/:id': Request,
 	'/messages': Messages,
 	'/messages/:id': Messages,
-	'/messages/new-conversation/:postId': Messages,
 	'/profile': Profile,
  }
 
