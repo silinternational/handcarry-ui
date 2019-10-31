@@ -26,7 +26,15 @@ export async function saw(conversationId) {
   try {
     const { setThreadLastViewedAt: updatedConversation } = await markMessagesAsRead(conversationId)
 
-    unreads.update(removeRecentlyRead(updatedConversation))
+    unreads.update(currentUnreads => {
+      const matchingUnread = currentUnreads.find(unread => unread.id === updatedConversation.id)
+      
+      if (matchingUnread) {
+        matchingUnread.count = updatedConversation.unreadMessageCount
+      }
+      
+      return currentUnreads.filter(({ count }) => count > 0)
+    }
   } catch (e) {
     console.error(`can't update last viewed for ${conversationId} at this time so messages will continue to show as unread, absorbing exception: ${e}`)
   }
