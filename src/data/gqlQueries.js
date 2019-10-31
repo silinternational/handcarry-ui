@@ -316,6 +316,15 @@ export function getMyConversations() {
   }`)
 }
 
+export function getMessageCounts() {
+  return gql(`{
+    myThreads {
+      id
+      unreadMessageCount
+    }
+  }`)
+}
+
 export function sendMessage(threadId, message, postId) {
   return gql(`
     mutation {
@@ -337,6 +346,21 @@ export function sendMessage(threadId, message, postId) {
             createdAt
           }
         }    
+      }
+    }
+  `)
+}
+
+export function markMessagesAsRead(threadId) {
+  return gql(`
+    mutation {
+      setThreadLastViewedAt(input: {
+        threadID: ${json(threadId || '')},
+        time: ${json(new Date().toISOString())}
+      }) 
+      {
+        id
+        unreadMessageCount
       }
     }
   `)

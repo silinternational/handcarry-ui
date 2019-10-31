@@ -4,13 +4,17 @@ import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/
 import polyglot from '../i18n'
 import UserAvatar from './UserAvatar.svelte'
 import { logoutUrl } from '../data/api'
+import CountIndicator from './CountIndicator.svelte'
+import { unreads } from '../data/messaging'
 
 let me = {}; loadMe()
 
+$: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
+
 async function loadMe() {
     try {
-      const response = await getUser()
-      me = response.user
+      const { user } = await getUser()
+      me = user
     } catch (e) {
       // TODO: need errorhandling?
     }
@@ -63,8 +67,8 @@ nav :global(img) {
       </li>
 
       <li class="nav-item">
-        <a href="/#/messages" class="nav-link" class:active={$location.startsWith('/messages')}>
-          {polyglot.t('nav-requests-messages')}
+        <a href="/#/messages" class="nav-link d-flex align-items-start" class:active={$location.startsWith('/messages')}>
+          {polyglot.t('nav-requests-messages')} <CountIndicator number={totalNumUnreads} />
         </a>
       </li>
 

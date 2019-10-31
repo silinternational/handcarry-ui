@@ -1,13 +1,16 @@
 <script>
 import { formatDistanceToNow } from 'date-fns'
 import { sendMessage, sendCommit, acceptCommittment } from '../data/gqlQueries'
-import { createEventDispatcher } from 'svelte';
-
-const dispatch = createEventDispatcher();
+import { createEventDispatcher } from 'svelte'
+import { unreads, saw } from '../data/messaging'
 
 export let me = {}
 export let conversation = {}
 export let minimal = false
+
+let reply = ''
+const dispatch = createEventDispatcher()
+const FIVE_SECONDS = 5000
 
 $: post = conversation.post || {}
 $: creator = post.createdBy || {}
@@ -15,8 +18,8 @@ $: provider = post.provider || {}
 $: messages = conversation.messages || []
 $: destination = post.destination && post.destination.description
 $: isConversingWithProvider = messages.some(msg => msg.sender.id === provider.id)
-
-let reply = ''
+$: unread = $unreads.find(({ id }) => id === conversation.id) || {}
+$: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
 async function accept() {
   try {
@@ -53,10 +56,7 @@ async function commit() {
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})
-
-function focusOnCreate(element) {
-  element.focus()
-}
+const focusOnCreate = element => element.focus()
 </script>
 
 <style>
