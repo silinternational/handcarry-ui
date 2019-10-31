@@ -3,7 +3,7 @@ import { getMessageCounts, markMessagesAsRead } from './gqlQueries'
 
 export const unreads = writable([])
 
-const EVERY_MINUTE = 1000
+const EVERY_MINUTE = 60 * 1000
 setInterval(loadMessageCounts, EVERY_MINUTE)
 
 async function loadMessageCounts() {
