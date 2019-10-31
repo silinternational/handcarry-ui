@@ -16,7 +16,7 @@ async function loadMessageCounts() {
   try {
     const { myThreads: allConversations } = await getMessageCounts()
     
-    unreads.set(allConversations.filter(unread).map(transform))
+    unreads.set(allConversations.filter(excludeRead).map(transform))
   } catch (e) {
     console.error(`can't retrieve unread message count at this time, absorbing exception: ${e}`)
   }
