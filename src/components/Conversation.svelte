@@ -9,7 +9,6 @@ export let conversation = {}
 export let minimal = false
 
 let reply = ''
-const dispatch = createEventDispatcher()
 const FIVE_SECONDS = 5000
 
 $: post = conversation.post || {}
@@ -23,7 +22,7 @@ $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
 async function accept() {
   try {
-    const { updatePost } = await acceptCommittment(conversation.post.id) // TODO: is there a reason we can't use `post.id` here? (something to do with "potential" conversation perhaps?)
+    const { updatePost } = await acceptCommittment(post.id)
     post = updatePost
   } catch (e) {
     // TODO: need errorhandling
@@ -37,6 +36,7 @@ async function sendMessage() {
     reply = ''
     
     if (isNewConversation) {
+      const dispatch = createEventDispatcher()
       dispatch('new', updatedConversation)
     }
   }
@@ -44,8 +44,8 @@ async function sendMessage() {
 
 async function commit() {
   try {
-    const response = await sendCommit(conversation.post.id) // TODO: is there a reason we can't use `post.id` here? (something to do with "potential" conversation perhaps?)
-    post = response.updatePost
+    const { updatePost } = await sendCommit(post.id)
+    post = updatePost
   } catch (e) {
     // TODO: need errorhandling
   }
@@ -75,7 +75,7 @@ const focusOnCreate = element => element.focus()
 </style>
 
 <div class="tab-pane card-body active">
-  {#if ! conversation.post} <!-- TODO: is there a reason we can't use `post.id` here? (something to do with "potential" conversation perhaps?) -->
+  {#if ! post.id}
   <p class="text-center"><i>Please select a conversation to see its messages</i></p>
   {:else}
   <div class="row">
