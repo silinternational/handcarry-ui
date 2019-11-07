@@ -324,13 +324,13 @@ export function getMessageCounts() {
   }`)
 }
 
-export function sendMessage(threadId, message, postId) {
+export function sendMessage(message, conversation) {
   return gql(`
     mutation {
       createMessage(input: {
-        threadID: ${json(threadId || '')},
         content: ${json(message)},
-        postID: ${json(postId || '')}
+        threadID: ${json(conversation.id || '')},
+        postID: ${json(conversation.post.id || '')}
       }) 
       {
         thread {

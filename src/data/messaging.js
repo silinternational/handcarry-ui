@@ -58,10 +58,9 @@ async function loadConversations() {
   }
 }
 
-// TODO: seems like we should only need the conversation rather than each of these id's, right?
-export async function send(message, conversationId, postId) {
+export async function send(message, conversation) {
   try {
-    const { createMessage } = await sendMessage(conversationId, message, postId)
+    const { createMessage } = await sendMessage(message, conversation)
     const updatedConversation = createMessage.thread
 
     conversations.update(currentConversations => {

@@ -32,7 +32,7 @@ async function accept() {
 async function sendMessage() {
   if (reply !== '') {
     let isNewConversation = !conversation.id
-    const updatedConversation = await send(reply, conversation.id, post.id)
+    const updatedConversation = await send(reply, conversation)
     reply = ''
     
     if (isNewConversation) {
