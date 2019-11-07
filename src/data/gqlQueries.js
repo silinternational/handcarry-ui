@@ -302,6 +302,7 @@ export function getMyConversations() {
         }
       }
       messages {
+        id
         createdAt
         sender {
           id
@@ -310,12 +311,10 @@ export function getMyConversations() {
         content
       }
     }
-    user {
-      id
-    }
   }`)
 }
 
+// TODO: is this still needed after integrating conversations into messaging.js?
 export function getMessageCounts() {
   return gql(`{
     myThreads {
@@ -336,14 +335,36 @@ export function sendMessage(threadId, message, postId) {
       {
         thread {
           id
+          participants {
+            id
+            nickname
+          }
+          post {
+            id
+            status
+            title
+            createdBy {
+              id
+              nickname
+            }
+            destination {
+              description
+            }
+            neededAfter
+            neededBefore
+            provider {
+              id
+              nickname
+            }
+          }
           messages {
             id
+            createdAt
             sender {
               id
               nickname
             }
             content
-            createdAt
           }
         }    
       }

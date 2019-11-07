@@ -1,17 +1,22 @@
 import { writable } from 'svelte/store'
-import { getMessageCounts, markMessagesAsRead } from './gqlQueries'
+import { 
+  getMessageCounts, 
+  markMessagesAsRead, 
+  getMyConversations,
+  sendMessage
+} from './gqlQueries'
 
 export const unreads = writable([])
+export const conversations = writable([])
 
 const EVERY_MINUTE = 60 * 1000
-setInterval(loadMessageCounts, EVERY_MINUTE)
+loadMessageCounts(); setInterval(loadMessageCounts, EVERY_MINUTE)
+loadConversations(); setInterval(loadConversations, EVERY_MINUTE)
+// TODO: consider situations where we'd want the intervals cancelled, e.g, 401
 
 async function loadMessageCounts() {
   const excludeRead = ({ unreadMessageCount }) => unreadMessageCount > 0
-  const transform = ({ id, unreadMessageCount }) => ({
-    id,
-    count: unreadMessageCount,
-  })
+  const transform = ({ id, unreadMessageCount }) => ({id, count: unreadMessageCount})
 
   try {
     const { myThreads: allConversations } = await getMessageCounts()
@@ -39,5 +44,40 @@ export async function saw(conversationId) {
     })
   } catch (e) {
     console.error(`can't update last viewed for ${conversationId} at this time so messages will continue to show as unread, absorbing exception: ${e}`)
+  }
+}
+
+async function loadConversations() {
+  try {
+    const { myThreads } = await getMyConversations()
+
+    conversations.set(myThreads)
+  } catch (e) {
+    console.error(`messaging.js:loadConversations: `, e)
+    // TODO: errorhandling?
+  }
+}
+
+// TODO: seems like we should only need the conversation rather than each of these id's, right?
+export async function send(message, conversationId, postId) {
+  try {
+    const { createMessage } = await sendMessage(conversationId, message, postId)
+    const updatedConversation = createMessage.thread
+
+    conversations.update(currentConversations => {
+      const i = currentConversations.findIndex(({ id }) => id === updatedConversation.id)
+      if (i >= 0) {
+        currentConversations[i] = updatedConversation
+      } else {
+        currentConversations.push(updatedConversation)
+      }
+
+      return currentConversations
+    })
+
+    return updatedConversation
+  } catch (e) {
+    console.error(`messaging.js:send: `, e)
+    //TODO: errorhandling?
   }
 }
