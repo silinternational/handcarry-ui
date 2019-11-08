@@ -310,15 +310,6 @@ export function getMyConversations() {
         }
         content
       }
-    }
-  }`)
-}
-
-// TODO: is this still needed after integrating conversations into messaging.js?
-export function getMessageCounts() {
-  return gql(`{
-    myThreads {
-      id
       unreadMessageCount
     }
   }`)
