@@ -13,4 +13,3 @@ build: install
 clean:
 	npm prune
 	npm run clean
-
