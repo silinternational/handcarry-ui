@@ -2,7 +2,8 @@
 import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
 import Uploader from '../components/Uploader.svelte'
-import { getUser, createPost } from '../data/gqlQueries'
+import { me } from '../data/user'
+import { createPost } from '../data/gqlQueries'
 import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
@@ -17,17 +18,10 @@ const options = {
 }
 
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
-
 let errorMessage = ''
 let imageUrl = ''
-let me = {}; loadMe()
-let myOrgs = []
-
-async function loadMe() {
-    const response = await getUser()
-    me = response.user
-    myOrgs = me.organizations
-    request.viewableBy = myOrgs[0].id // needed a default
+$: if ($me.organizations && $me.organizations.length > 0) {
+  request.viewableBy = $me.organizations[0].id
 }
 
 function extractCountryCode(addressComponents) {

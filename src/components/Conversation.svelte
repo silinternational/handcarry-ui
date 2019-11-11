@@ -1,10 +1,10 @@
 <script>
+import { me } from '../data/user'
 import { formatDistanceToNow } from 'date-fns'
 import { sendCommit, acceptCommittment } from '../data/gqlQueries'
 import { createEventDispatcher } from 'svelte'
 import { unreads, saw, send } from '../data/messaging'
 
-export let me = {}
 export let conversation = {}
 export let minimal = false
 
@@ -90,7 +90,7 @@ const focusOnCreate = element => element.focus()
     </div>
 
     <div class="col text-right mb-1">
-      {#if creator.id == me.id }
+      {#if creator.id == $me.id }
         {#if provider.nickname }
           { provider.nickname } committed to bring this.
         {/if}
@@ -98,7 +98,7 @@ const focusOnCreate = element => element.focus()
           <button class="btn btn-sm btn-success" on:click={ accept }>Accept</button>
         {/if}
       {:else}
-        {#if provider.id == me.id }
+        {#if provider.id == $me.id }
           You committed to bring this.
         {:else if provider.id }
           Someone else has committed to bring this.
@@ -114,7 +114,7 @@ const focusOnCreate = element => element.focus()
   <hr class="mt-1" />
   
   {#each messages as message}
-    {#if message.sender.id === me.id}
+    {#if message.sender.id === $me.id}
       <blockquote class="blockquote text-right">
         <p class="mb-0 message-content">{message.content}</p>
         <footer class="blockquote-footer">you, { whenWas(message.createdAt) }</footer>

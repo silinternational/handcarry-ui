@@ -3,7 +3,6 @@ import Conversation from '../components/Conversation.svelte'
 import ConversationListEntry from './ConversationListEntry.svelte'
 
 export let conversations
-export let me
 export let potentialConversation = null
 export let conversationId = null
 export let minimal = false
@@ -41,11 +40,11 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
     <div class="list-group list-group-flush">
       {#each conversations as conversation}
         <!-- on:conversation-selected is being passed up to consumer, i.e., views/Messages.svelte -->
-        <ConversationListEntry {conversation} {me} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
+        <ConversationListEntry {conversation} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
       {/each}
       
       {#if potentialConversation }
-        <ConversationListEntry conversation={potentialConversation} {me} active {minimal} />
+        <ConversationListEntry conversation={potentialConversation} active {minimal} />
       {:else if conversations.length < 1 }
         <i class="text-muted">No ongoing conversations at this time</i>
       {/if}
@@ -53,8 +52,8 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
   </div>
   <div class="col">
     <div class="tab-content card conversation-card" class:conversation-card-empty={!selectedConversation.post}>
-        <!-- on:new is being used to passed up to consumer, i.e., views/Request.svelte -->
-      <Conversation {me} conversation={selectedConversation} on:new {minimal} />
+      <!-- on:new is being used to passed up to consumer, i.e., views/Request.svelte -->
+      <Conversation conversation={selectedConversation} on:new {minimal} />
     </div>
   </div>
 </div>

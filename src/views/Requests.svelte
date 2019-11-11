@@ -5,6 +5,7 @@ import RequestQuickFilter from '../components/RequestQuickFilter.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import SizeFilter from '../components/SizeFilter.svelte'
+import { me } from '../data/user'
 import { getRequests } from '../data/gqlQueries'
 import { location, querystring } from 'svelte-spa-router'
 import qs from 'qs'
@@ -19,7 +20,6 @@ let hasLoaded = false
 
 let filteredRequests
 let requestFilter = {}
-let me = {}
 let queryStringData
 let requests = []; loadRequests()
 let searchText = ''
@@ -33,9 +33,8 @@ $: showAsList = queryStringData.hasOwnProperty('list')
 
 async function loadRequests() {
   try {
-    const response = await getRequests()
-    me = response.user
-    requests = response.posts
+    const { posts } = await getRequests()
+    requests = posts
   } catch (error) {
     errorMessage = error.message
   }
@@ -98,8 +97,8 @@ function searchForText(searchText) {
   <div class="col text-right">
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
-        <RequestQuickFilter {me} {requestFilter} buttonCssClass="my-1 mx-0"
-                            on:all={showAll} on:my-requests={() => selectCreator(me.id)} on:my-commitments={() => selectProvider(me.id)} />
+        <RequestQuickFilter {requestFilter} buttonCssClass="my-1 mx-0"
+                            on:all={showAll} on:my-requests={() => selectCreator($me.id)} on:my-commitments={() => selectProvider($me.id)} />
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
         <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />

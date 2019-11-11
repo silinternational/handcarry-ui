@@ -1,4 +1,5 @@
 <script>
+import { me } from '../data/user'
 import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import { getRequest, cancelPost } from '../data/gqlQueries'
@@ -12,20 +13,18 @@ export let params = {} // URL path parameters, provided by router.
 
 let conversationId = null
 let request = {}; loadRequest()
-let me = {}
 let potentialConversation = null
 
 async function loadRequest() {
-  const { post, user } = await getRequest(params.id)
+  const { post } = await getRequest(params.id)
   request = post
-  me = user
 }
 
 $: requestor = request.createdBy || {}
 $: provider = request.provider || {}
 $: conversationsOnThisRequest = $conversations.filter(({ post }) => post.id === request.id)
-$: isMine = me.id && (requestor.id === me.id)
-$: imProviding = me.id && (provider.id === me.id)
+$: isMine = $me.id && (requestor.id === $me.id)
+$: imProviding = $me.id && (provider.id === $me.id)
 $: hasConversation = conversationsOnThisRequest.length > 0 || potentialConversation
 $: destination = request.destination && request.destination.description || ''
 
@@ -111,7 +110,7 @@ div.card-img {
 
 {#if isMine || imProviding || hasConversation }
   <h4 class="text-center mt-4">Messages</h4>
-  <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {me} {conversationId} {potentialConversation}
+  <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId} {potentialConversation}
              on:conversation-selected={event => showConversation(event.detail)}
              on:new={() => potentialConversation = null} />
 {/if}
