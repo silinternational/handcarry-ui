@@ -6,6 +6,7 @@ import { push, pop } from 'svelte-spa-router'
 import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
 import Messaging from '../components/Messaging.svelte'
+import { conversations } from '../data/messaging'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -15,22 +16,23 @@ let me = {}
 let potentialConversation = null
 
 async function loadRequest() {
-  const response = await getRequest(params.id)
-  request = response.post
-  me = response.user
+  const { post, user } = await getRequest(params.id)
+  request = post
+  me = user
 }
 
 $: requestor = request.createdBy || {}
 $: provider = request.provider || {}
-$: conversations = request.threads || []
+$: conversationsOnThisRequest = $conversations.filter(({ post }) => post.id === request.id)
 $: isMine = me.id && (requestor.id === me.id)
 $: imProviding = me.id && (provider.id === me.id)
-$: hasConversation = conversations.length > 0 || potentialConversation
+$: hasConversation = conversationsOnThisRequest.length > 0 || potentialConversation
 $: destination = request.destination && request.destination.description || ''
 
 // Select a default conversation (when appropriate)
-$: if (!potentialConversation && !conversationId && conversations.length > 0) {
-  conversationId = conversations[0].id
+// TODO: test errorhandling when an id is given but it's not tied to any existing conversation
+$: if (!potentialConversation && !conversationId && conversationsOnThisRequest.length > 0) {
+  conversationId = conversationsOnThisRequest[0].id
 }
 
 async function cancel() {
@@ -43,10 +45,6 @@ async function cancel() {
   }
 }
 
-function asReadableDate(timestamp) {
-  return new Date(timestamp).toLocaleDateString()
-}
-
 function showConversation(id) {
   conversationId = id
 }
@@ -57,17 +55,10 @@ function discussThis() {
   }
 }
 
-function onConversationStarted(event) {
-  const newConversation = {
-    post: request,
-    id: event.detail.id,
-    messages: event.detail.messages,
-  }
-  
-  conversations[conversations.length] = newConversation
-  conversationId = newConversation.id
-  
+function newConversationCreated(newConversation) {
   potentialConversation = null
+  
+  showConversation(newConversation.id)
 }
 </script>
 
@@ -126,7 +117,7 @@ div.card-img {
 
 {#if isMine || imProviding || hasConversation }
   <h4 class="text-center mt-4">Messages</h4>
-  <Messaging minimal listColumns="col-12 col-md-3" {conversations} {me} {conversationId} {potentialConversation}
+  <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {me} {conversationId} {potentialConversation}
              on:conversation-selected={event => showConversation(event.detail)}
-             on:new={onConversationStarted} />
+             on:new={event => newConversationCreated(event.detail)} />
 {/if}

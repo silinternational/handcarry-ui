@@ -302,6 +302,7 @@ export function getMyConversations() {
         }
       }
       messages {
+        id
         createdAt
         sender {
           id
@@ -309,41 +310,52 @@ export function getMyConversations() {
         }
         content
       }
-    }
-    user {
-      id
-    }
-  }`)
-}
-
-export function getMessageCounts() {
-  return gql(`{
-    myThreads {
-      id
       unreadMessageCount
     }
   }`)
 }
 
-export function sendMessage(threadId, message, postId) {
+export function sendMessage(message, conversation) {
   return gql(`
     mutation {
       createMessage(input: {
-        threadID: ${json(threadId || '')},
         content: ${json(message)},
-        postID: ${json(postId || '')}
+        threadID: ${json(conversation.id || '')},
+        postID: ${json(conversation.post.id || '')}
       }) 
       {
         thread {
           id
+          participants {
+            id
+            nickname
+          }
+          post {
+            id
+            status
+            title
+            createdBy {
+              id
+              nickname
+            }
+            destination {
+              description
+            }
+            neededAfter
+            neededBefore
+            provider {
+              id
+              nickname
+            }
+          }
           messages {
             id
+            createdAt
             sender {
               id
               nickname
             }
             content
-            createdAt
           }
         }    
       }

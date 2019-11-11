@@ -1,24 +1,35 @@
 import { writable } from 'svelte/store'
-import { getMessageCounts, markMessagesAsRead } from './gqlQueries'
+import { 
+  markMessagesAsRead, 
+  getMyConversations,
+  sendMessage
+} from './gqlQueries'
 
 export const unreads = writable([])
+export const conversations = writable([])
 
-const EVERY_MINUTE = 60 * 1000
-setInterval(loadMessageCounts, EVERY_MINUTE)
+init()
 
-async function loadMessageCounts() {
+function init() {
+  loadConversations()
+  
+  const EVERY_MINUTE = 60 * 1000
+  setInterval(loadConversations, EVERY_MINUTE)
+  // TODO: consider situations where we'd want the intervals cancelled, e.g, 401    
+
   const excludeRead = ({ unreadMessageCount }) => unreadMessageCount > 0
-  const transform = ({ id, unreadMessageCount }) => ({
-    id,
-    count: unreadMessageCount,
-  })
+  const transform = ({ id, unreadMessageCount }) => ({id, count: unreadMessageCount})
+  conversations.subscribe(convos => unreads.set(convos.filter(excludeRead).map(transform)))
+}
 
+async function loadConversations() {
   try {
-    const { myThreads: allConversations } = await getMessageCounts()
-    
-    unreads.set(allConversations.filter(excludeRead).map(transform))
+    const { myThreads } = await getMyConversations()
+
+    conversations.set(myThreads)
   } catch (e) {
-    console.error(`can't retrieve unread message count at this time, absorbing exception: ${e}`)
+    console.error(`messaging.js:loadConversations: `, e)
+    // TODO: errorhandling?
   }
 }
 
@@ -39,5 +50,28 @@ export async function saw(conversationId) {
     })
   } catch (e) {
     console.error(`can't update last viewed for ${conversationId} at this time so messages will continue to show as unread, absorbing exception: ${e}`)
+  }
+}
+
+export async function send(message, conversation) {
+  try {
+    const { createMessage } = await sendMessage(message, conversation)
+    const updatedConversation = createMessage.thread
+
+    conversations.update(currentConversations => {
+      const i = currentConversations.findIndex(({ id }) => id === updatedConversation.id)
+      if (i >= 0) {
+        currentConversations[i] = updatedConversation
+      } else {
+        currentConversations = [updatedConversation, ...currentConversations]
+      }
+
+      return currentConversations
+    })
+
+    return updatedConversation
+  } catch (e) {
+    console.error(`messaging.js:send: `, e)
+    //TODO: errorhandling?
   }
 }

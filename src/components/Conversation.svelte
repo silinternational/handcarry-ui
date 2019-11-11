@@ -1,16 +1,16 @@
 <script>
 import { formatDistanceToNow } from 'date-fns'
-import { sendMessage, sendCommit, acceptCommittment } from '../data/gqlQueries'
+import { sendCommit, acceptCommittment } from '../data/gqlQueries'
 import { createEventDispatcher } from 'svelte'
-import { unreads, saw } from '../data/messaging'
+import { unreads, saw, send } from '../data/messaging'
 
 export let me = {}
 export let conversation = {}
 export let minimal = false
 
 let reply = ''
-const dispatch = createEventDispatcher()
 const FIVE_SECONDS = 5000
+const dispatch = createEventDispatcher()
 
 $: post = conversation.post || {}
 $: creator = post.createdBy || {}
@@ -23,33 +23,29 @@ $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
 async function accept() {
   try {
-    const response = await acceptCommittment(conversation.post.id)
-    post = response.updatePost
+    const { updatePost } = await acceptCommittment(post.id)
+    post = updatePost
   } catch (e) {
     // TODO: need errorhandling
   }
 }
 
-async function send() {
+async function sendMessage() {
   if (reply !== '') {
     let isNewConversation = !conversation.id
-    const response = await sendMessage(conversation.id, reply, post.id)
-    conversation.messages = response.createMessage.thread.messages
+    const updatedConversation = await send(reply, conversation)
     reply = ''
     
     if (isNewConversation) {
-      dispatch('new', {
-        id: response.createMessage.thread.id,
-        messages: response.createMessage.thread.messages
-      })
+      dispatch('new', updatedConversation)
     }
   }
 }
 
 async function commit() {
   try {
-    const response = await sendCommit(conversation.post.id)
-    post = response.updatePost
+    const { updatePost } = await sendCommit(post.id)
+    post = updatePost
   } catch (e) {
     // TODO: need errorhandling
   }
@@ -79,7 +75,7 @@ const focusOnCreate = element => element.focus()
 </style>
 
 <div class="tab-pane card-body active">
-  {#if ! conversation.post}
+  {#if ! post.id}
   <p class="text-center"><i>Please select a conversation to see its messages</i></p>
   {:else}
   <div class="row">
@@ -132,7 +128,7 @@ const focusOnCreate = element => element.focus()
   {/each}
 
   <div class="card-footer">
-    <form on:submit|preventDefault={ send }>
+    <form on:submit|preventDefault={ sendMessage }>
       <div class="row">
         <div class="col">
           <label class="sr-only" for="replyField">Reply</label>
