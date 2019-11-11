@@ -63,7 +63,7 @@ export async function send(message, conversation) {
       if (i >= 0) {
         currentConversations[i] = updatedConversation
       } else {
-        currentConversations.push(updatedConversation)
+        currentConversations = [updatedConversation, ...currentConversations]
       }
 
       return currentConversations

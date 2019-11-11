@@ -53,6 +53,12 @@ function discussThis() {
     post: request
   }
 }
+
+function newConversationCreated(newConversation) {
+  potentialConversation = null
+  
+  showConversation(newConversation.id)
+}
 </script>
 
 <style>
@@ -112,5 +118,5 @@ div.card-img {
   <h4 class="text-center mt-4">Messages</h4>
   <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId} {potentialConversation}
              on:conversation-selected={event => showConversation(event.detail)}
-             on:new={() => potentialConversation = null} />
+             on:new={event => newConversationCreated(event.detail)} />
 {/if}
