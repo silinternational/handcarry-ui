@@ -10,6 +10,7 @@ export let minimal = false
 
 let reply = ''
 const FIVE_SECONDS = 5000
+const dispatch = createEventDispatcher()
 
 $: post = conversation.post || {}
 $: creator = post.createdBy || {}
@@ -36,7 +37,6 @@ async function sendMessage() {
     reply = ''
     
     if (isNewConversation) {
-      const dispatch = createEventDispatcher()
       dispatch('new', updatedConversation)
     }
   }
