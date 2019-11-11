@@ -1,4 +1,5 @@
 <script>
+import { me } from '../data/user'
 import Icon from 'fa-svelte'
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { createEventDispatcher } from 'svelte'
@@ -7,15 +8,14 @@ import { unreads } from '../data/messaging'
 
 export let active = false
 export let conversation = {}
-export let me = {}
 export let minimal = false
 
 const dispatch = createEventDispatcher()
 
-$: isCreatedByMe = post => post.createdBy.id === me.id
-$: isProvidedByMe = post => post.provider && post.provider.id === me.id
+$: isCreatedByMe = post => post.createdBy.id === $me.id
+$: isProvidedByMe = post => post.provider && post.provider.id === $me.id
 $: creator = post => post.createdBy && post.createdBy.nickname
-$: messageFrom = participants => participants.filter(p => p.id !== me.id).map(p => p.nickname).join(', ')
+$: messageFrom = participants => participants.filter(p => p.id !== $me.id).map(p => p.nickname).join(', ')
 $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 </script>
 

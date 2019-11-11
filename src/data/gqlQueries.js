@@ -1,8 +1,6 @@
 import { gql } from './api'
 
-function json(value) {
-  return JSON.stringify(value)
-}
+const json = JSON.stringify
 
 export function getUser() {
   return gql(`{
@@ -42,9 +40,6 @@ export function getRequests() {
       photo {
         url
       }
-    }
-    user {
-      id
     }
   }`)
 }
@@ -110,9 +105,6 @@ export function getRequest(id) {
           content
         }
       }
-    }
-    user {
-      id
     }
   }`)
 }

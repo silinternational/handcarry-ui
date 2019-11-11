@@ -1,15 +1,9 @@
 <script>
 import UserAvatar from '../components/UserAvatar.svelte'
-import { getUser, createPost } from '../data/gqlQueries'
+import { me } from '../data/user'
 
-let me = {}; loadMe()
-$: email = me.email || ''
-$: nickname = me.nickname || ''
-
-async function loadMe() {
-    const response = await getUser()
-    me = response.user
-}
+$: email = $me.email || ''
+$: nickname = $me.nickname || ''
 </script>
 
 <style>
@@ -21,7 +15,7 @@ async function loadMe() {
 <div class="row">
   <div class="col-12 col-sm-5">
     <div class="text-center text-sm-right profile-avatar">
-      <UserAvatar user={me} />
+      <UserAvatar user={$me} />
     </div>
   </div>
   

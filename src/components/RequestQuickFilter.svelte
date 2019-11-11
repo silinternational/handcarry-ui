@@ -1,8 +1,8 @@
 <script>
 import { createEventDispatcher } from 'svelte'
+import { me } from '../data/user'
 
 export let buttonCssClass = ''
-export let me = {}
 export let requestFilter = {}
 
 const dispatch = createEventDispatcher()
@@ -12,8 +12,8 @@ let isJustMyRequests
 let isJustMyCommitments
 
 $: isAllRequests = !isCreatorSelected(requestFilter) && !isProviderSelected(requestFilter)
-$: isJustMyRequests = isSelectedCreator(me.id, requestFilter)
-$: isJustMyCommitments = isSelectedProvider(me.id, requestFilter)
+$: isJustMyRequests = isSelectedCreator($me.id, requestFilter)
+$: isJustMyCommitments = isSelectedProvider($me.id, requestFilter)
 
 function isCreatorSelected(requestFilter) {
   return requestFilter.createdBy && requestFilter.createdBy.id
