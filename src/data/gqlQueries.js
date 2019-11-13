@@ -96,7 +96,7 @@ export function createPost(post) {
           longitude: ${json(post.destination.longitude)},
           country: ${json(post.destination.country)}
         },
-        photoID: ${json(post.photoID)},
+        photoID: ${json(post.photoID || '')},
         size: ${post.size}
       }) 
       {
