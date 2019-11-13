@@ -69,8 +69,6 @@ export function sendCommit(postId) {
         destination {
           description
         }
-        neededAfter
-        neededBefore
         provider {
           id
           nickname
@@ -100,8 +98,6 @@ export function acceptCommittment(postId) {
         destination {
           description
         }
-        neededAfter
-        neededBefore
         provider {
           id
           nickname
@@ -146,8 +142,6 @@ export function getMyConversations() {
         destination {
           description
         }
-        neededAfter
-        neededBefore
         provider {
           id
           nickname
@@ -193,8 +187,6 @@ export function sendMessage(message, conversation) {
             destination {
               description
             }
-            neededAfter
-            neededBefore
             provider {
               id
               nickname
