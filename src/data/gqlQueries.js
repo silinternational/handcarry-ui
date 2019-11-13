@@ -225,22 +225,6 @@ export function acceptCommittment(postId) {
   `)
 }
 
-export function confirmReceipt(postId) {
-  return gql(`
-    mutation {
-      updatePost(
-        input: {
-          id: ${json(postId)},
-          status: RECEIVED
-        }
-      ) 
-      {
-        id
-      }
-    }
-  `)
-}
-
 export function cancelRequest(requestId) {
   return gql(`
     mutation {
