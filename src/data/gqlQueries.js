@@ -20,64 +20,7 @@ export function getUser() {
 export function getRequests() {
   return gql(`{
     posts {
-      id
-      title
-      description
-      destination {
-        description
-      }
-      createdBy {
-        id
-        nickname
-        photoURL
-      }
-      receiver {
-        nickname
-      }
-      provider {
-        id
-        nickname
-      }
-      organization {
-        name
-      }
-      size
-      photo {
-        url
-      }
-      threads {
-        id
-        participants {
-          id
-          nickname
-        }
-        post {
-          id
-          title
-          createdBy {
-            id
-            nickname
-          }
-          destination {
-            description
-          }
-          status
-          neededAfter
-          neededBefore
-          provider {
-            id
-            nickname
-          }
-        }
-        messages {
-          createdAt
-          sender {
-            id
-            nickname
-          }
-          content
-        }
-      }
+      ${postFields}
     }
   }`)
 }
@@ -100,64 +43,7 @@ export function createRequest(request) {
         size: ${request.size}
       }) 
       {
-        id
-        title
-        description
-        destination {
-          description
-        }
-        createdBy {
-          id
-          nickname
-          photoURL
-        }
-        receiver {
-          nickname
-        }
-        provider {
-          id
-          nickname
-        }
-        organization {
-          name
-        }
-        size
-        photo {
-          url
-        }
-        threads {
-          id
-          participants {
-            id
-            nickname
-          }
-          post {
-            id
-            title
-            createdBy {
-              id
-              nickname
-            }
-            destination {
-              description
-            }
-            status
-            neededAfter
-            neededBefore
-            provider {
-              id
-              nickname
-            }
-          }
-          messages {
-            createdAt
-            sender {
-              id
-              nickname
-            }
-            content
-          }
-        }
+        ${postFields}
       }
     }
   `)
@@ -343,3 +229,62 @@ export function markMessagesAsRead(threadId) {
     }
   `)
 }
+
+const postFields = `
+  id
+  title
+  description
+  destination {
+    description
+  }
+  createdBy {
+    id
+    nickname
+    photoURL
+  }
+  receiver {
+    nickname
+  }
+  provider {
+    id
+    nickname
+  }
+  organization {
+    name
+  }
+  size
+  photo {
+    url
+  }
+  threads {
+    id
+    participants {
+      id
+      nickname
+    }
+    post {
+      id
+      title
+      createdBy {
+        id
+        nickname
+      }
+      destination {
+        description
+      }
+      status
+      provider {
+        id
+        nickname
+      }
+    }
+    messages {
+      createdAt
+      sender {
+        id
+        nickname
+      }
+      content
+    }
+  }
+`
