@@ -82,46 +82,6 @@ export function getRequests() {
   }`)
 }
 
-export function getMyRequests() {
-  return gql(`{
-    user {
-      posts(role: CREATEDBY) {
-        id
-        status
-        title
-        description
-        destination {
-          description
-        }
-        neededAfter
-        neededBefore
-        provider {
-          nickname
-        }
-      }
-    }
-  }`)
-}
-
-export function getMyCommitments() {
-  return gql(`{
-    user {
-      posts(role: PROVIDING) {
-        title
-        description
-        destination {
-          description
-        }
-        neededAfter
-        neededBefore
-        provider {
-          nickname
-        }
-      }
-    }
-  }`)
-}
-
 export function createPost(post) {
   return gql(`
     mutation {
