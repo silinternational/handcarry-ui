@@ -59,20 +59,7 @@ export function sendCommit(postId) {
         }
       ) 
       {
-        id
-        status
-        title
-        createdBy {
-          id
-          nickname
-        }
-        destination {
-          description
-        }
-        provider {
-          id
-          nickname
-        }
+        ${postFields}
       }
     }
   `)
@@ -88,20 +75,7 @@ export function acceptCommittment(postId) {
         }
       ) 
       {
-        id
-        status
-        title
-        createdBy {
-          id
-          nickname
-        }
-        destination {
-          description
-        }
-        provider {
-          id
-          nickname
-        }
+        ${postFields}
       }
     }
   `)
@@ -117,7 +91,7 @@ export function cancelRequest(requestId) {
         }
       ) 
       {
-        id
+        ${postFields}
       }
     }
   `)
@@ -126,37 +100,7 @@ export function cancelRequest(requestId) {
 export function getMyConversations() {
   return gql(`{
     myThreads {
-      id
-      participants {
-        id
-        nickname
-      }
-      post {
-        id
-        status
-        title
-        createdBy {
-          id
-          nickname
-        }
-        destination {
-          description
-        }
-        provider {
-          id
-          nickname
-        }
-      }
-      messages {
-        id
-        createdAt
-        sender {
-          id
-          nickname
-        }
-        content
-      }
-      unreadMessageCount
+      ${threadFields}
     }
   }`)
 }
@@ -171,36 +115,7 @@ export function sendMessage(message, conversation) {
       }) 
       {
         thread {
-          id
-          participants {
-            id
-            nickname
-          }
-          post {
-            id
-            status
-            title
-            createdBy {
-              id
-              nickname
-            }
-            destination {
-              description
-            }
-            provider {
-              id
-              nickname
-            }
-          }
-          messages {
-            id
-            createdAt
-            sender {
-              id
-              nickname
-            }
-            content
-          }
+           ${threadFields}
         }    
       }
     }
@@ -215,37 +130,60 @@ export function markMessagesAsRead(threadId) {
         time: ${json(new Date().toISOString())}
       }) 
       {
-        id
-        unreadMessageCount
+        ${threadFields}
       }
     }
   `)
 }
 
 const postFields = `
-  id
-  title
-  description
-  destination {
-    description
-  }
   createdBy {
     id
     nickname
     photoURL
   }
-  receiver {
-    nickname
+  description
+  destination {
+    description
+  }
+  id
+  organization {
+    name
+  }
+  photo {
+    url
   }
   provider {
     id
     nickname
   }
-  organization {
-    name
+  receiver {
+    nickname
   }
   size
-  photo {
-    url
+  status
+  title
+`
+const messageFields = `
+  content
+  createdAt
+  id
+  sender {
+    id
+    nickname
   }
+`
+const threadFields = `
+  id
+  messages {
+    ${messageFields}
+  }
+  participants {
+    id
+    nickname
+  }
+  post {
+    ${postFields}
+  }
+  unreadMessageCount
 `
