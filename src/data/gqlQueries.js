@@ -82,25 +82,82 @@ export function getRequests() {
   }`)
 }
 
-export function createPost(post) {
+export function createRequest(request) {
   return gql(`
     mutation {
       createPost(input: {
-        orgID: ${json(post.orgID)},
-        type: ${post.type},
-        title: ${json(post.title)},
-        description: ${json(post.description || '')},
+        orgID: ${json(request.orgID)},
+        type: ${request.type},
+        title: ${json(request.title)},
+        description: ${json(request.description || '')},
         destination: {
-          description: ${json(post.destination.description)},
-          latitude: ${json(post.destination.latitude)},
-          longitude: ${json(post.destination.longitude)},
-          country: ${json(post.destination.country)}
+          description: ${json(request.destination.description)},
+          latitude: ${json(request.destination.latitude)},
+          longitude: ${json(request.destination.longitude)},
+          country: ${json(request.destination.country)}
         },
-        photoID: ${json(post.photoID || '')},
-        size: ${post.size}
+        photoID: ${json(request.photoID || '')},
+        size: ${request.size}
       }) 
       {
+        id
         title
+        description
+        destination {
+          description
+        }
+        createdBy {
+          id
+          nickname
+          photoURL
+        }
+        receiver {
+          nickname
+        }
+        provider {
+          id
+          nickname
+        }
+        organization {
+          name
+        }
+        size
+        photo {
+          url
+        }
+        threads {
+          id
+          participants {
+            id
+            nickname
+          }
+          post {
+            id
+            title
+            createdBy {
+              id
+              nickname
+            }
+            destination {
+              description
+            }
+            status
+            neededAfter
+            neededBefore
+            provider {
+              id
+              nickname
+            }
+          }
+          messages {
+            createdAt
+            sender {
+              id
+              nickname
+            }
+            content
+          }
+        }
       }
     }
   `)

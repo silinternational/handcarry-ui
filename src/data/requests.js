@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { getRequests } from './gqlQueries'
+import { getRequests, createRequest } from './gqlQueries'
 
 export const requests = writable([])
 export const loading = writable(false)
@@ -26,5 +26,17 @@ async function loadRequests() {
     // TODO: errorhandling?
   } finally {
     loading.set(false)
+  }
+}
+
+export async function create(request) {
+  try {
+    const { createPost } = await createRequest(request)
+    const newRequest = createPost
+
+    requests.update(currentRequests => [newRequest, ...currentRequests])
+  } catch (e) {
+    console.error(`requests.js:create: `, e)
+    //TODO: errorhandling?
   }
 }
