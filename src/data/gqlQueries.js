@@ -248,35 +248,4 @@ const postFields = `
   photo {
     url
   }
-  threads {
-    id
-    participants {
-      id
-      nickname
-    }
-    post {
-      id
-      title
-      createdBy {
-        id
-        nickname
-      }
-      destination {
-        description
-      }
-      status
-      provider {
-        id
-        nickname
-      }
-    }
-    messages {
-      createdAt
-      sender {
-        id
-        nickname
-      }
-      content
-    }
-  }
 `
