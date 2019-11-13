@@ -22,6 +22,7 @@ export function getRequests() {
     posts {
       id
       title
+      description
       destination {
         description
       }
@@ -29,38 +30,6 @@ export function getRequests() {
         id
         nickname
         photoURL
-      }
-      provider {
-        id
-      }
-      neededAfter
-      neededBefore
-      category
-      size
-      photo {
-        url
-      }
-    }
-  }`)
-}
-
-export function getRequest(id) {
-  return gql(`{
-    post(id: ${json(id)}) {
-      id
-      title
-      description
-      destination {
-        description
-      }
-      url
-      size
-      photo {
-        url
-      }
-      createdBy {
-        id
-        nickname
       }
       receiver {
         nickname
@@ -71,6 +40,10 @@ export function getRequest(id) {
       }
       organization {
         name
+      }
+      size
+      photo {
+        url
       }
       threads {
         id

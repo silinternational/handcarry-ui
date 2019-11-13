@@ -2,7 +2,8 @@
 import { me } from '../data/user'
 import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
-import { getRequest, cancelPost } from '../data/gqlQueries'
+import { requests } from '../data/requests'
+import { cancelPost } from '../data/gqlQueries'
 import { push, pop } from 'svelte-spa-router'
 import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
@@ -12,14 +13,9 @@ import { conversations } from '../data/messaging'
 export let params = {} // URL path parameters, provided by router.
 
 let conversationId = null
-let request = {}; loadRequest()
 let potentialConversation = null
 
-async function loadRequest() {
-  const { post } = await getRequest(params.id)
-  request = post
-}
-
+$: request = $requests.find(({ id }) => id === params.id) || {}
 $: requestor = request.createdBy || {}
 $: provider = request.provider || {}
 $: conversationsOnThisRequest = $conversations.filter(({ post }) => post.id === request.id)
