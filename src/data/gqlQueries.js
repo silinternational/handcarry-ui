@@ -241,12 +241,12 @@ export function confirmReceipt(postId) {
   `)
 }
 
-export function cancelPost(postId) {
+export function cancelRequest(requestId) {
   return gql(`
     mutation {
       updatePost(
         input: {
-          id: ${json(postId)},
+          id: ${json(requestId)},
           status: REMOVED
         }
       ) 

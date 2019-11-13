@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { getRequests, createRequest } from './gqlQueries'
+import { getRequests, createRequest, cancelRequest } from './gqlQueries'
 
 export const requests = writable([])
 export const loading = writable(false)
@@ -37,6 +37,17 @@ export async function create(request) {
     requests.update(currentRequests => [newRequest, ...currentRequests])
   } catch (e) {
     console.error(`requests.js:create: `, e)
+    //TODO: errorhandling?
+  }
+}
+
+export async function cancel(requestId) {
+  try {
+    await cancelRequest(requestId)
+
+    requests.update(currentRequests => currentRequests.filter(({id}) => id !== requestId))
+  } catch (e) {
+    console.error(`requests.js:cancel: `, e)
     //TODO: errorhandling?
   }
 }

@@ -2,8 +2,7 @@
 import { me } from '../data/user'
 import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
-import { requests } from '../data/requests'
-import { cancelPost } from '../data/gqlQueries'
+import { requests, cancel } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
@@ -30,9 +29,9 @@ $: if (!potentialConversation && !conversationId && conversationsOnThisRequest.l
   conversationId = conversationsOnThisRequest[0].id
 }
 
-async function cancel() {
+async function cancelRequest() {
   try {
-    await cancelPost(params.id)
+    await cancel(params.id)
 
     push(`/requests`)
   } catch (e) {
@@ -78,7 +77,7 @@ div.card-img {
         <h5 class="card-title">
           { request.title || ''}
           {#if isMine}
-          <button on:click={cancel} class="btn btn-sm btn-outline-danger rounded-circle float-right">
+          <button on:click={cancelRequest} class="btn btn-sm btn-outline-danger rounded-circle float-right">
             <Icon icon={faTrash} />
           </button>
           {/if}
