@@ -32,10 +32,10 @@ async function acceptCommittment() {
 
 async function sendMessage() {
   if (reply !== '') {
-    let isNewConversation = !conversation.id
     const updatedConversation = await send(reply, conversation)
     reply = ''
     
+    const isNewConversation = !conversation.id
     if (isNewConversation) {
       dispatch('new', updatedConversation)
     }
