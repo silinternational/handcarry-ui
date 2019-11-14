@@ -31,9 +31,6 @@ export async function createRequest(request) {
   const { createPost } = await gql(`
     mutation {
       createPost(input: {
-        orgID: ${json(request.orgID)},
-        type: ${request.type},
-        title: ${json(request.title)},
         description: ${json(request.description || '')},
         destination: {
           country: ${json(request.destination.country)}
@@ -41,8 +38,11 @@ export async function createRequest(request) {
           latitude: ${json(request.destination.latitude)},
           longitude: ${json(request.destination.longitude)},
         },
+        orgID: ${json(request.orgID)},
         photoID: ${json(request.photoID || '')},
         size: ${request.size}
+        title: ${json(request.title)},
+        type: ${request.type},
       }) 
       {
         ${postFields}
