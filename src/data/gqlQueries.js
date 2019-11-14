@@ -34,10 +34,10 @@ export function createRequest(request) {
         title: ${json(request.title)},
         description: ${json(request.description || '')},
         destination: {
+          country: ${json(request.destination.country)}
           description: ${json(request.destination.description)},
           latitude: ${json(request.destination.latitude)},
           longitude: ${json(request.destination.longitude)},
-          country: ${json(request.destination.country)}
         },
         photoID: ${json(request.photoID || '')},
         size: ${request.size}
