@@ -1,7 +1,7 @@
 <script>
 import { me } from '../data/user'
 import { formatDistanceToNow } from 'date-fns'
-import { sendCommit, acceptCommittment } from '../data/gqlQueries'
+import { provide, accept } from '../data/requests'
 import { createEventDispatcher } from 'svelte'
 import { unreads, saw, send } from '../data/messaging'
 
@@ -21,10 +21,10 @@ $: isConversingWithProvider = messages.some(msg => msg.sender.id === provider.id
 $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
-async function accept() {
+async function acceptCommittment() {
   try {
-    const { updatePost } = await acceptCommittment(post.id)
-    post = updatePost
+    // TODO: is updating post this way really necessary since the $requests store will be updated?
+    post = await accept(post.id)
   } catch (e) {
     // TODO: need errorhandling
   }
@@ -44,8 +44,8 @@ async function sendMessage() {
 
 async function commit() {
   try {
-    const { updatePost } = await sendCommit(post.id)
-    post = updatePost
+    // TODO: is updating post this way really necessary since the $requests store will be updated?
+    post = await provide(post.id)
   } catch (e) {
     // TODO: need errorhandling
   }
@@ -95,7 +95,7 @@ const focusOnCreate = element => element.focus()
           { provider.nickname } committed to bring this.
         {/if}
         {#if post.status === 'COMMITTED' && isConversingWithProvider}
-          <button class="btn btn-sm btn-success" on:click={ accept }>Accept</button>
+          <button class="btn btn-sm btn-success" on:click={ acceptCommittment }>Accept</button>
         {/if}
       {:else}
         {#if provider.id == $me.id }

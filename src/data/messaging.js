@@ -24,9 +24,9 @@ function init() {
 
 async function loadConversations() {
   try {
-    const { myThreads } = await getMyConversations()
+    const myConversations = await getMyConversations()
 
-    conversations.set(myThreads)
+    conversations.set(myConversations)
   } catch (e) {
     console.error(`messaging.js:loadConversations: `, e)
     // TODO: errorhandling?
@@ -35,7 +35,7 @@ async function loadConversations() {
 
 export async function saw(conversationId) {
   try {
-    const { setThreadLastViewedAt: updatedConversation } = await markMessagesAsRead(conversationId)
+    const updatedConversation = await markMessagesAsRead(conversationId)
 
     unreads.update(currentUnreads => {
       const matchingUnread = currentUnreads.find(unread => unread.id === updatedConversation.id)
@@ -55,8 +55,7 @@ export async function saw(conversationId) {
 
 export async function send(message, conversation) {
   try {
-    const { createMessage } = await sendMessage(message, conversation)
-    const updatedConversation = createMessage.thread
+    const updatedConversation = await sendMessage(message, conversation)
 
     conversations.update(currentConversations => {
       const i = currentConversations.findIndex(({ id }) => id === updatedConversation.id)

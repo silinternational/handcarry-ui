@@ -1,9 +1,7 @@
 import { gql } from './api'
 
-const json = JSON.stringify
-
-export function getUser() {
-  return gql(`{
+export async function getUser() {
+  const { user } = await gql(`{
     user {
       id
       email
@@ -15,18 +13,22 @@ export function getUser() {
       }
     }
   }`)
+
+  return user
 }
 
-export function getRequests() {
-  return gql(`{
+export async function getRequests() {
+  const { posts } = await gql(`{
     posts {
       ${postFields}
     }
   }`)
+
+  return posts
 }
 
-export function createRequest(request) {
-  return gql(`
+export async function createRequest(request) {
+  const { createPost } = await gql(`
     mutation {
       createPost(input: {
         orgID: ${json(request.orgID)},
@@ -47,15 +49,21 @@ export function createRequest(request) {
       }
     }
   `)
+
+  return createPost
 }
 
-export function sendCommit(postId) {
-  return gql(`
+export const cancelRequest = async requestId => updateRequest(requestId, 'REMOVED')
+export const acceptCommittment = async requestId => updateRequest(requestId, 'ACCEPTED')
+export const commitToProvide = async requestId => updateRequest(requestId, 'COMMITTED')
+
+async function updateRequest(id, status) {
+  const { updatePost } = await gql(`
     mutation {
       updatePost(
         input: {
-          id: ${json(postId)},
-          status: COMMITTED
+          id: ${json(id)},
+          status: ${status}
         }
       ) 
       {
@@ -63,67 +71,41 @@ export function sendCommit(postId) {
       }
     }
   `)
+
+  return updatePost
 }
 
-export function acceptCommittment(postId) {
-  return gql(`
-    mutation {
-      updatePost(
-        input: {
-          id: ${json(postId)},
-          status: ACCEPTED
-        }
-      ) 
-      {
-        ${postFields}
-      }
-    }
-  `)
-}
-
-export function cancelRequest(requestId) {
-  return gql(`
-    mutation {
-      updatePost(
-        input: {
-          id: ${json(requestId)},
-          status: REMOVED
-        }
-      ) 
-      {
-        ${postFields}
-      }
-    }
-  `)
-}
-
-export function getMyConversations() {
-  return gql(`{
+export async function getMyConversations() {
+  const { myThreads } = await gql(`{
     myThreads {
       ${threadFields}
     }
   }`)
+
+  return myThreads
 }
 
-export function sendMessage(message, conversation) {
-  return gql(`
+export async function sendMessage(message, conversation) {
+  const { createMessage } = await gql(`
     mutation {
       createMessage(input: {
         content: ${json(message)},
-        threadID: ${json(conversation.id || '')},
         postID: ${json(conversation.post.id || '')}
+        threadID: ${json(conversation.id || '')},
       }) 
       {
         thread {
-           ${threadFields}
+          ${threadFields}
         }    
       }
     }
   `)
+
+  return createMessage.thread
 }
 
-export function markMessagesAsRead(threadId) {
-  return gql(`
+export async function markMessagesAsRead(threadId) {
+  const { setThreadLastViewedAt } = await gql(`
     mutation {
       setThreadLastViewedAt(input: {
         threadID: ${json(threadId || '')},
@@ -134,8 +116,11 @@ export function markMessagesAsRead(threadId) {
       }
     }
   `)
+
+  return setThreadLastViewedAt
 }
 
+const json = JSON.stringify
 const postFields = `
   createdBy {
     id

@@ -1,5 +1,11 @@
 import { writable } from 'svelte/store'
-import { getRequests, createRequest, cancelRequest } from './gqlQueries'
+import { 
+  createRequest, 
+  getRequests, 
+  cancelRequest,
+  commitToProvide,
+  acceptCommittment,
+} from './gqlQueries'
 
 export const requests = writable([])
 export const loading = writable(false)
@@ -18,9 +24,9 @@ async function loadRequests() {
   try {
     loading.set(true)
 
-    const { posts } = await getRequests()
+    const currentRequests = await getRequests()
 
-    requests.set(posts)
+    requests.set(currentRequests)
   } catch (e) {
     console.error(`requests.js:loadRequests: `, e)
     // TODO: errorhandling?
@@ -31,8 +37,7 @@ async function loadRequests() {
 
 export async function create(request) {
   try {
-    const { createPost } = await createRequest(request)
-    const newRequest = createPost
+    const newRequest = await createRequest(request)
 
     requests.update(currentRequests => [newRequest, ...currentRequests])
   } catch (e) {
@@ -50,4 +55,41 @@ export async function cancel(requestId) {
     console.error(`requests.js:cancel: `, e)
     //TODO: errorhandling?
   }
+}
+
+export async function provide(requestId) {
+  try {
+    const updatedRequest = await commitToProvide(requestId)
+
+    updateLocalRequests(updatedRequest)
+
+    return updatedRequest //TODO: is this necessary?
+  } catch (e) {
+    console.error(`requests.js:provide: `, e)
+    //TODO: errorhandling?
+  }
+}
+
+export async function accept(requestId) {
+  try {
+    const updatedRequest = await acceptCommittment(requestId)
+
+    updateLocalRequests(updatedRequest)
+
+    return updatedRequest //TODO: is this necessary?
+  } catch (e) {
+    console.error(`requests.js:accept: `, e)
+    //TODO: errorhandling?
+  }
+}
+
+const updateLocalRequests = updatedRequest => {
+  requests.update(currentRequests => {
+    const i = currentRequests.findIndex(({ id }) => id === updatedRequest.id)
+    if (i >= 0) {
+      currentRequests[i] = updatedRequest
+    }
+
+    return currentRequests
+  })
 }
