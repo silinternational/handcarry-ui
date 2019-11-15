@@ -1,9 +1,7 @@
 import { gql } from './api'
 
-const json = JSON.stringify
-
-export function getUser() {
-  return gql(`{
+export async function getUser() {
+  const { user } = await gql(`{
     user {
       id
       email
@@ -15,357 +13,162 @@ export function getUser() {
       }
     }
   }`)
+
+  return user
 }
 
-export function getRequests() {
-  return gql(`{
+export async function getRequests() {
+  const { posts } = await gql(`{
     posts {
-      id
-      title
-      destination {
-        description
-      }
-      createdBy {
-        id
-        nickname
-        photoURL
-      }
-      provider {
-        id
-      }
-      neededAfter
-      neededBefore
-      category
-      size
-      photo {
-        url
-      }
+      ${postFields}
     }
   }`)
+
+  return posts
 }
 
-export function getRequest(id) {
-  return gql(`{
-    post(id: ${json(id)}) {
-      id
-      title
-      description
-      destination {
-        description
-      }
-      url
-      size
-      photo {
-        url
-      }
-      createdBy {
-        id
-        nickname
-      }
-      receiver {
-        nickname
-      }
-      provider {
-        id
-        nickname
-      }
-      organization {
-        name
-      }
-      threads {
-        id
-        participants {
-          id
-          nickname
-        }
-        post {
-          id
-          title
-          createdBy {
-            id
-            nickname
-          }
-          destination {
-            description
-          }
-          status
-          neededAfter
-          neededBefore
-          provider {
-            id
-            nickname
-          }
-        }
-        messages {
-          createdAt
-          sender {
-            id
-            nickname
-          }
-          content
-        }
-      }
-    }
-  }`)
-}
-
-export function getMyRequests() {
-  return gql(`{
-    user {
-      posts(role: CREATEDBY) {
-        id
-        status
-        title
-        description
-        destination {
-          description
-        }
-        neededAfter
-        neededBefore
-        provider {
-          nickname
-        }
-      }
-    }
-  }`)
-}
-
-export function getMyCommitments() {
-  return gql(`{
-    user {
-      posts(role: PROVIDING) {
-        title
-        description
-        destination {
-          description
-        }
-        neededAfter
-        neededBefore
-        provider {
-          nickname
-        }
-      }
-    }
-  }`)
-}
-
-export function createPost(post) {
-  return gql(`
+export async function createRequest(request) {
+  const { createPost } = await gql(`
     mutation {
       createPost(input: {
-        orgID: ${json(post.orgID)},
-        type: ${post.type},
-        title: ${json(post.title)},
-        description: ${json(post.description || '')},
+        description: ${json(request.description || '')},
         destination: {
-          description: ${json(post.destination.description)},
-          latitude: ${json(post.destination.latitude)},
-          longitude: ${json(post.destination.longitude)},
-          country: ${json(post.destination.country)}
+          country: ${json(request.destination.country)}
+          description: ${json(request.destination.description)},
+          latitude: ${json(request.destination.latitude)},
+          longitude: ${json(request.destination.longitude)},
         },
-        photoID: ${json(post.photoID)},
-        size: ${post.size}
+        orgID: ${json(request.orgID)},
+        photoID: ${json(request.photoID || '')},
+        size: ${request.size}
+        title: ${json(request.title)},
+        type: ${request.type},
       }) 
       {
-        title
+        ${postFields}
       }
     }
   `)
+
+  return createPost
 }
 
-export function sendCommit(postId) {
-  return gql(`
+export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
+export const acceptCommittment = async requestId => updateRequestStatus(requestId, 'ACCEPTED')
+export const commitToProvide = async requestId => updateRequestStatus(requestId, 'COMMITTED')
+
+async function updateRequestStatus(id, status) {
+  const { updatePostStatus } = await gql(`
     mutation {
-      updatePost(
+      updatePostStatus(
         input: {
-          id: ${json(postId)},
-          status: COMMITTED
+          id: ${json(id)},
+          status: ${status}
         }
       ) 
       {
-        id
-        status
-        title
-        createdBy {
-          id
-          nickname
-        }
-        destination {
-          description
-        }
-        neededAfter
-        neededBefore
-        provider {
-          id
-          nickname
-        }
+        ${postFields}
       }
     }
   `)
+
+  return updatePostStatus
 }
 
-export function acceptCommittment(postId) {
-  return gql(`
-    mutation {
-      updatePost(
-        input: {
-          id: ${json(postId)},
-          status: ACCEPTED
-        }
-      ) 
-      {
-        id
-        status
-        title
-        createdBy {
-          id
-          nickname
-        }
-        destination {
-          description
-        }
-        neededAfter
-        neededBefore
-        provider {
-          id
-          nickname
-        }
-      }
-    }
-  `)
-}
-
-export function confirmReceipt(postId) {
-  return gql(`
-    mutation {
-      updatePost(
-        input: {
-          id: ${json(postId)},
-          status: RECEIVED
-        }
-      ) 
-      {
-        id
-      }
-    }
-  `)
-}
-
-export function cancelPost(postId) {
-  return gql(`
-    mutation {
-      updatePost(
-        input: {
-          id: ${json(postId)},
-          status: REMOVED
-        }
-      ) 
-      {
-        id
-      }
-    }
-  `)
-}
-
-export function getMyConversations() {
-  return gql(`{
+export async function getMyConversations() {
+  const { myThreads } = await gql(`{
     myThreads {
-      id
-      participants {
-        id
-        nickname
-      }
-      post {
-        id
-        status
-        title
-        createdBy {
-          id
-          nickname
-        }
-        destination {
-          description
-        }
-        neededAfter
-        neededBefore
-        provider {
-          id
-          nickname
-        }
-      }
-      messages {
-        id
-        createdAt
-        sender {
-          id
-          nickname
-        }
-        content
-      }
-      unreadMessageCount
+      ${threadFields}
     }
   }`)
+
+  return myThreads
 }
 
-export function sendMessage(message, conversation) {
-  return gql(`
+export async function sendMessage(message, conversation) {
+  const { createMessage } = await gql(`
     mutation {
       createMessage(input: {
         content: ${json(message)},
-        threadID: ${json(conversation.id || '')},
         postID: ${json(conversation.post.id || '')}
+        threadID: ${json(conversation.id || '')},
       }) 
       {
         thread {
-          id
-          participants {
-            id
-            nickname
-          }
-          post {
-            id
-            status
-            title
-            createdBy {
-              id
-              nickname
-            }
-            destination {
-              description
-            }
-            neededAfter
-            neededBefore
-            provider {
-              id
-              nickname
-            }
-          }
-          messages {
-            id
-            createdAt
-            sender {
-              id
-              nickname
-            }
-            content
-          }
+          ${threadFields}
         }    
       }
     }
   `)
+
+  return createMessage.thread
 }
 
-export function markMessagesAsRead(threadId) {
-  return gql(`
+export async function markMessagesAsRead(threadId) {
+  const { setThreadLastViewedAt } = await gql(`
     mutation {
       setThreadLastViewedAt(input: {
         threadID: ${json(threadId || '')},
         time: ${json(new Date().toISOString())}
       }) 
       {
-        id
-        unreadMessageCount
+        ${threadFields}
       }
     }
   `)
+
+  return setThreadLastViewedAt
 }
+
+const json = JSON.stringify
+const postFields = `
+  createdBy {
+    id
+    nickname
+    photoURL
+  }
+  description
+  destination {
+    description
+  }
+  id
+  organization {
+    name
+  }
+  photo {
+    url
+  }
+  provider {
+    id
+    nickname
+  }
+  receiver {
+    nickname
+  }
+  size
+  status
+  title
+`
+const messageFields = `
+  content
+  createdAt
+  id
+  sender {
+    id
+    nickname
+  }
+`
+const threadFields = `
+  id
+  messages {
+    ${messageFields}
+  }
+  participants {
+    id
+    nickname
+  }
+  post {
+    ${postFields}
+  }
+  unreadMessageCount
+`

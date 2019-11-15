@@ -11,7 +11,7 @@ function init() {
 
 async function loadAuthenticatedUser() {
   try {
-    const { user } = await getUser()
+    const user = await getUser()
 
     me.set(user)
   } catch (e) {

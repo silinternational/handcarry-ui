@@ -1,7 +1,7 @@
 <script>
 import { me } from '../data/user'
 import { formatDistanceToNow } from 'date-fns'
-import { sendCommit, acceptCommittment } from '../data/gqlQueries'
+import { provide, accept } from '../data/requests'
 import { createEventDispatcher } from 'svelte'
 import { unreads, saw, send } from '../data/messaging'
 
@@ -21,10 +21,12 @@ $: isConversingWithProvider = messages.some(msg => msg.sender.id === provider.id
 $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
-async function accept() {
+async function acceptCommittment() {
   try {
-    const { updatePost } = await acceptCommittment(post.id)
-    post = updatePost
+    // TODO: updating post like this shouldn't be necessary, it is because conversations and reqeusts are separate stores
+    // and this component is only interested in the conversation (and it's attached post) but maybe a 
+    // refactor needs to be considered here...
+    post = await accept(post.id)
   } catch (e) {
     // TODO: need errorhandling
   }
@@ -32,10 +34,10 @@ async function accept() {
 
 async function sendMessage() {
   if (reply !== '') {
-    let isNewConversation = !conversation.id
     const updatedConversation = await send(reply, conversation)
     reply = ''
     
+    const isNewConversation = !conversation.id
     if (isNewConversation) {
       dispatch('new', updatedConversation)
     }
@@ -44,8 +46,8 @@ async function sendMessage() {
 
 async function commit() {
   try {
-    const { updatePost } = await sendCommit(post.id)
-    post = updatePost
+    // TODO: see notes in `acceptCommittment`
+    post = await provide(post.id)
   } catch (e) {
     // TODO: need errorhandling
   }
@@ -95,7 +97,7 @@ const focusOnCreate = element => element.focus()
           { provider.nickname } committed to bring this.
         {/if}
         {#if post.status === 'COMMITTED' && isConversingWithProvider}
-          <button class="btn btn-sm btn-success" on:click={ accept }>Accept</button>
+          <button class="btn btn-sm btn-success" on:click={ acceptCommittment }>Accept</button>
         {/if}
       {:else}
         {#if provider.id == $me.id }

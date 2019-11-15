@@ -2,7 +2,7 @@
 import { me } from '../data/user'
 import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
-import { getRequest, cancelPost } from '../data/gqlQueries'
+import { requests, cancel } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
@@ -12,14 +12,9 @@ import { conversations } from '../data/messaging'
 export let params = {} // URL path parameters, provided by router.
 
 let conversationId = null
-let request = {}; loadRequest()
 let potentialConversation = null
 
-async function loadRequest() {
-  const { post } = await getRequest(params.id)
-  request = post
-}
-
+$: request = $requests.find(({ id }) => id === params.id) || {}
 $: requestor = request.createdBy || {}
 $: provider = request.provider || {}
 $: conversationsOnThisRequest = $conversations.filter(({ post }) => post.id === request.id)
@@ -34,9 +29,9 @@ $: if (!potentialConversation && !conversationId && conversationsOnThisRequest.l
   conversationId = conversationsOnThisRequest[0].id
 }
 
-async function cancel() {
+async function cancelRequest() {
   try {
-    await cancelPost(params.id)
+    await cancel(params.id)
 
     push(`/requests`)
   } catch (e) {
@@ -82,7 +77,7 @@ div.card-img {
         <h5 class="card-title">
           { request.title || ''}
           {#if isMine}
-          <button on:click={cancel} class="btn btn-sm btn-outline-danger rounded-circle float-right">
+          <button on:click={cancelRequest} class="btn btn-sm btn-outline-danger rounded-circle float-right">
             <Icon icon={faTrash} />
           </button>
           {/if}

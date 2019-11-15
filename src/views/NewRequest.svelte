@@ -3,7 +3,7 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me } from '../data/user'
-import { createPost } from '../data/gqlQueries'
+import { create } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
@@ -49,7 +49,7 @@ async function onSubmit(event) {
   try {
     validate(request)
 
-    await createPost({
+    await create({
         orgID: request.viewableBy,
         type: "REQUEST",
         title: request.title,
