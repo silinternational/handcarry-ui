@@ -53,14 +53,14 @@ export async function createRequest(request) {
   return createPost
 }
 
-export const cancelRequest = async requestId => updateRequest(requestId, 'REMOVED')
-export const acceptCommittment = async requestId => updateRequest(requestId, 'ACCEPTED')
-export const commitToProvide = async requestId => updateRequest(requestId, 'COMMITTED')
+export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
+export const acceptCommittment = async requestId => updateRequestStatus(requestId, 'ACCEPTED')
+export const commitToProvide = async requestId => updateRequestStatus(requestId, 'COMMITTED')
 
-async function updateRequest(id, status) {
-  const { updatePost } = await gql(`
+async function updateRequestStatus(id, status) {
+  const { updatePostStatus } = await gql(`
     mutation {
-      updatePost(
+      updatePostStatus(
         input: {
           id: ${json(id)},
           status: ${status}
@@ -72,7 +72,7 @@ async function updateRequest(id, status) {
     }
   `)
 
-  return updatePost
+  return updatePostStatus
 }
 
 export async function getMyConversations() {

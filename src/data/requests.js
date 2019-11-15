@@ -63,7 +63,7 @@ export async function provide(requestId) {
 
     updateLocalRequests(updatedRequest)
 
-    return updatedRequest //TODO: is this necessary?
+    return updatedRequest
   } catch (e) {
     console.error(`requests.js:provide: `, e)
     //TODO: errorhandling?
@@ -76,7 +76,7 @@ export async function accept(requestId) {
 
     updateLocalRequests(updatedRequest)
 
-    return updatedRequest //TODO: is this necessary?
+    return updatedRequest
   } catch (e) {
     console.error(`requests.js:accept: `, e)
     //TODO: errorhandling?

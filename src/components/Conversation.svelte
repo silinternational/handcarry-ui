@@ -23,7 +23,9 @@ $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
 async function acceptCommittment() {
   try {
-    // TODO: is updating post this way really necessary since the $requests store will be updated?
+    // TODO: updating post like this shouldn't be necessary, it is because conversations and reqeusts are separate stores
+    // and this component is only interested in the conversation (and it's attached post) but maybe a 
+    // refactor needs to be considered here...
     post = await accept(post.id)
   } catch (e) {
     // TODO: need errorhandling
@@ -44,7 +46,7 @@ async function sendMessage() {
 
 async function commit() {
   try {
-    // TODO: is updating post this way really necessary since the $requests store will be updated?
+    // TODO: see notes in `acceptCommittment`
     post = await provide(post.id)
   } catch (e) {
     // TODO: need errorhandling
