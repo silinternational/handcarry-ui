@@ -4,6 +4,7 @@
   "devDependencies": {
     "@beyonk/svelte-googlemaps": "^2.1.2",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
+    "blueimp-md5": "^2.12.0",
     "bootstrap": "^4.3.1",
     "date-fns": "^2.4.1",
     "fa-svelte": "^3.0.0",
