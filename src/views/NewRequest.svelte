@@ -125,7 +125,7 @@ function imageUploaded(event) {
     <div class="col"><SizeSelector bind:selectedName={ request.size } /></div>
   </div>
   
-  <div class="form-row form-group">
+  <!-- <div class="form-row form-group">
     <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       <label for="request-weight">Est. weight:</label>
     </div>
@@ -138,7 +138,7 @@ function imageUploaded(event) {
         <option>lb</option>
       </select>
     </div>
-  </div>
+  </div> -->
   
   <div class="form-row form-group">
     <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
