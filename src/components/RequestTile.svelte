@@ -33,7 +33,7 @@ $: size = request.size
   </div>
   <div class="card-footer p-2">
     <div class="row">
-      <div class="col"><UserAvatar {user} /></div>
+      <div class="col"><UserAvatar {user} small /></div>
       <div class="col-auto"><a class="pr-1" href="#/requests/{request.id}">View</a></div>
     </div>
   </div>

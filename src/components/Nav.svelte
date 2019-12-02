@@ -63,7 +63,7 @@ nav :global(img) {
 
       <li class="nav-item dropdown">
         <a href="/#/profile" data-toggle="dropdown" id="avatarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-          <UserAvatar user={$me} />
+          <UserAvatar user={$me} small />
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="avatarDropdown">
           <a href="/#/profile" class="dropdown-item">

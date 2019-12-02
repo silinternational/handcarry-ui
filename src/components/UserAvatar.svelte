@@ -2,6 +2,7 @@
 import md5 from 'blueimp-md5'
 
 export let user
+export let small = false
 
 $: nickname = user.nickname || ''
 $: hashedEmail = md5((user.email || '').trim().toLowerCase()) // https://en.gravatar.com/site/implement/hash/
@@ -13,6 +14,10 @@ img {
   max-width: 100%;
   max-height: 100%;
 }
+
+.small {
+  height: 2rem;
+}
 </style>
 
-<img class="rounded-circle border" {src} alt={nickname} title={nickname} />
+<img class="rounded-circle border" {src} alt={nickname} title={nickname} class:small />
