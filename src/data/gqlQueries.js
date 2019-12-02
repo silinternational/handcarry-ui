@@ -3,18 +3,41 @@ import { gql } from './api'
 export async function getUser() {
   const { user } = await gql(`{
     user {
-      id
-      email
-      nickname
-      photoURL
-      organizations {
-        id
-        name
-      }
+      ${userFields}
     }
   }`)
 
   return user
+}
+
+export async function updateNickname(nickname) {
+  const { updateUser } = await gql(`
+    mutation {
+      updateUser(input: {
+        nickname: ${json(nickname)}
+      })
+      {
+        ${userFields}
+      }
+    }
+  `)
+
+  return updateUser
+}
+
+export async function updateProfilePic(id) {
+  const { updateUser } = await gql(`
+    mutation {
+      updateUser(input: {
+        photoID: ${json(id)}
+      })
+      {
+        ${userFields}
+      }
+    }
+  `)
+
+  return updateUser
 }
 
 export async function getRequests() {
@@ -121,6 +144,18 @@ export async function markMessagesAsRead(threadId) {
 }
 
 const json = JSON.stringify
+
+const userFields = `
+  id
+  email
+  nickname
+  photoURL
+  organizations {
+    id
+    name
+  }
+`
+
 const postFields = `
   createdBy {
     id

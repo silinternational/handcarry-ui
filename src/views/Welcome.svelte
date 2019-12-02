@@ -4,14 +4,14 @@
   <!-- TODO: get real video from Sheryl -->
   <iframe src="https://www.youtube.com/embed/kXDeNWDlEqk" frameborder="0" title="Welcome video"/>
   
-  <a href="/welcome/preferences" class="btn btn-primary mt-4">Continue</a>
+  <a href="#/welcome/preferences" class="btn btn-primary mt-4">Continue</a>
 
   <footer class="pt-4">
-    <a href="/welcome/privacy" class="pr-4">
+    <a href="#/welcome/privacy" class="pr-4">
       <small class="text-warning">Privacy policy</small>
     </a>
 
-    <a href="/welcome/terms">
+    <a href="#/welcome/terms">
       <small class="text-warning">Terms of use</small>
     </a>
   </footer>

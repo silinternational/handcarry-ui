@@ -9,7 +9,7 @@ import Bootstrap from '../components/Bootstrap.svelte'
 
 <Bootstrap />
 
-{#if $location !== '/welcome'}
+{#if ! $location.startsWith('/welcome') }
   <Nav />
 {/if}
 
