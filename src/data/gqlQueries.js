@@ -79,6 +79,8 @@ export async function createRequest(request) {
 export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
 export const acceptCommittment = async requestId => updateRequestStatus(requestId, 'ACCEPTED')
 export const commitToProvide = async requestId => updateRequestStatus(requestId, 'COMMITTED')
+export const delivered = async requestId => updateRequestStatus(requestId, 'DELIVERED')
+export const received = async requestId => updateRequestStatus(requestId, 'COMPLETED')
 
 async function updateRequestStatus(id, status) {
   const { updatePostStatus } = await gql(`

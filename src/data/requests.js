@@ -5,6 +5,8 @@ import {
   cancelRequest,
   commitToProvide,
   acceptCommittment,
+  delivered,
+  received,
 } from './gqlQueries'
 
 export const requests = writable([])
@@ -79,6 +81,32 @@ export async function accept(requestId) {
     return updatedRequest
   } catch (e) {
     console.error(`requests.js:accept: `, e)
+    //TODO: errorhandling?
+  }
+}
+
+export async function deliver(requestId) {
+  try {
+    const updatedRequest = await delivered(requestId)
+
+    updateLocalRequests(updatedRequest)
+
+    return updatedRequest
+  } catch (e) {
+    console.error(`requests.js:deliver: `, e)
+    //TODO: errorhandling?
+  }
+}
+
+export async function receive(requestId) {
+  try {
+    const updatedRequest = await received(requestId)
+
+    updateLocalRequests(updatedRequest)
+
+    return updatedRequest
+  } catch (e) {
+    console.error(`requests.js:receive: `, e)
     //TODO: errorhandling?
   }
 }

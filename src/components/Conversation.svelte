@@ -1,7 +1,7 @@
 <script>
 import { me } from '../data/user'
 import { formatDistanceToNow } from 'date-fns'
-import { provide, accept } from '../data/requests'
+import { provide, accept, deliver, receive } from '../data/requests'
 import { createEventDispatcher } from 'svelte'
 import { unreads, saw, send } from '../data/messaging'
 
@@ -23,9 +23,9 @@ $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
 async function acceptCommittment() {
   try {
-    // TODO: updating post like this shouldn't be necessary, it is because conversations and reqeusts are separate stores
-    // and this component is only interested in the conversation (and it's attached post) but maybe a 
-    // refactor needs to be considered here...
+    // TODO: updating post like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
+    // and this component is only interested in the conversation (and it's attached post) and those changes aren't coming down... maybe a 
+    // refactor needs to be considered here.
     post = await accept(post.id)
   } catch (e) {
     // TODO: need errorhandling
@@ -48,6 +48,22 @@ async function commit() {
   try {
     // TODO: see notes in `acceptCommittment`
     post = await provide(post.id)
+  } catch (e) {
+    // TODO: need errorhandling
+  }
+}
+
+async function delivered() {
+  try {
+    post = await deliver(post.id)
+  } catch (e) {
+    // TODO: need errorhandling
+  }
+}
+
+async function received() {
+  try {
+    post = await receive(post.id)
   } catch (e) {
     // TODO: need errorhandling
   }
@@ -82,30 +98,45 @@ const focusOnCreate = element => element.focus()
   {:else}
   <div class="row">
     <div class="col-8" class:d-none={minimal}>
-      <h3 class="text-center"><a href="#/requests/{post.id}">{ post.title }</a></h3>
+      <h3 class="text-center"><a href="#/requests/{post.id}">{post.title}</a></h3>
 
       <div class="text-center">
         <small>
-          <strong>{ post.createdBy.nickname }</strong> @ { destination }
+          <strong>{post.createdBy.nickname}</strong> @ {destination}
         </small>
       </div>
     </div>
 
     <div class="col text-right mb-1">
-      {#if creator.id == $me.id }
-        {#if provider.nickname }
-          { provider.nickname } committed to bring this.
-        {/if}
-        {#if post.status === 'COMMITTED' && isConversingWithProvider}
-          <button class="btn btn-sm btn-success" on:click={ acceptCommittment }>Accept</button>
+      {#if creator.id == $me.id}
+        {#if post.status === 'COMMITTED'}
+          {provider.nickname} committed to bring this.
+          {#if isConversingWithProvider}
+            <button class="btn btn-sm btn-success" on:click={acceptCommittment}>Accept</button>
+          {/if}
+        {:else if post.status === 'DELIVERED'}
+          {provider.nickname} delivered this.
+          {#if isConversingWithProvider}
+            <button class="btn btn-sm btn-success" on:click={received}>I received it</button>
+          {/if}
+        {:else if post.status === 'ACCEPTED'}
+          {provider.nickname} is set to deliver this to you.
+        {:else if post.status === 'COMPLETED'}
+          It is finished.
         {/if}
       {:else}
-        {#if provider.id == $me.id }
-          You committed to bring this.
-        {:else if provider.id }
+        {#if provider.id == $me.id}
+          {#if post.status === 'COMMITTED'}
+            You committed to bring this.
+          {:else if post.status === 'ACCEPTED'}
+            <button class="btn btn-sm btn-info" on:click={delivered}>I delivered it</button>
+          {:else if post.status === 'DELIVERED'}
+            You delivered this.
+          {/if}          
+        {:else if provider.id}
           Someone else has committed to bring this.
         {:else}
-          <button class="btn btn-sm btn-info" on:click={ commit }>
+          <button class="btn btn-sm btn-info" on:click={commit}>
             I'll bring it
           </button>
         {/if}
@@ -124,18 +155,18 @@ const focusOnCreate = element => element.focus()
     {:else}
       <blockquote class="blockquote">
         <p class="mb-0 message-content">{message.content}</p>
-        <footer class="blockquote-footer">{message.sender.nickname}, { whenWas(message.createdAt) }</footer>
+        <footer class="blockquote-footer">{message.sender.nickname}, {whenWas(message.createdAt)}</footer>
       </blockquote>
     {/if}
   {/each}
 
   <div class="card-footer">
-    <form on:submit|preventDefault={ sendMessage }>
+    <form on:submit|preventDefault={sendMessage}>
       <div class="row">
         <div class="col">
           <label class="sr-only" for="replyField">Reply</label>
 
-          <input bind:value={ reply } class="form-control mb-2 mr-sm-2"
+          <input bind:value={reply} class="form-control mb-2 mr-sm-2"
                  placeholder="Reply" autocomplete="off" use:focusOnCreate />
         </div>
   
