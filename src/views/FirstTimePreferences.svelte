@@ -2,6 +2,7 @@
 import UserAvatar from '../components/UserAvatar.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me, changeNickname, changeProfilePicture } from '../data/user'
+import { push } from 'svelte-spa-router'
 
 let weightPreference = ''
 let home = null
@@ -11,7 +12,9 @@ $: nickname = $me.nickname
 
 async function save() {
   await changeNickname(nickname)
-  // TODO: send weightPreference to backend when api is available
+
+  // TODO: in the future we may want to pay attention to a possible "return-to" and send the user where they were originally headed.
+  push('/requests')
 }
 
 async function imageUploaded(event) {
