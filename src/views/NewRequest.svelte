@@ -86,7 +86,7 @@ function imageUploaded(event) {
 
 <form on:submit|preventDefault={onSubmit} autocomplete="off">
   {#if errorMessage}
-    <div class="alert alert-danger">{ errorMessage }</div>
+    <div class="alert alert-danger">{errorMessage}</div>
   {/if}
 
   <div class="form-row form-group">
@@ -113,7 +113,7 @@ function imageUploaded(event) {
             </span>
           </div>
           
-          <GooglePlacesAutocomplete bind:value={ request.destination } placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
+          <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
         </div>
       </div>
     </div>
@@ -121,7 +121,7 @@ function imageUploaded(event) {
 
   <div class="form-row form-group">
     <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">Size: </div>
-    <div class="col"><SizeSelector bind:selectedName={ request.size } /></div>
+    <div class="col"><SizeSelector bind:selectedName={request.size} /></div>
   </div>
   
   <!-- <div class="form-row form-group">
