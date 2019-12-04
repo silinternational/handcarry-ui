@@ -3,12 +3,14 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me } from '../data/user'
-import { create } from '../data/requests'
+import { requests, create, update } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+
+export let params = {} // URL path parameters, provided by router.
 
 // Needed to override the default 'regions' restriction in the GooglePlacesAutocomplete component
 // so we could use house addresses, lat/long, etc...no need for restrictions.  See 
@@ -20,15 +22,15 @@ const options = {
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 let errorMessage = ''
 let imageUrl = ''
+let request = {}
+
+$: request = $requests.find(({ id }) => id === params.id) || {}
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
 
 function extractCountryCode(addressComponents) {
   return addressComponents.filter(component => component.types.includes('country'))[0].short_name
-}
-
-let request = {
 }
 
 function assertHas(value, errorMessage) {
@@ -44,26 +46,32 @@ function validate(request) {
   errorMessage = ''
 }
 
-async function onSubmit(event) {
+async function onSubmit() {
   try {
     validate(request)
 
-    await create({
-        orgID: request.viewableBy,
-        type: "REQUEST",
-        title: request.title,
-        description: request.description,
-        destination: {
-          description: request.destination.formatted_address,
-          latitude: request.destination.geometry.location.lat(),
-          longitude: request.destination.geometry.location.lng(),
-          country: extractCountryCode(request.destination.address_components),
-        },
-        photoID: request.photoID,
-        size: request.size,
-    })
+    if (request.id) {
+      await update(request)
 
-    push(`/requests`)
+      push(`/requests/${request.id}`)
+    } else {
+      await create({
+          orgID: request.viewableBy,
+          type: "REQUEST",
+          title: request.title,
+          description: request.description,
+          destination: {
+            description: request.destination.formatted_address,
+            latitude: request.destination.geometry.location.lat(),
+            longitude: request.destination.geometry.location.lng(),
+            country: extractCountryCode(request.destination.address_components),
+          },
+          photoID: request.photoID,
+          size: request.size,
+      })
+
+      push(`/requests`)
+    }
   } catch (error) {
     errorMessage = error.message
     scrollTo(0, 0)
@@ -105,17 +113,22 @@ function imageUploaded(event) {
     </label>
     
     <div class="col">
+      {#if request.id}
+        <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
+        <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
+      {:else}
       <div class="form-group">
         <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <Icon icon={faMapMarkerAlt} />
-            </span>
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <Icon icon={faMapMarkerAlt} />
+              </span>
+            </div>
+
+            <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
           </div>
-          
-          <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
         </div>
-      </div>
+      {/if}
     </div>
   </div>
 
@@ -144,12 +157,16 @@ function imageUploaded(event) {
       Upload image: <br />
       <small class="text-muted font-italic">(optional)</small>
     </div>
+
     <div class="col-auto mt-1">
-      <Uploader on:uploaded={imageUploaded} />
+      <Uploader on:uploaded={imageUploaded} type={ request.photo && request.photo.url ? 'change' : 'add'}/>
     </div>
-    <div class="col-12 col-sm-5 image-preview text-center text-sm-left">
-      <img src={imageUrl} alt="Your image" class:d-none={!imageUrl} class="image-preview" />
-    </div>
+    
+    {#if imageUrl || request.photo && request.photo.url}
+      <div class="col-12 col-sm-5 image-preview text-center text-sm-left">
+        <img src={imageUrl || request.photo && request.photo.url} alt="Your image" class="image-preview" />
+      </div>
+    {/if}
   </div>
   
   <div class="form-row form-group">
@@ -169,7 +186,11 @@ function imageUploaded(event) {
     <div class="col"></div>
     <div class="col-auto">
       <button type="submit" class="btn btn-primary float-right">
-        Make Request
+        {#if request.id}
+          Update request
+        {:else}
+          Make request
+        {/if}
       </button>
     </div>
   </div>

@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store'
 import { 
   createRequest, 
+  updateRequest, 
   getRequests, 
   cancelRequest,
   commitToProvide,
@@ -44,6 +45,24 @@ export async function create(request) {
     requests.update(currentRequests => [newRequest, ...currentRequests])
   } catch (e) {
     console.error(`requests.js:create: `, e)
+    //TODO: errorhandling?
+  }
+}
+
+export async function update(request) {
+  try {
+    const updatedRequest = await updateRequest(request)
+
+    requests.update(currentRequests => {
+      const i = currentRequests.findIndex(({ id }) => id === updatedRequest.id)
+      if (i >= 0) {
+        currentRequests[i] = updatedRequest
+      } 
+      
+      return currentRequests
+    })
+  } catch (e) {
+    console.error(`requests.js:update: `, e)
     //TODO: errorhandling?
   }
 }

@@ -1,6 +1,6 @@
 import Messages from './Messages.svelte'
 import Profile from './Profile.svelte'
-import NewRequest from './NewRequest.svelte'
+import CreateOrUpdateRequest from './CreateOrUpdateRequest.svelte'
 import Requests from './Requests.svelte'
 import Request from './Request.svelte'
 import Login from './Login.svelte'
@@ -18,8 +18,9 @@ const routes = {
 	'/welcome/terms': Terms,
 	'/welcome/preferences': FirstTimePreferences,
 	'/requests': Requests,
-	'/requests/new': NewRequest,
+	'/requests/new': CreateOrUpdateRequest,
 	'/requests/:id': Request,
+	'/requests/:id/edit': CreateOrUpdateRequest,
 	'/messages': Messages,
 	'/messages/:id': Messages,
 	'/profile': Profile,

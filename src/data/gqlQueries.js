@@ -76,6 +76,25 @@ export async function createRequest(request) {
   return createPost
 }
 
+export async function updateRequest(request) {
+  const { updatePost } = await gql(`
+    mutation {
+      updatePost(input: {
+        description: ${json(request.description || '')},
+        id: ${json(request.id)},
+        photoID: ${json(request.photoID || '')},
+        size: ${request.size}
+        title: ${json(request.title)},
+      }) 
+      {
+        ${postFields}
+      }
+    }
+  `)
+
+  return updatePost
+}
+
 export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
 export const acceptCommittment = async requestId => updateRequestStatus(requestId, 'ACCEPTED')
 export const commitToProvide = async requestId => updateRequestStatus(requestId, 'COMMITTED')
