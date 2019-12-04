@@ -29,7 +29,6 @@ function extractCountryCode(addressComponents) {
 }
 
 let request = {
-  // weight: 0,
 }
 
 function assertHas(value, errorMessage) {
