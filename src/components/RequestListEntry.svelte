@@ -40,7 +40,7 @@ $: size = request.size
       </div>
     </div>
     <div class="col-auto p-2"><SizeIndicator {size} /></div>
-    <div class="col-auto p-2"><UserAvatar {user} />
+    <div class="col-auto p-2"><UserAvatar {user} small />
     </div>
   </div>
 </div>
