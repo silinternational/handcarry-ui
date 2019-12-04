@@ -62,8 +62,6 @@ div.card-img {
 }
 </style>
 
-<h3>Request detail</h3>
-
 <a href="#/requests" on:click|preventDefault={pop} class="text-secondary">« back to requests</a>
 
 <div class="card my-3">
@@ -76,10 +74,11 @@ div.card-img {
       <div class="card-body">
         <h5 class="card-title">
           { request.title || ''}
+
           {#if isMine}
-          <button on:click={cancelRequest} class="btn btn-sm btn-outline-danger rounded-circle float-right">
-            <Icon icon={faTrash} />
-          </button>
+            <button on:click={cancelRequest} class="btn btn-sm btn-outline-danger rounded-circle float-right">
+              <Icon icon={faTrash} />
+            </button>
           {/if}
         </h5>
         <p>{ destination }</p>
@@ -101,7 +100,7 @@ div.card-img {
         <div class="col" />
         <div class="col-auto">
           {#if isMine}
-          <button class="btn btn-sm btn-warning" disabled title="unavailable at this time">Edit</button>
+          <a href="#/requests/{request.id}/edit" class="btn btn-sm btn-warning">Edit</a>
           {/if}
         </div>
       </div>
