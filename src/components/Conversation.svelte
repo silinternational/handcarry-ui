@@ -121,6 +121,9 @@ const focusOnCreate = element => element.focus()
           {/if}
         {:else if post.status === 'ACCEPTED'}
           {provider.nickname} is set to deliver this to you.
+          {#if isConversingWithProvider}
+            <button class="btn btn-sm btn-success" on:click={received}>I already received it</button>
+          {/if}
         {:else if post.status === 'COMPLETED'}
           It is finished.
         {/if}
