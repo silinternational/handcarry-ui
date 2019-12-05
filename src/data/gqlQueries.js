@@ -65,7 +65,7 @@ export async function createRequest(request) {
         photoID: ${json(request.photoID || '')},
         size: ${request.size}
         title: ${json(request.title)},
-        type: ${request.type},
+        type: REQUEST,
       }) 
       {
         ${postFields}
@@ -167,10 +167,10 @@ export async function markMessagesAsRead(threadId) {
 const json = JSON.stringify
 
 const userFields = `
-  id
+  avatarURL
   email
+  id
   nickname
-  photoURL
   organizations {
     id
     name
@@ -179,9 +179,9 @@ const userFields = `
 
 const postFields = `
   createdBy {
+    avatarURL
     id
     nickname
-    photoURL
   }
   description
   destination {
