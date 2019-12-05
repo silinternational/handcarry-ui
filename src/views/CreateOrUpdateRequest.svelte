@@ -22,9 +22,12 @@ const options = {
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 let errorMessage = ''
 let imageUrl = ''
-let request = {}
+const newRequest = {
+  title: '',
+  description: ''
+}
 
-$: request = $requests.find(({ id }) => id === params.id) || {}
+$: request = $requests.find(({ id }) => id === params.id) || newRequest
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
