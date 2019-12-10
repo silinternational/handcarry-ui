@@ -3,7 +3,7 @@ import { me } from '../data/user'
 import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import { requests, cancel } from '../data/requests'
-import { push, pop } from 'svelte-spa-router'
+import { push } from 'svelte-spa-router'
 import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
 import Messaging from '../components/Messaging.svelte'
@@ -62,7 +62,7 @@ div.card-img {
 }
 </style>
 
-<a href="#/requests" on:click|preventDefault={pop} class="text-secondary">« back to requests</a>
+<a href="#/requests" class="text-secondary">« back to requests</a>
 
 <div class="card my-3">
   <div class="row no-gutters">
