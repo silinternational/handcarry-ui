@@ -5,13 +5,13 @@ import { push } from 'svelte-spa-router'
 async function wrappedFetch(url, body) {
   const headers = {
     authorization: token.authzHeader(),
+    'content-type': 'application/json',
   }
 
-  // boundary information was missing when setting content-type to 'multipart/form-data` so 
-  // the content-type should not be set at all so the browser can set the request up appropriately
-  // when dealing with FormData, i.e., when uploading files
-  if (!(body instanceof FormData)) {
-    headers['content-type'] = 'application/json'
+  // when dealing with FormData, i.e., when uploading files, allow the browser to set the request up properly
+  // so boundary information is included correctly.
+  if (body instanceof FormData) {
+    delete headers['content-type']
   }
 
   const response = await fetch(`${process.env.BASE_API_URL}/${url}`, {
