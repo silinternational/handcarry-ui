@@ -24,7 +24,7 @@ h2 {
 
 <h1 class="py-4">WeCarry Terms of Use</h1>
 <p>Effective December 1, 2019</p>
-<p>Thank you for using WeCarry! We&rsquo;re happy to be able to help in your hand-carry coordination needs. Please read this agreement carefully before using WeCarry to ensure you understand the scope of use and limits of liability for the WeCarry service.</p>
+<p>Thank you for using WeCarry! We're happy to be able to help in your hand-carry coordination needs. Please read this agreement carefully before using WeCarry to ensure you understand the scope of use and limits of liability for the WeCarry service.</p>
 
 <p><a href="#/welcome/terms/terms-and-definitions">Terms &amp; Definitions</a></p>
 <p><a href="#/welcome/terms/acceptable-use">Acceptable Use</a></p>
@@ -68,11 +68,11 @@ h2 {
   </tr>
   <tr>
     <td>Agreement</td>
-    <td>The Agreement refers, collectively, to all the terms, conditions and notices contained or referenced in this document (the "Terms of Use" or the &quot;Terms&quot;) and all other operating rules, policies (including the WeCarry Privacy Statement, available at <a href="{window.location.origin}/#/welcome/privacy">{window.location.origin}/#/welcome/privacy</a>) and procedures that we may publish from time to time on the WeCarry website.</td>
+    <td>The Agreement refers, collectively, to all the terms, conditions and notices contained or referenced in this document (the "Terms of Use" or the "Terms") and all other operating rules, policies (including the WeCarry Privacy Statement, available at <a href="{window.location.origin}/#/welcome/privacy">{window.location.origin}/#/welcome/privacy</a>) and procedures that we may publish from time to time on the WeCarry website.</td>
   </tr>
   <tr>
     <td>Content</td>
-    <td>"Content" refers to content featured or displayed throughout the Website, including without limitation text, locations, images, photographs, and other materials that are available on WeCarry. "User-Generated Content" is Content, written or otherwise, created or uploaded by our Users. &quot;Your Content&quot; is Content that you create or own.</td>
+    <td>"Content" refers to content featured or displayed throughout the Website, including without limitation text, locations, images, photographs, and other materials that are available on WeCarry. "User-Generated Content" is Content, written or otherwise, created or uploaded by our Users. "Your Content" is Content that you create or own.</td>
   </tr>
   <tr>
     <td>Service</td>
@@ -114,7 +114,7 @@ h2 {
   <li>An idea of what to expect during the customs and imigration process with regards to bag search, interview, and potential taxes or charges for bringing items into country</li>
   <li>Any paperwork needed for customs and immigration</li>
   <li>If a request is a package containing multiple items, a full inventory should be provided</li>
-  <li>No durian. Seriously, we know it is amazing, but don&rsquo;t request it.</li>
+  <li>No durian. Seriously, we know it is amazing, but don't request it.</li>
 </ul>
 <p>Requesters should be familiar with any applicable law regulating the acquisition and import of items and should not break any laws in the use of WeCarry.</p>
 <p>Requesters cannot hold us or Providers liable for lost, stolen, or damaged goods in transit. As such, Requesters should be careful in their selection and acceptance of offers for carry services to only work with trusted individuals. Any necessary financial arrangements for reimbursement and incidentals should be discussed and agreed upon between the Requester and Provider prior to accepting offers for service.</p>
@@ -134,7 +134,7 @@ h2 {
 
 <h2 id="disclaimer-of-warranties">Disclaimer of Warranties</h2>
 <p><b>Short version:</b> We provide our service as is, and we make no promises or guarantees about this service. Please read this section carefully; you should understand what to expect.</p>
-<p>WeCarry provides the Website and the Service &ldquo;as is&rdquo; and &ldquo;as available,&rdquo; without warranty of any kind. Without limiting this, we expressly disclaim all warranties, whether express, implied or statutory, regarding the Website and the Service, including without limitation any warranty of merchantability, fitness for a particular purpose, title, security, accuracy and non-infringement.</p>
+<p>WeCarry provides the Website and the Service "as is" and "as available," without warranty of any kind. Without limiting this, we expressly disclaim all warranties, whether express, implied or statutory, regarding the Website and the Service, including without limitation any warranty of merchantability, fitness for a particular purpose, title, security, accuracy and non-infringement.</p>
 <p>WeCarry does not warrant that the Service will meet your requirements; that the Service will be uninterrupted, timely, secure, or error-free; that the information provided through the Service is accurate, reliable or correct; that any defects or errors will be corrected; that the Service will be available at any particular time or location; or that the Service is free of viruses or other harmful components. You assume full responsibility and risk of loss resulting from your use of the Service.</p>
 
 <h2 id="limitation-of-liability">Limitation of Liability</h2>
@@ -156,9 +156,9 @@ h2 {
 <h2 id="release-and-indemnification">Release and Indemnification</h2>
 <p><b>Short version:</b> You are responsible for your use of the service. If you harm someone else or get into a dispute with someone else, we will not be involved.</p>
 <p>If you have a dispute with one or more Users, you agree to release WeCarry from any and all claims, demands and damages (actual and consequential) of every kind and nature, known and unknown, arising out of or in any way connected with such disputes.</p>
-<p>You agree to indemnify us, defend us, and hold us harmless from and against any and all claims, liabilities, and expenses, including attorneys&rsquo; fees, arising out of your use of the Website and the Service, including but not limited to your violation of this Agreement, provided that WeCarry (1) promptly gives you written notice of the claim, demand, suit or proceeding; (2) gives you sole control of the defense and settlement of the claim, demand, suit or proceeding (provided that you may not settle any claim, demand, suit or proceeding unless the settlement unconditionally releases WeCarry of all liability); and (3) provides to you all reasonable assistance, at your expense.</p>
+<p>You agree to indemnify us, defend us, and hold us harmless from and against any and all claims, liabilities, and expenses, including attorneys' fees, arising out of your use of the Website and the Service, including but not limited to your violation of this Agreement, provided that WeCarry (1) promptly gives you written notice of the claim, demand, suit or proceeding; (2) gives you sole control of the defense and settlement of the claim, demand, suit or proceeding (provided that you may not settle any claim, demand, suit or proceeding unless the settlement unconditionally releases WeCarry of all liability); and (3) provides to you all reasonable assistance, at your expense.</p>
 
 <h2 id="changes-to-these-terms-of-use">Changes to these Terms of Use</h2>
-<p><b>Short version:</b> We want our users to be informed of important changes to our terms, but some changes aren&#39;t that important &mdash; we don&#39;t want to bother you every time we fix a typo. So while we may modify this agreement at any time, we will notify users of any changes that affect your rights and give you time to adjust to them.</p>
+<p><b>Short version:</b> We want our users to be informed of important changes to our terms, but some changes aren't that important — we don't want to bother you every time we fix a typo. So while we may modify this agreement at any time, we will notify users of any changes that affect your rights and give you time to adjust to them.</p>
 <p>We reserve the right, at our sole discretion, to amend these Terms of Service at any time and will update these Terms of Service in the event of any such amendments. We will notify our Users of material changes to this Agreement, such as price changes, at least 30 days prior to the change taking effect by posting a notice on our Website. For non-material modifications, your continued use of the Website constitutes agreement to our revisions of these Terms of Service.</p>
 <p>We reserve the right at any time and from time to time to modify or discontinue, temporarily or permanently, the Website (or any part of it) with or without notice.</p>
