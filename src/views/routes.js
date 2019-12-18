@@ -16,6 +16,7 @@ const routes = {
 	'/welcome': Welcome,
 	'/welcome/privacy': Privacy,
 	'/welcome/terms': Terms,
+	'/welcome/terms/:section': Terms,
 	'/welcome/preferences': FirstTimePreferences,
 	'/requests': Requests,
 	'/requests/new': CreateOrUpdateRequest,
