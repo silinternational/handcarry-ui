@@ -68,7 +68,7 @@ h2 {
   </tr>
   <tr>
     <td>Agreement</td>
-    <td>The Agreement refers, collectively, to all the terms, conditions and notices contained or referenced in this document (the "Terms of Use" or the &quot;Terms&quot;) and all other operating rules, policies (including the WeCarry Privacy Statement, available at https://www.wecarry.app/privacy) and procedures that we may publish from time to time on the WeCarry website.</td>
+    <td>The Agreement refers, collectively, to all the terms, conditions and notices contained or referenced in this document (the "Terms of Use" or the &quot;Terms&quot;) and all other operating rules, policies (including the WeCarry Privacy Statement, available at <a href="{window.location.origin}/#/welcome/privacy">{window.location.origin}/#/welcome/privacy</a>) and procedures that we may publish from time to time on the WeCarry website.</td>
   </tr>
   <tr>
     <td>Content</td>
