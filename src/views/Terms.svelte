@@ -1,10 +1,17 @@
 <script>
+import { tick } from 'svelte'
+
 export let params
 
-$: params.section && scrollToSection(params.section)
+$: scrollToSection(params.section)
 
-function scrollToSection(section) {
-  document.querySelector('#' + section).scrollIntoView()
+async function scrollToSection(section) {
+  
+  // Wait for the DOM to be rendered.
+  await tick()
+  
+  const element = document.querySelector('#' + section)
+  element && element.scrollIntoView()
 }
 </script>
 
