@@ -6,14 +6,15 @@ export let size
 export let selected = false
 export let isButton = true
 
+const nonButtonCssClasses = 'border p-2 rounded text-center'
+
+$: buttonCssClasses = 'btn btn-block ' + (selected ? 'btn-primary' : 'btn-outline-dark')
+$: extraCssClasses = isButton ? buttonCssClasses : nonButtonCssClasses
+
 $: match = sizes.find(s => s.type === size) || {}
 $: description = match.description || ''
 $: name = match.name || 'unknown'
 $: pictureUrl = match.pictureUrl || ''
-
-$: buttonCssClasses = 'btn btn-block ' + (selected ? 'btn-primary' : 'btn-outline-dark')
-const nonButtonCssClasses = 'border p-2 rounded text-center'
-$: extraCssClasses = isButton ? buttonCssClasses : nonButtonCssClasses
 </script>
 
 <style>
