@@ -4,7 +4,7 @@ import SizeIndicator from '../components/SizeIndicator.svelte'
 
 export let size
 export let selected = false
-export let isButton = true
+export let isButton = false
 
 const nonButtonCssClasses = 'border p-2 rounded text-center'
 
