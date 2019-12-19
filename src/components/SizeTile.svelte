@@ -12,7 +12,7 @@ $: name = match.name || 'unknown'
 $: pictureUrl = match.pictureUrl || ''
 
 $: buttonCssClasses = 'btn btn-block ' + (selected ? 'btn-primary' : 'btn-outline-dark')
-$: nonButtonCssClasses = 'border p-2 rounded text-center'
+const nonButtonCssClasses = 'border p-2 rounded text-center'
 $: extraCssClasses = isButton ? buttonCssClasses : nonButtonCssClasses
 </script>
 
