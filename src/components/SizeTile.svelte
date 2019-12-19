@@ -13,8 +13,9 @@ $: extraCssClasses = isButton ? buttonCssClasses : nonButtonCssClasses
 
 $: match = sizes.find(s => s.type === size) || {}
 $: description = match.description || ''
-$: name = match.name || 'unknown'
+$: name = match.name || ''
 $: pictureUrl = match.pictureUrl || ''
+$: alt = name ? `picture of something ${name}` : ''
 </script>
 
 <style>
@@ -40,6 +41,6 @@ img {
 
 <div class="{extraCssClasses} h-100 d-flex align-items-end flex-column">
   <div class="description w-100 d-sm-inline pb-2">{description}</div>
-  <div class="picture mt-auto w-100 d-sm-inline pb-2"><img src="{pictureUrl}" alt={`picture of something ${name}`} /></div>
+  <div class="picture mt-auto w-100 d-sm-inline pb-2"><img src="{pictureUrl}" {alt} /></div>
   <div class="w-100 d-sm-inline"><SizeIndicator {size} /></div>
 </div>
