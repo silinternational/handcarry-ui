@@ -10,35 +10,19 @@ function init() {
 }
 
 async function loadAuthenticatedUser() {
-  try {
-    const user = await getUser()
+  const user = await getUser()
 
-    me.set(user)
-  } catch (e) {
-    console.error(`user.js:loadAuthenticatedUser: `, e)
-    // TODO: errorhandling?
-  }
+  me.set(user)
 }
 
 export async function changeNickname(nickname) {
-  try {
-    const updatedUser = await updateNickname(nickname)
+  const updatedUser = await updateNickname(nickname)
 
-    me.set(updatedUser)    
-  } catch (e) {
-    console.error(`user.js:changeNickname: `, e)
-    // TODO: errorhandling?
-  }
+  me.set(updatedUser)    
 }
 
 export async function changeProfilePicture(photoId) {
-  try {
-    const updatedUser = await updateProfilePic(photoId)
+  const updatedUser = await updateProfilePic(photoId)
 
-    me.set(updatedUser)    
-  } catch (e) {
-    console.error(`user.js:changeProfilePicture: `, e)
-    // TODO: errorhandling?
-  }
+  me.set(updatedUser)    
 }
-

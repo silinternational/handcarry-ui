@@ -3,7 +3,7 @@ import { me } from '../data/user'
 import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
 import polyglot from '../i18n'
 import UserAvatar from './UserAvatar.svelte'
-import { logoutUrl } from '../data/api'
+import { logout } from '../data/api'
 import CountIndicator from './CountIndicator.svelte'
 import { unreads } from '../data/messaging'
 
@@ -76,9 +76,9 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 
           <div class="dropdown-divider"></div>
           
-          <a href={logoutUrl} class="dropdown-item">
+          <button on:click={logout} class="dropdown-item">
             {polyglot.t('nav-sign-out')}
-          </a>
+          </button>
         </div>
       </li>
     </ul>

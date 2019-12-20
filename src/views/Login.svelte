@@ -1,5 +1,10 @@
 <script>
 import { login } from '../data/api'
+import { querystring } from 'svelte-spa-router'
+import qs from 'qs'
+
+$: returnTo = qs.parse($querystring)['return-to']
+
 
 let email = getStoredEmail() || ''
 let checked = wasRemembered()
@@ -23,7 +28,7 @@ function storeRememberMeChoice() {
 function signIn() {
   storeRememberMeChoice()
 
-  login(email, '/requests')
+  login(email, returnTo)
 }
 </script>
 
