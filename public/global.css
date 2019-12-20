@@ -43,3 +43,8 @@ h3{
     content: " * ";
     color: red;
 }
+
+/* Nav */
+nav img {
+    height: 2rem;
+}

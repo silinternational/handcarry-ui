@@ -11,10 +11,6 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 </script>
 
 <style>
-nav :global(img) {
-   height: 2rem;
-}
-
 .fab {
   position: absolute;
   right: 0.5rem;
