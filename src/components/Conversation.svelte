@@ -22,14 +22,10 @@ $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
 async function acceptCommittment() {
-  try {
-    // TODO: updating post like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
-    // and this component is only interested in the conversation (and it's attached post) and those changes aren't coming down... maybe a 
-    // refactor needs to be considered here.
-    post = await accept(post.id)
-  } catch (e) {
-    // TODO: need errorhandling
-  }
+  // TODO: updating post like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
+  // and this component is only interested in the conversation (and it's attached post) and those changes aren't coming down... maybe a 
+  // refactor needs to be considered here.
+  post = await accept(post.id)
 }
 
 async function sendMessage() {
@@ -45,28 +41,18 @@ async function sendMessage() {
 }
 
 async function commit() {
-  try {
-    // TODO: see notes in `acceptCommittment`
-    post = await provide(post.id)
-  } catch (e) {
-    // TODO: need errorhandling
-  }
+  // TODO: see notes in `acceptCommittment`
+  post = await provide(post.id)
 }
 
 async function delivered() {
-  try {
-    post = await deliver(post.id)
-  } catch (e) {
-    // TODO: need errorhandling
-  }
+  // TODO: see notes in `acceptCommittment`
+  post = await deliver(post.id)
 }
 
 async function received() {
-  try {
-    post = await receive(post.id)
-  } catch (e) {
-    // TODO: need errorhandling
-  }
+  // TODO: see notes in `acceptCommittment`
+  post = await receive(post.id)
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})

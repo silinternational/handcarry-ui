@@ -1,17 +1,17 @@
 import { gql } from './api'
 
 export async function getUser() {
-  const { user } = await gql(`{
+  const response = await gql(`{
     user {
       ${userFields}
     }
   }`)
 
-  return user
+  return response.user || {}
 }
 
 export async function updateNickname(nickname) {
-  const { updateUser } = await gql(`
+  const response = await gql(`
     mutation {
       updateUser(input: {
         nickname: ${json(nickname)}
@@ -22,11 +22,11 @@ export async function updateNickname(nickname) {
     }
   `)
 
-  return updateUser
+  return response.updateUser || {}
 }
 
 export async function updateProfilePic(id) {
-  const { updateUser } = await gql(`
+  const response = await gql(`
     mutation {
       updateUser(input: {
         photoID: ${json(id)}
@@ -37,21 +37,21 @@ export async function updateProfilePic(id) {
     }
   `)
 
-  return updateUser
+  return response.updateUser || {}
 }
 
 export async function getRequests() {
-  const { posts } = await gql(`{
+  const response = await gql(`{
     posts {
       ${postFields}
     }
   }`)
 
-  return posts
+  return response.posts || []
 }
 
 export async function createRequest(request) {
-  const { createPost } = await gql(`
+  const response = await gql(`
     mutation {
       createPost(input: {
         description: ${json(request.description || '')},
@@ -73,11 +73,11 @@ export async function createRequest(request) {
     }
   `)
 
-  return createPost
+  return response.createPost || {}
 }
 
 export async function updateRequest(request) {
-  const { updatePost } = await gql(`
+  const response = await gql(`
     mutation {
       updatePost(input: {
         description: ${json(request.description || '')},
@@ -92,7 +92,7 @@ export async function updateRequest(request) {
     }
   `)
 
-  return updatePost
+  return response.updatePost || {}
 }
 
 export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
@@ -102,7 +102,7 @@ export const delivered = async requestId => updateRequestStatus(requestId, 'DELI
 export const received = async requestId => updateRequestStatus(requestId, 'COMPLETED')
 
 async function updateRequestStatus(id, status) {
-  const { updatePostStatus } = await gql(`
+  const response = await gql(`
     mutation {
       updatePostStatus(
         input: {
@@ -116,21 +116,21 @@ async function updateRequestStatus(id, status) {
     }
   `)
 
-  return updatePostStatus
+  return response.updatePostStatus || {}
 }
 
 export async function getMyConversations() {
-  const { myThreads } = await gql(`{
+  const response = await gql(`{
     myThreads {
       ${threadFields}
     }
   }`)
 
-  return myThreads
+  return response.myThreads || []
 }
 
 export async function sendMessage(message, conversation) {
-  const { createMessage } = await gql(`
+  const response = await gql(`
     mutation {
       createMessage(input: {
         content: ${json(message)},
@@ -145,11 +145,11 @@ export async function sendMessage(message, conversation) {
     }
   `)
 
-  return createMessage.thread
+  return response.createMessage && response.createMessage.thread || { thread: {}}
 }
 
 export async function markMessagesAsRead(threadId) {
-  const { setThreadLastViewedAt } = await gql(`
+  const response = await gql(`
     mutation {
       setThreadLastViewedAt(input: {
         threadID: ${json(threadId || '')},
@@ -161,7 +161,7 @@ export async function markMessagesAsRead(threadId) {
     }
   `)
 
-  return setThreadLastViewedAt
+  return response.setThreadLastViewedAt || {}
 }
 
 const json = JSON.stringify

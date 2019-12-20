@@ -16,16 +16,20 @@ async function chosen(event) {
   const formData = new FormData()
   formData.append('file', event.target.files[0])
 
-  uploading = true
-  file = await upload(formData)
-  uploading = false
+  try {
+    uploading = true
 
-  dispatch('uploaded', file)
+    file = await upload(formData)
+    
+    dispatch('uploaded', file)
+  } finally {
+    uploading = false
+  }
 }
 </script>
 
 <style>
-/* these are sort of ugly by default so let's hide it without losing it's capabilities */
+/* file inputs are sort of ugly by default so let's hide it without losing it's capabilities */
 input[type=file] {
   width: 0px;
   height: 0px;

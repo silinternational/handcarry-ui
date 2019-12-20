@@ -4,7 +4,8 @@ import Router from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte
 import { location } from 'svelte-spa-router'
 import Footer from './Footer.svelte'
 import routes from '../views/routes'
-import Bootstrap from '../components/Bootstrap.svelte'
+import Bootstrap from './Bootstrap.svelte'
+import Error from './Error.svelte'
 </script>
 
 <Bootstrap />
@@ -14,6 +15,8 @@ import Bootstrap from '../components/Bootstrap.svelte'
 {/if}
 
 <main class="container">
+  <Error />
+
   <Router {routes} />
 </main>
 
