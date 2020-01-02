@@ -1,13 +1,14 @@
 <script>
-import { me } from '../data/user'
 import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
 import polyglot from '../i18n'
 import UserAvatar from './UserAvatar.svelte'
 import { logout } from '../data/api'
 import CountIndicator from './CountIndicator.svelte'
-import { unreads } from '../data/messaging'
 
-$: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
+export let user = {}
+export let unreads = []
+
+$: totalNumUnreads = unreads.reduce((sum, { count }) => sum + count, 0)
 </script>
 
 <style>
@@ -19,18 +20,18 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 }
 </style>
 
-{#if $me.nickname && $location === '/requests'}
+{#if user.nickname && $location === '/requests'}
 <a href="/#/requests/new" title="{polyglot.t('nav-requests-create')}" class="btn btn-lg btn-success rounded-circle fab shadow-lg text-monospace d-block d-md-none"> <!-- only shown on phones -->
   +
 </a>
 {/if}
 
 <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
-  <a class="navbar-brand" href={me.nickname ? '/#/requests' : '/#/login'}>
+  <a class="navbar-brand" href={user.nickname ? '/#/requests' : '/#/login'}>
     <img src="/logo.svg" alt="WeCarry logo" />
   </a>
 
-  {#if $me.nickname}
+  {#if user.nickname}
   <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon" />
   </button>
@@ -59,18 +60,18 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 
       <li class="nav-item dropdown">
         <a href="/#/profile" data-toggle="dropdown" id="avatarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
-          <UserAvatar user={$me} small />
+          <UserAvatar {user} small />
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="avatarDropdown">
           <a href="/#/profile" class="dropdown-item">
             {polyglot.t('nav-profile')}
           </a>
 
-          <a href="/#/requests?creator={$me.id}" class="dropdown-item">
+          <a href="/#/requests?creator={user.id}" class="dropdown-item">
             {polyglot.t('nav-requests-mine')}
           </a>
 
-          <a href="/#/requests?provider={$me.id}" class="dropdown-item">
+          <a href="/#/requests?provider={user.id}" class="dropdown-item">
             {polyglot.t('nav-requests-comittments')}
           </a>
 
