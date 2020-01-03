@@ -1,26 +1,25 @@
 <script>
-import { init as initUser, me} from '../data/user'
-import { init as initMessaging, unreads } from '../data/messaging'
+import { init as authenticate, me } from '../data/user'
 import Nav from './Nav.svelte'
 import Router from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
 import { location } from 'svelte-spa-router'
 import Footer from './Footer.svelte'
 import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
-import BrandOnly from './BrandOnly.svelte'
 import Error from './Error.svelte'
 
-initUser()
-initMessaging()
+const publicRoutes = ['/welcome/terms', '/welcome/privacy']
+
+$: isPublicRoute = publicRoutes.some(publicRoute => $location.startsWith(publicRoute))
+$: isProtectedRoute = ! isPublicRoute
+$: userIsUnknown = ! $me.id
+$: isProtectedRoute && userIsUnknown && authenticate()
+$: minimal = $location.startsWith('/welcome') || userIsUnknown
 </script>
 
 <Bootstrap />
 
-{#if $location.startsWith('/welcome') }
-  <BrandOnly />
-{:else}
-  <Nav user={$me} unreads={$unreads} />
-{/if}
+<Nav user={$me} {minimal} />
 
 <main class="container">
   <Error />
