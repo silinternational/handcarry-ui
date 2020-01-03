@@ -1,62 +1,62 @@
 <script>
+import { me } from '../data/user'
 import { formatDistanceToNow } from 'date-fns'
-import { sendMessage, sendCommit, acceptCommittment } from '../data/gqlQueries'
-import { createEventDispatcher } from 'svelte';
+import { provide, accept, deliver, receive } from '../data/requests'
+import { createEventDispatcher } from 'svelte'
+import { unreads, saw, send } from '../data/messaging'
 
-const dispatch = createEventDispatcher();
-
-export let me = {}
 export let conversation = {}
+export let minimal = false
+
+let reply = ''
+const FIVE_SECONDS = 5000
+const dispatch = createEventDispatcher()
+
 $: post = conversation.post || {}
 $: creator = post.createdBy || {}
 $: provider = post.provider || {}
 $: messages = conversation.messages || []
+$: destination = post.destination && post.destination.description
+$: isConversingWithProvider = messages.some(msg => msg.sender.id === provider.id)
+$: unread = $unreads.find(({ id }) => id === conversation.id) || {}
+$: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
-let reply = ''
-
-async function accept() {
-  try {
-    const response = await acceptCommittment(conversation.post.id)
-    post = response.updatePost
-  } catch (e) {
-    // TODO: need errorhandling
-  }
+async function acceptCommittment() {
+  // TODO: updating post like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
+  // and this component is only interested in the conversation (and it's attached post) and those changes aren't coming down... maybe a 
+  // refactor needs to be considered here.
+  post = await accept(post.id)
 }
 
-function asReadableDate(timestamp) {
-  return new Date(timestamp).toLocaleDateString()
-}
-
-async function send() {
+async function sendMessage() {
   if (reply !== '') {
-    let isNewConversation = !conversation.id
-    const response = await sendMessage(conversation.id, reply, post.id)
-    conversation.messages = response.createMessage.thread.messages
+    const updatedConversation = await send(reply, conversation)
     reply = ''
     
+    const isNewConversation = !conversation.id
     if (isNewConversation) {
-      dispatch('new', {
-        id: response.createMessage.thread.id,
-        messages: response.createMessage.thread.messages
-      })
+      dispatch('new', updatedConversation)
     }
   }
 }
 
 async function commit() {
-  try {
-    const response = await sendCommit(conversation.post.id)
-    post = response.updatePost
-  } catch (e) {
-    // TODO: need errorhandling
-  }
+  // TODO: see notes in `acceptCommittment`
+  post = await provide(post.id)
+}
+
+async function delivered() {
+  // TODO: see notes in `acceptCommittment`
+  post = await deliver(post.id)
+}
+
+async function received() {
+  // TODO: see notes in `acceptCommittment`
+  post = await receive(post.id)
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})
-
-function focusOnCreate(element) {
-  element.focus()
-}
+const focusOnCreate = element => element.focus()
 </script>
 
 <style>
@@ -79,43 +79,53 @@ function focusOnCreate(element) {
 </style>
 
 <div class="tab-pane card-body active">
-  {#if ! conversation.post}
+  {#if ! post.id}
   <p class="text-center"><i>Please select a conversation to see its messages</i></p>
   {:else}
   <div class="row">
-    <div class="col">
-      <h3 class="text-center"><a href="#/requests/{post.id}">{ post.title }</a></h3>
+    <div class="col-8" class:d-none={minimal}>
+      <h3 class="text-center"><a href="#/requests/{post.id}">{post.title}</a></h3>
 
       <div class="text-center">
         <small>
-          <b>{ post.createdBy.nickname }</b> @ { post.destination }<br />
-          {#if post.neededAfter && post.neededBefore }
-            between { asReadableDate(post.neededAfter) } and { asReadableDate(post.neededBefore) }
-          {:else if post.neededAfter }
-            after { asReadableDate(post.neededAfter) }
-          {:else if post.neededBefore }
-            before { asReadableDate(post.neededBefore) }
-          {/if}
+          <strong>{post.createdBy.nickname}</strong> @ {destination}
         </small>
       </div>
     </div>
-    <div class="col-4 text-right">
-      {#if creator.id == me.id }
-        {#if provider.nickname }
-          { provider.nickname } committed to bring this.
-        {/if}
-        {#if post.status === 'COMMITTED' }
-        <button class="btn btn-sm btn-outline-success" on:click={ accept }>
-          Accept
-        </button>
+
+    <div class="col text-right mb-1">
+      {#if creator.id == $me.id}
+        {#if post.status === 'COMMITTED'}
+          {provider.nickname} committed to bring this.
+          {#if isConversingWithProvider}
+            <button class="btn btn-sm btn-success" on:click={acceptCommittment}>Accept</button>
+          {/if}
+        {:else if post.status === 'DELIVERED'}
+          {provider.nickname} delivered this.
+          {#if isConversingWithProvider}
+            <button class="btn btn-sm btn-success" on:click={received}>I received it</button>
+          {/if}
+        {:else if post.status === 'ACCEPTED'}
+          {provider.nickname} is set to deliver this to you.
+          {#if isConversingWithProvider}
+            <button class="btn btn-sm btn-success" on:click={received}>I already received it</button>
+          {/if}
+        {:else if post.status === 'COMPLETED'}
+          It is finished.
         {/if}
       {:else}
-        {#if provider.id == me.id }
-          You committed to bring this.
-        {:else if provider.id }
+        {#if provider.id == $me.id}
+          {#if post.status === 'COMMITTED'}
+            You committed to bring this.
+          {:else if post.status === 'ACCEPTED'}
+            <button class="btn btn-sm btn-info" on:click={delivered}>I delivered it</button>
+          {:else if post.status === 'DELIVERED'}
+            You delivered this.
+          {/if}          
+        {:else if provider.id}
           Someone else has committed to bring this.
         {:else}
-          <button class="btn btn-sm btn-info" on:click={ commit }>
+          <button class="btn btn-sm btn-info" on:click={commit}>
             I'll bring it
           </button>
         {/if}
@@ -126,7 +136,7 @@ function focusOnCreate(element) {
   <hr class="mt-1" />
   
   {#each messages as message}
-    {#if message.sender.id === me.id}
+    {#if message.sender.id === $me.id}
       <blockquote class="blockquote text-right">
         <p class="mb-0 message-content">{message.content}</p>
         <footer class="blockquote-footer">you, { whenWas(message.createdAt) }</footer>
@@ -134,19 +144,21 @@ function focusOnCreate(element) {
     {:else}
       <blockquote class="blockquote">
         <p class="mb-0 message-content">{message.content}</p>
-        <footer class="blockquote-footer">{message.sender.nickname}, { whenWas(message.createdAt) }</footer>
+        <footer class="blockquote-footer">{message.sender.nickname}, {whenWas(message.createdAt)}</footer>
       </blockquote>
     {/if}
   {/each}
+
   <div class="card-footer">
-    <form on:submit|preventDefault={ send }>
+    <form on:submit|preventDefault={sendMessage}>
       <div class="row">
         <div class="col">
           <label class="sr-only" for="replyField">Reply</label>
 
-          <input bind:value={ reply } class="form-control mb-2 mr-sm-2"
+          <input bind:value={reply} class="form-control mb-2 mr-sm-2"
                  placeholder="Reply" autocomplete="off" use:focusOnCreate />
         </div>
+  
         <div class="col-auto">
           <button type="submit" class="btn btn-primary mb-2">Send</button>
         </div>

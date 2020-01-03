@@ -1,3 +1,9 @@
+import qs from 'qs'
+import { location, querystring, push } from 'svelte-spa-router'
+import { get as getStoreValue} from 'svelte/store'
+
+let qsData = {}
+
 init()
 
 export default {
@@ -8,10 +14,14 @@ export default {
 }
 
 function init() {
+  qsData = qs.parse(getStoreValue(querystring))
+
   set('key', createKey())
   set('token-type', 'Bearer')
   set('access-token')
-  // TODO: need to grab the expiry and then setup an automatic logout at that time.
+  set('expires-utc') // TODO: start a timer for auto-logout at this time?
+
+  cleanAddressBar()
 }
 
 function createKey() {
@@ -21,14 +31,7 @@ function createKey() {
 }
 
 function get(key) {
-  // TODO: Consider using the `qs` npm library we are now using elsewhere.
-  // TODO: currently no IE support for URLSearchParams (https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams#Browser_compatibility)
-  // check this out for further info:  https://developers.google.com/web/updates/2016/01/urlsearchparams
-  // polyfill if needed (https://github.com/jerrybendy/url-search-params-polyfill) or the WebReflection one...
-  const defragged = new URL(location.href.replace('#',''))
-  const params = new URLSearchParams(defragged.search)
-
-  return sessionStorage.getItem(key) || params.get(key)
+  return sessionStorage.getItem(key) || qsData[key]
 }
 
 function set(key, defaultValue = '') {
@@ -38,8 +41,18 @@ function set(key, defaultValue = '') {
 function reset() {
   sessionStorage.removeItem('token-type')
   sessionStorage.removeItem('access-token')
+  sessionStorage.removeItem('expires-utc')
 }
 
 function pair() {
   return `${get('key') + get('access-token')}`
+}
+
+function cleanAddressBar() {
+  for (let i = 0; i < sessionStorage.length; i++) {
+    delete qsData[sessionStorage.key(i)]
+  }
+
+  const newQsParms = qs.stringify(qsData)
+  push(`${getStoreValue(location)}${newQsParms.length ? '?' : ''}${newQsParms}`)
 }

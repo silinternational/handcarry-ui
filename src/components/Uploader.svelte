@@ -1,6 +1,11 @@
 <script>
 import { upload } from '../data/api'
 import { createEventDispatcher } from 'svelte'
+import Icon from 'fa-svelte'
+import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
+
+export let type = 'add'
+export let small = false
 
 const dispatch = createEventDispatcher()
 
@@ -11,16 +16,20 @@ async function chosen(event) {
   const formData = new FormData()
   formData.append('file', event.target.files[0])
 
-  uploading = true
-  file = await upload(formData)
-  uploading = false
+  try {
+    uploading = true
 
-  dispatch('uploaded', file)
+    file = await upload(formData)
+    
+    dispatch('uploaded', file)
+  } finally {
+    uploading = false
+  }
 }
 </script>
 
 <style>
-/* these are sort of ugle by default so let's hide it without losing it's capabilities */
+/* file inputs are sort of ugly by default so let's hide it without losing it's capabilities */
 input[type=file] {
   width: 0px;
   height: 0px;
@@ -33,13 +42,13 @@ label.disabled {
 }
 </style>
 
-<label for="uploader" class="btn btn-primary d-inline-flex align-items-center" class:disabled={uploading}>
+<label for="uploader" class="btn btn-primary d-inline-flex align-items-center" class:disabled={uploading} class:btn-sm={small}>
   {#if uploading}
-  <span class="spinner-grow spinner-grow-sm mr-3" role="status" aria-hidden="true"></span>
-  <span>Adding image</span>
+    <span class="spinner-grow spinner-grow-sm mr-3" role="status" aria-hidden="true"></span>
+    <span>{type === 'add' ? 'Adding' : 'Changing'} image</span>
   {:else}
-  <svg class="lnr lnr-big lnr-cloud-upload mr-3"><use xlink:href="#lnr-cloud-upload" /></svg>
-  <span>Add image</span>
+    <Icon icon={faCloudUploadAlt} class="mr-2" />
+    <span>{type === 'add' ? 'Add' : 'Change'} image</span>
   {/if}
 </label>
 <input id="uploader" type="file" accept="image/*" on:change={chosen} disabled={uploading} />

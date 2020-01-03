@@ -3,10 +3,12 @@ import resolve from 'rollup-plugin-node-resolve'
 import commonjs from 'rollup-plugin-commonjs'
 import livereload from 'rollup-plugin-livereload'
 import { terser } from 'rollup-plugin-terser'
-import json from 'rollup-plugin-json'
+import json from '@rollup/plugin-json'
 import dotenvPlugin from 'rollup-plugin-dotenv'
+import htmlTemplate from 'rollup-plugin-generate-html-template'
+import autoPreprocess from 'svelte-preprocess'
 
-
+const cacheBust = Date.now()
 const production = !process.env.ROLLUP_WATCH
 
 export default {
@@ -15,16 +17,19 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/bundle.js'
+		file: `public/bundle.${cacheBust}.js`
 	},
 	plugins: [
 		svelte({
+			preprocess: autoPreprocess(),
+			
 			// enable run-time checks when not in production
 			dev: !production,
+			
 			// we'll extract any component CSS out into
 			// a separate file — better for performance
 			css: css => {
-				css.write('public/bundle.css')
+				css.write(`public/bundle.${cacheBust}.css`)
 			}
 		}),
 
@@ -51,7 +56,19 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
+
+		// generates a public/index.html that pulls in the newly cache-busted
+		// app files, e.g., public/bundle.[timestamp].js
+		htmlTemplate({
+      template: 'src/prebuild-index.html',
+			target: 'public/index.html',
+			attrs: ['defer'],
+			replaceVars: {
+				'__GLOBAL_CSS_CACHE_BUST__': cacheBust,
+				'__BUNDLE_CSS_CACHE_BUST__': cacheBust
+			}
+    })
 	],
 	watch: {
 		clearScreen: false

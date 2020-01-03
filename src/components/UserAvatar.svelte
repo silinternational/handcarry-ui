@@ -1,25 +1,19 @@
 <script>
 export let user
+export let small = false
 
 $: nickname = user.nickname || ''
-$: initial = Array.from(nickname)[0] || ''
 </script>
 
 <style>
-div {
-  width: 1.6em;
-  height: 1.6em;
-}
 img {
   max-width: 100%;
   max-height: 100%;
 }
+
+.small {
+  height: 2rem;
+}
 </style>
 
-<div class="d-inline-block">
-  {#if user.photoURL }
-    <img class="rounded-circle border text-center" src={user.photoURL} alt={nickname} title={nickname} />
-  {:else}
-    <span class="badge badge-pill badge-primary" title={nickname}>{initial}</span>
-  {/if}
-</div>
+<img class="rounded-circle border" src={user.avatarURL} alt={nickname} title={nickname} class:small />

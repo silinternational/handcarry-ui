@@ -1,32 +1,65 @@
 <script>
 import UserAvatar from '../components/UserAvatar.svelte'
-import { getUser, createPost } from '../data/gqlQueries'
+import Uploader from '../components/Uploader.svelte'
+import { me, changeNickname, changeProfilePicture } from '../data/user'
+import Icon from 'fa-svelte'
+import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
-let me = {}; loadMe()
-$: email = me.email || ''
-$: nickname = me.nickname || ''
+let editingNickname = false
 
-async function loadMe() {
-    const response = await getUser()
-    me = response.user
+$: nickname = $me.nickname
+$: orgs = $me.organizations || []
+
+async function imageUploaded(event) {
+  await changeProfilePicture(event.detail.id)
+}
+
+async function saveNewNickname() {
+  await changeNickname(nickname)
+
+  editingNickname = false
 }
 </script>
 
-<style>
-.profile-avatar {
-  font-size: 52px;
-}
-</style>
+<div class="row pt-4">
+  <div class="col-lg"/>
 
-<div class="row">
-  <div class="col-12 col-sm-5">
-    <div class="text-center text-sm-right profile-avatar">
-      <UserAvatar user={me} />
+  <div class="col-lg-2 d-flex flex-column align-items-center">
+    <UserAvatar user={$me} />
+    
+    <div class="pt-2">
+      <Uploader on:uploaded={imageUploaded} type='change' small />
     </div>
   </div>
-  
-  <div class="col-10 col-sm-7 offset-1 offset-sm-0">
-    <h2 class="pt-2">{ nickname }</h2>
-    <div>Email: <b>{ email }</b></div>
+
+  <div class="col-lg-5">
+    <div class="form-group">
+      {#if editingNickname}
+        <form on:submit|preventDefault={saveNewNickname} class="input-group input-group-lg">
+          <!-- svelte-ignore a11y-autofocus -->
+          <input bind:value={$me.nickname} autofocus class="form-control">
+          
+          <div class="input-group-append">
+            <button class="btn btn-primary">Save</button>
+          </div>
+        </form>
+      {:else}
+        <h2 class="d-flex flex-row align-items-center">
+          <span class="pr-3">{$me.nickname}</span>
+
+          <button on:click={() => editingNickname = true} class="btn btn-outline-primary btn-sm rounded-circle">
+            <Icon icon={faEdit} />
+          </button>
+        </h2>
+      {/if}
+    </div>
+
+    <p>{$me.email}</p>
+
+    {#each orgs as org}
+      <span class="badge badge-pill badge-info mr-2">{org.name}</span>
+    {/each}
   </div>
-</div>
+
+  <div class="col-lg"/>
+</div>  
