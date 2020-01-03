@@ -1,5 +1,5 @@
 <script>
-import { init as loadMessaging, unreads } from '../data/messaging'
+import { unreads } from '../data/messaging'
 import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
 import polyglot from '../i18n'
 import UserAvatar from './UserAvatar.svelte'
@@ -10,7 +10,6 @@ export let user = {}
 export let minimal = false
 
 $: userIsAuthn = user.id
-$: userIsAuthn && ! minimal && loadMessaging()
 $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 </script>
 

@@ -1,5 +1,7 @@
 <script>
 import { init as authenticate, me } from '../data/user'
+import { init as loadMessaging } from '../data/messaging'
+import { init as loadRequests } from '../data/requests'
 import Nav from './Nav.svelte'
 import Router from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
 import { location } from 'svelte-spa-router'
@@ -12,9 +14,17 @@ const publicRoutes = ['/welcome/terms', '/welcome/privacy']
 
 $: isPublicRoute = publicRoutes.some(publicRoute => $location.startsWith(publicRoute))
 $: isProtectedRoute = ! isPublicRoute
-$: userIsUnknown = ! $me.id
-$: isProtectedRoute && userIsUnknown && authenticate()
-$: minimal = $location.startsWith('/welcome') || userIsUnknown
+$: userIsAuthn = $me.id
+$: userIsNotAuthn = ! userIsAuthn
+$: isProtectedRoute && userIsNotAuthn && authenticate()
+$: minimal = $location.startsWith('/welcome') || userIsNotAuthn
+$: isDataNeeded = userIsAuthn && ! minimal
+$: isDataNeeded && loadData()
+
+function loadData() {
+  loadMessaging()
+  loadRequests()
+}
 </script>
 
 <Bootstrap />
