@@ -13,14 +13,15 @@ import {
 export const requests = writable([])
 export const loading = writable(false)
 
+let intervalId = 0
+
 init()
 
 function init() {
-  loadRequests()
-
   const EVERY_10_MINUTES = 60 * 1000 * 10
-  setInterval(loadRequests, EVERY_10_MINUTES)
-  // TODO: consider situations where we'd want the intervals cancelled, e.g, 401    
+  intervalId = setInterval(loadRequests, EVERY_10_MINUTES)
+  
+  loadRequests()
 }
 
 async function loadRequests() {
@@ -31,103 +32,69 @@ async function loadRequests() {
 
     requests.set(currentRequests)
   } catch (e) {
-    console.error(`requests.js:loadRequests: `, e)
-    // TODO: errorhandling?
+    clearInterval(intervalId)
+
+    throw e
   } finally {
     loading.set(false)
   }
 }
 
 export async function create(request) {
-  try {
-    const newRequest = await createRequest(request)
+  const newRequest = await createRequest(request)
 
-    requests.update(currentRequests => [newRequest, ...currentRequests])
-  } catch (e) {
-    console.error(`requests.js:create: `, e)
-    //TODO: errorhandling?
-  }
+  requests.update(currentRequests => [newRequest, ...currentRequests])
 }
 
 export async function update(request) {
-  try {
-    const updatedRequest = await updateRequest(request)
+  const updatedRequest = await updateRequest(request)
 
-    requests.update(currentRequests => {
-      const i = currentRequests.findIndex(({ id }) => id === updatedRequest.id)
-      if (i >= 0) {
-        currentRequests[i] = updatedRequest
-      } 
-      
-      return currentRequests
-    })
-  } catch (e) {
-    console.error(`requests.js:update: `, e)
-    //TODO: errorhandling?
-  }
+  requests.update(currentRequests => {
+    const i = currentRequests.findIndex(({ id }) => id === updatedRequest.id)
+    if (i >= 0) {
+      currentRequests[i] = updatedRequest
+    } 
+    
+    return currentRequests
+  })
 }
 
 export async function cancel(requestId) {
-  try {
-    await cancelRequest(requestId)
+  await cancelRequest(requestId)
 
-    requests.update(currentRequests => currentRequests.filter(({id}) => id !== requestId))
-  } catch (e) {
-    console.error(`requests.js:cancel: `, e)
-    //TODO: errorhandling?
-  }
+  requests.update(currentRequests => currentRequests.filter(({id}) => id !== requestId))
 }
 
 export async function provide(requestId) {
-  try {
-    const updatedRequest = await commitToProvide(requestId)
+  const updatedRequest = await commitToProvide(requestId)
 
-    updateLocalRequests(updatedRequest)
+  updateLocalRequests(updatedRequest)
 
-    return updatedRequest
-  } catch (e) {
-    console.error(`requests.js:provide: `, e)
-    //TODO: errorhandling?
-  }
+  return updatedRequest
 }
 
 export async function accept(requestId) {
-  try {
-    const updatedRequest = await acceptCommittment(requestId)
+  const updatedRequest = await acceptCommittment(requestId)
 
-    updateLocalRequests(updatedRequest)
+  updateLocalRequests(updatedRequest)
 
-    return updatedRequest
-  } catch (e) {
-    console.error(`requests.js:accept: `, e)
-    //TODO: errorhandling?
-  }
+  return updatedRequest
 }
 
 export async function deliver(requestId) {
-  try {
-    const updatedRequest = await delivered(requestId)
+  const updatedRequest = await delivered(requestId)
 
-    updateLocalRequests(updatedRequest)
+  updateLocalRequests(updatedRequest)
 
-    return updatedRequest
-  } catch (e) {
-    console.error(`requests.js:deliver: `, e)
-    //TODO: errorhandling?
-  }
+  return updatedRequest
 }
 
 export async function receive(requestId) {
-  try {
-    const updatedRequest = await received(requestId)
+  const updatedRequest = await received(requestId)
 
-    updateLocalRequests(updatedRequest)
+  updateLocalRequests(updatedRequest)
 
-    return updatedRequest
-  } catch (e) {
-    console.error(`requests.js:receive: `, e)
-    //TODO: errorhandling?
-  }
+  return updatedRequest
 }
 
 const updateLocalRequests = updatedRequest => {

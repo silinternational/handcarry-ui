@@ -1,5 +1,5 @@
 
-start: clean install dev
+start: install dev
 
 install:
 	npm install
