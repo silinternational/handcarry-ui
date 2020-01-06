@@ -29,23 +29,17 @@ async function wrappedFetch(url, body) {
   //   200's can be good { data } or bad { errors, data }
   //   422 is also possible, e.g., if the gql syntax is wrong, { errors }
   // buffalo responses more similarly mimic REST, error formats follow two patterns though:
-  //   { code, error, trace } or { code, key }
+  //   { code, error } or { code, key }
   //   the message to display will either be in { error } or it will need to be derived from { key }, i.e., 
-  //   { key } is intended for looking up the appropriate message
+  //     key is intended for looking up the appropriate message
 
-  if (contents.errors) { 
-    // must be a gql "bad" response
-    throwError(contents.errors[0].message, response.status)
-  }
-
-  // gql "bad" 200's are out of the picture now, this should be all good, we're finished
   if (response.ok) { 
     return contents
   }
 
   if (response.status === 401) {
     //TODO: clear user store without creating a circular dependency on user.js
-    token.reset() // just in case they already have local credentials, "expire" them
+    token.reset() // expire local credentials if they exist
   }
 
   // if there's a key, the message must be derived
@@ -53,7 +47,8 @@ async function wrappedFetch(url, body) {
     contents.error = polyglot.t(contents.key)
   }
 
-  throwError(contents.error, response.status)
+  // buffalo => `error`, gql => errors[0].message
+  throwError(contents.error || contents.errors[0].message, response.status)
 }
 
 export async function gql(query) {
@@ -61,9 +56,13 @@ export async function gql(query) {
     query
   })
   
-  const { data } = await wrappedFetch('gql', body)
-   
-  return data
+  const response = await wrappedFetch('gql', body)
+  
+  if (response.errors) { 
+    throwError(contents.errors[0].message)
+  }
+     
+  return response.data
 }
 
 export async function login(email, returnTo) {
