@@ -61,7 +61,7 @@ export async function gql(query) {
   const response = await wrappedFetch('gql', body)
   
   if (response.errors) { 
-    throwError(contents.errors[0].message)
+    throwError(response.errors[0].message)
   }
      
   return response.data
