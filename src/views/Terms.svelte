@@ -17,18 +17,18 @@ h2 {
 <p>Effective December 1, 2019</p>
 <p>Thank you for using WeCarry! We're happy to be able to help in your hand-carry coordination needs. Please read this agreement carefully before using WeCarry to ensure you understand the scope of use and limits of liability for the WeCarry service.</p>
 
-<p><a href="#/welcome/terms/terms-and-definitions">Terms &amp; Definitions</a></p>
-<p><a href="#/welcome/terms/acceptable-use">Acceptable Use</a></p>
-<p><a href="#/welcome/terms/user-generated-content">User-Generated Content</a></p>
-<p><a href="#/welcome/terms/responsibilities-of-requesters">Responsibilities of Requesters</a></p>
-<p><a href="#/welcome/terms/responsibilities-of-providers">Responsibilities of Providers</a></p>
-<p><a href="#/welcome/terms/payment">Payment</a></p>
-<p><a href="#/welcome/terms/cancellation-and-termination">Cancellation and Termination</a></p>
-<p><a href="#/welcome/terms/communication-with-wecarry">Communication with WeCarry</a></p>
-<p><a href="#/welcome/terms/disclaimer-of-warranties">Disclaimer of Warranties</a></p>
-<p><a href="#/welcome/terms/limitation-of-liability">Limitation of Liability</a></p>
-<p><a href="#/welcome/terms/release-and-indemnification">Release and Indemnification</a></p>
-<p><a href="#/welcome/terms/changes-to-these-terms-of-use">Changes to these Terms of Use</a></p>
+<p><a href="#/terms/terms-and-definitions">Terms &amp; Definitions</a></p>
+<p><a href="#/terms/acceptable-use">Acceptable Use</a></p>
+<p><a href="#/terms/user-generated-content">User-Generated Content</a></p>
+<p><a href="#/terms/responsibilities-of-requesters">Responsibilities of Requesters</a></p>
+<p><a href="#/terms/responsibilities-of-providers">Responsibilities of Providers</a></p>
+<p><a href="#/terms/payment">Payment</a></p>
+<p><a href="#/terms/cancellation-and-termination">Cancellation and Termination</a></p>
+<p><a href="#/terms/communication-with-wecarry">Communication with WeCarry</a></p>
+<p><a href="#/terms/disclaimer-of-warranties">Disclaimer of Warranties</a></p>
+<p><a href="#/terms/limitation-of-liability">Limitation of Liability</a></p>
+<p><a href="#/terms/release-and-indemnification">Release and Indemnification</a></p>
+<p><a href="#/terms/changes-to-these-terms-of-use">Changes to these Terms of Use</a></p>
 
 <h2 id="terms-and-definitions">Terms &amp; Definitions</h2>
 <table class="table table-bordered">
@@ -59,7 +59,7 @@ h2 {
   </tr>
   <tr>
     <td>Agreement</td>
-    <td>The Agreement refers, collectively, to all the terms, conditions and notices contained or referenced in this document (the "Terms of Use" or the "Terms") and all other operating rules, policies (including the WeCarry Privacy Statement, available at <a href="{window.location.origin}/#/welcome/privacy">{window.location.origin}/#/welcome/privacy</a>) and procedures that we may publish from time to time on the WeCarry website.</td>
+    <td>The Agreement refers, collectively, to all the terms, conditions and notices contained or referenced in this document (the "Terms of Use" or the "Terms") and all other operating rules, policies (including the WeCarry Privacy Statement, available at <a href="{window.location.origin}/#/privacy">{window.location.origin}/#/privacy</a>) and procedures that we may publish from time to time on the WeCarry website.</td>
   </tr>
   <tr>
     <td>Content</td>

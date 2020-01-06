@@ -3,9 +3,7 @@ import { getUser, updateNickname, updateProfilePic } from './gqlQueries'
 
 export const me = writable({})
 
-init()
-
-function init() {
+export function init() {
   loadAuthenticatedUser()
 }
 
