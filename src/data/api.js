@@ -1,6 +1,4 @@
 import token from './token'
-import { push, location } from 'svelte-spa-router'
-import { get } from 'svelte/store'
 import { throwError } from './error'
 import polyglot from '../i18n'
 
@@ -45,27 +43,9 @@ async function wrappedFetch(url, body) {
     return contents
   }
 
-  // http response was not a 200 family, therefore begin dealing with the individual situations
-
   if (response.status === 401) {
-    // user is not authenticated yet... or anymore (their credentials may have expired)
     //TODO: clear user store without creating a circular dependency on user.js
-    token.reset() // "expire" their local credentials
-
-    // we need to get the user over to the login page but we may want to set up some additional
-    // handling in case they were in the middle of something in the app already, i.e., they
-    // already authenticated but their credenitals expired.
-    const currentRoute = get(location)
-    let loginRoute = '/login'
-    if (! ['/', loginRoute].includes(currentRoute)) {
-      // they were on some page in the app already and lost their credentials,
-      // we'll want to give them a little info and get them back to where they were.
-      contents.error = 'You will need to sign in first before going to that page'
-
-      loginRoute += `?return-to=${currentRoute}`      
-    }
-
-    push(loginRoute)
+    token.reset() // just in case they already have local credentials, "expire" them
   }
 
   // if there's a key, the message must be derived
