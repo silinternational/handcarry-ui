@@ -20,6 +20,7 @@ $: isProtectedRoute && userIsNotAuthn && authenticate()
 $: minimal = $location.startsWith('/welcome') || userIsNotAuthn
 $: isDataNeeded = userIsAuthn && ! minimal
 $: isDataNeeded && loadData()
+$: $location && scrollTo(0,0) // ensure route changes behave like a normal page change in the browser by going back to the top of the page.
 
 function loadData() {
   loadMessaging()
