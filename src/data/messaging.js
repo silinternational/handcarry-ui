@@ -5,14 +5,12 @@ import {
   sendMessage
 } from './gqlQueries'
 
-export const unreads = writable([])
 export const conversations = writable([])
+export const unreads = writable([])
 
 let intervalId = 0
 
-init()
-
-function init() {
+export function init() {
   const EVERY_MINUTE = 60 * 1000
   intervalId = setInterval(loadConversations, EVERY_MINUTE)
 
