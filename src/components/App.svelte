@@ -10,7 +10,7 @@ import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
 import Error from './Error.svelte'
 
-const publicRoutes = ['/welcome/terms', '/welcome/privacy']
+const publicRoutes = ['/terms', '/privacy']
 
 $: isPublicRoute = publicRoutes.some(publicRoute => $location.startsWith(publicRoute))
 $: isProtectedRoute = ! isPublicRoute

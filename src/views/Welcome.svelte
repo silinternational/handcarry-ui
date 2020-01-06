@@ -15,8 +15,8 @@
   </p>
   
   <p>
-    By clicking "Agree & Continue" you are agreeing to our <a href="#/welcome/terms">Terms of Use</a> and
-    <a href="#/welcome/privacy">Privacy Policy</a>.
+    By clicking "Agree & Continue" you are agreeing to our <a href="#/terms" target="_blank">Terms of Use</a> and
+    <a href="#/privacy" target="_blank">Privacy Policy</a>.
   </p>
   
   <a href="#/welcome/preferences" class="btn btn-primary mt-4">Agree &amp; Continue</a>
