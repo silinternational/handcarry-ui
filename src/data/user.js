@@ -22,5 +22,9 @@ export async function changeNickname(nickname) {
 export async function changeProfilePicture(photoId) {
   const updatedUser = await updateProfilePic(photoId)
 
-  me.set(updatedUser)    
+  me.set(updatedUser)
+}
+
+export function reset() {
+  me.set({})
 }

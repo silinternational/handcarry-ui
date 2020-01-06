@@ -1,6 +1,9 @@
 import token from './token'
 import { throwError } from './error'
 import polyglot from '../i18n'
+import { reset as resetUser } from './user'
+import { reset as resetMessaging } from './messaging'
+import { reset as resetRequests } from './requests'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 async function wrappedFetch(url, body) {
@@ -38,8 +41,7 @@ async function wrappedFetch(url, body) {
   }
 
   if (response.status === 401) {
-    //TODO: clear user store without creating a circular dependency on user.js
-    token.reset() // expire local credentials if they exist
+    clearLocalData()
   }
 
   // if there's a key, the message must be derived
@@ -96,4 +98,11 @@ export function logout() {
 
 export async function upload(formData) {
   return await wrappedFetch('upload', formData)
+}
+
+function clearLocalData() {
+  token.reset()
+  resetUser()
+  resetMessaging()
+  resetRequests()
 }

@@ -69,3 +69,8 @@ export async function send(message, conversation) {
 
   return updatedConversation
 }
+
+export function reset() {
+  conversations.set([])
+  unreads.set([])
+}
