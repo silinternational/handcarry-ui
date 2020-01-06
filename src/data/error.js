@@ -10,7 +10,9 @@ export const error = writable(defaultError)
 init()
 
 function init() {
+  // the incoming object here is from the browser https://developer.mozilla.org/en-US/docs/Web/API/PromiseRejectionEvent
   window.onunhandledrejection = ({reason}) => {
+    // `reason` will contain whatever was thrown (which should only be from `throwError` below)
     error.set(reason)
 
     scrollTo(0,0) // ensures the user sees the error message at the top of the page
