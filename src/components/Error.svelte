@@ -4,11 +4,10 @@ import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
 
 $: e = $error
-$: returnTo = qs.parse($querystring)['return-to']
-$: someErrorOccurred = qs.parse($querystring)['error'] // this will be present when something goes wrong during authn related calls to api, e.g., logout, login
+$: errorOccurredOutsideApp = qs.parse($querystring)['error'] // this will be present when something goes wrong during authn related calls to api, e.g., logout, login
 </script>
 
-{#if e.code === 401 && returnTo || e.code !== 401 && e.message || someErrorOccurred}
+{#if e.message || errorOccurredOutsideApp}
   <div class="alert alert-danger alert-dismissible" role="alert">
     <h4 class="alert-heading">Something went wrong</h4>
     
