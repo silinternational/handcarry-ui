@@ -3,12 +3,12 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me } from '../data/user'
-import { requests, create, update } from '../data/requests'
+import { requests, cancel, create, update } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
 import Icon from 'fa-svelte'
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -84,6 +84,12 @@ async function onSubmit() {
 function imageUploaded(event) {
   request.photoID = event.detail.id
   imageUrl = event.detail.url 
+}
+
+async function cancelRequest() {
+  await cancel(params.id)
+
+  push(`/requests`)
 }
 </script>
 
@@ -187,6 +193,16 @@ function imageUploaded(event) {
       <a href="#/requests" on:click|preventDefault={pop} class="btn btn-outline-dark">« Cancel</a>
     </div>
     <div class="col"></div>
+    
+    {#if request.id}
+      <div class="col-auto text-center">
+        <button on:click={cancelRequest} class="btn btn-outline-danger">
+          <Icon icon={faTrash} /> Delete
+        </button>
+      </div>
+      <div class="col"></div>
+    {/if}
+    
     <div class="col-auto">
       <button type="submit" class="btn btn-primary float-right">
         {#if request.id}
