@@ -32,7 +32,7 @@ function loadData() {
 
 <Nav user={$me} {minimal} />
 
-<main class="container">
+<main class="container-xl">
   <Error />
 
   <Router {routes} />
