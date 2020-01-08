@@ -52,7 +52,7 @@ async function imageUploaded(event) {
       <label for="nickname"><strong>Choose a nickname</strong></label>
       <input id="nickname" aria-describedby="nicknameHelp" bind:value={$me.nickname} class="form-control">
       <small id="nicknameHelp" class="form-text text-muted">
-        We only display your nickname to other users
+        We display only your nickname to other users
       </small>
     </div>
 

@@ -105,3 +105,8 @@ const updateLocalRequests = updatedRequest => {
     return currentRequests
   })
 }
+
+export function reset() {
+  requests.set([])
+  loading.set(false)
+}

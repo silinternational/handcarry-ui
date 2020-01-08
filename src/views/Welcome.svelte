@@ -2,8 +2,8 @@
   <h1 class="py-4 text-center">Welcome to WeCarry!</h1>
 
   <p>
-    We (the team behind WeCarry) appreciate you coming to check us out. We're excited about the potential for WeCarry
-    and how it will be used to serve and help our colleagues around the world, and we hope you'll find it helpful too.
+    We (the team behind WeCarry) appreciate you coming to check out WeCarry. We're excited about its potential
+    and how it will be used to serve you and your colleagues around the world, and we hope you'll find it helpful too.
   </p>
   
   <p>
