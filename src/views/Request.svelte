@@ -1,115 +1,74 @@
 <script>
 import { me } from '../data/user'
 import RequestImage from '../components/RequestImage.svelte'
-import SizeIndicator from '../components/SizeIndicator.svelte'
-import { requests, cancel } from '../data/requests'
-import { push } from 'svelte-spa-router'
-import Icon from 'fa-svelte'
-import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
-import Messaging from '../components/Messaging.svelte'
-import { conversations } from '../data/messaging'
+import SizeTile from '../components/SizeTile.svelte'
+import { requests } from '../data/requests'
+import UserAvatar from '../components/UserAvatar.svelte'
+import RequestMessaging from '../components/RequestMessaging.svelte'
+import OtherRequestsBy from '../components/OtherRequestsBy.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
-let conversationId = null
-let potentialConversation = null
-
 $: request = $requests.find(({ id }) => id === params.id) || {}
-$: requestor = request.createdBy || {}
-$: provider = request.provider || {}
-$: conversationsOnThisRequest = $conversations.filter(({ post }) => post.id === request.id)
-$: isMine = $me.id && (requestor.id === $me.id)
-$: imProviding = $me.id && (provider.id === $me.id)
-$: hasConversation = conversationsOnThisRequest.length > 0 || potentialConversation
+$: requester = request.createdBy || {}
+$: isMine = $me.id && (requester.id === $me.id)
 $: destination = request.destination && request.destination.description || ''
-
-// Select a default conversation (when appropriate)
-$: if (!potentialConversation && !conversationId && conversationsOnThisRequest.length > 0) {
-  conversationId = conversationsOnThisRequest[0].id
-}
-
-async function cancelRequest() {
-  await cancel(params.id)
-
-  push(`/requests`)
-}
-
-function showConversation(id) {
-  conversationId = id
-}
-
-function discussThis() {
-  potentialConversation = {
-    post: request
-  }
-}
-
-function newConversationCreated(newConversation) {
-  potentialConversation = null
-  
-  showConversation(newConversation.id)
-}
 </script>
 
 <style>
-div.card-img {
-  min-height: 215px; /* wanted to keep short squatty images from making the whole card look weird. */
+.request-image-container {
+  height: 160px; /* Set height inherited by request image, so it's not 0px */
+  min-width: 105px;
+}
+.size-tile-container {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 160px;
+}
+.user-avatar-container {
+  max-width: 90px;
 }
 </style>
 
-<a href="#/requests" class="text-secondary">« back to requests</a>
+<div class="row mb-3">
+  <div class="col">
+    <a href="#/requests" class="text-secondary mb-3">« back to requests</a>
+  </div>
+</div>
 
 {#if request.id}
-  <div class="card my-3">
-    <div class="row no-gutters">
-      <div class="col-12 col-md-3 card-img">
-        <RequestImage {request} />
+  <div class="row">
+    <div class="col-12 col-sm-4 col-lg-3">
+      <div class="row">
+        <div class="col col-sm-12 mb-4"><div class="request-image-container"><RequestImage {request} /></div></div>
+        <div class="col col-sm-12 mb-4"><div class="size-tile-container"><SizeTile size={request.size} /></div></div>
       </div>
-
-      <div class="col-md-9">
-        <div class="card-body">
-          <h5 class="card-title">
-            { request.title || ''}
-
-            {#if isMine}
-              <button on:click={cancelRequest} class="btn btn-sm btn-outline-danger rounded-circle float-right">
-                <Icon icon={faTrash} />
-              </button>
-            {/if}
-          </h5>
-          <p>{ destination }</p>
-          <blockquote class="blockquote">
-            { request.description }
-            <footer class="blockquote-footer">
-              { requestor.nickname } 
-              {#if !isMine && !hasConversation}
-                <button on:click={discussThis} class="btn btn-success btn-sm mt-1 align-top">
-                  <Icon icon={faComment} class="mr-2" />
-                  Discuss this
-                </button>
-              {/if}
-            </footer>
-          </blockquote>
+    </div>
+    
+    <div class="col">
+      {#if isMine}
+        <a href="#/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary">Edit request</a>
+      {/if}
+      <div class="row">
+        <div class="col">
+          <h3 class="card-title">{ request.title || ''}</h3>
         </div>
-
-        <div class="row p-2">
-          <div class="col" />
-          <div class="col-auto">
-            {#if isMine}
-              <a href="#/requests/{request.id}/edit" class="btn btn-sm btn-warning">Edit</a>
-            {/if}
+        <div class="col-auto">
+          <div class="user-avatar-container text-center">
+            <UserAvatar user={requester} />
+            <div>{ requester.nickname || '' }</div>
           </div>
         </div>
       </div>
+      <p>Deliver to <u>{ destination }</u></p>
+      <p>{ request.description || '' }</p>
+      <RequestMessaging {request} />
+      {#if !isMine }
+        <hr />
+        <OtherRequestsBy {request} {requester} />
+      {/if}
     </div>
   </div>
-
-  {#if isMine || imProviding || hasConversation }
-    <h4 class="text-center mt-4">Messages</h4>
-    <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId} {potentialConversation}
-              on:conversation-selected={event => showConversation(event.detail)}
-              on:new={event => newConversationCreated(event.detail)} />
-  {/if}
 {:else}
   <p class="alert alert-danger text-center mt-4" role="alert">
     That request was not found
