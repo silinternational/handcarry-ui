@@ -4,7 +4,7 @@ const submitTitle = 'Submit'
 const submitThanks = 'Thank you for contacting us'
 </script>
 
-<a href="#" data-toggle="modal" data-target="#freshdesk" class={$$props.class}>
+<a href="#/" data-toggle="modal" data-target="#freshdesk" class={$$props.class}>
   <slot />
 </a>
 
