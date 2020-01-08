@@ -1,8 +1,9 @@
 import token from './token'
-import { push, location } from 'svelte-spa-router'
-import { get } from 'svelte/store'
 import { throwError } from './error'
 import polyglot from '../i18n'
+import { reset as resetUser } from './user'
+import { reset as resetMessaging } from './messaging'
+import { reset as resetRequests } from './requests'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 async function wrappedFetch(url, body) {
@@ -30,50 +31,21 @@ async function wrappedFetch(url, body) {
   // gql responses can be the following:
   //   200's can be good { data } or bad { errors, data }
   //   422 is also possible, e.g., if the gql syntax is wrong, { errors }
-  // buffalo responses more similarly mimic REST, error formats follow two patterns though:
-  //   { code, error, trace } or { code, key }
-  //   the message to display will either be in { error } or it will need to be derived from { key }, i.e., 
-  //   { key } is intended for looking up the appropriate message
+  // buffalo responses more similarly mimic REST, error format will be:
+  //   { code, key } where the message to display must be derived from { key }
 
-  if (contents.errors) { 
-    // must be a gql "bad" response
-    throwError(contents.errors[0].message, response.status)
-  }
-
-  // gql "bad" 200's are out of the picture now, this should be all good, we're finished
   if (response.ok) { 
     return contents
   }
 
-  // http response was not a 200 family, therefore begin dealing with the individual situations
-
   if (response.status === 401) {
-    // user is not authenticated yet... or anymore (their credentials may have expired)
-    //TODO: clear user store without creating a circular dependency on user.js
-    token.reset() // "expire" their local credentials
-
-    // we need to get the user over to the login page but we may want to set up some additional
-    // handling in case they were in the middle of something in the app already, i.e., they
-    // already authenticated but their credenitals expired.
-    const currentRoute = get(location)
-    let loginRoute = '/login'
-    if (! ['/', loginRoute].includes(currentRoute)) {
-      // they were on some page in the app already and lost their credentials,
-      // we'll want to give them a little info and get them back to where they were.
-      contents.error = 'You will need to sign in first before going to that page'
-
-      loginRoute += `?return-to=${currentRoute}`      
-    }
-
-    push(loginRoute)
+    clearLocalData()
   }
 
-  // if there's a key, the message must be derived
-  if (contents.key) {
-    contents.error = polyglot.t(contents.key)
-  }
-
-  throwError(contents.error, response.status)
+  // errors found in one of two places:
+  //   buffalo => `key` (to be derived)
+  //   gql => `errors[0].message`
+  throwError(polyglot.t(contents.key) || contents.errors[0].message, response.status)
 }
 
 export async function gql(query) {
@@ -81,9 +53,13 @@ export async function gql(query) {
     query
   })
   
-  const { data } = await wrappedFetch('gql', body)
-   
-  return data
+  const response = await wrappedFetch('gql', body)
+  
+  if (response.errors) { 
+    throwError(response.errors[0].message)
+  }
+     
+  return response.data
 }
 
 export async function login(email, returnTo) {
@@ -109,12 +85,18 @@ export async function login(email, returnTo) {
 }
 
 export function logout() {
-  //TODO: clear user store (warning: don't create a circular dependency on user.js)
   window.location = `${process.env.BASE_API_URL}/auth/logout?token=${token.pair()}`
 
-  token.reset()
+  clearLocalData()
 }
 
 export async function upload(formData) {
   return await wrappedFetch('upload', formData)
+}
+
+function clearLocalData() {
+  token.reset()
+  resetUser()
+  resetMessaging()
+  resetRequests()
 }

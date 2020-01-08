@@ -5,14 +5,12 @@ import {
   sendMessage
 } from './gqlQueries'
 
-export const unreads = writable([])
 export const conversations = writable([])
+export const unreads = writable([])
 
 let intervalId = 0
 
-init()
-
-function init() {
+export function init() {
   const EVERY_MINUTE = 60 * 1000
   intervalId = setInterval(loadConversations, EVERY_MINUTE)
 
@@ -36,19 +34,23 @@ async function loadConversations() {
 }
 
 export async function saw(conversationId) {
-  const updatedConversation = await markMessagesAsRead(conversationId)
-
-  unreads.update(currentUnreads => {
-    const matchingUnread = currentUnreads.find(unread => unread.id === updatedConversation.id)
-    
-    if (matchingUnread) {
-      // instead of simply matchingUnread.count = 0, leave room for the possibility 
-      // another message came in during this update, i.e., maybe it's not a 0
-      matchingUnread.count = updatedConversation.unreadMessageCount
-    }
-    
-    return currentUnreads.filter(({ count }) => count > 0)
-  })
+  try {
+    const updatedConversation = await markMessagesAsRead(conversationId)
+  
+    unreads.update(currentUnreads => {
+      const matchingUnread = currentUnreads.find(unread => unread.id === updatedConversation.id)
+      
+      if (matchingUnread) {
+        // instead of simply matchingUnread.count = 0, leave room for the possibility 
+        // another message came in during this update, i.e., maybe it's not a 0
+        matchingUnread.count = updatedConversation.unreadMessageCount
+      }
+      
+      return currentUnreads.filter(({ count }) => count > 0)
+    })    
+  } catch (e) {
+    console.error(`can't update last viewed for ${conversationId} at this time so messages will continue to show as unread, absorbing exception: ${e}`)
+  }
 }
 
 export async function send(message, conversation) {
@@ -66,4 +68,9 @@ export async function send(message, conversation) {
   })
 
   return updatedConversation
+}
+
+export function reset() {
+  conversations.set([])
+  unreads.set([])
 }

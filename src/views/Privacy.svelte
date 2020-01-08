@@ -18,22 +18,22 @@ h2 {
 <p>Thank you for entrusting WeCarry with your hand-carry coordination needs. We understand this may include personal information about you such as your location and name, and so we take great care and responsibility to protect your information. This page describes what information we collect and how we use it.</p>
 
 <h2 id="the-short-version">The short version</h2>
-<p>We only collect the information you choose to give us, and we process it with your consent, or on another legal basis; we only require the minimum amount of personal information that is necessary to fulfill the purpose of your interaction with us; we don't sell it to third parties; and we only use it as this Privacy Policy describes. If you're visiting us from the European Union (EU), European Economic Area (EEA), Switzerland, or the United Kingdom (UK), please see our <a href="#/welcome/privacy/our-global-privacy-practices">global privacy practices</a>: we comply with the General Data Protection Regulation (GDPR). No matter where you are, where you live, or what your citizenship is, we provide a high standard of privacy protection to all our users around the world, regardless of their country of origin or location.</p>
+<p>We only collect the information you choose to give us, and we process it with your consent, or on another legal basis; we only require the minimum amount of personal information that is necessary to fulfill the purpose of your interaction with us; we don't sell it to third parties; and we only use it as this Privacy Policy describes. If you're visiting us from the European Union (EU), European Economic Area (EEA), Switzerland, or the United Kingdom (UK), please see our <a href="#/privacy/our-global-privacy-practices">global privacy practices</a>: we comply with the General Data Protection Regulation (GDPR). No matter where you are, where you live, or what your citizenship is, we provide a high standard of privacy protection to all our users around the world, regardless of their country of origin or location.</p>
 <p>Of course, the short version doesn't tell you everything, so please read on for more details!</p>
 
 <h2 id="outline">Outline</h2>
-<p><a href="#/welcome/privacy/the-short-version">The short version</a></p>
-<p><a href="#/welcome/privacy/outline">Outline</a></p>
-<p><a href="#/welcome/privacy/personal-information-wecarry-collects-and-why">Personal information WeCarry collects and why</a></p>
-<p><a href="#/welcome/privacy/how-we-share-the-information-we-collect">How we share the information we collect</a></p>
-<p><a href="#/welcome/privacy/how-you-can-access-or-request-removal-of-information-about-you">How you can access or request removal of information about you</a></p>
-<p><a href="#/welcome/privacy/how-we-use-cookies-and-tracking">How we use cookies and tracking</a></p>
-<p><a href="#/welcome/privacy/where-we-host-our-service-and-store-your-information">Where we host our service and store your information</a></p>
-<p><a href="#/welcome/privacy/how-we-secure-your-information">How we secure your information</a></p>
-<p><a href="#/welcome/privacy/our-global-privacy-practices">Our global privacy practices</a></p>
-<p><a href="#/welcome/privacy/how-we-communicate-with-you">How we communicate with you</a></p>
-<p><a href="#/welcome/privacy/changes-to-our-privacy-policy">Changes to our Privacy Policy</a></p>
-<p><a href="#/welcome/privacy/contacting-us">Contacting us</a></p>
+<p><a href="#/privacy/the-short-version">The short version</a></p>
+<p><a href="#/privacy/outline">Outline</a></p>
+<p><a href="#/privacy/personal-information-wecarry-collects-and-why">Personal information WeCarry collects and why</a></p>
+<p><a href="#/privacy/how-we-share-the-information-we-collect">How we share the information we collect</a></p>
+<p><a href="#/privacy/how-you-can-access-or-request-removal-of-information-about-you">How you can access or request removal of information about you</a></p>
+<p><a href="#/privacy/how-we-use-cookies-and-tracking">How we use cookies and tracking</a></p>
+<p><a href="#/privacy/where-we-host-our-service-and-store-your-information">Where we host our service and store your information</a></p>
+<p><a href="#/privacy/how-we-secure-your-information">How we secure your information</a></p>
+<p><a href="#/privacy/our-global-privacy-practices">Our global privacy practices</a></p>
+<p><a href="#/privacy/how-we-communicate-with-you">How we communicate with you</a></p>
+<p><a href="#/privacy/changes-to-our-privacy-policy">Changes to our Privacy Policy</a></p>
+<p><a href="#/privacy/contacting-us">Contacting us</a></p>
 
 <h2 id="personal-information-wecarry-collects-and-why">Personal information WeCarry collects and why</h2>
 <p>We think very carefully about each piece of information we collect to be careful not to collect more than is necessary. This table outlines the information collected and how it is used.</p>

@@ -15,9 +15,7 @@ export const loading = writable(false)
 
 let intervalId = 0
 
-init()
-
-function init() {
+export function init() {
   const EVERY_10_MINUTES = 60 * 1000 * 10
   intervalId = setInterval(loadRequests, EVERY_10_MINUTES)
   
@@ -106,4 +104,9 @@ const updateLocalRequests = updatedRequest => {
 
     return currentRequests
   })
+}
+
+export function reset() {
+  requests.set([])
+  loading.set(false)
 }
