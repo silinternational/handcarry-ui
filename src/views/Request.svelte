@@ -52,6 +52,7 @@ $: destination = request.destination && request.destination.description || ''
       <div class="row">
         <div class="col">
           <h3 class="card-title">{ request.title || ''}</h3>
+          <p>Deliver to <u>{ destination }</u></p>
         </div>
         <div class="col-auto">
           <div class="user-avatar-container text-center">
@@ -60,7 +61,6 @@ $: destination = request.destination && request.destination.description || ''
           </div>
         </div>
       </div>
-      <p>Deliver to <u>{ destination }</u></p>
       <p>{ request.description || '' }</p>
       <RequestMessaging {request} />
       {#if !isMine }
