@@ -31,10 +31,8 @@ async function wrappedFetch(url, body) {
   // gql responses can be the following:
   //   200's can be good { data } or bad { errors, data }
   //   422 is also possible, e.g., if the gql syntax is wrong, { errors }
-  // buffalo responses more similarly mimic REST, error formats follow two patterns though:
-  //   { code, error } or { code, key }
-  //   the message to display will either be in { error } or it will need to be derived from { key }, i.e., 
-  //     key is intended for looking up the appropriate message
+  // buffalo responses more similarly mimic REST, error format will be:
+  //   { code, key } where the message to display must be derived from { key }
 
   if (response.ok) { 
     return contents
@@ -44,13 +42,10 @@ async function wrappedFetch(url, body) {
     clearLocalData()
   }
 
-  // if there's a key, the message must be derived
-  if (contents.key) {
-    contents.error = polyglot.t(contents.key)
-  }
-
-  // buffalo => `error`, gql => errors[0].message
-  throwError(contents.error || contents.errors[0].message, response.status)
+  // errors found in one of two places:
+  //   buffalo => `key` (to be derived)
+  //   gql => `errors[0].message`
+  throwError(polyglot.t(contents.key) || contents.errors[0].message, response.status)
 }
 
 export async function gql(query) {
@@ -90,10 +85,9 @@ export async function login(email, returnTo) {
 }
 
 export function logout() {
-  //TODO: clear user store (warning: don't create a circular dependency on user.js)
   window.location = `${process.env.BASE_API_URL}/auth/logout?token=${token.pair()}`
 
-  token.reset()
+  clearLocalData()
 }
 
 export async function upload(formData) {
