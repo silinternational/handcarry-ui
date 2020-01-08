@@ -22,9 +22,9 @@ async function saveNewNickname() {
 </script>
 
 <div class="row pt-4">
-  <div class="col-lg"/>
+  <div class="col-md"/>
 
-  <div class="col-lg-2 d-flex flex-column align-items-center">
+  <div class="col-md-2 d-flex flex-column align-items-center">
     <UserAvatar user={$me} />
     
     <div class="pt-2">
@@ -32,7 +32,7 @@ async function saveNewNickname() {
     </div>
   </div>
 
-  <div class="col-lg-5">
+  <div class="col-md-5">
     <div class="form-group">
       {#if editingNickname}
         <form on:submit|preventDefault={saveNewNickname} class="input-group input-group-lg">
@@ -61,5 +61,5 @@ async function saveNewNickname() {
     {/each}
   </div>
 
-  <div class="col-lg"/>
+  <div class="col-md"/>
 </div>  
