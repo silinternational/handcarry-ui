@@ -1,5 +1,5 @@
 <script>
-import { conversations } from '../data/messaging'
+import { conversations, listOtherParticipants } from '../data/messaging'
 import Icon from 'fa-svelte'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { me } from '../data/user'
@@ -41,6 +41,7 @@ function showConversation(id) {
 <div class="row">
   <div class="col">
     {#if hasConversation }
+      <h4 class="text-blue">Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
       <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId} {potentialConversation}
                  on:conversation-selected={event => showConversation(event.detail)}
                  on:new={event => newConversationCreated(event.detail)} />
