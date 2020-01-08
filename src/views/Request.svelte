@@ -55,7 +55,7 @@ $: destination = request.destination && request.destination.description || ''
           <p>Deliver to <u>{ destination }</u></p>
         </div>
         <div class="col-auto">
-          <div class="user-avatar-container text-center">
+          <div class="user-avatar-container text-center mb-2">
             <UserAvatar user={requester} />
             <div>{ requester.nickname || '' }</div>
           </div>
