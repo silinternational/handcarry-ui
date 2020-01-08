@@ -61,7 +61,7 @@ $: destination = request.destination && request.destination.description || ''
           </div>
         </div>
       </div>
-      <p>{ request.description || '' }</p>
+      <p class="mb-4">{ request.description || '' }</p>
       <RequestMessaging {request} />
       {#if !isMine }
         <hr />
