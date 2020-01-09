@@ -9,31 +9,23 @@ import { send } from '../data/messaging'
 export let request
 
 let conversationId = null
-let potentialConversation = null
 let newMessageContent = null
 
 $: requester = request.createdBy || {}
 $: isMine = $me.id && (requester.id === $me.id)
 $: conversationsOnThisRequest = $conversations.filter(({ post }) => post.id === request.id)
 $: selectedConversation = conversationsOnThisRequest.find(({ id }) => id === conversationId) || {}
-$: hasConversation = conversationsOnThisRequest.length > 0 || potentialConversation
+$: hasConversation = conversationsOnThisRequest.length > 0
 
 // Select a default conversation (when appropriate)
-$: if (!potentialConversation && !conversationId && conversationsOnThisRequest.length > 0) {
+$: if (!conversationId && conversationsOnThisRequest.length > 0) {
   conversationId = conversationsOnThisRequest[0].id
-}
-
-function discussThis() {
-  potentialConversation = {
-    post: request
-  }
 }
 
 async function startConversation() {
   if (newMessageContent) {
     const newConversation = await send(newMessageContent, {post: request})
     newMessageContent = ''
-    potentialConversation = null
     showConversation(newConversation.id)
   }
 }
