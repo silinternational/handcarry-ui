@@ -10,6 +10,7 @@ let requestsFromThisRequester = []
 $: if (requester.id) {
   requestsFromThisRequester = $requests.filter(({ createdBy }) => createdBy.id === requester.id)
 }
+$: otherRequests = requestsFromThisRequester.filter(({id}) => id !== request.id)
 </script>
 
 <style>
@@ -18,15 +19,13 @@ $: if (requester.id) {
 }
 </style>
 
-<div class="row my-4">
-  {#if requestsFromThisRequester.length > 0 }
+{#if otherRequests.length > 0 }
+  <div class="row my-4">
     <div class="col-12"><h4 class="text-blue">{requester.nickname}'s other requests</h4></div>
-  {/if}
-  {#each requestsFromThisRequester as otherRequest }
-    {#if otherRequest.id !== request.id}
+    {#each otherRequests as otherRequest }
       <div class="col-auto">
         <div class="request-tile-container"><RequestTile request={otherRequest} smaller /></div>
       </div>
-    {/if}
-  {/each}
-</div>
+    {/each}
+  </div>
+{/if}
