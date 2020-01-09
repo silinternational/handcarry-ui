@@ -6,7 +6,7 @@ import { push } from 'svelte-spa-router'
 import { format } from 'date-fns'
 
 export let request;
-export let smaller;
+export let smaller = false;
 
 $: user = request.createdBy || {}
 $: size = request.size
