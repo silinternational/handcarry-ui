@@ -17,6 +17,24 @@ make
 
 Navigate to [http://wecarry.local:5000](http://wecarry.local:5000). You should see your app running. Edit a component file in `src`, save it, and the page will automatically reload with your changes.
 
+To see what Bootstrap responsive breakpoint you are currently viewing, add the following to the `Footer.svelte`:
+
+```
+<script>
+// ADD THIS:
+import BootstrapWidthIndicator from '../components/BootstrapWidthIndicator.svelte'
+</script>
+
+...
+
+<footer ...>
+    ...
+
+    // AND ADD THIS:
+    <span class="mx-2 text-muted float-right"><BootstrapWidthIndicator /></span>
+</footer>
+```
+
 ## Deployment
 
 ```bash
