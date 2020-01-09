@@ -14,6 +14,7 @@ import Icon from 'fa-svelte'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { clearFilter, filterRequests, populateFilterFrom } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
+import { sendAnalyticEvent } from '../data/analytics'
 
 let filteredRequests
 let requestFilter = {}
@@ -29,9 +30,13 @@ $: showAsList = queryStringData.hasOwnProperty('list')
 
 function selectSize(sizeString) {
   let lowerCaseSize = String(sizeString).toLowerCase()
+
+  sendAnalyticEvent('Requests', 'filter', lowerCaseSize)
+
   if (isDefaultSizeFilter(lowerCaseSize)) {
     lowerCaseSize = null
   }
+
   updateQueryString($location, $querystring, {
     size: lowerCaseSize,
   })
@@ -43,6 +48,8 @@ function selectCreator(userId) {
     provider: null,
     size: null,
   })
+
+  sendAnalyticEvent('Requests', 'filter', 'mine')
 }
 
 function selectProvider(userId) {
@@ -51,28 +58,38 @@ function selectProvider(userId) {
     provider: userId,
     size: null,
   })
+
+  sendAnalyticEvent('Requests', 'filter', 'providing')
 }
 
 function showAll() {
   clearFilter($location, $querystring)
+
+  sendAnalyticEvent('Requests', 'filter', 'all')
 }
 
 function viewAsGrid() {
   updateQueryString($location, $querystring, {
     list: null,
   })
+
+  sendAnalyticEvent('Requests', 'view', 'grid')
 }
 
 function viewAsList() {
   updateQueryString($location, $querystring, {
     list: 1,
   })
+
+  sendAnalyticEvent('Requests', 'view', 'list')
 }
 
 function searchForText(searchText) {
   updateQueryString($location, $querystring, {
     search: searchText,
   })
+
+  sendAnalyticEvent('Requests', 'search', searchText)
 }
 </script>
 

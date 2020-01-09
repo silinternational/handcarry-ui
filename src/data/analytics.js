@@ -27,3 +27,8 @@ function sendPageView(route) {
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/pages#pageview_fields
   ga('send', 'pageview', route)
 }
+
+// https://developers.google.com/analytics/devguides/collection/analyticsjs/events#event_fields
+export function sendAnalyticEvent(category, action, label) {
+  ga('send', 'event', category, action, label)
+}

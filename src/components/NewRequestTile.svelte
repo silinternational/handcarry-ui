@@ -3,7 +3,13 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import { push } from 'svelte-spa-router'
 import { format } from 'date-fns'
+import { sendAnalyticEvent } from '../data/analytics'
 
+function create() {
+  push(`/requests/new`)
+
+  sendAnalyticEvent('Menu', 'create request', 'tile')
+}
 </script>
 
 <style>
@@ -20,7 +26,7 @@ import { format } from 'date-fns'
 }
 </style>
 
-<div class="card request-tile bg-light" on:click={ () => push(`/requests/new`) }>
+<div class="card request-tile bg-light" on:click={create}>
   <div class="card-body p-2 position-relative">
     <div class="card-text plus-icon text-success">+</div>
   </div>

@@ -1,10 +1,12 @@
 <script>
+import { sendAnalyticEvent } from '../data/analytics'
+
 const formTitle = 'Support & Feedback'
 const submitTitle = 'Submit'
 const submitThanks = 'Thank you for contacting us'
 </script>
 
-<a href="#/" data-toggle="modal" data-target="#freshdesk" class={$$props.class}>
+<a href="#/" data-toggle="modal" data-target="#freshdesk" on:click={() => sendAnalyticEvent('Menu', 'help')} class={$$props.class}>
   <slot />
 </a>
 
