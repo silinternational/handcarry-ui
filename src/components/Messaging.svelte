@@ -36,20 +36,22 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 </style>
 
 <div class="row no-gutters">
-  <div class="{listColumns}">
-    <div class="list-group list-group-flush">
-      {#each conversations as conversation}
-        <!-- on:conversation-selected is being passed up to consumer, i.e., views/Messages.svelte -->
-        <ConversationListEntry {conversation} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
-      {/each}
-      
-      {#if potentialConversation }
-        <ConversationListEntry conversation={potentialConversation} active {minimal} />
-      {:else if conversations.length < 1 }
-        <i class="text-muted">No ongoing conversations at this time</i>
-      {/if}
+  {#if conversations.length > 1 || ! minimal }
+    <div class="{listColumns}">
+      <div class="list-group list-group-flush">
+        {#each conversations as conversation}
+          <!-- on:conversation-selected is being passed up to consumer, i.e., views/Messages.svelte -->
+          <ConversationListEntry {conversation} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
+        {/each}
+        
+        {#if potentialConversation }
+          <ConversationListEntry conversation={potentialConversation} active {minimal} />
+        {:else if conversations.length < 1 }
+          <i class="text-muted">No ongoing conversations at this time</i>
+        {/if}
+      </div>
     </div>
-  </div>
+  {/if}
   <div class="col">
     <div class="tab-content card conversation-card" class:conversation-card-empty={!selectedConversation.post}>
       <!-- on:new is being used to passed up to consumer, i.e., views/Request.svelte -->
