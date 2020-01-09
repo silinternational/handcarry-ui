@@ -80,90 +80,92 @@ const focusOnCreate = element => element.focus()
 
 <div class="tab-pane card-body active">
   {#if ! post.id}
-  <p class="text-center"><i>Please select a conversation to see its messages</i></p>
+    <p class="text-center"><i>Please select a conversation to see its messages</i></p>
   {:else}
-  <div class="row">
-    <div class="col-8" class:d-none={minimal}>
-      <h3 class="text-center"><a href="#/requests/{post.id}">{post.title}</a></h3>
-
-      <div class="text-center">
-        <small>
-          <strong>{post.createdBy.nickname}</strong> @ {destination}
-        </small>
-      </div>
-    </div>
-
-    <div class="col text-right mb-1">
-      {#if creator.id == $me.id}
-        {#if post.status === 'COMMITTED'}
-          {provider.nickname} committed to bring this.
-          {#if isConversingWithProvider}
-            <button class="btn btn-sm btn-success" on:click={acceptCommittment}>Accept</button>
-          {/if}
-        {:else if post.status === 'DELIVERED'}
-          {provider.nickname} delivered this.
-          {#if isConversingWithProvider}
-            <button class="btn btn-sm btn-success" on:click={received}>I received it</button>
-          {/if}
-        {:else if post.status === 'ACCEPTED'}
-          {provider.nickname} is set to deliver this to you.
-          {#if isConversingWithProvider}
-            <button class="btn btn-sm btn-success" on:click={received}>I already received it</button>
-          {/if}
-        {:else if post.status === 'COMPLETED'}
-          It is finished.
-        {/if}
-      {:else}
-        {#if provider.id == $me.id}
-          {#if post.status === 'COMMITTED'}
-            You committed to bring this.
-          {:else if post.status === 'ACCEPTED'}
-            <button class="btn btn-sm btn-info" on:click={delivered}>I delivered it</button>
-          {:else if post.status === 'DELIVERED'}
-            You delivered this.
-          {/if}          
-        {:else if provider.id}
-          Someone else has committed to bring this.
-        {:else}
-          <button class="btn btn-sm btn-info" on:click={commit}>
-            I'll bring it
-          </button>
-        {/if}
-      {/if}
-    </div>
-  </div>
-
-  <hr class="mt-1" />
-  
-  {#each messages as message}
-    {#if message.sender.id === $me.id}
-      <blockquote class="blockquote text-right">
-        <p class="mb-0 message-content">{message.content}</p>
-        <footer class="blockquote-footer">you, { whenWas(message.createdAt) }</footer>
-      </blockquote>
-    {:else}
-      <blockquote class="blockquote">
-        <p class="mb-0 message-content">{message.content}</p>
-        <footer class="blockquote-footer">{message.sender.nickname}, {whenWas(message.createdAt)}</footer>
-      </blockquote>
-    {/if}
-  {/each}
-
-  <div class="card-footer">
-    <form on:submit|preventDefault={sendMessage}>
+    {#if ! minimal }
       <div class="row">
-        <div class="col">
-          <label class="sr-only" for="replyField">Reply</label>
-
-          <input bind:value={reply} class="form-control mb-2 mr-sm-2"
-                 placeholder="Reply" autocomplete="off" use:focusOnCreate />
+        <div class="col-8">
+          <h3 class="text-center"><a href="#/requests/{post.id}">{post.title}</a></h3>
+    
+          <div class="text-center">
+            <small>
+              <strong>{post.createdBy.nickname}</strong> @ {destination}
+            </small>
+          </div>
         </div>
-  
-        <div class="col-auto">
-          <button type="submit" class="btn btn-primary mb-2">Send</button>
+    
+        <div class="col text-right mb-1">
+          {#if creator.id == $me.id}
+            {#if post.status === 'COMMITTED'}
+              {provider.nickname} committed to bring this.
+              {#if isConversingWithProvider}
+                <button class="btn btn-sm btn-success" on:click={acceptCommittment}>Accept</button>
+              {/if}
+            {:else if post.status === 'DELIVERED'}
+              {provider.nickname} delivered this.
+              {#if isConversingWithProvider}
+                <button class="btn btn-sm btn-success" on:click={received}>I received it</button>
+              {/if}
+            {:else if post.status === 'ACCEPTED'}
+              {provider.nickname} is set to deliver this to you.
+              {#if isConversingWithProvider}
+                <button class="btn btn-sm btn-success" on:click={received}>I already received it</button>
+              {/if}
+            {:else if post.status === 'COMPLETED'}
+              It is finished.
+            {/if}
+          {:else}
+            {#if provider.id == $me.id}
+              {#if post.status === 'COMMITTED'}
+                You committed to bring this.
+              {:else if post.status === 'ACCEPTED'}
+                <button class="btn btn-sm btn-info" on:click={delivered}>I delivered it</button>
+              {:else if post.status === 'DELIVERED'}
+                You delivered this.
+              {/if}          
+            {:else if provider.id}
+              Someone else has committed to bring this.
+            {:else}
+              <button class="btn btn-sm btn-info" on:click={commit}>
+                I'll bring it
+              </button>
+            {/if}
+          {/if}
         </div>
       </div>
-    </form>
-  </div>
+    
+      <hr class="mt-1" />
+    {/if}
+    
+    {#each messages as message}
+      {#if message.sender.id === $me.id}
+        <blockquote class="blockquote text-right">
+          <p class="mb-0 message-content">{message.content}</p>
+          <footer class="blockquote-footer">you, { whenWas(message.createdAt) }</footer>
+        </blockquote>
+      {:else}
+        <blockquote class="blockquote">
+          <p class="mb-0 message-content">{message.content}</p>
+          <footer class="blockquote-footer">{message.sender.nickname}, {whenWas(message.createdAt)}</footer>
+        </blockquote>
+      {/if}
+    {/each}
+  
+    <div class="card-footer">
+      <form on:submit|preventDefault={sendMessage}>
+        <div class="row">
+          <div class="col">
+            <label class="sr-only" for="replyField">Reply</label>
+  
+            <input bind:value={reply} class="form-control mb-2 mr-sm-2"
+                   placeholder="Reply" autocomplete="off" use:focusOnCreate />
+          </div>
+    
+          <div class="col-auto">
+            <button type="submit" class="btn btn-primary mb-2">Send</button>
+          </div>
+        </div>
+      </form>
+    </div>
   {/if}
 </div>
