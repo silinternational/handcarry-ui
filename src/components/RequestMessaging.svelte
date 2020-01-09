@@ -4,11 +4,13 @@ import Icon from 'fa-svelte'
 import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { me } from '../data/user'
 import Messaging from '../components/Messaging.svelte'
+import { send } from '../data/messaging'
 
 export let request
 
 let conversationId = null
 let potentialConversation = null
+let newMessageContent = null
 
 $: requester = request.createdBy || {}
 $: isMine = $me.id && (requester.id === $me.id)
@@ -27,10 +29,13 @@ function discussThis() {
   }
 }
 
-function newConversationCreated(newConversation) {
-  potentialConversation = null
-  
-  showConversation(newConversation.id)
+async function startConversation() {
+  if (newMessageContent) {
+    const newConversation = await send(newMessageContent, {post: request})
+    newMessageContent = ''
+    potentialConversation = null
+    showConversation(newConversation.id)
+  }
 }
 
 function showConversation(id) {
@@ -42,14 +47,19 @@ function showConversation(id) {
   <div class="col">
     {#if hasConversation }
       <h4 class="text-blue">Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
-      <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId} {potentialConversation}
-                 on:conversation-selected={event => showConversation(event.detail)}
-                 on:new={event => newConversationCreated(event.detail)} />
+      <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId}
+                 on:conversation-selected={event => showConversation(event.detail)} />
     {:else if !isMine }
-      <button on:click={discussThis} class="btn btn-success btn-sm mt-1 align-top">
-        <Icon icon={faComment} class="mr-2" />
-        Discuss this
-      </button>
+      <h4 class="text-blue">Chat with { requester.nickname }</h4>
+      <div class="row">
+        <div class="col">
+          <textarea class="border rounded p-2 w-100" bind:value={newMessageContent}
+                    placeholder="Hi { requester.nickname }, tell me more about..."></textarea>
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" on:click={startConversation}>Send</button>
+        </div>
+      </div>
     {:else}
       <i class="text-muted">No ongoing conversations at this time</i>
     {/if}
