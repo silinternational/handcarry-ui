@@ -65,10 +65,10 @@ export async function gql(query) {
 export async function login(email, returnTo) {
   token.reset()
 
-  let loginUrl = `auth/login?client-id=${token.key()}&auth-email=${email}`
+  let loginUrl = `auth/login?client-id=${encodeURIComponent(token.key())}&auth-email=${encodeURIComponent(email)}`
 
   if (returnTo) {
-    loginUrl += `&return-to=${returnTo}`
+    loginUrl += `&return-to=${encodeURIComponent(returnTo)}`
   }
 
   try {
@@ -85,7 +85,7 @@ export async function login(email, returnTo) {
 }
 
 export function logout() {
-  window.location = `${process.env.BASE_API_URL}/auth/logout?token=${token.pair()}`
+  window.location = `${process.env.BASE_API_URL}/auth/logout?token=${encodeURIComponent(token.pair())}`
 
   clearLocalData()
 }
