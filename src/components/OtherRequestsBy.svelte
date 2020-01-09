@@ -20,6 +20,7 @@ $: otherRequests = requestsFromThisRequester.filter(({id}) => id !== request.id)
 </style>
 
 {#if otherRequests.length > 0 }
+  <hr />
   <div class="row my-4">
     <div class="col-12"><h4 class="text-blue">{requester.nickname}'s other requests</h4></div>
     {#each otherRequests as otherRequest }

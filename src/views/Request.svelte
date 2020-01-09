@@ -64,7 +64,6 @@ $: destination = request.destination && request.destination.description || ''
       <p class="mb-4">{ request.description || '' }</p>
       <RequestMessaging {request} />
       {#if !isMine }
-        <hr />
         <OtherRequestsBy {request} {requester} />
       {/if}
     </div>
