@@ -1,7 +1,5 @@
 <script>
 import { conversations, listOtherParticipants } from '../data/messaging'
-import Icon from 'fa-svelte'
-import { faComment } from '@fortawesome/free-solid-svg-icons'
 import { me } from '../data/user'
 import Messaging from '../components/Messaging.svelte'
 import { send } from '../data/messaging'
