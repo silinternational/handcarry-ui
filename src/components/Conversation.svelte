@@ -4,7 +4,13 @@ import { formatDistanceToNow } from 'date-fns'
 import { provide, accept, deliver, receive } from '../data/requests'
 import { createEventDispatcher } from 'svelte'
 import { unreads, saw, send } from '../data/messaging'
-import { sendAnalyticEvent } from '../data/analytics'
+import { 
+  accepted,
+  committed,
+  trackReceived,
+  trackDelivered,
+  sentMessage,
+ } from '../data/analytics'
 
 export let conversation = {}
 export let minimal = false
@@ -28,7 +34,7 @@ async function acceptCommitment() {
   // refactor needs to be considered here.
   post = await accept(post.id)
 
-  sendAnalyticEvent('Request', 'accepted')
+  accepted()
 }
 
 async function sendMessage() {
@@ -42,7 +48,7 @@ async function sendMessage() {
       dispatch('new', updatedConversation)
     }
 
-    sendAnalyticEvent('Messaging', 'sent')
+    sentMessage()
   }
 }
 
@@ -50,21 +56,21 @@ async function commit() {
   // TODO: see notes in `acceptCommitment`
   post = await provide(post.id)
 
-  sendAnalyticEvent('Request', 'committed')
+  committed()
 }
 
 async function delivered() {
   // TODO: see notes in `acceptCommitment`
   post = await deliver(post.id)
 
-  sendAnalyticEvent('Request', 'delivered')
+  trackDelivered()
 }
 
 async function received() {
   // TODO: see notes in `acceptCommitment`
   post = await receive(post.id)
 
-  sendAnalyticEvent('Request', 'received')
+  trackReceived()
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})

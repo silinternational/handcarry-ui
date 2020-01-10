@@ -8,7 +8,7 @@ import Icon from 'fa-svelte'
 import { faTrash, faComment } from '@fortawesome/free-solid-svg-icons'
 import Messaging from '../components/Messaging.svelte'
 import { conversations } from '../data/messaging'
-import { sendAnalyticEvent } from '../data/analytics'
+import { cancelled } from '../data/analytics'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -34,7 +34,7 @@ async function cancelRequest() {
 
   push(`/requests`)
 
-  sendAnalyticEvent('Request', 'cancel')
+  cancelled()
 }
 
 function showConversation(id) {

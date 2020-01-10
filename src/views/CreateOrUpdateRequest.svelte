@@ -9,7 +9,7 @@ import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
-import { sendAnalyticEvent } from '../data/analytics'
+import { updated, created } from '../data/analytics'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -59,7 +59,7 @@ async function onSubmit() {
 
       push(`/requests/${request.id}`)
 
-      sendAnalyticEvent('Request', 'updated')
+      updated()
     } else {
       await create({
           orgID: request.viewableBy,
@@ -78,7 +78,7 @@ async function onSubmit() {
 
       push(`/requests`)
 
-      sendAnalyticEvent('Request', 'created')
+      created()
     }
   } catch (error) {
     errorMessage = error.message

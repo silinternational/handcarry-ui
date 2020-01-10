@@ -1,6 +1,9 @@
 import { writable } from 'svelte/store'
 import { getUser, updateNickname, updateProfilePic } from './gqlQueries'
-import { sendAnalyticEvent } from '../data/analytics'
+import { 
+  changedNickname,
+  changedAvatar,
+ } from '../data/analytics'
 
 export const me = writable({})
 
@@ -19,7 +22,7 @@ export async function changeNickname(nickname) {
 
   me.set(updatedUser)
 
-  sendAnalyticEvent('User', 'changed nickname')
+  changedNickname()
 }
 
 export async function changeProfilePicture(photoId) {
@@ -27,7 +30,7 @@ export async function changeProfilePicture(photoId) {
 
   me.set(updatedUser)
 
-  sendAnalyticEvent('User', 'changed avatar')
+  changedAvatar()
 }
 
 export function reset() {

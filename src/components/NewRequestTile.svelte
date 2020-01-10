@@ -3,12 +3,12 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import { push } from 'svelte-spa-router'
 import { format } from 'date-fns'
-import { sendAnalyticEvent } from '../data/analytics'
+import { createRequestByTile } from '../data/analytics'
 
 function create() {
   push(`/requests/new`)
 
-  sendAnalyticEvent('Menu', 'create request', 'tile')
+  createRequestByTile()
 }
 </script>
 

@@ -4,7 +4,7 @@ import polyglot from '../i18n'
 import { reset as resetUser } from './user'
 import { reset as resetMessaging } from './messaging'
 import { reset as resetRequests } from './requests'
-import { sendAnalyticEvent } from './analytics'
+import { loggedOut } from './analytics'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 async function wrappedFetch(url, body) {
@@ -90,7 +90,7 @@ export function logout() {
 
   clearLocalData()
 
-  sendAnalyticEvent('Auth', 'logged out')
+  loggedOut()
 }
 
 export async function upload(formData) {

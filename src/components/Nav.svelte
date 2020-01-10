@@ -5,7 +5,13 @@ import polyglot from '../i18n'
 import UserAvatar from './UserAvatar.svelte'
 import { logout } from '../data/api'
 import CountIndicator from './CountIndicator.svelte'
-import { sendAnalyticEvent } from '../data/analytics'
+import { 
+  createRequestByFab, 
+  clickedLogo,
+  createRequestByButton,
+  choseMyRequests,
+  choseMyCommitments,
+} from '../data/analytics'
 
 export let user = {}
 export let minimal = false
@@ -25,13 +31,13 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 
 {#if $location === '/requests'}
   <!-- only shown on phones -->
-  <a href="/#/requests/new" title="{polyglot.t('nav-requests-create')}" on:click={() => sendAnalyticEvent('Menu', 'create request', 'fab')} class="btn btn-lg btn-success rounded-circle fab shadow-lg text-monospace d-block d-md-none">
+  <a href="/#/requests/new" title="{polyglot.t('nav-requests-create')}" on:click={createRequestByFab} class="btn btn-lg btn-success rounded-circle fab shadow-lg text-monospace d-block d-md-none">
     +
   </a>
 {/if}
 
 <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
-  <a class="navbar-brand" href={userIsAuthn ? '/#/requests' : '/#/login'} on:click={() => sendAnalyticEvent('Menu', 'logo clicked')}>
+  <a class="navbar-brand" href={userIsAuthn ? '/#/requests' : '/#/login'} on:click={clickedLogo}>
     <img src="/logo.svg" alt="WeCarry logo" />
   </a>
 
@@ -44,7 +50,7 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
       <ul class="navbar-nav ml-auto align-items-center">
         {#if $location !== '/requests/new'}
           <li class="nav-item pr-2 d-none d-md-block"> <!-- hidden on phones -->
-            <a href="/#/requests/new" on:click={() => sendAnalyticEvent('Menu', 'create request', 'button')} class="btn btn-sm btn-success">
+            <a href="/#/requests/new" on:click={createRequestByButton} class="btn btn-sm btn-success">
               {polyglot.t('nav-requests-create')}
             </a>
           </li>
@@ -71,11 +77,11 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
               {polyglot.t('nav-profile')}
             </a>
 
-            <a href="/#/requests?creator={user.id}" on:click={() => sendAnalyticEvent('Menu', 'my requests')} class="dropdown-item">
+            <a href="/#/requests?creator={user.id}" on:click={choseMyRequests} class="dropdown-item">
               {polyglot.t('nav-requests-mine')}
             </a>
 
-            <a href="/#/requests?provider={user.id}" on:click={() => sendAnalyticEvent('Menu', 'my commitments')} class="dropdown-item">
+            <a href="/#/requests?provider={user.id}" on:click={choseMyCommitments} class="dropdown-item">
               {polyglot.t('nav-requests-commitments')}
             </a>
 
