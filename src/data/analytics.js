@@ -11,7 +11,7 @@ function init() {
 
   loadLib()
 
-  location.subscribe(sendPageView)
+  location.subscribe(trackPageView)
 }
 
 function loadLib() {
@@ -23,42 +23,52 @@ function loadLib() {
   document.head.appendChild(el)
 }
 
-function sendPageView(route) {
+function trackPageView(route) {
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/pages#pageview_fields
   ga('send', 'pageview', route)
 }
 
-// https://developers.google.com/analytics/devguides/collection/analyticsjs/events#event_fields
-export const loggedIn  = () => ga('send', 'event', 'Auth', 'logged in')
-export const loggedOut = () => ga('send', 'event', 'Auth', 'logged out')
+function trackEvent(primary, secondary, tertiary) {
+  // https://developers.google.com/analytics/devguides/collection/analyticsjs/events#event_fields
+  ga('send', 'event', primary, secondary, tertiary)
+}
 
-export const createRequestByFab    = () => ga('send', 'event', 'Menu', 'create request', 'fab')
-export const createRequestByButton = () => ga('send', 'event', 'Menu', 'create request', 'button')
-export const createRequestByTile   = () => ga('send', 'event', 'Menu', 'create request', 'tile')
-export const clickedLogo           = () => ga('send', 'event', 'Menu', 'logo clicked')
-export const clickedHelp           = () => ga('send', 'event', 'Menu', 'help')
-export const choseMyRequests       = () => ga('send', 'event', 'Menu', 'my requests')
-export const choseMyCommitments    = () => ga('send', 'event', 'Menu', 'my commitments')
+const trackAuthEvent     = secondary             => trackEvent('Auth'    , secondary)
+const trackMenuEvent     = (secondary, tertiary) => trackEvent('Menu'    , secondary, tertiary)
+const trackRequestsEvent = (secondary, tertiary) => trackEvent('Requests', secondary, tertiary)
+const trackRequestEvent  = secondary             => trackEvent('Request' , secondary)
+const trackUserEvent     = secondary             => trackEvent('User'    , secondary)
 
-export const filteredRequestsBySize      = size  => ga('send', 'event', 'Requests', 'filter', size)
-export const filteredRequestsByMine      = ()    => ga('send', 'event', 'Requests', 'filter', 'mine')
-export const filteredRequestsByProviding = ()    => ga('send', 'event', 'Requests', 'filter', 'providing')
-export const filteredRequestsByAll       = ()    => ga('send', 'event', 'Requests', 'filter', 'all')
-export const viewedRequestsAsGrid        = ()    => ga('send', 'event', 'Requests', 'view'  , 'grid')
-export const viewedRequestsAsList        = ()    => ga('send', 'event', 'Requests', 'view'  , 'list')
-export const searchedRequests            = query => ga('send', 'event', 'Requests', 'search', query)
+export const loggedIn  = () => trackAuthEvent('logged in')
+export const loggedOut = () => trackAuthEvent('logged out')
 
-export const accepted       = () => ga('send', 'event', 'Request', 'accepted')
-export const committed      = () => ga('send', 'event', 'Request', 'committed')
-export const trackReceived  = () => ga('send', 'event', 'Request', 'received')
-export const trackDelivered = () => ga('send', 'event', 'Request', 'delivered')
-export const updated        = () => ga('send', 'event', 'Request', 'updated')
-export const created        = () => ga('send', 'event', 'Request', 'created')
-export const cancelled      = () => ga('send', 'event', 'Request', 'cancelled')
+export const createRequestByFab    = () => trackMenuEvent('create request', 'fab')
+export const createRequestByButton = () => trackMenuEvent('create request', 'button')
+export const createRequestByTile   = () => trackMenuEvent('create request', 'tile')
+export const clickedLogo           = () => trackMenuEvent('logo clicked')
+export const clickedHelp           = () => trackMenuEvent('help')
+export const choseMyRequests       = () => trackMenuEvent('my requests')
+export const choseMyCommitments    = () => trackMenuEvent('my commitments')
 
-export const changedNickname = () => ga('send', 'event', 'User', 'changed nickname')
-export const changedAvatar   = () => ga('send', 'event', 'User', 'changed avatar')
+export const filteredRequestsBySize      = size  => trackRequestsEvent('filter', size)
+export const filteredRequestsByMine      = ()    => trackRequestsEvent('filter', 'mine')
+export const filteredRequestsByProviding = ()    => trackRequestsEvent('filter', 'providing')
+export const filteredRequestsByAll       = ()    => trackRequestsEvent('filter', 'all')
+export const viewedRequestsAsGrid        = ()    => trackRequestsEvent('view'  , 'grid')
+export const viewedRequestsAsList        = ()    => trackRequestsEvent('view'  , 'list')
+export const searchedRequests            = query => trackRequestsEvent('search', query)
 
-export const sentMessage = () => ga('send', 'event', 'Messaging', 'sent')
+export const accepted       = () => trackRequestEvent('accepted')
+export const committed      = () => trackRequestEvent('committed')
+export const trackReceived  = () => trackRequestEvent('received')
+export const trackDelivered = () => trackRequestEvent('delivered')
+export const updated        = () => trackRequestEvent('updated')
+export const created        = () => trackRequestEvent('created')
+export const cancelled      = () => trackRequestEvent('cancelled')
 
-export const uploadedImage = () => ga('send', 'event', 'Image', 'uploaded')
+export const changedNickname = () => trackUserEvent('changed nickname')
+export const changedAvatar   = () => trackUserEvent('changed avatar')
+
+export const sentMessage = () => trackEvent('Messaging', 'sent')
+
+export const uploadedImage = () => trackEvent('Image', 'uploaded')
