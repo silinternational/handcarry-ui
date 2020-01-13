@@ -4,6 +4,13 @@ import { formatDistanceToNow } from 'date-fns'
 import { provide, accept, deliver, receive } from '../data/requests'
 import { createEventDispatcher } from 'svelte'
 import { unreads, saw, send } from '../data/messaging'
+import { 
+  accepted,
+  committed,
+  trackReceived,
+  trackDelivered,
+  sentMessage,
+ } from '../data/analytics'
 
 export let conversation = {}
 export let minimal = false
@@ -21,38 +28,49 @@ $: isConversingWithProvider = messages.some(msg => msg.sender.id === provider.id
 $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 
-async function acceptCommittment() {
+async function acceptCommitment() {
   // TODO: updating post like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
   // and this component is only interested in the conversation (and it's attached post) and those changes aren't coming down... maybe a 
   // refactor needs to be considered here.
   post = await accept(post.id)
+
+  accepted()
 }
 
 async function sendMessage() {
   if (reply !== '') {
     const updatedConversation = await send(reply, conversation)
+
     reply = ''
     
     const isNewConversation = !conversation.id
     if (isNewConversation) {
       dispatch('new', updatedConversation)
     }
+
+    sentMessage()
   }
 }
 
 async function commit() {
-  // TODO: see notes in `acceptCommittment`
+  // TODO: see notes in `acceptCommitment`
   post = await provide(post.id)
+
+  committed()
 }
 
 async function delivered() {
-  // TODO: see notes in `acceptCommittment`
+  // TODO: see notes in `acceptCommitment`
   post = await deliver(post.id)
+
+  trackDelivered()
 }
 
 async function received() {
-  // TODO: see notes in `acceptCommittment`
+  // TODO: see notes in `acceptCommitment`
   post = await receive(post.id)
+
+  trackReceived()
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})
@@ -98,7 +116,7 @@ const focusOnCreate = element => element.focus()
         {#if post.status === 'COMMITTED'}
           {provider.nickname} committed to bring this.
           {#if isConversingWithProvider}
-            <button class="btn btn-sm btn-success" on:click={acceptCommittment}>Accept</button>
+            <button class="btn btn-sm btn-success" on:click={acceptCommitment}>Accept</button>
           {/if}
         {:else if post.status === 'DELIVERED'}
           {provider.nickname} delivered this.

@@ -4,6 +4,7 @@ import polyglot from '../i18n'
 import { reset as resetUser } from './user'
 import { reset as resetMessaging } from './messaging'
 import { reset as resetRequests } from './requests'
+import { loggedOut } from './analytics'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 async function wrappedFetch(url, body) {
@@ -65,10 +66,10 @@ export async function gql(query) {
 export async function login(email, returnTo) {
   token.reset()
 
-  let loginUrl = `auth/login?client-id=${token.key()}&auth-email=${email}`
+  let loginUrl = `auth/login?client-id=${encodeURIComponent(token.key())}&auth-email=${encodeURIComponent(email)}`
 
   if (returnTo) {
-    loginUrl += `&return-to=${returnTo}`
+    loginUrl += `&return-to=${encodeURIComponent(returnTo)}`
   }
 
   try {
@@ -85,9 +86,11 @@ export async function login(email, returnTo) {
 }
 
 export function logout() {
-  window.location = `${process.env.BASE_API_URL}/auth/logout?token=${token.pair()}`
+  window.location = `${process.env.BASE_API_URL}/auth/logout?token=${encodeURIComponent(token.pair())}`
 
   clearLocalData()
+
+  loggedOut()
 }
 
 export async function upload(formData) {

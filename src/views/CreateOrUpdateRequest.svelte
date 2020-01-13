@@ -9,8 +9,12 @@ import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import { updated, created } from '../data/analytics'
+import { throwError } from '../data/error'
 
 export let params = {} // URL path parameters, provided by router.
+
+let imageUrl = ''
 
 // Needed to override the default 'regions' restriction in the GooglePlacesAutocomplete component
 // so we could use house addresses, lat/long, etc...no need for restrictions.  See 
@@ -19,9 +23,6 @@ const options = {
   types: []
 }
 
-let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
-let errorMessage = ''
-let imageUrl = ''
 const newRequest = {
   title: '',
   description: ''
@@ -38,7 +39,7 @@ function extractCountryCode(addressComponents) {
 
 function assertHas(value, errorMessage) {
   if (!value) {
-    throw new Error(errorMessage)
+    throwError(errorMessage)
   }
 }
 
@@ -46,39 +47,37 @@ function validate(request) {
   assertHas(request.title, 'Please tell us what you are requesting')
   assertHas(request.destination, 'Please provide a destination')
   assertHas(request.size, 'Please tell us the size of the item you are requesting')
-  errorMessage = ''
 }
 
 async function onSubmit() {
-  try {
-    validate(request)
+  validate(request)
 
-    if (request.id) {
-      await update(request)
+  if (request.id) {
+    await update(request)
 
-      push(`/requests/${request.id}`)
-    } else {
-      await create({
-          orgID: request.viewableBy,
-          type: "REQUEST",
-          title: request.title,
-          description: request.description,
-          destination: {
-            description: request.destination.formatted_address,
-            latitude: request.destination.geometry.location.lat(),
-            longitude: request.destination.geometry.location.lng(),
-            country: extractCountryCode(request.destination.address_components),
-          },
-          photoID: request.photoID,
-          size: request.size,
-      })
+    push(`/requests/${request.id}`)
 
-      push(`/requests`)
-    }
-  } catch (error) {
-    errorMessage = error.message
-    scrollTo(0, 0)
-  }  
+    updated()
+  } else {
+    await create({
+        orgID: request.viewableBy,
+        type: "REQUEST",
+        title: request.title,
+        description: request.description,
+        destination: {
+          description: request.destination.formatted_address,
+          latitude: request.destination.geometry.location.lat(),
+          longitude: request.destination.geometry.location.lng(),
+          country: extractCountryCode(request.destination.address_components),
+        },
+        photoID: request.photoID,
+        size: request.size,
+    })
+
+    push(`/requests`)
+
+    created()
+  }
 }
 
 function imageUploaded(event) {
@@ -96,10 +95,6 @@ function imageUploaded(event) {
 <h2 class="mb-3">Make a Request</h2>
 
 <form on:submit|preventDefault={onSubmit} autocomplete="off">
-  {#if errorMessage}
-    <div class="alert alert-danger">{errorMessage}</div>
-  {/if}
-
   <div class="form-row form-group">
     <label for="request-title" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Requesting:
@@ -139,21 +134,6 @@ function imageUploaded(event) {
     <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">Size: </div>
     <div class="col"><SizeSelector bind:selectedName={request.size} /></div>
   </div>
-  
-  <!-- <div class="form-row form-group">
-    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      <label for="request-weight">Est. weight:</label>
-    </div>
-    <div class="col-4 col-sm-3 col-md-2 col-xl-1">
-      <input type="text" class="form-control form-control-lg" id="request-weight" bind:value={request.weight} />
-    </div>
-    <div class="col-auto">
-      <select class="form-control form-control-lg" bind:value={request.weightUnits}>
-        <option>kg</option>
-        <option>lb</option>
-      </select>
-    </div>
-  </div> -->
   
   <div class="form-row form-group">
     <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">

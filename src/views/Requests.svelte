@@ -14,6 +14,15 @@ import Icon from 'fa-svelte'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { clearFilter, filterRequests, populateFilterFrom } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
+import { 
+  filteredRequestsBySize,
+  filteredRequestsByMine,
+  filteredRequestsByProviding,
+  filteredRequestsByAll,
+  viewedRequestsAsGrid,
+  viewedRequestsAsList,
+  searchedRequests,
+} from '../data/analytics'
 
 let filteredRequests
 let requestFilter = {}
@@ -29,9 +38,13 @@ $: showAsList = queryStringData.hasOwnProperty('list')
 
 function selectSize(sizeString) {
   let lowerCaseSize = String(sizeString).toLowerCase()
+
+  filteredRequestsBySize(lowerCaseSize)
+
   if (isDefaultSizeFilter(lowerCaseSize)) {
     lowerCaseSize = null
   }
+
   updateQueryString($location, $querystring, {
     size: lowerCaseSize,
   })
@@ -43,6 +56,8 @@ function selectCreator(userId) {
     provider: null,
     size: null,
   })
+
+  filteredRequestsByMine()
 }
 
 function selectProvider(userId) {
@@ -51,28 +66,38 @@ function selectProvider(userId) {
     provider: userId,
     size: null,
   })
+
+  filteredRequestsByProviding()
 }
 
 function showAll() {
   clearFilter($location, $querystring)
+
+  filteredRequestsByAll()
 }
 
 function viewAsGrid() {
   updateQueryString($location, $querystring, {
     list: null,
   })
+
+  viewedRequestsAsGrid()
 }
 
 function viewAsList() {
   updateQueryString($location, $querystring, {
     list: 1,
   })
+
+  viewedRequestsAsList()
 }
 
 function searchForText(searchText) {
   updateQueryString($location, $querystring, {
     search: searchText,
   })
+
+  searchedRequests(searchText)
 }
 </script>
 
