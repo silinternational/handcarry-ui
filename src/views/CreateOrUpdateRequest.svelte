@@ -10,6 +10,7 @@ import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://g
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import { updated, created } from '../data/analytics'
+import { throwError } from '../data/error'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -21,7 +22,6 @@ const options = {
 }
 
 let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
-let errorMessage = ''
 let imageUrl = ''
 const newRequest = {
   title: '',
@@ -39,7 +39,7 @@ function extractCountryCode(addressComponents) {
 
 function assertHas(value, errorMessage) {
   if (!value) {
-    throw new Error(errorMessage)
+    throwError(errorMessage)
   }
 }
 
@@ -47,43 +47,37 @@ function validate(request) {
   assertHas(request.title, 'Please tell us what you are requesting')
   assertHas(request.destination, 'Please provide a destination')
   assertHas(request.size, 'Please tell us the size of the item you are requesting')
-  errorMessage = ''
 }
 
 async function onSubmit() {
-  try {
-    validate(request)
+  validate(request)
 
-    if (request.id) {
-      await update(request)
+  if (request.id) {
+    await update(request)
 
-      push(`/requests/${request.id}`)
+    push(`/requests/${request.id}`)
 
-      updated()
-    } else {
-      await create({
-          orgID: request.viewableBy,
-          type: "REQUEST",
-          title: request.title,
-          description: request.description,
-          destination: {
-            description: request.destination.formatted_address,
-            latitude: request.destination.geometry.location.lat(),
-            longitude: request.destination.geometry.location.lng(),
-            country: extractCountryCode(request.destination.address_components),
-          },
-          photoID: request.photoID,
-          size: request.size,
-      })
+    updated()
+  } else {
+    await create({
+        orgID: request.viewableBy,
+        type: "REQUEST",
+        title: request.title,
+        description: request.description,
+        destination: {
+          description: request.destination.formatted_address,
+          latitude: request.destination.geometry.location.lat(),
+          longitude: request.destination.geometry.location.lng(),
+          country: extractCountryCode(request.destination.address_components),
+        },
+        photoID: request.photoID,
+        size: request.size,
+    })
 
-      push(`/requests`)
+    push(`/requests`)
 
-      created()
-    }
-  } catch (error) {
-    errorMessage = error.message
-    scrollTo(0, 0)
-  }  
+    created()
+  }
 }
 
 function imageUploaded(event) {
@@ -101,10 +95,6 @@ function imageUploaded(event) {
 <h2 class="mb-3">Make a Request</h2>
 
 <form on:submit|preventDefault={onSubmit} autocomplete="off">
-  {#if errorMessage}
-    <div class="alert alert-danger">{errorMessage}</div>
-  {/if}
-
   <div class="form-row form-group">
     <label for="request-title" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Requesting:
