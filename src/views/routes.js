@@ -22,6 +22,7 @@ const routes = {
 	'/requests': Requests,
 	'/requests/new': CreateOrUpdateRequest,
 	'/requests/:id': Request,
+	'/requests/:id/conversation/:conversationId': Request,
 	'/requests/:id/edit': CreateOrUpdateRequest,
 	'/messages': Messages,
 	'/messages/:id': Messages,

@@ -1,5 +1,6 @@
 <script>
 import { me } from '../data/user'
+import { replace } from 'svelte-spa-router'
 import RequestImage from '../components/RequestImage.svelte'
 import SizeTile from '../components/SizeTile.svelte'
 import { requests } from '../data/requests'
@@ -9,10 +10,15 @@ import OtherRequestsBy from '../components/OtherRequestsBy.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
+$: conversationId = params.conversationId
 $: request = $requests.find(({ id }) => id === params.id) || {}
 $: requester = request.createdBy || {}
 $: isMine = $me.id && (requester.id === $me.id)
 $: destination = request.destination && request.destination.description || ''
+
+function goToConversation(conversationId) {
+  replace(`/requests/${params.id}/conversation/${conversationId}`)
+}
 </script>
 
 <style>
@@ -62,7 +68,7 @@ $: destination = request.destination && request.destination.description || ''
         </div>
       </div>
       <p class="mb-4">{ request.description || '' }</p>
-      <RequestMessaging {request} />
+      <RequestMessaging {request} {conversationId} on:conversation-selected={event => goToConversation(event.detail)} />
       {#if !isMine }
         <OtherRequestsBy {request} {requester} />
       {/if}
