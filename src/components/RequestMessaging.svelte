@@ -4,9 +4,9 @@ import { me } from '../data/user'
 import Messaging from '../components/Messaging.svelte'
 import { send } from '../data/messaging'
 
+export let conversationId
 export let request
 
-let conversationId = null
 let newMessageContent = null
 
 $: requester = request.createdBy || {}
@@ -14,11 +14,6 @@ $: isMine = $me.id && (requester.id === $me.id)
 $: conversationsOnThisRequest = $conversations.filter(({ post }) => post.id === request.id)
 $: selectedConversation = conversationsOnThisRequest.find(({ id }) => id === conversationId) || {}
 $: hasConversation = conversationsOnThisRequest.length > 0
-
-// Select a default conversation (when appropriate)
-$: if (!conversationId && conversationsOnThisRequest.length > 0) {
-  conversationId = conversationsOnThisRequest[0].id
-}
 
 async function startConversation() {
   if (newMessageContent) {
