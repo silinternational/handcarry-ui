@@ -2,6 +2,7 @@
 import Conversation from '../components/Conversation.svelte'
 import ConversationListEntry from './ConversationListEntry.svelte'
 import { createEventDispatcher } from 'svelte'
+import { tick } from 'svelte'
 
 export let conversations
 export let potentialConversation = null
@@ -22,7 +23,13 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 //        2.  no conversationId was provided => default to the first conversation if there are conversations.
 //        3.  the conversationId provided doesn't match any of the conversations => show conversations list without selecting any
 //        4.  the conversationId matches one of the conversations => select that one
-$: !conversationId && hasConversation && dispatch('conversation-selected', conversations[0].id)
+$: !conversationId && hasConversation && suggestDefaultConversation()
+
+async function suggestDefaultConversation() {
+  // Wait for the component to finish initializing before firing an event.
+  await tick()
+  dispatch('conversation-selected', conversations[0].id)
+}
 </script>
 
 <style>
