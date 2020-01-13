@@ -21,7 +21,6 @@ const options = {
   types: []
 }
 
-let imgSrc = 'https://mdbootstrap.com/img/Photos/Others/placeholder.jpg'
 let imageUrl = ''
 const newRequest = {
   title: '',
@@ -134,21 +133,6 @@ function imageUploaded(event) {
     <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">Size: </div>
     <div class="col"><SizeSelector bind:selectedName={request.size} /></div>
   </div>
-  
-  <!-- <div class="form-row form-group">
-    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      <label for="request-weight">Est. weight:</label>
-    </div>
-    <div class="col-4 col-sm-3 col-md-2 col-xl-1">
-      <input type="text" class="form-control form-control-lg" id="request-weight" bind:value={request.weight} />
-    </div>
-    <div class="col-auto">
-      <select class="form-control form-control-lg" bind:value={request.weightUnits}>
-        <option>kg</option>
-        <option>lb</option>
-      </select>
-    </div>
-  </div> -->
   
   <div class="form-row form-group">
     <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
