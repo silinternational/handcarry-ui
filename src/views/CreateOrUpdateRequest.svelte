@@ -14,6 +14,8 @@ import { throwError } from '../data/error'
 
 export let params = {} // URL path parameters, provided by router.
 
+let imageUrl = ''
+
 // Needed to override the default 'regions' restriction in the GooglePlacesAutocomplete component
 // so we could use house addresses, lat/long, etc...no need for restrictions.  See 
 // (https://developers.google.com/places/supported_types#table3 && https://github.com/beyonk-adventures/svelte-googlemaps/blob/master/src/GooglePlacesAutocomplete.svelte#L15)
@@ -21,7 +23,6 @@ const options = {
   types: []
 }
 
-let imageUrl = ''
 const newRequest = {
   title: '',
   description: ''
