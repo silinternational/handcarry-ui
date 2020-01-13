@@ -5,7 +5,7 @@ import { createEventDispatcher } from 'svelte'
 
 export let conversations
 export let potentialConversation = null
-export let conversationId = null
+export let conversationId
 export let minimal = false
 export let listColumns = "col-12 col-sm-5 col-lg-4"
 
