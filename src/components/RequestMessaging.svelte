@@ -1,11 +1,14 @@
 <script>
 import { conversations, listOtherParticipants } from '../data/messaging'
+import { createEventDispatcher } from 'svelte'
 import { me } from '../data/user'
 import Messaging from '../components/Messaging.svelte'
 import { send } from '../data/messaging'
 
 export let conversationId
 export let request
+
+const dispatch = createEventDispatcher()
 
 let newMessageContent = null
 
@@ -19,12 +22,8 @@ async function startConversation() {
   if (newMessageContent) {
     const newConversation = await send(newMessageContent, {post: request})
     newMessageContent = ''
-    showConversation(newConversation.id)
+    dispatch('conversation-selected', newConversation.id)
   }
-}
-
-function showConversation(id) {
-  conversationId = id
 }
 </script>
 
@@ -33,7 +32,7 @@ function showConversation(id) {
     {#if hasConversation }
       <h4 class="text-blue">Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
       <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId}
-                 on:conversation-selected={event => showConversation(event.detail)} />
+                 on:conversation-selected />
     {:else if !isMine }
       <h4 class="text-blue">Chat with { requester.nickname }</h4>
       <div class="row">
