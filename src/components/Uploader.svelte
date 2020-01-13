@@ -3,6 +3,7 @@ import { upload } from '../data/api'
 import { createEventDispatcher } from 'svelte'
 import Icon from 'fa-svelte'
 import { faCloudUploadAlt } from '@fortawesome/free-solid-svg-icons'
+import { uploadedImage } from '../data/analytics'
 
 export let type = 'add'
 export let small = false
@@ -22,6 +23,8 @@ async function chosen(event) {
     file = await upload(formData)
     
     dispatch('uploaded', file)
+
+    uploadedImage()
   } finally {
     uploading = false
   }

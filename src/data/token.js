@@ -1,6 +1,7 @@
 import qs from 'qs'
 import { location, querystring, push } from 'svelte-spa-router'
 import { get as getStoreValue} from 'svelte/store'
+import { loggedIn } from './analytics'
 
 let qsData = {}
 
@@ -21,6 +22,8 @@ function init() {
   set('access-token')
   set('expires-utc') // TODO: start a timer for auto-logout at this time?
 
+  qsData['access-token'] && loggedIn()
+  
   cleanAddressBar()
 }
 
