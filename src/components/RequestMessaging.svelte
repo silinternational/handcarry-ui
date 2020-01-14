@@ -27,13 +27,22 @@ async function startConversation() {
 }
 </script>
 
+<style>
+hr {
+  margin-bottom: 2rem;
+  width: 80%;
+}
+</style>
+
 <div class="row">
   <div class="col">
     {#if hasConversation }
+      <hr />
       <h4 class="text-blue">Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
       <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId}
                  on:conversation-selected />
     {:else if !isMine }
+      <hr />
       <h4 class="text-blue">Chat with { requester.nickname }</h4>
       <div class="row">
         <div class="col">
