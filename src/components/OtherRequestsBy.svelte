@@ -14,6 +14,11 @@ $: otherRequests = requestsFromThisRequester.filter(({id}) => id !== request.id)
 </script>
 
 <style>
+hr {
+  margin-bottom: 2rem;
+  width: 80%;
+}
+
 .request-tile-container {
   width: 128px;
 }
