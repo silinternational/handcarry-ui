@@ -44,8 +44,6 @@ async function startConversation() {
           <button class="btn btn-primary" on:click={startConversation}>Send</button>
         </div>
       </div>
-    {:else}
-      <i class="text-muted">No ongoing conversations at this time</i>
     {/if}
   </div>
 </div>
