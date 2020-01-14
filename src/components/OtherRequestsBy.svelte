@@ -15,7 +15,6 @@ $: otherRequests = requestsFromThisRequester.filter(({id}) => id !== request.id)
 
 <style>
 hr {
-  margin-bottom: 2rem;
   width: 80%;
 }
 
