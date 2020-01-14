@@ -13,7 +13,7 @@ export let params = {} // URL path parameters, provided by router.
 $: conversationId = params.conversationId
 $: request = $requests.find(({ id }) => id === params.id) || {}
 $: requester = request.createdBy || {}
-$: isMine = $me.id && (requester.id === $me.id)
+$: isMine = $me.id && (requester.id === $me.id) // Check $me.id first to avoid `undefined === undefined`
 $: destination = request.destination && request.destination.description || ''
 
 function goToConversation(conversationId) {
