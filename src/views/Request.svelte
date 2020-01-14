@@ -52,9 +52,6 @@ function goToConversation(conversationId) {
     </div>
     
     <div class="col">
-      {#if isMine}
-        <a href="#/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary">Edit request</a>
-      {/if}
       <div class="row">
         <div class="col">
           <h3 class="card-title">{ request.title || ''}</h3>
@@ -68,6 +65,9 @@ function goToConversation(conversationId) {
         </div>
       </div>
       <p class="mb-4">{ request.description || '' }</p>
+      {#if isMine}
+        <a href="#/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary">Edit request</a>
+      {/if}
       <RequestMessaging {request} {conversationId} on:conversation-selected={event => goToConversation(event.detail)} />
       {#if !isMine }
         <OtherRequestsBy {request} {requester} />
