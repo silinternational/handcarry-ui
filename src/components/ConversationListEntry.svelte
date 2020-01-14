@@ -18,7 +18,9 @@ $: creator = post => post.createdBy && post.createdBy.nickname
 $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 </script>
 
-<button on:click={() => dispatch('conversation-selected', conversation.id)} class:active={active} class="list-group-item list-group-item-action d-flex align-items-center">
+<button on:click={() => dispatch('conversation-selected', conversation.id)}
+        class:active={active} class:list-group-item-secondary={!active} 
+        class="list-group-item list-group-item-action d-flex align-items-center">
   <span class="flex-fill">
     {#if !minimal }
       { conversation.post.title } – 
