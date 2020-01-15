@@ -18,11 +18,6 @@ let selectedConversation = {}
 $: hasConversation = conversations.length > 0
 $: defaultConversation = potentialConversation || {}
 $: selectedConversation = conversations.find(conversation => conversation.id === conversationId) || defaultConversation
-// TODO: need to address the following scenarios:
-//        1.  no conversations exist => show a message
-//        2.  no conversationId was provided => default to the first conversation if there are conversations.
-//        3.  the conversationId provided doesn't match any of the conversations => show conversations list without selecting any
-//        4.  the conversationId matches one of the conversations => select that one
 $: !conversationId && hasConversation && suggestDefaultConversation()
 
 async function suggestDefaultConversation() {
