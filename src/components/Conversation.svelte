@@ -14,8 +14,6 @@ const FIVE_SECONDS = 5000
 const dispatch = createEventDispatcher()
 
 $: post = conversation.post || {}
-$: creator = post.createdBy || {}
-$: provider = post.provider || {}
 $: messages = conversation.messages || []
 $: destination = post.destination && post.destination.description
 $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
