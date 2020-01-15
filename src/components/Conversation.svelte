@@ -1,16 +1,10 @@
 <script>
 import { me } from '../data/user'
 import { formatDistanceToNow } from 'date-fns'
-import { provide, accept, deliver, receive } from '../data/requests'
 import { createEventDispatcher } from 'svelte'
 import { unreads, saw, send } from '../data/messaging'
-import { 
-  accepted,
-  committed,
-  trackReceived,
-  trackDelivered,
-  sentMessage,
- } from '../data/analytics'
+import { sentMessage } from '../data/analytics'
+import RequestAction from './RequestAction.svelte'
 
 export let conversation = {}
 export let minimal = false
@@ -24,18 +18,9 @@ $: creator = post.createdBy || {}
 $: provider = post.provider || {}
 $: messages = conversation.messages || []
 $: destination = post.destination && post.destination.description
-$: isConversingWithProvider = messages.some(msg => msg.sender.id === provider.id)
 $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
-
-async function acceptCommitment() {
-  // TODO: updating post like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
-  // and this component is only interested in the conversation (and it's attached post) and those changes aren't coming down... maybe a 
-  // refactor needs to be considered here.
-  post = await accept(post.id)
-
-  accepted()
-}
+$: participants = conversation.participants || []
 
 async function sendMessage() {
   if (reply !== '') {
@@ -50,27 +35,6 @@ async function sendMessage() {
 
     sentMessage()
   }
-}
-
-async function commit() {
-  // TODO: see notes in `acceptCommitment`
-  post = await provide(post.id)
-
-  committed()
-}
-
-async function delivered() {
-  // TODO: see notes in `acceptCommitment`
-  post = await deliver(post.id)
-
-  trackDelivered()
-}
-
-async function received() {
-  // TODO: see notes in `acceptCommitment`
-  post = await receive(post.id)
-
-  trackReceived()
 }
 
 const whenWas = dateTimeString => formatDistanceToNow(new Date(dateTimeString), {addSuffix: true})
@@ -113,42 +77,7 @@ const focusOnCreate = element => element.focus()
         </div>
     
         <div class="col text-right mb-1">
-          {#if creator.id == $me.id}
-            {#if post.status === 'COMMITTED'}
-              {provider.nickname} committed to bring this.
-              {#if isConversingWithProvider}
-                <button class="btn btn-sm btn-success" on:click={acceptCommittment}>Accept</button>
-              {/if}
-            {:else if post.status === 'DELIVERED'}
-              {provider.nickname} delivered this.
-              {#if isConversingWithProvider}
-                <button class="btn btn-sm btn-success" on:click={received}>I received it</button>
-              {/if}
-            {:else if post.status === 'ACCEPTED'}
-              {provider.nickname} is set to deliver this to you.
-              {#if isConversingWithProvider}
-                <button class="btn btn-sm btn-success" on:click={received}>I already received it</button>
-              {/if}
-            {:else if post.status === 'COMPLETED'}
-              It is finished.
-            {/if}
-          {:else}
-            {#if provider.id == $me.id}
-              {#if post.status === 'COMMITTED'}
-                You committed to bring this.
-              {:else if post.status === 'ACCEPTED'}
-                <button class="btn btn-sm btn-info" on:click={delivered}>I delivered it</button>
-              {:else if post.status === 'DELIVERED'}
-                You delivered this.
-              {/if}          
-            {:else if provider.id}
-              Someone else has committed to bring this.
-            {:else}
-              <button class="btn btn-sm btn-info" on:click={commit}>
-                I'll bring it
-              </button>
-            {/if}
-          {/if}
+          <RequestAction request={post} conversationParticipants={participants} />
         </div>
       </div>
     
