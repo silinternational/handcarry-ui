@@ -9,7 +9,7 @@ import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { updated, created } from '../data/analytics'
+import { updated, created, cancelled } from '../data/analytics'
 import { throwError } from '../data/error'
 
 export let params = {} // URL path parameters, provided by router.
@@ -90,6 +90,8 @@ async function cancelRequest() {
   await cancel(params.id)
 
   push(`/requests`)
+  
+  cancelled()
 }
 </script>
 

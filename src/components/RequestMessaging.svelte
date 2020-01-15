@@ -4,6 +4,7 @@ import { createEventDispatcher } from 'svelte'
 import { me } from '../data/user'
 import Messaging from '../components/Messaging.svelte'
 import { send } from '../data/messaging'
+import { sentMessage } from '../data/analytics'
 
 export let conversationId
 export let request
@@ -23,6 +24,8 @@ async function startConversation() {
     const newConversation = await send(newMessageContent, {post: request})
     newMessageContent = ''
     dispatch('conversation-selected', newConversation.id)
+    
+    sentMessage()
   }
 }
 </script>
