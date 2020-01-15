@@ -5,6 +5,7 @@ import { me } from '../data/user'
 import Messaging from '../components/Messaging.svelte'
 import { send } from '../data/messaging'
 import { sentMessage } from '../data/analytics'
+import RequestAction from './RequestAction.svelte'
 
 export let conversationId
 export let request
@@ -40,9 +41,23 @@ hr {
   <hr />
   <div class="row my-4">
     <div class="col">
-      <h4>Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
-      <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId}
-                 on:conversation-selected />
+      
+      <div class="row">
+        <div class="col">
+          <h4>Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
+        </div>
+        <div class="col-auto">
+          <RequestAction {request} conversationParticipants={selectedConversation.participants} />
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col">
+          <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId}
+                     on:conversation-selected />
+        </div>
+      </div>
+      
     </div>
   </div>
 {:else if !isMine }
