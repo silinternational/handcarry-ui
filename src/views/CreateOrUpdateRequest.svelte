@@ -28,6 +28,7 @@ const newRequest = {
 }
 
 $: request = $requests.find(({ id }) => id === params.id) || newRequest
+$: isNew = !request.id
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
@@ -53,11 +54,7 @@ async function onSubmit() {
   try {
     validate(request)
 
-    if (request.id) {
-      await update(request)
-
-      push(`/requests/${request.id}`)
-    } else {
+    if (isNew) {
       await create({
           orgID: request.viewableBy,
           type: "REQUEST",
@@ -74,6 +71,10 @@ async function onSubmit() {
       })
 
       push(`/requests`)
+    } else {
+      await update(request)
+
+      push(`/requests/${request.id}`)
     }
   } catch (error) {
     errorMessage = error.message
@@ -122,12 +123,9 @@ async function cancelRequest() {
     </label>
     
     <div class="col">
-      {#if request.id}
-        <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
-        <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
-      {:else}
-      <div class="form-group">
-        <div class="input-group">
+      {#if isNew}
+        <div class="form-group">
+          <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <Icon icon={faMapMarkerAlt} />
@@ -137,6 +135,9 @@ async function cancelRequest() {
             <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
           </div>
         </div>
+      {:else}
+        <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
+        <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
       {/if}
     </div>
   </div>
@@ -194,7 +195,7 @@ async function cancelRequest() {
     </div>
     <div class="col"></div>
     
-    {#if request.id}
+    {#if !isNew}
       <div class="col-auto text-center">
         <button on:click={cancelRequest} class="btn btn-outline-danger">
           <Icon icon={faTrash} /> Delete
@@ -205,10 +206,10 @@ async function cancelRequest() {
     
     <div class="col-auto">
       <button type="submit" class="btn btn-primary float-right">
-        {#if request.id}
-          Update request
-        {:else}
+        {#if isNew}
           Make request
+        {:else}
+          Update request
         {/if}
       </button>
     </div>
