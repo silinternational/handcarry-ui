@@ -43,15 +43,17 @@ hr {
                    on:conversation-selected />
       {:else if !isMine }
         <h4>Chat with { requester.nickname }</h4>
-        <div class="row">
-          <div class="col">
-            <textarea class="border rounded p-2 w-100" bind:value={newMessageContent}
-                      placeholder="Hi { requester.nickname }, tell me more about..."></textarea>
+        <form on:submit|preventDefault={startConversation}>
+          <div class="row">
+            <div class="col">
+              <input class="form-control" bind:value={newMessageContent} autocomplete="off"
+                     placeholder="Hi { requester.nickname }, tell me more about..." />
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-primary">Send</button>
+            </div>
           </div>
-          <div class="col-auto">
-            <button class="btn btn-primary" on:click={startConversation}>Send</button>
-          </div>
-        </div>
+        </form>
       {/if}
     </div>
   </div>
