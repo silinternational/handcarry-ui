@@ -33,28 +33,31 @@ hr {
 }
 </style>
 
-{#if hasConversation || !isMine }
+{#if hasConversation }
   <hr />
   <div class="row my-4">
     <div class="col">
-      {#if hasConversation }
-        <h4>Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
-        <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId}
-                   on:conversation-selected />
-      {:else if !isMine }
-        <h4>Chat with { requester.nickname }</h4>
-        <form on:submit|preventDefault={startConversation}>
-          <div class="row">
-            <div class="col">
-              <input class="form-control" bind:value={newMessageContent} autocomplete="off"
-                     placeholder="Hi { requester.nickname }, tell me more about..." />
-            </div>
-            <div class="col-auto">
-              <button class="btn btn-primary">Send</button>
-            </div>
+      <h4>Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
+      <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId}
+                 on:conversation-selected />
+    </div>
+  </div>
+{:else if !isMine }
+  <hr />
+  <div class="row my-4">
+    <div class="col">
+      <h4>Chat with { requester.nickname }</h4>
+      <form on:submit|preventDefault={startConversation}>
+        <div class="row">
+          <div class="col">
+            <input class="form-control" bind:value={newMessageContent} autocomplete="off"
+                   placeholder="Hi { requester.nickname }, tell me more about..." />
           </div>
-        </form>
-      {/if}
+          <div class="col-auto">
+            <button class="btn btn-primary">Send</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 {/if}
