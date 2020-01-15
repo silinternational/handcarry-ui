@@ -38,11 +38,11 @@ hr {
   <div class="row my-4">
     <div class="col">
       {#if hasConversation }
-        <h4 class="text-blue">Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
+        <h4>Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
         <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId}
                    on:conversation-selected />
       {:else if !isMine }
-        <h4 class="text-blue">Chat with { requester.nickname }</h4>
+        <h4>Chat with { requester.nickname }</h4>
         <div class="row">
           <div class="col">
             <textarea class="border rounded p-2 w-100" bind:value={newMessageContent}

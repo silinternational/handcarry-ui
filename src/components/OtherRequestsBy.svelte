@@ -26,7 +26,7 @@ hr {
 {#if otherRequests.length > 0 }
   <hr />
   <div class="row my-4">
-    <div class="col-12"><h4 class="text-blue">{requester.nickname}'s other requests</h4></div>
+    <div class="col-12"><h4>{requester.nickname}'s other requests</h4></div>
     {#each otherRequests as otherRequest }
       <div class="col-auto">
         <div class="request-tile-container"><RequestTile request={otherRequest} smaller /></div>
