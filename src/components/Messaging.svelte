@@ -16,6 +16,7 @@ let defaultConversation = {}
 let selectedConversation = {}
 
 $: hasConversation = conversations.length > 0
+$: showTabs = conversations.length > 1 || ! minimal
 $: defaultConversation = potentialConversation || {}
 $: selectedConversation = conversations.find(conversation => conversation.id === conversationId) || defaultConversation
 $: !conversationId && hasConversation && suggestDefaultConversation()
@@ -43,7 +44,7 @@ async function suggestDefaultConversation() {
 </style>
 
 <div class="row no-gutters">
-  {#if conversations.length > 1 || ! minimal }
+  {#if showTabs }
     <div class="{listColumns}">
       <div class="list-group list-group-flush">
         {#each conversations as conversation}
@@ -53,7 +54,7 @@ async function suggestDefaultConversation() {
         
         {#if potentialConversation }
           <ConversationListEntry conversation={potentialConversation} active {minimal} />
-        {:else if conversations.length < 1 }
+        {:else if !hasConversation }
           <i class="text-muted">No ongoing conversations at this time</i>
         {/if}
       </div>
