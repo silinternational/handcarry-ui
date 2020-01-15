@@ -21,7 +21,7 @@ $: isDelivered = (status === 'DELIVERED')
 $: isAccepted = (status === 'ACCEPTED')
 $: isCompleted = (status === 'COMPLETED')
 $: participants = conversationParticipants || []
-$: isConversingWithProvider = conversationParticipants.some(({ id }) => id === provider.id)
+$: isConversingWithProvider = participants.some(({ id }) => id === provider.id)
 
 async function acceptCommitment() {
   // TODO: updating post like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
