@@ -3,7 +3,7 @@ import { me } from '../data/user'
 import { replace } from 'svelte-spa-router'
 import RequestImage from '../components/RequestImage.svelte'
 import SizeTile from '../components/SizeTile.svelte'
-import { requests } from '../data/requests'
+import { requests, loading } from '../data/requests'
 import UserAvatar from '../components/UserAvatar.svelte'
 import RequestMessaging from '../components/RequestMessaging.svelte'
 import OtherRequestsBy from '../components/OtherRequestsBy.svelte'
@@ -42,7 +42,10 @@ function goToConversation(conversationId) {
   </div>
 </div>
 
-{#if request.id}
+
+{#if $loading}
+  <p>⏳ retrieving request...</p>
+{:else if request.id}
   <div class="row">
     <div class="col-12 col-sm-4 col-lg-3">
       <div class="row">
@@ -74,8 +77,4 @@ function goToConversation(conversationId) {
       {/if}
     </div>
   </div>
-{:else}
-  <p class="alert alert-danger text-center mt-4" role="alert">
-    That request was not found
-  </p>
 {/if}
