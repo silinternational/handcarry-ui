@@ -1,23 +1,31 @@
 <script>
 import Conversation from '../components/Conversation.svelte'
 import ConversationListEntry from './ConversationListEntry.svelte'
+import { createEventDispatcher } from 'svelte'
+import { tick } from 'svelte'
 
 export let conversations
+export let conversationId
 export let potentialConversation = null
-export let conversationId = null
 export let minimal = false
 export let listColumns = "col-12 col-sm-5 col-lg-4"
+
+const dispatch = createEventDispatcher()
 
 let defaultConversation = {}
 let selectedConversation = {}
 
+$: hasConversation = conversations.length > 0
+$: showTabs = conversations.length > 1 || ! minimal
 $: defaultConversation = potentialConversation || {}
 $: selectedConversation = conversations.find(conversation => conversation.id === conversationId) || defaultConversation
-// TODO: need to address the following scenarios:
-//        1.  no conversations exist => show a message
-//        2.  no conversationId was provided => default to the first conversation if there are conversations.
-//        3.  the conversationId provided doesn't match any of the conversations => show conversations list without selecting any
-//        4.  the conversationId matches one of the conversations => select that one
+$: !conversationId && hasConversation && suggestDefaultConversation()
+
+async function suggestDefaultConversation() {
+  // Wait for the component to finish initializing before firing an event.
+  await tick()
+  dispatch('conversation-selected', conversations[0].id)
+}
 </script>
 
 <style>
@@ -36,20 +44,22 @@ $: selectedConversation = conversations.find(conversation => conversation.id ===
 </style>
 
 <div class="row no-gutters">
-  <div class="{listColumns}">
-    <div class="list-group list-group-flush">
-      {#each conversations as conversation}
-        <!-- on:conversation-selected is being passed up to consumer, i.e., views/Messages.svelte -->
-        <ConversationListEntry {conversation} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
-      {/each}
-      
-      {#if potentialConversation }
-        <ConversationListEntry conversation={potentialConversation} active {minimal} />
-      {:else if conversations.length < 1 }
-        <i class="text-muted">No ongoing conversations at this time</i>
-      {/if}
+  {#if showTabs }
+    <div class="{listColumns}">
+      <div class="list-group list-group-flush">
+        {#each conversations as conversation}
+          <!-- on:conversation-selected is being passed up to consumer, i.e., views/Messages.svelte -->
+          <ConversationListEntry {conversation} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
+        {/each}
+        
+        {#if potentialConversation }
+          <ConversationListEntry conversation={potentialConversation} active {minimal} />
+        {:else if !hasConversation }
+          <i class="text-muted">No ongoing conversations at this time</i>
+        {/if}
+      </div>
     </div>
-  </div>
+  {/if}
   <div class="col">
     <div class="tab-content card conversation-card" class:conversation-card-empty={!selectedConversation.post}>
       <!-- on:new is being used to passed up to consumer, i.e., views/Request.svelte -->

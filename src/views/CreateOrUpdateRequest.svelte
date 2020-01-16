@@ -3,13 +3,13 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me } from '../data/user'
-import { requests, create, update } from '../data/requests'
+import { requests, cancel, create, update } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
 import Icon from 'fa-svelte'
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
-import { updated, created } from '../data/analytics'
+import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { updated, created, cancelled } from '../data/analytics'
 import { throwError } from '../data/error'
 
 export let params = {} // URL path parameters, provided by router.
@@ -29,6 +29,7 @@ const newRequest = {
 }
 
 $: request = $requests.find(({ id }) => id === params.id) || newRequest
+$: isNew = !request.id
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
@@ -52,13 +53,7 @@ function validate(request) {
 async function onSubmit() {
   validate(request)
 
-  if (request.id) {
-    await update(request)
-
-    push(`/requests/${request.id}`)
-
-    updated()
-  } else {
+  if (isNew) {
     await create({
         orgID: request.viewableBy,
         type: "REQUEST",
@@ -77,12 +72,26 @@ async function onSubmit() {
     push(`/requests`)
 
     created()
+  } else {
+    await update(request)
+
+    push(`/requests/${request.id}`)
+
+    updated()
   }
 }
 
 function imageUploaded(event) {
   request.photoID = event.detail.id
   imageUrl = event.detail.url 
+}
+
+async function cancelRequest() {
+  await cancel(params.id)
+
+  push(`/requests`)
+  
+  cancelled()
 }
 </script>
 
@@ -111,12 +120,9 @@ function imageUploaded(event) {
     </label>
     
     <div class="col">
-      {#if request.id}
-        <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
-        <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
-      {:else}
-      <div class="form-group">
-        <div class="input-group">
+      {#if isNew}
+        <div class="form-group">
+          <div class="input-group">
             <div class="input-group-prepend">
               <span class="input-group-text">
                 <Icon icon={faMapMarkerAlt} />
@@ -126,6 +132,9 @@ function imageUploaded(event) {
             <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
           </div>
         </div>
+      {:else}
+        <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
+        <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
       {/if}
     </div>
   </div>
@@ -167,12 +176,22 @@ function imageUploaded(event) {
       <a href="#/requests" on:click|preventDefault={pop} class="btn btn-outline-dark">« Cancel</a>
     </div>
     <div class="col"></div>
+    
+    {#if !isNew}
+      <div class="col-auto text-center">
+        <button on:click={cancelRequest} class="btn btn-outline-danger">
+          <Icon icon={faTrash} /> Delete
+        </button>
+      </div>
+      <div class="col"></div>
+    {/if}
+    
     <div class="col-auto">
       <button type="submit" class="btn btn-primary float-right">
-        {#if request.id}
-          Update request
-        {:else}
+        {#if isNew}
           Make request
+        {:else}
+          Update request
         {/if}
       </button>
     </div>

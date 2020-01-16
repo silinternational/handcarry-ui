@@ -24,7 +24,7 @@ label {
     <div class="col-6 col-sm d-flex align-items-stretch mb-2">
       <label class="form-check-label d-block mb-1 w-100" for="{size.type}">
         <input type="radio" name="size" id="{size.type}" value={size.type} class="form-check-input" bind:group={selectedName}>
-        <SizeTile size={size.type} selected={selectedName === size.type} />
+        <SizeTile isButton size={size.type} selected={selectedName === size.type} />
       </label>
     </div>
   {/each}
