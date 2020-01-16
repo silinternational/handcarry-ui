@@ -21,6 +21,11 @@ export function init() {
   conversations.subscribe(convos => unreads.set(convos.filter(excludeRead).map(transform)))
 }
 
+export function listOtherParticipants(conversation, me) {
+  const participants = conversation.participants || []
+  return participants.filter(user => user.id !== me.id).map(user => user.nickname).join(', ')
+}
+
 async function loadConversations() {
   try {
     const myConversations = await getMyConversations()
