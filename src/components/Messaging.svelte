@@ -6,19 +6,16 @@ import { tick } from 'svelte'
 
 export let conversations
 export let conversationId
-export let potentialConversation = null
 export let minimal = false
 export let listColumns = "col-12 col-sm-5 col-lg-4"
 
 const dispatch = createEventDispatcher()
 
-let defaultConversation = {}
 let selectedConversation = {}
 
 $: hasConversation = conversations.length > 0
 $: showTabs = conversations.length > 1 || ! minimal
-$: defaultConversation = potentialConversation || {}
-$: selectedConversation = conversations.find(conversation => conversation.id === conversationId) || defaultConversation
+$: selectedConversation = conversations.find(conversation => conversation.id === conversationId) || {}
 $: !conversationId && hasConversation && suggestDefaultConversation()
 
 async function suggestDefaultConversation() {
@@ -52,9 +49,7 @@ async function suggestDefaultConversation() {
           <ConversationListEntry {conversation} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
         {/each}
         
-        {#if potentialConversation }
-          <ConversationListEntry conversation={potentialConversation} active {minimal} />
-        {:else if !hasConversation }
+        {#if !hasConversation }
           <i class="text-muted">No ongoing conversations at this time</i>
         {/if}
       </div>
