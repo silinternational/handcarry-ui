@@ -116,8 +116,8 @@ h2 {
     <td>Rollbar provides error log analysis services. We share with Rollbar your email address for identification of any errors you encounter. Errors reported to Rollbar are typically internal system errors, but it helps us to know who has experienced certain errors so that we can follow up with them when appropriate. Rollbar information is only retained for 30 days and is then purged. At your request we can delete any records about you in Rollbar.</td>
   </tr>
   <tr>
-    <td>Sendgrid</td>
-    <td>We use Sendgrid to send marketing and transactional emails. We also use Sendgrid to send SMS-based notifications. In these communications we may share your name, nickname, email address, and specific request information as needed for each specific communication.</td>
+    <td>Mailchimp</td>
+    <td>We use Mailchimp to send marketing emails. You unsubscribe from these emails at any time using the link provided in each email.</td>
   </tr>
   </tbody>
 </table>
