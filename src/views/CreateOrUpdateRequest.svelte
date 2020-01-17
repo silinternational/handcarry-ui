@@ -30,6 +30,7 @@ const newRequest = {
 
 $: request = $requests.find(({ id }) => id === params.id) || newRequest
 $: isNew = !request.id
+$: originDescription = (request.origin && request.origin.description) || ''
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
@@ -64,6 +65,12 @@ async function onSubmit() {
           latitude: request.destination.geometry.location.lat(),
           longitude: request.destination.geometry.location.lng(),
           country: extractCountryCode(request.destination.address_components),
+        },
+        origin: request.origin && {
+          description: request.origin.formatted_address,
+          latitude: request.origin.geometry.location.lat(),
+          longitude: request.origin.geometry.location.lng(),
+          country: extractCountryCode(request.origin.address_components),
         },
         photoID: request.photoID,
         size: request.size,
@@ -116,7 +123,7 @@ async function cancelRequest() {
   
   <div class="form-row form-group">
     <label class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      Destination:
+      To:
     </label>
     
     <div class="col">
@@ -135,6 +142,32 @@ async function cancelRequest() {
       {:else}
         <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
         <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
+      {/if}
+    </div>
+  </div>
+  
+  <div class="form-row form-group">
+    <label class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      From: <br />
+      <small class="text-muted font-italic">(optional)</small>
+    </label>
+    
+    <div class="col">
+      {#if isNew}
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <Icon icon={faMapMarkerAlt} />
+              </span>
+            </div>
+
+            <GooglePlacesAutocomplete bind:value={request.origin} placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
+          </div>
+        </div>
+      {:else}
+        <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
+        <input class="form-control form-control-lg" placeholder={originDescription} readonly>
       {/if}
     </div>
   </div>
