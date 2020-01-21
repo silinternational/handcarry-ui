@@ -10,6 +10,7 @@ export let smaller = false;
 
 $: user = request.createdBy || {}
 $: size = request.size
+$: origin = request.origin && request.origin.description
 </script>
 
 <style>
@@ -32,6 +33,9 @@ h3.smaller {
 .request-tile > .request-image.smaller {
   height: 6rem;
 }
+.small-caps {
+  font-variant: small-caps;
+}
 .smaller {
   font-size: 0.9rem;
 }
@@ -41,14 +45,25 @@ h3.smaller {
   <div class="card-img-top request-image text-center" class:smaller>
     <RequestImage {request} />
   </div>
-  <div class="card-body p-2">
-    <h3 class="card-title" class:smaller>{request.title}</h3>
-    <div class="card-text" class:smaller>{request.destination.description}</div>
+  <div class="card-body d-flex align-items-start flex-column p-2">
+    <h3 class="card-title mb-auto" class:smaller>{request.title}</h3>
   </div>
   <div class="card-footer p-2" class:smaller>
     <div class="row">
-      <div class="col"><UserAvatar {user} small /></div>
-      <div class="col-auto"><a class="pr-1" href="#/requests/{request.id}">View</a></div>
+      <div class="col">
+        <div class="card-text" class:smaller>
+          <span class="text-muted small small-caps">To:</span> {request.destination.description}
+        </div>
+        <div class="card-text" class:smaller>
+          <span class="text-muted small small-caps">From:</span>
+          {#if origin }
+            {origin}
+          {:else}
+            <i>anywhere</i>
+          {/if}
+        </div>
+      </div>
+      <div class="col-auto"><UserAvatar {user} small /></div>
     </div>
   </div>
 </div>
