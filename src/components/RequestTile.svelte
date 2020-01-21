@@ -49,19 +49,31 @@ h3.smaller {
     <h3 class="card-title mb-auto" class:smaller>{request.title}</h3>
   </div>
   <div class="card-footer p-2" class:smaller>
-    <div class="row">
+    <div class="form-row">
       <div class="col">
-        <div class="card-text" class:smaller>
-          <span class="text-muted small small-caps">To:</span> {request.destination.description}
+        
+        <div class="d-table-row">
+          <div class="d-table-cell pr-1" class:smaller>
+            <span class="text-muted small small-caps">To:</span>
+          </div>
+          <div class="d-table-cell" class:smaller>
+            {request.destination.description}
+          </div>
         </div>
-        <div class="card-text" class:smaller>
-          <span class="text-muted small small-caps">From:</span>
-          {#if origin }
-            {origin}
-          {:else}
-            <i>anywhere</i>
-          {/if}
+        
+        <div class="d-table-row">
+          <div class="d-table-cell pr-1" class:smaller>
+            <span class="text-muted small small-caps">From:</span>
+          </div>
+          <div class="d-table-cell" class:smaller>
+            {#if origin }
+              {origin}
+            {:else}
+              <i>anywhere</i>
+            {/if}
+          </div>
         </div>
+        
       </div>
       <div class="col-auto"><UserAvatar {user} small /></div>
     </div>
