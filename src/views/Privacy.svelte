@@ -117,7 +117,7 @@ h2 {
   </tr>
   <tr>
     <td>Mailchimp</td>
-    <td>We use Mailchimp to send marketing emails. You unsubscribe from these emails at any time using the link provided in each email.</td>
+    <td>We use Mailchimp to send marketing emails. You can unsubscribe from these emails at any time using the link provided in each email.</td>
   </tr>
   </tbody>
 </table>
