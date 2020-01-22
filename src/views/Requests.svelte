@@ -159,7 +159,7 @@ function searchForText(searchText) {
           {#if showAsList }
             <div class="col-12 my-1"><RequestListEntry {request} /></div>
           {:else}
-            <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><RequestTile {request} /></div>
+            <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4"><RequestTile {request} /></div>
           {/if}
         {/each}
         
@@ -172,7 +172,7 @@ function searchForText(searchText) {
         <a href="#/requests/new" class="btn btn-success btn-sm"><span style="font-size: larger">+</span> Make a request</a>
       </div>
       
-      <div class:d-md-block={!showAsList} class="d-none col-6 mb-1 my-sm-1 col-md-6 col-lg-4 col-xl-3"><NewRequestTile /></div>
+      <div class:d-md-block={!showAsList} class="d-none col-6 mb-1 my-sm-1 col-md-6 col-lg-4"><NewRequestTile /></div>
     </div>
   </div>
 </div>
