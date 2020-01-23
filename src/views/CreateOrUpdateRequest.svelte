@@ -20,7 +20,7 @@ let imageUrl = ''
 // so we could use house addresses, lat/long, etc...no need for restrictions.  See 
 // (https://developers.google.com/places/supported_types#table3 && https://github.com/beyonk-adventures/svelte-googlemaps/blob/master/src/GooglePlacesAutocomplete.svelte#L15)
 const options = {
-  types: []
+  types: ['(cities)']
 }
 
 const newRequest = {
@@ -136,7 +136,7 @@ async function cancelRequest() {
               </span>
             </div>
 
-            <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
+            <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Origin city" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
           </div>
         </div>
       {:else}
@@ -162,7 +162,7 @@ async function cancelRequest() {
               </span>
             </div>
 
-            <GooglePlacesAutocomplete bind:value={request.origin} placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
+            <GooglePlacesAutocomplete bind:value={request.origin} placeholder="Destination city" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
           </div>
         </div>
       {:else}
