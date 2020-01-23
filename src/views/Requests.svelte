@@ -159,7 +159,7 @@ function searchForText(searchText) {
           {#if showAsList }
             <div class="col-12 my-1"><RequestListEntry {request} /></div>
           {:else}
-            <div class="col-6 mb-1 my-sm-1 col-md-6 col-lg-4"><RequestTile {request} /></div>
+            <div class="col-6 my-1 col-lg-4"><RequestTile {request} /></div>
           {/if}
         {/each}
         
