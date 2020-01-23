@@ -141,7 +141,7 @@ function searchForText(searchText) {
       </div>
     </div>
   </div>
-  <div class="col col-sm-10 offset-sm-1 col-md offset-md-0">
+  <div class="col">
     <div class="form-row align-items-stretch">
       <div class="col-12">
         <div class="input-group mb-2">
