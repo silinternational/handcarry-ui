@@ -136,7 +136,7 @@ async function cancelRequest() {
               </span>
             </div>
 
-            <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Origin city" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
+            <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Destination city" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
           </div>
         </div>
       {:else}
@@ -162,7 +162,7 @@ async function cancelRequest() {
               </span>
             </div>
 
-            <GooglePlacesAutocomplete bind:value={request.origin} placeholder="Destination city" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
+            <GooglePlacesAutocomplete bind:value={request.origin} placeholder="Origin city" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
           </div>
         </div>
       {:else}
