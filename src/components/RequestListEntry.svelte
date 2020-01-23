@@ -38,11 +38,11 @@ $: origin = request.origin && request.origin.description
       <div class="card-body p-1">
         <h3 class="card-title text-truncate">{request.title}</h3>
         <div class="form-row">
-          <div class="col-12 col-sm text-truncate">
+          <div class="col-12 col-sm text-truncate" title={request.destination.description}>
             <span class="text-muted small small-caps">To:</span>
             {request.destination.description}
           </div>
-          <div class="col-12 col-sm text-truncate">
+          <div class="col-12 col-sm text-truncate" title={origin}>
             <span class="text-muted small small-caps">From:</span>
             {#if origin }
               {origin}
