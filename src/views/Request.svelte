@@ -50,7 +50,7 @@ function goToConversation(conversationId) {
   <div class="row">
     <div class="col-12 col-sm-4 col-lg-3">
       <div class="row">
-        <div class="col col-sm-12 mb-4"><div class="request-image-container"><RequestImage {request} /></div></div>
+        <div class="col col-sm-12 mb-4"><div class="request-image-container"><RequestImage {request} showSize={false} /></div></div>
         <div class="col col-sm-12 mb-4"><div class="size-tile-container"><SizeTile size={request.size} /></div></div>
       </div>
     </div>

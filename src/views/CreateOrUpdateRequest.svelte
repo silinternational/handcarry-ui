@@ -20,7 +20,8 @@ let imageUrl = ''
 // so we could use house addresses, lat/long, etc...no need for restrictions.  See 
 // (https://developers.google.com/places/supported_types#table3 && https://github.com/beyonk-adventures/svelte-googlemaps/blob/master/src/GooglePlacesAutocomplete.svelte#L15)
 const options = {
-  types: ['(cities)']
+  types: ['(cities)'],
+  fields: ['geometry', 'formatted_address', 'address_components']
 }
 
 const newRequest = {
