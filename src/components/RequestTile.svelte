@@ -15,7 +15,7 @@ $: origin = request.origin && request.origin.description
 
 <style>
 .card-footer.smaller {
-  line-height: 75%;
+  line-height: 1.3;
 }
 h3.smaller {
   font-size: 1.25rem;
@@ -39,6 +39,15 @@ h3.smaller {
 .smaller {
   font-size: 0.9rem;
 }
+.smaller .from-prefix,
+.smaller .to-prefix {
+  display: block;
+}
+
+/* Leave space for the UserAvatar. */
+.to-from-lines { padding-right: 2.1rem; }
+.smaller .to-from-lines { padding-right: inherit; }
+.smaller .from-line { padding-right: 2.1rem;}
 </style>
 
 <div class="card request-tile" on:click={ () => push(`/requests/${request.id}`) }>
@@ -49,33 +58,24 @@ h3.smaller {
     <h3 class="card-title mb-auto" class:smaller>{request.title}</h3>
   </div>
   <div class="card-footer p-2" class:smaller>
-    <div class="form-row">
-      <div class="col">
-        
-        <div class="d-table-row">
-          <div class="d-table-cell pr-1" class:smaller>
-            <span class="text-muted small small-caps">To:</span>
-          </div>
-          <div class="d-table-cell" class:smaller>
-            {request.destination.description}
-          </div>
+    <div class="position-relative">
+      <div class="position-absolute" style="bottom: 0; right: 0;"><UserAvatar {user} small /></div>
+      
+      <div class="to-from-lines">
+        <div class="text-truncate to-line" class:smaller title={request.destination.description}>
+          <span class="text-muted small small-caps to-prefix">To:</span>
+          {request.destination.description}
         </div>
         
-        <div class="d-table-row">
-          <div class="d-table-cell pr-1" class:smaller>
-            <span class="text-muted small small-caps">From:</span>
-          </div>
-          <div class="d-table-cell" class:smaller>
-            {#if origin }
-              {origin}
-            {:else}
-              <i>anywhere</i>
-            {/if}
-          </div>
+        <div class="text-truncate from-line" class:smaller title={origin}>
+          <span class="text-muted small small-caps from-prefix">From:</span>
+          {#if origin }
+            {origin}
+          {:else}
+            <i>anywhere</i>
+          {/if}
         </div>
-        
       </div>
-      <div class="col-auto"><UserAvatar {user} small /></div>
     </div>
   </div>
 </div>
