@@ -44,7 +44,7 @@ hr {
       
       <div class="row">
         <div class="col">
-          <h4>Chat with { listOtherParticipants(selectedConversation, $me) }</h4>
+          <h4>Chat privately with { listOtherParticipants(selectedConversation, $me) }</h4>
         </div>
         <div class="col-auto">
           <RequestAction {request} conversationParticipants={selectedConversation.participants} />
@@ -64,7 +64,7 @@ hr {
   <hr />
   <div class="row my-4">
     <div class="col">
-      <h4>Chat with { requester.nickname }</h4>
+      <h4>Chat privately with { requester.nickname }</h4>
       <form on:submit|preventDefault={startConversation}>
         <div class="row">
           <div class="col">
