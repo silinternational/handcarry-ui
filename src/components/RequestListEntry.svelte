@@ -37,7 +37,7 @@ $: origin = request.origin && request.origin.description
     <div class="col-7 col-sm-9">
       <div class="card-body p-1">
         <h3 class="card-title text-truncate">{request.title}</h3>
-        <div class="form-row small">
+        <div class="form-row">
           <div class="col-12 col-sm text-truncate">
             <span class="text-muted small small-caps">To:</span>
             {request.destination.description}
