@@ -30,7 +30,7 @@ $: size = request.size
   <div class="row no-gutters h-100">
     <div class="col-1">
       <div class="card-img text-center h-100">
-        <RequestImage {request} showSize={false} />
+        <RequestImage {request} hideSize />
       </div>
     </div>
     <div class="col">
