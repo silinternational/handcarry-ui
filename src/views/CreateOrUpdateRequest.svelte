@@ -14,6 +14,7 @@ import { throwError } from '../data/error'
 
 export let params = {} // URL path parameters, provided by router.
 
+let googlePlacesApiKey = process.env.GOOGLE_PLACES_API_KEY
 let imageUrl = ''
 
 const newRequest = {
@@ -115,7 +116,7 @@ async function cancelRequest() {
               </span>
             </div>
 
-            <LocationInput class="form-control form-control-lg" googlePlacesApiKey={process.env.GOOGLE_PLACES_API_KEY}
+            <LocationInput class="form-control form-control-lg" {googlePlacesApiKey}
                            on:locationSelected="{event => request.destination = event.detail}" placeholder="Destination city" />
           </div>
         </div>
@@ -142,7 +143,7 @@ async function cancelRequest() {
               </span>
             </div>
 
-            <LocationInput class="form-control form-control-lg" googlePlacesApiKey={process.env.GOOGLE_PLACES_API_KEY}
+            <LocationInput class="form-control form-control-lg" {googlePlacesApiKey}
                            on:locationSelected="{event => request.origin = event.detail}" placeholder="Origin city" />
           </div>
         </div>
