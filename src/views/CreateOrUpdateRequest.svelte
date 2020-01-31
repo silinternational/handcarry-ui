@@ -193,7 +193,7 @@ async function cancelRequest() {
     
     {#if !isNew}
       <div class="col-auto text-center">
-        <button on:click={cancelRequest} class="btn btn-outline-danger">
+        <button on:click|preventDefault={cancelRequest} class="btn btn-outline-danger">
           <Icon icon={faTrash} /> Delete
         </button>
       </div>
