@@ -12,9 +12,6 @@ const options = {
 }
 
 function onPlaceChanged(event) {
-  
-  console.log('place_changed', event.detail) // TEMP
-  
   const place = event.detail.place
   const description = event.detail.text
   dispatch('locationSelected', {
