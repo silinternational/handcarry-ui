@@ -14,7 +14,6 @@ import { throwError } from '../data/error'
 
 export let params = {} // URL path parameters, provided by router.
 
-let googlePlacesApiKey = process.env.GOOGLE_PLACES_API_KEY
 let imageUrl = ''
 
 const newRequest = {
@@ -124,8 +123,7 @@ function onOriginChanged(event) {
               </span>
             </div>
 
-            <LocationInput class="form-control form-control-lg" {googlePlacesApiKey}
-                           on:change={onDestinationChanged} placeholder="Destination city" />
+            <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged} placeholder="Destination city" />
           </div>
         </div>
       {:else}
@@ -151,8 +149,7 @@ function onOriginChanged(event) {
               </span>
             </div>
 
-            <LocationInput class="form-control form-control-lg" {googlePlacesApiKey}
-                           on:change={onOriginChanged} placeholder="Origin city" />
+            <LocationInput class="form-control form-control-lg" on:change={onOriginChanged} placeholder="Origin city" />
           </div>
         </div>
       {:else}

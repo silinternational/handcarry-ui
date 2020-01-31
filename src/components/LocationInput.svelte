@@ -2,10 +2,10 @@
 import GooglePlacesAutocomplete from '@silintl/svelte-google-places-autocomplete'
 import { createEventDispatcher } from 'svelte'
 
-export let googlePlacesApiKey
 export let placeholder
 
 const dispatch = createEventDispatcher()
+const googlePlacesApiKey = process.env.GOOGLE_PLACES_API_KEY
 const options = {
   fields: ['address_components', 'geometry'],
   types: ['(cities)']
