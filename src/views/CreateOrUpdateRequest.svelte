@@ -6,7 +6,7 @@ import { me } from '../data/user'
 import { requests, cancel, create, update } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
-import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
+import LocationInput from '../components/LocationInput.svelte'
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updated, created, cancelled } from '../data/analytics'
@@ -15,14 +15,6 @@ import { throwError } from '../data/error'
 export let params = {} // URL path parameters, provided by router.
 
 let imageUrl = ''
-
-// Needed to override the default 'regions' restriction in the GooglePlacesAutocomplete component
-// so we could use house addresses, lat/long, etc...no need for restrictions.  See 
-// (https://developers.google.com/places/supported_types#table3 && https://github.com/beyonk-adventures/svelte-googlemaps/blob/master/src/GooglePlacesAutocomplete.svelte#L15)
-const options = {
-  types: ['(cities)'],
-  fields: ['geometry', 'formatted_address', 'address_components']
-}
 
 const newRequest = {
   title: '',
@@ -34,10 +26,6 @@ $: isNew = !request.id
 $: originDescription = (request.origin && request.origin.description) || ''
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
-}
-
-function extractCountryCode(addressComponents) {
-  return addressComponents.filter(component => component.types.includes('country'))[0].short_name
 }
 
 function assertHas(value, errorMessage) {
@@ -61,18 +49,8 @@ async function onSubmit() {
         type: "REQUEST",
         title: request.title,
         description: request.description,
-        destination: {
-          description: request.destination.formatted_address,
-          latitude: request.destination.geometry.location.lat(),
-          longitude: request.destination.geometry.location.lng(),
-          country: extractCountryCode(request.destination.address_components),
-        },
-        origin: request.origin && {
-          description: request.origin.formatted_address,
-          latitude: request.origin.geometry.location.lat(),
-          longitude: request.origin.geometry.location.lng(),
-          country: extractCountryCode(request.origin.address_components),
-        },
+        destination: request.destination,
+        origin: request.origin,
         photoID: request.photoID,
         size: request.size,
     })
@@ -137,7 +115,8 @@ async function cancelRequest() {
               </span>
             </div>
 
-            <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Destination city" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
+            <LocationInput class="form-control form-control-lg" googlePlacesApiKey={process.env.GOOGLE_PLACES_API_KEY}
+                           on:locationSelected="{event => request.destination = event.detail}" placeholder="Destination city" />
           </div>
         </div>
       {:else}
@@ -163,7 +142,8 @@ async function cancelRequest() {
               </span>
             </div>
 
-            <GooglePlacesAutocomplete bind:value={request.origin} placeholder="Origin city" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
+            <LocationInput class="form-control form-control-lg" googlePlacesApiKey={process.env.GOOGLE_PLACES_API_KEY}
+                           on:locationSelected="{event => request.origin = event.detail}" placeholder="Origin city" />
           </div>
         </div>
       {:else}
