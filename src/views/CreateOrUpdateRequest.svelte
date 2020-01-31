@@ -80,6 +80,14 @@ async function cancelRequest() {
   
   cancelled()
 }
+
+function onDestinationChanged(event) {
+  request.destination = event.detail
+}
+
+function onOriginChanged(event) {
+  request.origin = event.detail
+}
 </script>
 
 <style>
@@ -117,7 +125,7 @@ async function cancelRequest() {
             </div>
 
             <LocationInput class="form-control form-control-lg" {googlePlacesApiKey}
-                           on:locationSelected="{event => request.destination = event.detail}" placeholder="Destination city" />
+                           on:change={onDestinationChanged} placeholder="Destination city" />
           </div>
         </div>
       {:else}
@@ -144,7 +152,7 @@ async function cancelRequest() {
             </div>
 
             <LocationInput class="form-control form-control-lg" {googlePlacesApiKey}
-                           on:locationSelected="{event => request.origin = event.detail}" placeholder="Origin city" />
+                           on:change={onOriginChanged} placeholder="Origin city" />
           </div>
         </div>
       {:else}
