@@ -12,9 +12,16 @@ const options = {
 }
 
 function onPlaceChanged(event) {
-  const place = event.detail.place
-  const description = event.detail.text
-  dispatch('locationSelected', {
+  const locationData = event.detail
+  if (locationData) {
+    selectLocation(locationData.text, locationData.place)
+  } else {
+    clearLocation()
+  }
+}
+
+function selectLocation(description, place) {
+  dispatch('change', {
     description: description,
     latitude: place.geometry.location.lat(),
     longitude: place.geometry.location.lng(),
@@ -24,6 +31,10 @@ function onPlaceChanged(event) {
 
 function extractCountryCode(addressComponents) {
   return addressComponents.filter(component => component.types.includes('country'))[0].short_name
+}
+
+function clearLocation() {
+  dispatch('change', null)
 }
 </script>
 
