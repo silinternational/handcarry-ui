@@ -127,7 +127,7 @@ function onOriginChanged(event) {
           </div>
         </div>
       {:else}
-        <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
+        <!-- TODO: Need to figure out how to make the locations editable. For now this is readonly. -->
         <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
       {/if}
     </div>
@@ -153,7 +153,7 @@ function onOriginChanged(event) {
           </div>
         </div>
       {:else}
-        <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
+        <!-- TODO: Need to figure out how to make the locations editable. For now this is readonly. -->
         <input class="form-control form-control-lg" placeholder={originDescription} readonly>
       {/if}
     </div>
