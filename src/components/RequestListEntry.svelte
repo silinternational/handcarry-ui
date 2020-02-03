@@ -9,6 +9,7 @@ export let request;
 
 $: user = request.createdBy || {}
 $: size = request.size
+$: origin = request.origin && request.origin.description
 </script>
 
 <style>
@@ -26,21 +27,35 @@ $: size = request.size
 }
 </style>
 
-<div class="card request-list-entry h-100" on:click={ () => push(`/requests/${request.id}`) }>
+<div class="card request-list-entry h-100" on:click="{ () => push(`/requests/${request.id}`) }">
   <div class="row no-gutters h-100">
-    <div class="col-1">
+    <div class="col-2 col-sm-1">
       <div class="card-img text-center h-100">
         <RequestImage {request} hideSize />
       </div>
     </div>
-    <div class="col">
-      <div class="card-body p-2">
-        <h3 class="card-title d-inline-block">{request.title}</h3>
-        <span class="card-text">| {request.destination.description}</span>
+    <div class="col-7 col-sm-9">
+      <div class="card-body p-1">
+        <h3 class="card-title text-truncate">{request.title}</h3>
+        <div class="form-row">
+          <div class="col-12 col-sm text-truncate" title={request.destination.description}>
+            <span class="text-muted small small-caps">To:</span>
+            {request.destination.description}
+          </div>
+          <div class="col-12 col-sm text-truncate" title={origin}>
+            <span class="text-muted small small-caps">From:</span>
+            {#if origin }
+              {origin}
+            {:else}
+              <i>anywhere</i>
+            {/if}
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-auto p-2"><SizeIndicator {size} /></div>
-    <div class="col-auto p-2"><UserAvatar {user} small />
+    <div class="col-3 col-sm-2 text-center small">
+      <SizeIndicator {size} /><br />
+      <UserAvatar {user} small />
     </div>
   </div>
 </div>

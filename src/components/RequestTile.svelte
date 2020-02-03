@@ -10,11 +10,12 @@ export let smaller = false;
 
 $: user = request.createdBy || {}
 $: size = request.size
+$: origin = request.origin && request.origin.description
 </script>
 
 <style>
 .card-footer.smaller {
-  line-height: 75%;
+  line-height: 1.3;
 }
 h3.smaller {
   font-size: 1.25rem;
@@ -32,23 +33,49 @@ h3.smaller {
 .request-tile > .request-image.smaller {
   height: 6rem;
 }
+.small-caps {
+  font-variant: small-caps;
+}
 .smaller {
   font-size: 0.9rem;
 }
+.smaller .from-prefix,
+.smaller .to-prefix {
+  display: block;
+}
+
+/* Leave space for the UserAvatar. */
+.to-from-lines { padding-right: 2.1rem; }
+.smaller .to-from-lines { padding-right: inherit; }
+.smaller .from-line { padding-right: 2.1rem;}
 </style>
 
 <div class="card request-tile" on:click={ () => push(`/requests/${request.id}`) }>
   <div class="card-img-top request-image text-center" class:smaller>
     <RequestImage {request} />
   </div>
-  <div class="card-body p-2">
-    <h3 class="card-title" class:smaller>{request.title}</h3>
-    <div class="card-text" class:smaller>{request.destination.description}</div>
+  <div class="card-body d-flex align-items-start flex-column p-2">
+    <h3 class="card-title mb-auto" class:smaller>{request.title}</h3>
   </div>
   <div class="card-footer p-2" class:smaller>
-    <div class="row">
-      <div class="col"><UserAvatar {user} small /></div>
-      <div class="col-auto"><a class="pr-1" href="#/requests/{request.id}">View</a></div>
+    <div class="position-relative">
+      <div class="position-absolute" style="bottom: 0; right: 0;"><UserAvatar {user} small /></div>
+      
+      <div class="to-from-lines">
+        <div class="text-truncate to-line" class:smaller title={request.destination.description}>
+          <span class="text-muted small small-caps to-prefix">To:</span>
+          {request.destination.description}
+        </div>
+        
+        <div class="text-truncate from-line" class:smaller title={origin}>
+          <span class="text-muted small small-caps from-prefix">From:</span>
+          {#if origin }
+            {origin}
+          {:else}
+            <i>anywhere</i>
+          {/if}
+        </div>
+      </div>
     </div>
   </div>
 </div>
