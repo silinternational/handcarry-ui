@@ -56,7 +56,7 @@ export async function createRequest(request) {
       createPost(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
-        neededBefore: ${json(request.neededBefore) || null}, 
+        neededBefore: ${json(request.neededBefore) || ''}, 
         origin: ${formatLocationForGql(request.origin)},
         orgID: ${json(request.orgID)},
         photoID: ${json(request.photoID || '')},
@@ -79,7 +79,7 @@ export async function updateRequest(request) {
       updatePost(input: {
         description: ${json(request.description || '')},
         id: ${json(request.id)},
-        neededBefore: ${json(request.neededBefore) || null}, 
+        neededBefore: ${json(request.neededBefore) || ''}, 
         photoID: ${json(request.photoID || '')},
         size: ${request.size}
         title: ${json(request.title)},
