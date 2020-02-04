@@ -1,6 +1,7 @@
 <script>
 import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
+import VisibilitySelector from '../components/VisibilitySelector.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me } from '../data/user'
 import { requests, cancel, create, update } from '../data/requests'
@@ -38,6 +39,7 @@ function validate(request) {
   assertHas(request.title, 'Please tell us what you are requesting')
   assertHas(request.destination, 'Please provide a destination')
   assertHas(request.size, 'Please tell us the size of the item you are requesting')
+  assertHas(request.visibility, 'Please tell us who should be able to see this request (visibility)')
 }
 
 async function onSubmit() {
@@ -53,6 +55,7 @@ async function onSubmit() {
         origin: request.origin,
         photoID: request.photoID,
         size: request.size,
+        visibility: request.visibility,
     })
 
     push(`/requests`)
@@ -86,6 +89,10 @@ function onDestinationChanged(event) {
 
 function onOriginChanged(event) {
   request.origin = event.detail
+}
+
+function OnVisibilityChanged(event) {
+  request.visibility = event.detail
 }
 </script>
 
@@ -188,6 +195,18 @@ function onOriginChanged(event) {
     <div class="col">
       <textarea class="form-control" bind:value={request.description} rows="3" 
                 id="request-description" placeholder="Please describe the item" />
+    </div>
+  </div>
+
+  <div class="form-row form-group">
+    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      <label for="request-description">
+        Visibility:<br />
+        <small class="text-muted font-italic">(Who can see this request)</small>
+      </label>
+    </div>
+    <div class="col">
+      <VisibilitySelector on:change={OnVisibilityChanged} visibility={request.visibility} />
     </div>
   </div>
 

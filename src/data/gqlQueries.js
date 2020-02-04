@@ -62,6 +62,7 @@ export async function createRequest(request) {
         size: ${request.size}
         title: ${json(request.title)},
         type: REQUEST,
+        visibility: ${request.visibility},
       }) 
       {
         ${postFields}
@@ -81,6 +82,7 @@ export async function updateRequest(request) {
         photoID: ${json(request.photoID || '')},
         size: ${request.size}
         title: ${json(request.title)},
+        visibility: ${request.visibility},
       }) 
       {
         ${postFields}
@@ -215,6 +217,7 @@ const postFields = `
   size
   status
   title
+  visibility
 `
 const messageFields = `
   content
