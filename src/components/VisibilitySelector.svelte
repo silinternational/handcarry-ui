@@ -7,7 +7,7 @@ export let visibility
 const dispatch = createEventDispatcher()
 
 $: organizations = $me.organizations || []
-$: organizationNames = organizations.map(org => org.name).join(' and ')
+$: organizationNames = organizations.map(org => org.name).join(' and ') || 'my organization'
 $: options = [
   {
     'value': 'SAME',
