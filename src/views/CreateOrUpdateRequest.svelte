@@ -50,6 +50,7 @@ async function onSubmit() {
         title: request.title,
         description: request.description,
         destination: request.destination,
+        neededBefore: request.neededBefore, 
         origin: request.origin,
         photoID: request.photoID,
         size: request.size,
@@ -188,6 +189,18 @@ function onOriginChanged(event) {
     <div class="col">
       <textarea class="form-control" bind:value={request.description} rows="3" 
                 id="request-description" placeholder="Please describe the item" />
+    </div>
+  </div>
+
+  <div class="form-row form-group">
+    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      <label for="request-description">
+        Needed before:<br />
+        <small class="text-muted font-italic">(optional)</small>
+      </label>
+    </div>
+    <div class="col">
+      <input type="date" class="form-control form-control-lg" bind:value={request.neededBefore} />
     </div>
   </div>
 
