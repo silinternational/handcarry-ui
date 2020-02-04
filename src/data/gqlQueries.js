@@ -165,7 +165,7 @@ const json = JSON.stringify
 const formatLocationForGql = function (location) {
   if (location) {
     return `{
-      country: ${json(location.country)}
+      country: ${json(location.country)},
       description: ${json(location.description)},
       latitude: ${json(location.latitude)},
       longitude: ${json(location.longitude)},
