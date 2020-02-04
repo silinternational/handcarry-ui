@@ -23,6 +23,9 @@ function goToConversation(conversationId) {
 </script>
 
 <style>
+.keep-line-breaks {
+  white-space: pre-line;
+}
 .request-image-container {
   height: 160px; /* Set height inherited by request image, so it's not 0px */
   min-width: 105px;
@@ -73,7 +76,7 @@ function goToConversation(conversationId) {
           </div>
         </div>
       </div>
-      <p class="mb-4">{ request.description || '' }</p>
+      <p class="mb-4 keep-line-breaks">{ request.description || '' }</p>
       {#if isMine}
         <a href="#/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary mb-2">Edit request</a>
       {/if}
