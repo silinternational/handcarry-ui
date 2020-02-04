@@ -205,7 +205,7 @@ function OnVisibilityChanged(event) {
         <small class="text-muted font-italic">(Who can see this request)</small>
       </label>
     </div>
-    <div class="col">
+    <div class="col p-2">
       <VisibilitySelector on:change={OnVisibilityChanged} visibility={request.visibility} />
     </div>
   </div>
