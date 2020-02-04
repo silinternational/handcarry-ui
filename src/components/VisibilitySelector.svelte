@@ -7,16 +7,15 @@ export let visibility
 const dispatch = createEventDispatcher()
 
 $: organizations = $me.organizations || []
-$: hasOrganization = organizations.length > 0
-$: organization = hasOrganization ? organizations[0] : {}
+$: organizationNames = organizations.map(org => org.name).join(' and ')
 $: options = [
   {
     'value': 'SAME',
-    'label': `Only members of ${organization.name}`
+    'label': `Only members of ${organizationNames}`
   },
   {
     'value': 'TRUSTED',
-    'label': `Only members of ${organization.name} and affiliated organizations`
+    'label': `Only members of ${organizationNames} and affiliated organizations`
   },
   {
     'value': 'ALL',
