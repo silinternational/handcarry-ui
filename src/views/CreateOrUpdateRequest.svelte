@@ -127,7 +127,6 @@ function onOriginChanged(event) {
           </div>
         </div>
       {:else}
-        <!-- TODO: Need to figure out how to make the locations editable. For now this is readonly. -->
         <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
       {/if}
     </div>
@@ -153,7 +152,6 @@ function onOriginChanged(event) {
           </div>
         </div>
       {:else}
-        <!-- TODO: Need to figure out how to make the locations editable. For now this is readonly. -->
         <input class="form-control form-control-lg" placeholder={originDescription} readonly>
       {/if}
     </div>
