@@ -58,7 +58,7 @@ export async function createRequest(request) {
         destination: ${formatLocationForGql(request.destination)},
         origin: ${formatLocationForGql(request.origin)},
         orgID: ${json(request.orgID)},
-        photoID: ${json(request.photoID || '')},
+        photoID: ${json(request.photoID || null)},
         size: ${request.size}
         title: ${json(request.title)},
         type: REQUEST,
