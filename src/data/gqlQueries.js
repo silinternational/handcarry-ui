@@ -60,7 +60,7 @@ export async function createRequest(request) {
         origin: ${formatLocationForGql(request.origin)},
         orgID: ${json(request.orgID)},
         photoID: ${json(request.photoID || null)},
-        size: ${request.size}
+        size: ${request.size},
         title: ${json(request.title)},
         type: REQUEST,
       }) 
@@ -81,7 +81,7 @@ export async function updateRequest(request) {
         id: ${json(request.id)},
         neededBefore: ${json(request.neededBefore) || ''}, 
         photoID: ${json(request.photoID || null)},
-        size: ${request.size}
+        size: ${request.size},
         title: ${json(request.title)},
       }) 
       {
