@@ -75,10 +75,12 @@ function goToConversation(conversationId) {
                 <span class="font-italic">anywhere</span>
               {/if}
             </dd>
+            
+            {#if isMine && request.visibility }
+              <dt>Visible to</dt>
+              <dd>{ describeVisibility(request.visibility, [request.organization]) }</dd>
+            {/if}
           </dl>
-          {#if isMine && request.visibility }
-            <p>Visible to: { describeVisibility(request.visibility, [request.organization]) }</p>
-          {/if}
         </div>
         <div class="col-auto">
           <div class="user-avatar-container text-center mb-2">
