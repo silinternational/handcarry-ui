@@ -74,6 +74,11 @@ function goToConversation(conversationId) {
                 <span class="font-italic">anywhere</span>
               {/if}
             </dd>
+            
+            {#if request.neededBefore }
+              <dt>Needed before</dt>
+              <dd>{ (new Date(request.neededBefore + ' 00:00:00')).toLocaleDateString() }</dd>
+            {/if}
           </dl>
         </div>
         <div class="col-auto">
