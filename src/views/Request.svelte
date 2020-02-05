@@ -14,8 +14,8 @@ $: conversationId = params.conversationId
 $: request = $requests.find(({ id }) => id === params.id) || {}
 $: requester = request.createdBy || {}
 $: isMine = $me.id && (requester.id === $me.id) // Check $me.id first to avoid `undefined === undefined`
-$: destination = request.destination && request.destination.description || ''
-$: origin = request.origin && request.origin.description || ''
+$: destination = (request.destination && request.destination.description) || ''
+$: origin = (request.origin && request.origin.description) || ''
 
 function goToConversation(conversationId) {
   replace(`/requests/${params.id}/conversation/${conversationId}`)
@@ -62,12 +62,19 @@ function goToConversation(conversationId) {
       <div class="row">
         <div class="col">
           <h3 class="card-title">{ request.title || ''}</h3>
-          <p>
-            Deliver to <u>{ destination }</u>
-            {#if origin }
-              <br />from <u>{ origin }</u>
-            {/if}
-          </p>
+          <dl>
+            <dt>Deliver to</dt>
+            <dd>{ destination }</dd>
+            
+            <dt>From</dt>
+            <dd>
+              {#if origin }
+                { origin }
+              {:else}
+                <span class="font-italic">anywhere</span>
+              {/if}
+            </dd>
+          </dl>
         </div>
         <div class="col-auto">
           <div class="user-avatar-container text-center mb-2">
