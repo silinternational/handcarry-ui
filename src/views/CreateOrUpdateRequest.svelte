@@ -5,7 +5,7 @@ import Uploader from '../components/Uploader.svelte'
 import { me } from '../data/user'
 import { requests, cancel, create, update } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
-import { format, addMonths } from 'date-fns'
+import { format, addDays } from 'date-fns'
 import LocationInput from '../components/LocationInput.svelte'
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -20,6 +20,7 @@ const newRequest = {
   title: '',
   description: ''
 }
+const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
 $: request = $requests.find(({ id }) => id === params.id) || newRequest
 $: isNew = !request.id
@@ -198,7 +199,7 @@ function onOriginChanged(event) {
       </label>
     </div>
     <div class="col">
-      <input type="date" class="form-control form-control-lg" bind:value={request.neededBefore} />
+      <input type="date" class="form-control form-control-lg" min={tomorrow} bind:value={request.neededBefore} />
     </div>
   </div>
 
