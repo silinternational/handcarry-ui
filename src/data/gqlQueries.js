@@ -78,7 +78,7 @@ export async function updateRequest(request) {
       updatePost(input: {
         description: ${json(request.description || '')},
         id: ${json(request.id)},
-        photoID: ${json(request.photoID || '')},
+        photoID: ${json(request.photoID || null)},
         size: ${request.size}
         title: ${json(request.title)},
       }) 
