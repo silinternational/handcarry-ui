@@ -6,7 +6,7 @@ import { me } from '../data/user'
 import { requests, cancel, create, update } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
-import { GooglePlacesAutocomplete } from '@beyonk/svelte-googlemaps' //https://github.com/beyonk-adventures/svelte-googlemaps
+import LocationInput from '../components/LocationInput.svelte'
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updated, created, cancelled } from '../data/analytics'
@@ -16,13 +16,6 @@ export let params = {} // URL path parameters, provided by router.
 
 let imageUrl = ''
 
-// Needed to override the default 'regions' restriction in the GooglePlacesAutocomplete component
-// so we could use house addresses, lat/long, etc...no need for restrictions.  See 
-// (https://developers.google.com/places/supported_types#table3 && https://github.com/beyonk-adventures/svelte-googlemaps/blob/master/src/GooglePlacesAutocomplete.svelte#L15)
-const options = {
-  types: []
-}
-
 const newRequest = {
   title: '',
   description: ''
@@ -30,12 +23,9 @@ const newRequest = {
 
 $: request = $requests.find(({ id }) => id === params.id) || newRequest
 $: isNew = !request.id
+$: originDescription = (request.origin && request.origin.description) || ''
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
-}
-
-function extractCountryCode(addressComponents) {
-  return addressComponents.filter(component => component.types.includes('country'))[0].short_name
 }
 
 function assertHas(value, errorMessage) {
@@ -59,12 +49,8 @@ async function onSubmit() {
         type: "REQUEST",
         title: request.title,
         description: request.description,
-        destination: {
-          description: request.destination.formatted_address,
-          latitude: request.destination.geometry.location.lat(),
-          longitude: request.destination.geometry.location.lng(),
-          country: extractCountryCode(request.destination.address_components),
-        },
+        destination: request.destination,
+        origin: request.origin,
         photoID: request.photoID,
         size: request.size,
     })
@@ -93,6 +79,14 @@ async function cancelRequest() {
   
   cancelled()
 }
+
+function onDestinationChanged(event) {
+  request.destination = event.detail
+}
+
+function onOriginChanged(event) {
+  request.origin = event.detail
+}
 </script>
 
 <style>
@@ -116,7 +110,7 @@ async function cancelRequest() {
   
   <div class="form-row form-group">
     <label class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      Destination:
+      To:
     </label>
     
     <div class="col">
@@ -129,12 +123,36 @@ async function cancelRequest() {
               </span>
             </div>
 
-            <GooglePlacesAutocomplete bind:value={request.destination} placeholder="Where?" {options} apiKey={process.env.GOOGLE_PLACES_API_KEY} styleClass="form-control form-control-lg" />
+            <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged} placeholder="Destination city" />
           </div>
         </div>
       {:else}
-        <!-- TODO: need to learn how to preload the GPA with existing values while having the value get loaded with the right location object, for now this is readonly  -->
         <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
+      {/if}
+    </div>
+  </div>
+  
+  <div class="form-row form-group">
+    <label class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      From: <br />
+      <small class="text-muted font-italic">(optional)</small>
+    </label>
+    
+    <div class="col">
+      {#if isNew}
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <span class="input-group-text">
+                <Icon icon={faMapMarkerAlt} />
+              </span>
+            </div>
+
+            <LocationInput class="form-control form-control-lg" on:change={onOriginChanged} placeholder="Origin city" />
+          </div>
+        </div>
+      {:else}
+        <input class="form-control form-control-lg" placeholder={originDescription} readonly>
       {/if}
     </div>
   </div>
@@ -179,7 +197,7 @@ async function cancelRequest() {
     
     {#if !isNew}
       <div class="col-auto text-center">
-        <button on:click={cancelRequest} class="btn btn-outline-danger">
+        <button type="button" on:click={cancelRequest} class="btn btn-outline-danger">
           <Icon icon={faTrash} /> Delete
         </button>
       </div>

@@ -14,7 +14,8 @@ $: conversationId = params.conversationId
 $: request = $requests.find(({ id }) => id === params.id) || {}
 $: requester = request.createdBy || {}
 $: isMine = $me.id && (requester.id === $me.id) // Check $me.id first to avoid `undefined === undefined`
-$: destination = request.destination && request.destination.description || ''
+$: destination = (request.destination && request.destination.description) || ''
+$: origin = (request.origin && request.origin.description) || ''
 
 function goToConversation(conversationId) {
   replace(`/requests/${params.id}/conversation/${conversationId}`)
@@ -22,6 +23,9 @@ function goToConversation(conversationId) {
 </script>
 
 <style>
+.keep-line-breaks {
+  white-space: pre-line;
+}
 .request-image-container {
   height: 160px; /* Set height inherited by request image, so it's not 0px */
   min-width: 105px;
@@ -49,7 +53,7 @@ function goToConversation(conversationId) {
   <div class="row">
     <div class="col-12 col-sm-4 col-lg-3">
       <div class="row">
-        <div class="col col-sm-12 mb-4"><div class="request-image-container"><RequestImage {request} /></div></div>
+        <div class="col col-sm-12 mb-4"><div class="request-image-container"><RequestImage {request} hideSize /></div></div>
         <div class="col col-sm-12 mb-4"><div class="size-tile-container"><SizeTile size={request.size} /></div></div>
       </div>
     </div>
@@ -58,7 +62,19 @@ function goToConversation(conversationId) {
       <div class="row">
         <div class="col">
           <h3 class="card-title">{ request.title || ''}</h3>
-          <p>Deliver to <u>{ destination }</u></p>
+          <dl>
+            <dt>Deliver to</dt>
+            <dd>{ destination }</dd>
+            
+            <dt>From</dt>
+            <dd>
+              {#if origin }
+                { origin }
+              {:else}
+                <span class="font-italic">anywhere</span>
+              {/if}
+            </dd>
+          </dl>
         </div>
         <div class="col-auto">
           <div class="user-avatar-container text-center mb-2">
@@ -67,7 +83,7 @@ function goToConversation(conversationId) {
           </div>
         </div>
       </div>
-      <p class="mb-4">{ request.description || '' }</p>
+      <p class="mb-4 keep-line-breaks">{ request.description || '' }</p>
       {#if isMine}
         <a href="#/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary mb-2">Edit request</a>
       {/if}

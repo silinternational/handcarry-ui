@@ -55,14 +55,10 @@ export async function createRequest(request) {
     mutation {
       createPost(input: {
         description: ${json(request.description || '')},
-        destination: {
-          country: ${json(request.destination.country)}
-          description: ${json(request.destination.description)},
-          latitude: ${json(request.destination.latitude)},
-          longitude: ${json(request.destination.longitude)},
-        },
+        destination: ${formatLocationForGql(request.destination)},
+        origin: ${formatLocationForGql(request.origin)},
         orgID: ${json(request.orgID)},
-        photoID: ${json(request.photoID || '')},
+        photoID: ${json(request.photoID || null)},
         size: ${request.size}
         title: ${json(request.title)},
         type: REQUEST,
@@ -82,7 +78,7 @@ export async function updateRequest(request) {
       updatePost(input: {
         description: ${json(request.description || '')},
         id: ${json(request.id)},
-        photoID: ${json(request.photoID || '')},
+        photoID: ${json(request.photoID || null)},
         size: ${request.size}
         title: ${json(request.title)},
       }) 
@@ -166,6 +162,18 @@ export async function markMessagesAsRead(threadId) {
 
 const json = JSON.stringify
 
+const formatLocationForGql = function (location) {
+  if (location) {
+    return `{
+      country: ${json(location.country)},
+      description: ${json(location.description)},
+      latitude: ${json(location.latitude)},
+      longitude: ${json(location.longitude)},
+    }`
+  }
+  return `null`
+}
+
 const userFields = `
   avatarURL
   email
@@ -185,6 +193,9 @@ const postFields = `
   }
   description
   destination {
+    description
+  }
+  origin {
     description
   }
   id

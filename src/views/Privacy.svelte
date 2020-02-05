@@ -14,7 +14,7 @@ h2 {
 </style>
 
 <h1 class="py-4">WeCarry Privacy Policy</h1>
-<p>Effective December 1, 2019</p>
+<p>Effective February 4, 2020</p>
 <p>Thank you for entrusting WeCarry with your hand-carry coordination needs. We understand this may include personal information about you such as your location and name, and so we take great care and responsibility to protect your information. This page describes what information we collect and how we use it.</p>
 
 <h2 id="the-short-version">The short version</h2>
@@ -50,7 +50,11 @@ h2 {
   </tr>
   <tr>
     <td>Your email address</td>
-    <td>Your email address is used for system-generated communications and notifications, and a one-way hash of your email address is used to look up your Gravatar image. 
+    <td>
+      <ol>
+        <li>Your email address is used for system-generated communications and notifications, and a one-way hash of your email address is used to look up your Gravatar image.</li>
+        <li>When your account is created, you will be added to our marketing email list. We respect your inbox and send updates very infrequently and you can unsubscribe from this list by clicking the Unsubscribe link in any of our marketing emails.</li>
+      </ol>
     </td>
   </tr>
   <tr>

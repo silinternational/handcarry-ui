@@ -5,10 +5,10 @@ import SizeIndicator from './SizeIndicator.svelte'
 
 export let request = {}
 export let cssClass = ''
-export let showSize = true
+export let hideSize = false
 
 $: size = request.size
-$: photoUrl = request.photo && request.photo.url || ''
+$: photoUrl = (request.photo && request.photo.url) || ''
 $: imgUrl = photoUrl || getGraphicForSize(size)
 
 function getGraphicForSize(requestSize) {
@@ -45,5 +45,5 @@ function getGraphicForSize(requestSize) {
 </style>
 
 <div style="background-image: url({imgUrl})" class:request-photo={photoUrl} class:generic-graphic={!photoUrl} class="{cssClass}">
-  <div class:d-none={!showSize} class="size-indicator-container"><SizeIndicator {size} /></div>
+  <div class:d-none={hideSize} class="size-indicator-container"><SizeIndicator {size} /></div>
 </div>
