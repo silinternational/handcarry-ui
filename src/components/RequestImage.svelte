@@ -8,7 +8,7 @@ export let cssClass = ''
 export let hideSize = false
 
 $: size = request.size
-$: photoUrl = request.photo && request.photo.url || ''
+$: photoUrl = (request.photo && request.photo.url) || ''
 $: imgUrl = photoUrl || getGraphicForSize(size)
 
 function getGraphicForSize(requestSize) {
