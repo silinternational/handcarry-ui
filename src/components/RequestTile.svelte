@@ -72,7 +72,7 @@ h3.smaller {
           {#if origin }
             {origin}
           {:else}
-            <i>anywhere</i>
+            <span class="font-italic">anywhere</span>
           {/if}
         </div>
       </div>
