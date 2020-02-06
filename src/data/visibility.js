@@ -1,12 +1,15 @@
+const myOrganization = 'my organization'
 
-export function describeVisibility(value, organizations) {
-  const organizationNames = organizations.map(org => org.name).join(' and ') || 'my organization'
-  const descriptions = {
-    SAME: `Only members of ${organizationNames}`,
-    TRUSTED: `Only members of ${organizationNames} and affiliated organizations`,
-    ALL: `All WeCarry users`
-  }
-  return descriptions[value] || ''
+const descriptions = {
+  SAME: `Only members of ${myOrganization}`,
+  TRUSTED: `Only members of ${myOrganization} and affiliated organizations`,
+  ALL: `All WeCarry users`
 }
 
-export const values = ['SAME', 'TRUSTED', 'ALL']
+export function describeVisibility(value, organizations) {
+  const organizationNames = organizations.map(org => org.name).join(' and ') || myOrganization
+  const description = descriptions[value] || ''
+  return description.replace(myOrganization, organizationNames)
+}
+
+export const values = Object.getOwnPropertyNames(descriptions)
