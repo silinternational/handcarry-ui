@@ -7,6 +7,7 @@ import { requests, cancel, create, update } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import { format, addMonths } from 'date-fns'
 import LocationInput from '../components/LocationInput.svelte'
+import WeightSelector from '../components/WeightSelector.svelte'
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updated, created, cancelled } from '../data/analytics'
@@ -87,6 +88,10 @@ function onDestinationChanged(event) {
 function onOriginChanged(event) {
   request.origin = event.detail
 }
+
+function onWeightChanged(event) {
+  request.kilograms = event.detail
+}
 </script>
 
 <style>
@@ -160,6 +165,14 @@ function onOriginChanged(event) {
   <div class="form-row form-group">
     <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">Size: </div>
     <div class="col"><SizeSelector bind:selectedName={request.size} /></div>
+  </div>
+  
+  <div class="form-row form-group">
+    <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">
+      Weight:<br />
+      <small class="text-muted font-italic">(optional)</small>
+    </div>
+    <div class="col"><WeightSelector on:change={onWeightChanged} kilograms={request.kilograms} /></div>
   </div>
   
   <div class="form-row form-group">
