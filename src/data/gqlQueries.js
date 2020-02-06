@@ -203,6 +203,7 @@ const postFields = `
     description
   }
   id
+  kilograms
   neededBefore
   organization {
     name

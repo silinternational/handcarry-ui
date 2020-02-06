@@ -7,6 +7,7 @@ import { requests, loading } from '../data/requests'
 import UserAvatar from '../components/UserAvatar.svelte'
 import RequestMessaging from '../components/RequestMessaging.svelte'
 import OtherRequestsBy from '../components/OtherRequestsBy.svelte'
+import WeightDisplay from '../components/WeightDisplay.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -78,6 +79,11 @@ function goToConversation(conversationId) {
             {#if request.neededBefore }
               <dt>Needed before</dt>
               <dd>{ (new Date(request.neededBefore + ' 00:00:00')).toLocaleDateString() }</dd>
+            {/if}
+            
+            {#if request.kilograms }
+              <dt>Weight</dt>
+              <dd><WeightDisplay kilograms={request.kilograms} /></dd>
             {/if}
           </dl>
         </div>
