@@ -56,6 +56,7 @@ export async function createRequest(request) {
       createPost(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
+        kilograms: ${json(request.kilograms || null)}, 
         neededBefore: ${json(request.neededBefore || '')}, 
         origin: ${formatLocationForGql(request.origin)},
         orgID: ${json(request.orgID)},
@@ -78,6 +79,7 @@ export async function updateRequest(request) {
     mutation {
       updatePost(input: {
         description: ${json(request.description || '')},
+        kilograms: ${json(request.kilograms || null)}, 
         id: ${json(request.id)},
         neededBefore: ${json(request.neededBefore || '')}, 
         photoID: ${json(request.photoID || null)},

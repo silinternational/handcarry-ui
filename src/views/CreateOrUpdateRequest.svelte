@@ -52,6 +52,7 @@ async function onSubmit() {
         title: request.title,
         description: request.description,
         destination: request.destination,
+        kilograms: request.kilograms,
         neededBefore: request.neededBefore, 
         origin: request.origin,
         photoID: request.photoID,
