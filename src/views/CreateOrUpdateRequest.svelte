@@ -41,7 +41,6 @@ function validate(request) {
   assertHas(request.title, 'Please tell us what you are requesting')
   assertHas(request.destination, 'Please provide a destination')
   assertHas(request.size, 'Please tell us the size of the item you are requesting')
-  assertHas(request.visibility, 'Please tell us who should be able to see this request (visibility)')
 }
 
 async function onSubmit() {
