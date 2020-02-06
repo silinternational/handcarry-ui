@@ -19,7 +19,8 @@ let imageUrl = ''
 
 const newRequest = {
   title: '',
-  description: ''
+  description: '',
+  visibility: 'SAME'
 }
 const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
