@@ -200,7 +200,7 @@ function OnVisibilityChanged(event) {
 
   <div class="form-row form-group">
     <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      <label for="request-description">
+      <label>
         Visibility:<br />
         <small class="text-muted font-italic">(Who can see this request)</small>
       </label>
@@ -212,13 +212,13 @@ function OnVisibilityChanged(event) {
 
   <div class="form-row form-group">
     <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      <label for="request-description">
+      <label for="request-needed-before">
         Needed before:<br />
         <small class="text-muted font-italic">(optional)</small>
       </label>
     </div>
     <div class="col">
-      <input type="date" class="form-control form-control-lg" min={tomorrow} bind:value={request.neededBefore} />
+      <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={request.neededBefore} />
     </div>
   </div>
 
