@@ -7,6 +7,7 @@ import { requests, loading } from '../data/requests'
 import UserAvatar from '../components/UserAvatar.svelte'
 import RequestMessaging from '../components/RequestMessaging.svelte'
 import OtherRequestsBy from '../components/OtherRequestsBy.svelte'
+import { describeVisibility } from '../data/visibility.js'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -74,6 +75,11 @@ function goToConversation(conversationId) {
                 <span class="font-italic">anywhere</span>
               {/if}
             </dd>
+            
+            {#if isMine && request.visibility }
+              <dt>Visible to</dt>
+              <dd>{ describeVisibility(request.visibility, [request.organization]) }</dd>
+            {/if}
             
             {#if request.neededBefore }
               <dt>Needed before</dt>
