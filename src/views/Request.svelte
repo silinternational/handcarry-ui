@@ -80,6 +80,11 @@ function goToConversation(conversationId) {
               <dt>Visible to</dt>
               <dd>{ describeVisibility(request.visibility, [request.organization]) }</dd>
             {/if}
+            
+            {#if request.neededBefore }
+              <dt>Needed before</dt>
+              <dd>{ (new Date(request.neededBefore + ' 00:00:00')).toLocaleDateString() }</dd>
+            {/if}
           </dl>
         </div>
         <div class="col-auto">
