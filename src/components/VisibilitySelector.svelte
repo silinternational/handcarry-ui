@@ -1,12 +1,11 @@
 <script>
 import { createEventDispatcher } from 'svelte'
 import { me } from '../data/user.js'
-import { describeVisibility } from '../data/visibility.js'
+import { describeVisibility, values } from '../data/visibility.js'
 
 export let visibility
 
 const dispatch = createEventDispatcher()
-const values = ['SAME', 'TRUSTED', 'ALL']
 
 $: organizations = $me.organizations || []
 $: dispatch('change', visibility)

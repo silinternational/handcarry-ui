@@ -1,3 +1,4 @@
+
 export function describeVisibility(value, organizations) {
   const organizationNames = organizations.map(org => org.name).join(' and ') || 'my organization'
   const descriptions = {
@@ -7,3 +8,5 @@ export function describeVisibility(value, organizations) {
   }
   return descriptions[value] || ''
 }
+
+export const values = ['SAME', 'TRUSTED', 'ALL']
