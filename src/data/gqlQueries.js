@@ -76,11 +76,12 @@ export async function createRequest(request) {
 }
 
 export async function updateRequest(request) {
+  // TODO: When API is updated to erase values when we send `null`, update `|| something` to `|| null`
   const response = await gql(`
     mutation {
       updatePost(input: {
         description: ${json(request.description || '')},
-        kilograms: ${json(request.kilograms || null)}, 
+        kilograms: ${json(request.kilograms || 0)}, 
         id: ${json(request.id)},
         neededBefore: ${json(request.neededBefore || '')}, 
         photoID: ${json(request.photoID || null)},
