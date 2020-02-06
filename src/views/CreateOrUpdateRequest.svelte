@@ -1,6 +1,7 @@
 <script>
 import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
+import VisibilitySelector from '../components/VisibilitySelector.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me } from '../data/user'
 import { requests, cancel, create, update } from '../data/requests'
@@ -19,7 +20,8 @@ let imageUrl = ''
 
 const newRequest = {
   title: '',
-  description: ''
+  description: '',
+  visibility: 'SAME'
 }
 const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
@@ -57,6 +59,7 @@ async function onSubmit() {
         origin: request.origin,
         photoID: request.photoID,
         size: request.size,
+        visibility: request.visibility,
     })
 
     push(`/requests`)
@@ -90,6 +93,10 @@ function onDestinationChanged(event) {
 
 function onOriginChanged(event) {
   request.origin = event.detail
+}
+
+function OnVisibilityChanged(event) {
+  request.visibility = event.detail
 }
 
 function onWeightChanged(event) {
@@ -207,13 +214,25 @@ function onWeightChanged(event) {
 
   <div class="form-row form-group">
     <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      <label for="request-description">
+      <label>
+        Visibility:<br />
+        <small class="text-muted font-italic">(Who can see this request)</small>
+      </label>
+    </div>
+    <div class="col p-2">
+      <VisibilitySelector on:change={OnVisibilityChanged} visibility={request.visibility} />
+    </div>
+  </div>
+
+  <div class="form-row form-group">
+    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      <label for="request-needed-before">
         Needed before:<br />
         <small class="text-muted font-italic">(optional)</small>
       </label>
     </div>
     <div class="col">
-      <input type="date" class="form-control form-control-lg" min={tomorrow} bind:value={request.neededBefore} />
+      <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={request.neededBefore} />
     </div>
   </div>
 
