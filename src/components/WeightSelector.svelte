@@ -1,10 +1,10 @@
 <script>
+import { kilogramsToPounds, poundsToKilograms } from '../data/weight'
 import { createEventDispatcher } from 'svelte'
 
 export let kilograms
 
 const dispatch = createEventDispatcher()
-const kilogramsPerPound = 0.45359237
 
 let pounds
 let units
@@ -63,14 +63,6 @@ function onUnitsChanged(event) {
   }
   
   dispatch('change', kilograms)
-}
-
-function kilogramsToPounds(kgs) {
-  return kgs / kilogramsPerPound
-}
-
-function poundsToKilograms(lbs) {
-  return lbs * kilogramsPerPound
 }
 </script>
 

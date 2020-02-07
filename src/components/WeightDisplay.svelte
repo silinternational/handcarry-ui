@@ -1,7 +1,9 @@
 <script>
+import { kilogramsToPounds } from '../data/weight'
+
 export let kilograms
 
-$: pounds = kilograms /  0.45359237
+$: pounds = kilogramsToPounds(kilograms)
 
 function round(value) {
   return Math.round(value * 10) / 10
