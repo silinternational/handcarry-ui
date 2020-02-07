@@ -8,6 +8,7 @@ import { requests, cancel, create, update } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
 import { format, addDays } from 'date-fns'
 import LocationInput from '../components/LocationInput.svelte'
+import WeightSelector from '../components/WeightSelector.svelte'
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updated, created, cancelled } from '../data/analytics'
@@ -53,6 +54,7 @@ async function onSubmit() {
         title: request.title,
         description: request.description,
         destination: request.destination,
+        kilograms: request.kilograms,
         neededBefore: request.neededBefore, 
         origin: request.origin,
         photoID: request.photoID,
@@ -95,6 +97,10 @@ function onOriginChanged(event) {
 
 function OnVisibilityChanged(event) {
   request.visibility = event.detail
+}
+
+function onWeightChanged(event) {
+  request.kilograms = event.detail
 }
 </script>
 
@@ -169,6 +175,14 @@ function OnVisibilityChanged(event) {
   <div class="form-row form-group">
     <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">Size: </div>
     <div class="col"><SizeSelector bind:selectedName={request.size} /></div>
+  </div>
+  
+  <div class="form-row form-group">
+    <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">
+      Weight:<br />
+      <small class="text-muted font-italic">(optional)</small>
+    </div>
+    <div class="col"><WeightSelector on:change={onWeightChanged} kilograms={request.kilograms} /></div>
   </div>
   
   <div class="form-row form-group">

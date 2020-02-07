@@ -56,6 +56,7 @@ export async function createRequest(request) {
       createPost(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
+        kilograms: ${json(request.kilograms || null)}, 
         neededBefore: ${json(request.neededBefore || '')}, 
         origin: ${formatLocationForGql(request.origin)},
         orgID: ${json(request.orgID)},
@@ -75,10 +76,12 @@ export async function createRequest(request) {
 }
 
 export async function updateRequest(request) {
+  // TODO: When API is updated to erase values when we send `null`, update `|| something` to `|| null`
   const response = await gql(`
     mutation {
       updatePost(input: {
         description: ${json(request.description || '')},
+        kilograms: ${json(request.kilograms || 0)}, 
         id: ${json(request.id)},
         neededBefore: ${json(request.neededBefore || '')}, 
         photoID: ${json(request.photoID || null)},
@@ -203,6 +206,7 @@ const postFields = `
     description
   }
   id
+  kilograms
   neededBefore
   organization {
     name
