@@ -10,4 +10,10 @@ function round(value) {
 }
 </script>
 
-{ round(kilograms) }&nbsp;kg / { round(pounds) }&nbsp;lbs
+<style>
+span {
+  white-space: nowrap;
+}
+</style>
+
+<span>{ round(kilograms) } kg</span> / <span>{ round(pounds) } lbs</span>
