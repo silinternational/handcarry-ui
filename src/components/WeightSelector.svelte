@@ -9,19 +9,20 @@ const dispatch = createEventDispatcher()
 let pounds
 let units
 
-// If it looks like the value was provided as pounds, default to showing the value in pounds.
-$: kilograms && wasProbablyStoredAsPounds(kilograms) && showPoundsOnInitialLoad()
+// if kilograms was provied, determine units...(just once and 0 is possible)
+$: kilograms !== undefined && showPoundsOnInitialLoad()
 
 function wasProbablyStoredAsPounds(kilograms) {
   return String(kilograms).indexOf('.') >= 0
 }
 
 let showPoundsOnInitialLoad = function() {
-  // We only ever want to do this once (per "page"/view load).
-  units = 'lb'
-  pounds = Math.round(kilogramsToPounds(kilograms))
+  if (wasProbablyStoredAsPounds(kilograms)) {
+    units = 'lb'
+    pounds = Math.round(kilogramsToPounds(kilograms))
+  }
   
-  showPoundsOnInitialLoad = Function() // noop
+  showPoundsOnInitialLoad = Function() // noop since we want this to be a one-time check per "page view"
 }
 
 function onNumberChanged(event) {
@@ -45,10 +46,9 @@ function onNumberChanged(event) {
  * Enforce some basic requirements:
  * - No negative values
  * - No decimal values (round them)
- * - Don't allow zero (0), replace it with one (1)
  */
 function normalize(value) {
-  return Math.abs(Math.round(value)) || 1
+  return Math.abs(Math.round(value))
 }
 
 function onUnitsChanged(event) {
