@@ -23,4 +23,4 @@ span {
 }
 </style>
 
-<span>{ format(kilograms) } kg</span> / <span>{ format(pounds) } lbs</span>
+<span>{ format(kilograms) } kg</span> / <span>{ format(pounds) } lb</span>
