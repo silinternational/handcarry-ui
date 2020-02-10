@@ -5,6 +5,13 @@ export let kilograms
 
 $: pounds = kilogramsToPounds(kilograms)
 
+function format(number) {
+  if (number) {
+    return round(number) || '< 0.1'
+  }
+  return number
+}
+
 function round(value) {
   return Math.round(value * 10) / 10
 }
@@ -16,4 +23,4 @@ span {
 }
 </style>
 
-<span>{ round(kilograms) } kg</span> / <span>{ round(pounds) } lbs</span>
+<span>{ format(kilograms) } kg</span> / <span>{ format(pounds) } lbs</span>
