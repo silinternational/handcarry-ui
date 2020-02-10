@@ -231,7 +231,7 @@ function onWeightChanged(event) {
         <small class="text-muted font-italic">(optional)</small>
       </label>
     </div>
-    <div class="col">
+    <div class="col-auto">
       <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={request.neededBefore} />
     </div>
   </div>
