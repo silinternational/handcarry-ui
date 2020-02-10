@@ -74,8 +74,14 @@ function onUnitsChanged(event) {
 }
 </script>
 
+<style>
+input[type=number] {
+  width: 6em;
+}
+</style>
+
 <div class="form-row">
-  <div class="col-2">
+  <div class="col-auto">
     {#if units === 'lb' }
       <input type="number" aria-describedby="weightInputField" on:change={onNumberChanged} class="form-control" min="0"
              step="0.1" bind:value={pounds} />
