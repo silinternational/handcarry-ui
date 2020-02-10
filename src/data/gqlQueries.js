@@ -56,7 +56,7 @@ export async function createRequest(request) {
       createPost(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
-        kilograms: ${json(request.kilograms || null)}, 
+        kilograms: ${json(defaultFor(request.kilograms, null))}, 
         neededBefore: ${json(request.neededBefore || '')}, 
         origin: ${formatLocationForGql(request.origin)},
         orgID: ${json(request.orgID)},
@@ -165,6 +165,10 @@ export async function markMessagesAsRead(threadId) {
   `)
 
   return response.setThreadLastViewedAt || {}
+}
+
+const defaultFor = function(value, defaultValue) {
+  return (value === undefined) ? defaultValue : value
 }
 
 const json = JSON.stringify
