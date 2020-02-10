@@ -13,16 +13,23 @@ let units
 $: kilograms !== undefined && showCorrectUnitsOnInitialLoad()
 
 function wasProbablyStoredAsPounds(kilograms) {
-  return String(kilograms).indexOf('.') >= 0
+  // NOTE: The number of decimal places this is coded for must match what `roundToSupportedPrecision()` allows.
+  const hasTooManyDecimalPlaces = /\.[0-9]{2,}$/
+  return hasTooManyDecimalPlaces.test(kilograms)
 }
 
 let showCorrectUnitsOnInitialLoad = function() {
   if (wasProbablyStoredAsPounds(kilograms)) {
     units = 'lb'
-    pounds = Math.round(kilogramsToPounds(kilograms))
+    pounds = roundToSupportedPrecision(kilogramsToPounds(kilograms))
   }
   
   showCorrectUnitsOnInitialLoad = Function() // noop since we want this to be a one-time check per "page view"
+}
+
+function roundToSupportedPrecision(value) {
+  // NOTE: The number of decimal places this allows must match what `wasProbablyStoredAsPounds()` is coded for.
+  return Math.round(value * 10) / 10
 }
 
 function onNumberChanged(event) {
@@ -46,10 +53,10 @@ function onNumberChanged(event) {
 /**
  * Enforce some basic requirements:
  * - No negative values
- * - No decimal values (round them)
+ * - Limited support for decimal values (round them if too precise)
  */
 function normalize(value) {
-  return Math.abs(Math.round(value))
+  return Math.abs(roundToSupportedPrecision(value))
 }
 
 function onUnitsChanged(event) {
@@ -71,10 +78,10 @@ function onUnitsChanged(event) {
   <div class="col-2">
     {#if units === 'lb' }
       <input type="number" aria-describedby="weightInputField" on:change={onNumberChanged} class="form-control" min="0"
-             bind:value={pounds} />
+             step="0.1" bind:value={pounds} />
     {:else}
       <input type="number" aria-describedby="weightInputField" on:change={onNumberChanged} class="form-control" min="0"
-             bind:value={kilograms} />
+             step="0.1" bind:value={kilograms} />
     {/if}
   </div>
   <div class="col-auto">
