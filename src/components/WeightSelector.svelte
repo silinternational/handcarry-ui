@@ -83,10 +83,10 @@ input[type=number] {
 <div class="form-row">
   <div class="col-auto">
     {#if units === 'lb' }
-      <input type="number" aria-describedby="weightInputField" on:change={onNumberChanged} class="form-control" min="0"
+      <input type="number" on:change={onNumberChanged} class="form-control" min="0"
              step="0.1" bind:value={pounds} />
     {:else}
-      <input type="number" aria-describedby="weightInputField" on:change={onNumberChanged} class="form-control" min="0"
+      <input type="number" on:change={onNumberChanged} class="form-control" min="0"
              step="0.1" bind:value={kilograms} />
     {/if}
   </div>
@@ -95,10 +95,5 @@ input[type=number] {
       <option value="kg">kg</option>
       <option value="lb">lb</option>
     </select>
-  </div>
-</div>
-<div class="form-row">
-  <div class="col-auto">
-    <small id="weightInputField" class="form-text text-muted">Approximate weight in whole numbers</small>
   </div>
 </div>
