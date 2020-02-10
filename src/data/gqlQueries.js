@@ -81,7 +81,7 @@ export async function updateRequest(request) {
     mutation {
       updatePost(input: {
         description: ${json(request.description || '')},
-        kilograms: ${json(request.kilograms || 0)}, 
+        kilograms: ${json(request.kilograms)}, 
         id: ${json(request.id)},
         neededBefore: ${json(request.neededBefore || '')}, 
         photoID: ${json(request.photoID || null)},
