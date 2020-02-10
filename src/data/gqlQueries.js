@@ -56,12 +56,15 @@ export async function createRequest(request) {
       createPost(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
+        kilograms: ${json(defaultFor(request.kilograms, null))}, 
+        neededBefore: ${json(request.neededBefore || '')}, 
         origin: ${formatLocationForGql(request.origin)},
         orgID: ${json(request.orgID)},
         photoID: ${json(request.photoID || null)},
-        size: ${request.size}
+        size: ${request.size},
         title: ${json(request.title)},
         type: REQUEST,
+        visibility: ${request.visibility},
       }) 
       {
         ${postFields}
@@ -73,14 +76,18 @@ export async function createRequest(request) {
 }
 
 export async function updateRequest(request) {
+  // TODO: When API is updated to erase values when we send `null`, update `|| something` to `|| null`
   const response = await gql(`
     mutation {
       updatePost(input: {
         description: ${json(request.description || '')},
+        kilograms: ${json(request.kilograms)}, 
         id: ${json(request.id)},
+        neededBefore: ${json(request.neededBefore || '')}, 
         photoID: ${json(request.photoID || null)},
-        size: ${request.size}
+        size: ${request.size},
         title: ${json(request.title)},
+        visibility: ${request.visibility},
       }) 
       {
         ${postFields}
@@ -160,6 +167,10 @@ export async function markMessagesAsRead(threadId) {
   return response.setThreadLastViewedAt || {}
 }
 
+const defaultFor = function(value, defaultValue) {
+  return (value === undefined) ? defaultValue : value
+}
+
 const json = JSON.stringify
 
 const formatLocationForGql = function (location) {
@@ -199,6 +210,8 @@ const postFields = `
     description
   }
   id
+  kilograms
+  neededBefore
   organization {
     name
   }
@@ -215,6 +228,7 @@ const postFields = `
   size
   status
   title
+  visibility
 `
 const messageFields = `
   content

@@ -7,6 +7,8 @@ import { requests, loading } from '../data/requests'
 import UserAvatar from '../components/UserAvatar.svelte'
 import RequestMessaging from '../components/RequestMessaging.svelte'
 import OtherRequestsBy from '../components/OtherRequestsBy.svelte'
+import { describeVisibility } from '../data/visibility.js'
+import WeightDisplay from '../components/WeightDisplay.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
@@ -74,6 +76,22 @@ function goToConversation(conversationId) {
                 <span class="font-italic">anywhere</span>
               {/if}
             </dd>
+            
+            {#if isMine && request.visibility }
+              <dt>Visible to</dt>
+              <dd>{ describeVisibility(request.visibility, [request.organization]) }</dd>
+            {/if}
+            
+            {#if request.neededBefore }
+              <dt>Needed before</dt>
+              <dd>{ (new Date(request.neededBefore + ' 00:00:00')).toLocaleDateString() }</dd>
+            {/if}
+            
+            <!-- Show any actual value (including zero) -->
+            {#if request.kilograms != null }
+              <dt>Weight</dt>
+              <dd><WeightDisplay kilograms={request.kilograms} /></dd>
+            {/if}
           </dl>
         </div>
         <div class="col-auto">

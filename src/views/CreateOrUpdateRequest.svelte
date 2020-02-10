@@ -1,12 +1,14 @@
 <script>
 import RequestImage from '../components/RequestImage.svelte'
 import SizeSelector from '../components/SizeSelector.svelte'
+import VisibilitySelector from '../components/VisibilitySelector.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me } from '../data/user'
 import { requests, cancel, create, update } from '../data/requests'
 import { push, pop } from 'svelte-spa-router'
-import { format, addMonths } from 'date-fns'
+import { format, addDays } from 'date-fns'
 import LocationInput from '../components/LocationInput.svelte'
+import WeightSelector from '../components/WeightSelector.svelte'
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updated, created, cancelled } from '../data/analytics'
@@ -18,8 +20,10 @@ let imageUrl = ''
 
 const newRequest = {
   title: '',
-  description: ''
+  description: '',
+  visibility: 'SAME'
 }
+const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
 $: request = $requests.find(({ id }) => id === params.id) || newRequest
 $: isNew = !request.id
@@ -50,9 +54,12 @@ async function onSubmit() {
         title: request.title,
         description: request.description,
         destination: request.destination,
+        kilograms: request.kilograms,
+        neededBefore: request.neededBefore, 
         origin: request.origin,
         photoID: request.photoID,
         size: request.size,
+        visibility: request.visibility,
     })
 
     push(`/requests`)
@@ -86,6 +93,14 @@ function onDestinationChanged(event) {
 
 function onOriginChanged(event) {
   request.origin = event.detail
+}
+
+function OnVisibilityChanged(event) {
+  request.visibility = event.detail
+}
+
+function onWeightChanged(event) {
+  request.kilograms = event.detail
 }
 </script>
 
@@ -163,6 +178,14 @@ function onOriginChanged(event) {
   </div>
   
   <div class="form-row form-group">
+    <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">
+      Weight:<br />
+      <small class="text-muted font-italic">(optional)</small>
+    </div>
+    <div class="col"><WeightSelector on:change={onWeightChanged} kilograms={request.kilograms} /></div>
+  </div>
+  
+  <div class="form-row form-group">
     <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
       Upload image: <br />
       <small class="text-muted font-italic">(optional)</small>
@@ -186,6 +209,30 @@ function onOriginChanged(event) {
     <div class="col">
       <textarea class="form-control" bind:value={request.description} rows="3" 
                 id="request-description" placeholder="Please describe the item" />
+    </div>
+  </div>
+
+  <div class="form-row form-group">
+    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      <label>
+        Visibility:<br />
+        <small class="text-muted font-italic">(Who can see this request)</small>
+      </label>
+    </div>
+    <div class="col p-2">
+      <VisibilitySelector on:change={OnVisibilityChanged} visibility={request.visibility} />
+    </div>
+  </div>
+
+  <div class="form-row form-group">
+    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      <label for="request-needed-before">
+        Needed before:<br />
+        <small class="text-muted font-italic">(optional)</small>
+      </label>
+    </div>
+    <div class="col-auto">
+      <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={request.neededBefore} />
     </div>
   </div>
 
