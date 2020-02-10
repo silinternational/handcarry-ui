@@ -9,20 +9,20 @@ const dispatch = createEventDispatcher()
 let pounds
 let units
 
-// if kilograms was provied, determine units...(just once and 0 is possible)
-$: kilograms !== undefined && showPoundsOnInitialLoad()
+// If a weight was provided, determine the units... (just once and 0 is possible)
+$: kilograms !== undefined && showCorrectUnitsOnInitialLoad()
 
 function wasProbablyStoredAsPounds(kilograms) {
   return String(kilograms).indexOf('.') >= 0
 }
 
-let showPoundsOnInitialLoad = function() {
+let showCorrectUnitsOnInitialLoad = function() {
   if (wasProbablyStoredAsPounds(kilograms)) {
     units = 'lb'
     pounds = Math.round(kilogramsToPounds(kilograms))
   }
   
-  showPoundsOnInitialLoad = Function() // noop since we want this to be a one-time check per "page view"
+  showCorrectUnitsOnInitialLoad = Function() // noop since we want this to be a one-time check per "page view"
 }
 
 function onNumberChanged(event) {
