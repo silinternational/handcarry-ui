@@ -28,7 +28,8 @@ let showCorrectUnitsOnInitialLoad = function() {
 function onNumberChanged(event) {
   // If the user emptied out the field...
   if (event.target.value === '') {
-    kilograms = pounds =  0
+    pounds = null
+    kilograms = null
   } else {
     if (units === 'kg') {
       kilograms = normalize(kilograms)
