@@ -87,6 +87,7 @@ function goToConversation(conversationId) {
               <dd>{ (new Date(request.neededBefore + ' 00:00:00')).toLocaleDateString() }</dd>
             {/if}
             
+            <!-- Show any actual value (including zero) -->
             {#if request.kilograms != null }
               <dt>Weight</dt>
               <dd><WeightDisplay kilograms={request.kilograms} /></dd>
