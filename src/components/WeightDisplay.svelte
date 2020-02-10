@@ -16,4 +16,4 @@ span {
 }
 </style>
 
-<span>{ round(kilograms) } kg</span> / <span>{ round(pounds) } lbs</span>
+<span>{ round(kilograms) || '< 0.1' } kg</span> / <span>{ round(pounds) } lbs</span>
