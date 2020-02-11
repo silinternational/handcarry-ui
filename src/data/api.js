@@ -13,7 +13,7 @@ async function wrappedFetch(url, body) {
     'content-type': 'application/json',
   }
 
-  // when dealing with FormData, i.e., when uploading files, allow the browser to set the request up properly
+  // when dealing with FormData, i.e., when uploading files, allow the browser to set the request up
   // so boundary information is built properly.
   if (body instanceof FormData) {
     delete headers['content-type']
