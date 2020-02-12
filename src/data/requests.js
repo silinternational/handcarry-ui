@@ -9,6 +9,7 @@ import {
   delivered,
   received,
 } from './gqlQueries'
+import { register } from './reset'
 
 export const requests = writable([])
 export const loading = writable(false)
@@ -20,6 +21,8 @@ export function init() {
   intervalId = setInterval(loadRequests, EVERY_10_MINUTES)
   
   loadRequests()
+
+  register(reset)
 }
 
 async function loadRequests() {
@@ -106,7 +109,7 @@ const updateLocalRequests = updatedRequest => {
   })
 }
 
-export function reset() {
+function reset() {
   requests.set([])
   loading.set(false)
 }

@@ -1,10 +1,8 @@
 import token from './token'
 import { throwError } from './error'
 import polyglot from '../i18n'
-import { reset as resetUser } from './user'
-import { reset as resetMessaging } from './messaging'
-import { reset as resetRequests } from './requests'
 import { loggedOut } from './analytics'
+import { reset } from './reset'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 async function wrappedFetch(url, body) {
@@ -13,7 +11,7 @@ async function wrappedFetch(url, body) {
     'content-type': 'application/json',
   }
 
-  // when dealing with FormData, i.e., when uploading files, allow the browser to set the request up properly
+  // when dealing with FormData, i.e., when uploading files, allow the browser to set the request up
   // so boundary information is built properly.
   if (body instanceof FormData) {
     delete headers['content-type']
@@ -99,7 +97,5 @@ export async function upload(formData) {
 
 function clearLocalData() {
   token.reset()
-  resetUser()
-  resetMessaging()
-  resetRequests()
+  reset()
 }
