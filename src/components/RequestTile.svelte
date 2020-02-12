@@ -3,7 +3,6 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import UserAvatar from '../components/UserAvatar.svelte'
 import { push } from 'svelte-spa-router'
-import { format } from 'date-fns'
 
 export let request;
 export let smaller = false;
