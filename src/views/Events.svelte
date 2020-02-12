@@ -61,7 +61,7 @@ const events = [
 
           <a href="{event.moreInfoURL}" target="_blank">
             <Icon icon={faExternalLinkAlt} />
-            <small class="align-bottom">more information</small>
+            <small class="align-bottom">Event Website</small>
           </a>
         </div>
       </div>
@@ -72,3 +72,5 @@ const events = [
 </ol>
 
 <!-- TODO: need mobile view -->
+<!-- TODO: can imageFile be null? -->
+<!-- TODO: wire up data call -->
