@@ -28,11 +28,11 @@ $: participants = conversationParticipants || []
 $: isConversingWithPotentialProvider = participants.some(participant => isInList(participant, potentialProviders))
 $: isConversingWithProvider = isInList(provider, participants)
 
-async function acceptCommitment() {
+async function acceptOfferFrom(potentialProvider) {
   // TODO: updating post like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
   // and this component is only interested in the conversation (and it's attached post) and those changes aren't coming down... maybe a 
   // refactor needs to be considered here.
-  request = await accept(request.id)
+  request = await accept(request.id, potentialProvider.id)
 
   accepted()
 }

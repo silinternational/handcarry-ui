@@ -114,17 +114,18 @@ export async function offerToProvide(requestId) {
 }
 
 export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
-export const acceptCommitment = async requestId => updateRequestStatus(requestId, 'ACCEPTED')
+export const acceptOfferToProvide = async (requestId, providerUserId) => updateRequestStatus(requestId, 'ACCEPTED', providerUserId)
 export const delivered = async requestId => updateRequestStatus(requestId, 'DELIVERED')
 export const received = async requestId => updateRequestStatus(requestId, 'COMPLETED')
 
-async function updateRequestStatus(id, status) {
+async function updateRequestStatus(id, status, providerUserId = null) {
   const response = await gql(`
     mutation {
       updatePostStatus(
         input: {
           id: ${json(id)},
-          status: ${status}
+          status: ${status},
+          providerUserID: ${json(providerUserId)}
         }
       ) 
       {
