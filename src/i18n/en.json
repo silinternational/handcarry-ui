@@ -5,6 +5,7 @@
    "nav-requests-create": "Make a request",
    "nav-requests-commitments": "My commitments",
    "nav-requests-messages": "Messages",
+   "nav-events": "Events",
    "nav-sign-out": "Sign out",
    "nav-profile": "My profile",
    "ErrorFindingOrgUserOrgs": "We were unable to find an account for you. WeCarry is currently in an Early Access period with limited access. If you would like to be on the waiting list for access please let us know at <a href='mailto:support@wecarry.app'>support@wecarry.app</a>.",
