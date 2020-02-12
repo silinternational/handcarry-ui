@@ -1,8 +1,14 @@
 <script>
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
+import { init, events } from '../data/events'
+import { onMount } from 'svelte'
 
-const events = [
+onMount(() => {
+  init() // move to App.svelte if data needed earlier.
+})
+
+const stubEvents = [
   {
     imageFile: {
       url: 'logo.svg'
@@ -43,9 +49,9 @@ const events = [
     <h2>Events</h2>
   </div>
 </div>
-
+{@debug $events}
 <ol class="list-group mt-2">
-  {#each events as event}
+  {#each stubEvents as event}
     <li class="list-group-item">
       <div class="row">
         <div class="col-4 center-child">
@@ -73,4 +79,3 @@ const events = [
 
 <!-- TODO: need mobile view -->
 <!-- TODO: can imageFile be null? -->
-<!-- TODO: wire up data call -->

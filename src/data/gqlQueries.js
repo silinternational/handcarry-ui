@@ -167,6 +167,27 @@ export async function markMessagesAsRead(threadId) {
   return response.setThreadLastViewedAt || {}
 }
 
+export async function getEvents() {
+  const response = await gql(`{
+    meetings {
+      name
+      description
+      location {
+        description
+      }
+      startDate
+      endDate
+      moreInfoURL
+      imageFile {
+        url
+      }
+    }
+  }`)
+
+  return response.meetings || []
+}
+
+
 const defaultFor = function(value, defaultValue) {
   return (value === undefined) ? defaultValue : value
 }
