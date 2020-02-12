@@ -233,6 +233,10 @@ const postFields = `
   photo {
     url
   }
+  potentialProviders {
+    id
+    nickname
+  }
   provider {
     id
     nickname
