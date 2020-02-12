@@ -1,4 +1,5 @@
 <script>
+import FilteredView from '../components/FilterableDisplay.svelte'
 import GridListToggle from '../components/GridListToggle.svelte'
 import RequestListEntry from '../components/RequestListEntry.svelte'
 import RequestQuickFilter from '../components/RequestQuickFilter.svelte'
@@ -131,12 +132,21 @@ function resetFilters() {
           <a href="javascript:void(0)" class="small d-block" on:click={resetFilters}>Reset filters</a>
         </div>
         
-        <div>
-          <div class="card-body text-center">
-            <b class="d-inline-block d-md-block" id="size-filter-label">Max. size:</b>
-            <div class="d-inline-block text-md-left" aria-labelledby="size-filter-label">
-              <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={event => selectSize(event.detail)} />
+        <div class="card-body">
+          <p class="mb-1 text-muted" id="keyword-filter-label">Keyword:</p>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text"><Icon icon={faSearch} /></div>
             </div>
+            <input type="text" aria-labelledby="keyword-filter-label" class="form-control form-control-sm"
+                   placeholder="Search" value={searchText} on:input="{event => searchForText(event.target.value)}" />
+          </div>
+          
+          <hr />
+          
+          <p class="mb-1 text-muted" id="size-filter-label">Max. size:</p>
+          <div class="d-inline-block text-md-left" aria-labelledby="size-filter-label">
+            <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={event => selectSize(event.detail)} />
           </div>
         </div>
       </div>
@@ -144,15 +154,6 @@ function resetFilters() {
   </div>
   <div class="col">
     <div class="form-row align-items-stretch">
-      <div class="col-12">
-        <div class="input-group mb-2">
-          <div class="input-group-prepend">
-            <div class="input-group-text"><Icon icon={faSearch} /></div>
-          </div>
-          <input type="text" class="form-control" placeholder="Search" value={searchText} on:input={event => searchForText(event.target.value)} />
-        </div>
-      </div>
-
       {#if $loading}
         <p>⏳ retrieving requests...</p>
       {:else}
