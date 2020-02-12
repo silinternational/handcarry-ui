@@ -3,7 +3,7 @@ import { me } from '../data/user'
 import { offer, accept, deliver, receive } from '../data/requests'
 import { 
   accepted,
-  committed,
+  offered,
   trackReceived,
   trackDelivered,
  } from '../data/analytics'
@@ -41,7 +41,7 @@ async function offerToProvide() {
   // TODO: see notes in `acceptCommitment`
   request = await offer(request.id)
 
-  committed()
+  offered()
 }
 
 async function delivered() {
