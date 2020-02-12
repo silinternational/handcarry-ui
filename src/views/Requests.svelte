@@ -99,6 +99,10 @@ function searchForText(searchText) {
 
   searchedRequests(searchText)
 }
+
+function resetFilters() {
+  clearFilter($location, $querystring)
+}
 </script>
 
 <div class="row">
@@ -120,20 +124,17 @@ function searchForText(searchText) {
 
 <div class="row mt-2">
   <div class="col-12 col-md-4 col-lg-3 mb-2">
-    <div class="accordion" id="requestFilters">
+    <div>
       <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
-        <div class="card-header p-0" id="headingOne">
-          <h4 class="m-0">
-            <button class="btn btn-block" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              Filters
-            </button>
-          </h4>
+        <div class="card-header text-center p-2">
+          Filters
+          <a href="javascript:void(0)" class="small d-block" on:click={resetFilters}>Reset filters</a>
         </div>
         
-        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#requestFilters">
+        <div>
           <div class="card-body text-center">
-            <b class="d-inline-block d-md-block">Max. size:</b>
-            <div class="d-inline-block text-md-left">
+            <b class="d-inline-block d-md-block" id="size-filter-label">Max. size:</b>
+            <div class="d-inline-block text-md-left" aria-labelledby="size-filter-label">
               <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={event => selectSize(event.detail)} />
             </div>
           </div>
