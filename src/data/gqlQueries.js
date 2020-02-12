@@ -98,9 +98,23 @@ export async function updateRequest(request) {
   return response.updatePost || {}
 }
 
+export async function offerToProvide(requestId) {
+  const response = await gql(`
+    mutation {
+      addMeAsPotentialProvider(
+        postID: ${json(requestId)},
+      )
+      {
+        ${postFields}
+      }
+    }
+  `)
+
+  return response.addMeAsPotentialProvider || {}  
+}
+
 export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
 export const acceptCommitment = async requestId => updateRequestStatus(requestId, 'ACCEPTED')
-export const commitToProvide = async requestId => updateRequestStatus(requestId, 'COMMITTED')
 export const delivered = async requestId => updateRequestStatus(requestId, 'DELIVERED')
 export const received = async requestId => updateRequestStatus(requestId, 'COMPLETED')
 

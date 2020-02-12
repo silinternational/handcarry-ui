@@ -1,6 +1,6 @@
 <script>
 import { me } from '../data/user'
-import { provide, accept, deliver, receive } from '../data/requests'
+import { offer, accept, deliver, receive } from '../data/requests'
 import { 
   accepted,
   committed,
@@ -37,9 +37,9 @@ async function acceptCommitment() {
   accepted()
 }
 
-async function commit() {
+async function offerToProvide() {
   // TODO: see notes in `acceptCommitment`
-  request = await provide(request.id)
+  request = await offer(request.id)
 
   committed()
 }

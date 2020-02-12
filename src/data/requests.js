@@ -4,7 +4,7 @@ import {
   updateRequest, 
   getRequests, 
   cancelRequest,
-  commitToProvide,
+  offerToProvide,
   acceptCommitment,
   delivered,
   received,
@@ -63,8 +63,8 @@ export async function cancel(requestId) {
   requests.update(currentRequests => currentRequests.filter(({id}) => id !== requestId))
 }
 
-export async function provide(requestId) {
-  const updatedRequest = await commitToProvide(requestId)
+export async function offer(requestId) {
+  const updatedRequest = await offerToProvide(requestId)
 
   updateLocalRequests(updatedRequest)
 
