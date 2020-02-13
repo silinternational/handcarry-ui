@@ -3,7 +3,6 @@ import Profile from './Profile.svelte'
 import CreateOrUpdateRequest from './CreateOrUpdateRequest.svelte'
 import Requests from './Requests.svelte'
 import Request from './Request.svelte'
-import LandingPage from './LandingPage.svelte'
 import Login from './Login.svelte'
 import Welcome from './Welcome.svelte'
 import Privacy from './Privacy.svelte'
@@ -12,7 +11,7 @@ import FirstTimePreferences from './FirstTimePreferences.svelte'
 
 // https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
-	'/': LandingPage,
+	'/': Login,
 	'/login': Login,
 	'/welcome': Welcome,
 	'/privacy': Privacy,
