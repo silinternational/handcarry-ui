@@ -10,9 +10,10 @@ import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
 import Error from './Error.svelte'
 
+const landingPage = '/'
 const publicRoutes = ['/terms', '/privacy']
 
-$: isPublicRoute = publicRoutes.some(publicRoute => $location.startsWith(publicRoute))
+$: isPublicRoute = ($location === landingPage) || publicRoutes.some(publicRoute => $location.startsWith(publicRoute))
 $: isProtectedRoute = ! isPublicRoute
 $: userIsAuthn = $me.id
 $: userIsNotAuthn = ! userIsAuthn
