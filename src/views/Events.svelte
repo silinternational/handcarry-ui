@@ -56,7 +56,7 @@ li {
           <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
         </div>
         <div class="col">
-          <h3>{event.name}</h3>
+          <h4>{event.name}</h4>
           
           <div>{event.location.description}</div>
           <div class="pb-1">
