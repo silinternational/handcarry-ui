@@ -44,6 +44,11 @@ const stubEvents = [
   }
 ]
 
+const format = date => new Date(date).toLocaleDateString(undefined, {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+})
 const logoUrl = event => event.imageFile && event.imageFile.url || ''
 </script>
 
@@ -60,7 +65,7 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
     <h2>Events</h2>
   </div>
 </div>
-{@debug $events}
+
 <ol class="list-group mt-2">
   {#each stubEvents as event}
     <li class="list-group-item">
@@ -73,7 +78,7 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
           
           <div>{event.location.description}</div>
           <div class="pb-1">
-            {new Date(event.startDate).toLocaleDateString()} – {new Date(event.endDate).toLocaleDateString()}
+            {format(event.startDate)} – {format(event.endDate)}
           </div>
 
           <a href="{event.moreInfoURL}" target="_blank">
@@ -89,4 +94,3 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
 </ol>
 
 <!-- TODO: need mobile view -->
-<!-- TODO: can imageFile be null? -->
