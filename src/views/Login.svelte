@@ -1,10 +1,11 @@
 <script>
 import { login } from '../data/api'
-import { querystring } from 'svelte-spa-router'
+import { querystring, replace } from 'svelte-spa-router'
 import qs from 'qs'
+import { me } from '../data/user'
 
 $: returnTo = qs.parse($querystring)['return-to']
-
+$: $me.id && replace('/requests')
 
 let email = getStoredEmail() || ''
 let checked = wasRemembered()
