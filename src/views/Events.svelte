@@ -34,6 +34,8 @@ const stubEvents = [
     moreInfoURL: 'https://example.org/event-site',
   }
 ]
+
+$: logoUrl = event.imageFile && event.imageFile.url || ''
 </script>
 
 <style>
@@ -55,7 +57,7 @@ const stubEvents = [
     <li class="list-group-item">
       <div class="row">
         <div class="col-4 center-child">
-          <img src="{event.imageFile.url || 'logo.svg'}" alt="event logo" class="w-75" />
+          <img src="{logoUrl || 'logo.svg'}" alt="event logo" class="w-75" />
         </div>
         <div class="col">
           <h3>{event.name}</h3>
