@@ -5,7 +5,7 @@ import { init, events } from '../data/events'
 import { onMount } from 'svelte'
 
 onMount(() => {
-  init() // move to App.svelte if data needed earlier.
+  init() // move to App.svelte if data is needed earlier.
 })
 
 const format = date => new Date(date).toLocaleDateString(undefined, {
@@ -17,25 +17,43 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
 </script>
 
 <style>
-.center-child {
+.logo {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
+/* these will get used only on XS screens */
+.logo img {
+  max-height: 5rem;
+  margin-bottom: 2rem;
+}
+li {
+  max-height: initial;
+}
+
+/* https://getbootstrap.com/docs/4.4/layout/overview/#responsive-breakpoints */
+/* these will get used on everything above XS screens using bootstrap's breakpoint settings */
+@media (min-width: 576px) {
+  .logo img {
+    max-width: 90%;
+    max-height: 9rem;
+    margin-bottom: initial;
+  }
+  li {
+    max-height: 11rem;
+  }
+}
 </style>
 
-<div class="row">
-  <div class="col-12 col-md-auto text-center text-sm-left">
-    <h2>Events</h2>
-  </div>
-</div>
+<h2>Events</h2>
 
-<ol class="list-group mt-2">
-  {#each $events as event}
+{#each $events as event}
+  <ol class="list-group mt-2">
     <li class="list-group-item">
       <div class="row">
-        <div class="col-4 center-child">
-          <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" class="w-75" />
+        <div class="col-md-4 col-sm-5 logo">
+          <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
         </div>
         <div class="col">
           <h3>{event.name}</h3>
@@ -54,9 +72,7 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
         </div>
       </div>
     </li>
-  {:else}
-    No upcoming events
-  {/each}
-</ol>
-
-<!-- TODO: need mobile view -->
+  </ol>
+{:else}
+  No upcoming events
+{/each}
