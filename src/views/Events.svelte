@@ -32,10 +32,19 @@ const stubEvents = [
     startDate: '2020-03-04',
     endDate: '2020-03-09',
     moreInfoURL: 'https://example.org/event-site',
+  },
+  {
+    name: 'Shiners',
+    location: {
+      description: 'Gatlinburg, TN'
+    },
+    startDate: '2020-06-29',
+    endDate: '2020-07-04',
+    moreInfoURL: 'https://example.org/event-site',
   }
 ]
 
-$: logoUrl = event.imageFile && event.imageFile.url || ''
+const logoUrl = event => event.imageFile && event.imageFile.url || ''
 </script>
 
 <style>
@@ -57,7 +66,7 @@ $: logoUrl = event.imageFile && event.imageFile.url || ''
     <li class="list-group-item">
       <div class="row">
         <div class="col-4 center-child">
-          <img src="{logoUrl || 'logo.svg'}" alt="event logo" class="w-75" />
+          <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" class="w-75" />
         </div>
         <div class="col">
           <h3>{event.name}</h3>
