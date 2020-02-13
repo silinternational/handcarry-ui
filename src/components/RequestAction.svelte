@@ -1,9 +1,9 @@
 <script>
 import { me } from '../data/user'
-import { provide, accept, deliver, receive } from '../data/requests'
+import { offer, accept, deliver, receive } from '../data/requests'
 import { 
   accepted,
-  committed,
+  offered,
   trackReceived,
   trackDelivered,
  } from '../data/analytics'
@@ -12,31 +12,36 @@ export let request
 export let conversationParticipants = []
 
 $: creator = request.createdBy || {}
+$: potentialProviders = request.potentialProviders || []
 $: provider = request.provider || {}
+$: hasProvider = !!provider.id
 $: status = request.status
 $: isMine = (creator.id === $me.id)
+$: iOfferedToProvideIt = isInList($me, potentialProviders)
 $: imProviding = (provider.id === $me.id)
-$: isCommitted = (status === 'COMMITTED')
+$: isOpen = (status === 'OPEN')
 $: isDelivered = (status === 'DELIVERED')
 $: isAccepted = (status === 'ACCEPTED')
 $: isCompleted = (status === 'COMPLETED')
+$: iHaveDeliveredIt = isDelivered || isCompleted
 $: participants = conversationParticipants || []
-$: isConversingWithProvider = participants.some(({ id }) => id === provider.id)
+$: isConversingWithPotentialProvider = participants.some(participant => isInList(participant, potentialProviders))
+$: isConversingWithProvider = isInList(provider, participants)
 
-async function acceptCommitment() {
+async function acceptOfferFrom(potentialProvider) {
   // TODO: updating post like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
   // and this component is only interested in the conversation (and it's attached post) and those changes aren't coming down... maybe a 
   // refactor needs to be considered here.
-  request = await accept(request.id)
+  request = await accept(request.id, potentialProvider.id)
 
   accepted()
 }
 
-async function commit() {
+async function offerToProvide() {
   // TODO: see notes in `acceptCommitment`
-  request = await provide(request.id)
+  request = await offer(request.id)
 
-  committed()
+  offered()
 }
 
 async function delivered() {
@@ -52,14 +57,20 @@ async function received() {
 
   trackReceived()
 }
+
+function isInList(user, listOfUsers) {
+  return listOfUsers.some(({ id }) => id === user.id)
+}
 </script>
 
 {#if isMine}
-  {#if isCommitted }
-    {provider.nickname} committed to bring this.
-    {#if isConversingWithProvider}
-      <button class="btn btn-sm btn-success" on:click={acceptCommitment}>Accept</button>
-    {/if}
+  {#if isOpen && isConversingWithPotentialProvider }
+    {#each potentialProviders as potentialProvider }
+      {#if isInList(potentialProvider, participants) }
+        {potentialProvider.nickname} offered to bring this.
+        <button class="btn btn-sm btn-success" on:click="{() => acceptOfferFrom(potentialProvider)}">Accept</button>
+      {/if}
+    {/each}
   {:else if isDelivered }
     {provider.nickname} delivered this.
     {#if isConversingWithProvider}
@@ -75,18 +86,19 @@ async function received() {
   {/if}
 {:else}
   {#if imProviding }
-    {#if isCommitted }
-      You committed to bring this.
-    {:else if isAccepted }
+    {#if ! iHaveDeliveredIt }
+      {creator.nickname} accepted your offer to bring this.
       <button class="btn btn-sm btn-info" on:click={delivered}>I delivered it</button>
-    {:else if isDelivered}
+    {:else}
       You delivered this.
     {/if}          
-  {:else if provider.id}
-    Someone else has committed to bring this.
+  {:else if hasProvider}
+    Someone else has agreed to bring this.
+  {:else if iOfferedToProvideIt }
+    You offered to bring this.
   {:else}
-    <button class="btn btn-sm btn-info" on:click={commit}>
-      I'll bring it
+    <button class="btn btn-sm btn-info" on:click={offerToProvide}>
+      I can bring this
     </button>
   {/if}
 {/if}

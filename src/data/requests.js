@@ -4,8 +4,8 @@ import {
   updateRequest, 
   getRequests, 
   cancelRequest,
-  commitToProvide,
-  acceptCommitment,
+  offerToProvide,
+  acceptOfferToProvide,
   delivered,
   received,
 } from './gqlQueries'
@@ -66,16 +66,16 @@ export async function cancel(requestId) {
   requests.update(currentRequests => currentRequests.filter(({id}) => id !== requestId))
 }
 
-export async function provide(requestId) {
-  const updatedRequest = await commitToProvide(requestId)
+export async function offer(requestId) {
+  const updatedRequest = await offerToProvide(requestId)
 
   updateLocalRequests(updatedRequest)
 
   return updatedRequest
 }
 
-export async function accept(requestId) {
-  const updatedRequest = await acceptCommitment(requestId)
+export async function accept(requestId, potentialProviderId) {
+  const updatedRequest = await acceptOfferToProvide(requestId, potentialProviderId)
 
   updateLocalRequests(updatedRequest)
 

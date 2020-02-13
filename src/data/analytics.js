@@ -59,7 +59,7 @@ export const viewedRequestsAsList        = ()    => trackRequestsEvent('view'  ,
 export const searchedRequests            = query => trackRequestsEvent('search', query)
 
 export const accepted       = () => trackRequestEvent('accepted')
-export const committed      = () => trackRequestEvent('committed')
+export const offered        = () => trackRequestEvent('offered')
 export const trackReceived  = () => trackRequestEvent('received')
 export const trackDelivered = () => trackRequestEvent('delivered')
 export const updated        = () => trackRequestEvent('updated')
