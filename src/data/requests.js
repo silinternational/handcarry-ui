@@ -4,11 +4,12 @@ import {
   updateRequest, 
   getRequests, 
   cancelRequest,
-  commitToProvide,
-  acceptCommitment,
+  offerToProvide,
+  acceptOfferToProvide,
   delivered,
   received,
 } from './gqlQueries'
+import { register } from './reset'
 
 export const requests = writable([])
 export const loading = writable(false)
@@ -20,6 +21,8 @@ export function init() {
   intervalId = setInterval(loadRequests, EVERY_10_MINUTES)
   
   loadRequests()
+
+  register(reset)
 }
 
 async function loadRequests() {
@@ -63,16 +66,16 @@ export async function cancel(requestId) {
   requests.update(currentRequests => currentRequests.filter(({id}) => id !== requestId))
 }
 
-export async function provide(requestId) {
-  const updatedRequest = await commitToProvide(requestId)
+export async function offer(requestId) {
+  const updatedRequest = await offerToProvide(requestId)
 
   updateLocalRequests(updatedRequest)
 
   return updatedRequest
 }
 
-export async function accept(requestId) {
-  const updatedRequest = await acceptCommitment(requestId)
+export async function accept(requestId, potentialProviderId) {
+  const updatedRequest = await acceptOfferToProvide(requestId, potentialProviderId)
 
   updateLocalRequests(updatedRequest)
 
@@ -106,7 +109,7 @@ const updateLocalRequests = updatedRequest => {
   })
 }
 
-export function reset() {
+function reset() {
   requests.set([])
   loading.set(false)
 }

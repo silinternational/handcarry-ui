@@ -4,11 +4,13 @@ import {
   changedNickname,
   changedAvatar,
  } from '../data/analytics'
+import { register } from './reset'
 
 export const me = writable({})
 
 export function init() {
   loadAuthenticatedUser()
+  register(reset)
 }
 
 async function loadAuthenticatedUser() {
@@ -33,6 +35,6 @@ export async function changeProfilePicture(photoId) {
   changedAvatar()
 }
 
-export function reset() {
+function reset() {
   me.set({})
 }
