@@ -8,42 +8,6 @@ onMount(() => {
   init() // move to App.svelte if data needed earlier.
 })
 
-const stubEvents = [
-  {
-    imageFile: {
-      url: 'logo.svg'
-    },
-    name: 'IT Connect / ICCM',
-    location: {
-      description: 'Nairobi, Kenya'
-    },
-    startDate: '2020-03-15',
-    endDate: '2020-03-20',
-    moreInfoURL: 'https://example.org/event-site',
-  },
-  {
-    imageFile: {
-      url: ''
-    },
-    name: 'EMDC',
-    location: {
-      description: 'Chaing Mai, Thailand'
-    },
-    startDate: '2020-03-04',
-    endDate: '2020-03-09',
-    moreInfoURL: 'https://example.org/event-site',
-  },
-  {
-    name: 'Shiners',
-    location: {
-      description: 'Gatlinburg, TN'
-    },
-    startDate: '2020-06-29',
-    endDate: '2020-07-04',
-    moreInfoURL: 'https://example.org/event-site',
-  }
-]
-
 const format = date => new Date(date).toLocaleDateString(undefined, {
   month: 'short',
   day: 'numeric',
@@ -67,7 +31,7 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
 </div>
 
 <ol class="list-group mt-2">
-  {#each stubEvents as event}
+  {#each $events as event}
     <li class="list-group-item">
       <div class="row">
         <div class="col-4 center-child">
@@ -81,10 +45,12 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
             {format(event.startDate)} – {format(event.endDate)}
           </div>
 
-          <a href="{event.moreInfoURL}" target="_blank">
-            <Icon icon={faExternalLinkAlt} />
-            <small class="align-bottom">Event Website</small>
-          </a>
+          {#if event.moreInfoURL}
+            <a href="{event.moreInfoURL}" target="_blank">
+              <Icon icon={faExternalLinkAlt} />
+              <small class="align-bottom">Event Website</small>
+            </a>
+          {/if}
         </div>
       </div>
     </li>

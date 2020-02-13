@@ -171,7 +171,6 @@ export async function getEvents() {
   const response = await gql(`{
     meetings {
       name
-      description
       location {
         description
       }
