@@ -220,9 +220,15 @@ const postFields = `
   description
   destination {
     description
+    latitude
+    longitude
+    country
   }
   origin {
     description
+    latitude
+    longitude
+    country
   }
   id
   kilograms
