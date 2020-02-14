@@ -84,6 +84,7 @@ export async function updateRequest(request) {
         kilograms: ${json(request.kilograms)}, 
         id: ${json(request.id)},
         neededBefore: ${json(request.neededBefore || null)}, 
+        origin: ${formatLocationForGql(request.origin)},
         photoID: ${json(request.photoID || null)},
         size: ${request.size},
         title: ${json(request.title)},
