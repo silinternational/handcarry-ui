@@ -6,16 +6,21 @@ import Icon from 'fa-svelte'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
 
 let editingNickname = false
+let newNickname = {}
 
-$: nickname = $me.nickname
 $: orgs = $me.organizations || []
+$: initializeUpdates($me)
+
+function initializeUpdates({ nickname }) {
+  newNickname = nickname
+}
 
 async function imageUploaded(event) {
   await changeProfilePicture(event.detail.id)
 }
 
 async function saveNewNickname() {
-  await changeNickname(nickname)
+  await changeNickname(newNickname)
 
   editingNickname = false
 }
@@ -37,7 +42,7 @@ async function saveNewNickname() {
       {#if editingNickname}
         <form on:submit|preventDefault={saveNewNickname} class="input-group input-group-lg">
           <!-- svelte-ignore a11y-autofocus -->
-          <input bind:value={$me.nickname} autofocus class="form-control">
+          <input bind:value={newNickname} autofocus class="form-control">
           
           <div class="input-group-append">
             <button class="btn btn-primary">Save</button>

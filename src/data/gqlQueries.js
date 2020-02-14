@@ -10,26 +10,12 @@ export async function getUser() {
   return response.user || {}
 }
 
-export async function updateNickname(nickname) {
+export async function updateUser(user) {
   const response = await gql(`
     mutation {
       updateUser(input: {
-        nickname: ${json(nickname)}
-      })
-      {
-        ${userFields}
-      }
-    }
-  `)
-
-  return response.updateUser || {}
-}
-
-export async function updateProfilePic(id) {
-  const response = await gql(`
-    mutation {
-      updateUser(input: {
-        photoID: ${json(id)}
+        nickname: ${json(user.nickname)}
+        photoID: ${json(user.photoID)}
       })
       {
         ${userFields}
@@ -209,6 +195,7 @@ const userFields = `
     id
     name
   }
+  photoID
 `
 
 const postFields = `
