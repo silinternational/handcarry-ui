@@ -30,7 +30,7 @@ div {
     </div>
     <div class="col text-left">
       {#if filteringByKeyword }
-        <FilterTag label="{filter.search}" on:remove="{() => dispatch('remove', 'search')}" />
+        <FilterTag label="Keyword: {filter.search}" on:remove="{() => dispatch('remove', 'search')}" />
       {/if}
       
       {#if filteringBySize }
