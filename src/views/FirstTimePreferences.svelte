@@ -7,11 +7,16 @@ import { push } from 'svelte-spa-router'
 let weightPreference = ''
 let home = null
 let timezone = null
+let newNickname = {}
 
-$: nickname = $me.nickname
+$: initializeUpdates($me)
+
+function initializeUpdates({ nickname }) {
+  newNickname = nickname
+}
 
 async function save() {
-  await changeNickname(nickname)
+  await changeNickname(newNickname)
 
   // TODO: in the future we may want to pay attention to a possible "return-to" and send the user where they were originally headed.
   push('/requests')
@@ -50,7 +55,7 @@ async function imageUploaded(event) {
   <div class="col-lg-5">
     <div class="form-group pb-4">
       <label for="nickname"><strong>Choose a nickname</strong></label>
-      <input id="nickname" aria-describedby="nicknameHelp" bind:value={$me.nickname} class="form-control">
+      <input id="nickname" aria-describedby="nicknameHelp" bind:value={newNickname} class="form-control">
       <small id="nicknameHelp" class="form-text text-muted">
         We display only your nickname to other users
       </small>

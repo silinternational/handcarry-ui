@@ -1,5 +1,5 @@
-import { writable } from 'svelte/store'
-import { getUser, updateNickname, updateProfilePic } from './gqlQueries'
+import { writable, get } from 'svelte/store'
+import { getUser, updateUser} from './gqlQueries'
 import { 
   changedNickname,
   changedAvatar,
@@ -20,17 +20,21 @@ async function loadAuthenticatedUser() {
 }
 
 export async function changeNickname(nickname) {
-  const updatedUser = await updateNickname(nickname)
+  const mergedUpdates = Object.assign({}, get(me), { nickname })
 
-  me.set(updatedUser)
+  const newUser = await updateUser(mergedUpdates)
+
+  me.set(newUser)
 
   changedNickname()
 }
 
-export async function changeProfilePicture(photoId) {
-  const updatedUser = await updateProfilePic(photoId)
+export async function changeProfilePicture(photoID) {
+  const mergedUpdates = Object.assign({}, get(me), { photoID })
 
-  me.set(updatedUser)
+  const newUser = await updateUser(mergedUpdates)
+
+  me.set(newUser)
 
   changedAvatar()
 }

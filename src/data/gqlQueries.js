@@ -10,26 +10,12 @@ export async function getUser() {
   return response.user || {}
 }
 
-export async function updateNickname(nickname) {
+export async function updateUser(user) {
   const response = await gql(`
     mutation {
       updateUser(input: {
-        nickname: ${json(nickname)}
-      })
-      {
-        ${userFields}
-      }
-    }
-  `)
-
-  return response.updateUser || {}
-}
-
-export async function updateProfilePic(id) {
-  const response = await gql(`
-    mutation {
-      updateUser(input: {
-        photoID: ${json(id)}
+        nickname: ${json(user.nickname)}
+        photoID: ${json(user.photoID)}
       })
       {
         ${userFields}
@@ -84,6 +70,7 @@ export async function updateRequest(request) {
         kilograms: ${json(request.kilograms)}, 
         id: ${json(request.id)},
         neededBefore: ${json(request.neededBefore || null)}, 
+        origin: ${formatLocationForGql(request.origin)},
         photoID: ${json(request.photoID || null)},
         size: ${request.size},
         title: ${json(request.title)},
@@ -209,6 +196,7 @@ const userFields = `
     id
     name
   }
+  photoID
 `
 
 const postFields = `
@@ -220,9 +208,15 @@ const postFields = `
   description
   destination {
     description
+    latitude
+    longitude
+    country
   }
   origin {
     description
+    latitude
+    longitude
+    country
   }
   id
   kilograms
@@ -233,6 +227,7 @@ const postFields = `
   photo {
     url
   }
+  photoID
   potentialProviders {
     id
     nickname
