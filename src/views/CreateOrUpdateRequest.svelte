@@ -18,7 +18,7 @@ export let params = {} // URL path parameters, provided by router.
 
 let imageUrl = ''
 
-const defaultRequest = {
+const defaults = {
   title: '',
   description: '',
   visibility: 'SAME'
@@ -27,7 +27,7 @@ let request = {}
 const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
 $: existingRequest = $requests.find(({ id }) => id === params.id)
-$: initializeUpdates(existingRequest || defaultRequest)
+$: initializeUpdates(existingRequest || defaults)
 $: isNew = !request.id
 $: originDescription = (request.origin && request.origin.description) || ''
 $: if ($me.organizations && $me.organizations.length > 0) {
