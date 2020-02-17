@@ -4,6 +4,7 @@ import { updateQueryString } from '../data/url'
 export function populateFilterFrom(queryStringData) {
   return {
     createdBy: { id: queryStringData.creator },
+    search: queryStringData.search,
     provider: { id: queryStringData.provider },
     size: getSelectedSizes(String(queryStringData.size).toUpperCase()),
   }
@@ -13,13 +14,18 @@ export function populateFilterFrom(queryStringData) {
 export function clearFilter(location, queryString) {
   updateQueryString(location, queryString, {
     creator: null,
+    search: null,
     provider: null,
     size: null,
   })
 }
 
-export function filterRequests(requests, requestFilter, searchText) {
+export function filterRequests(requests, filter) {
   let results = requests.slice(0); // Shallow-clone the array quickly.
+  const requestFilter = Object.assign({}, filter)
+  
+  const searchText = requestFilter.search
+  delete requestFilter.search
 
   for (const property in requestFilter) {
     results = results.filter(request => matchesProperty(request, requestFilter, property))

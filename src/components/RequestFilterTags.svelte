@@ -5,13 +5,12 @@ import FilterTag from './FilterTag.svelte'
 import { createEventDispatcher } from 'svelte'
 
 export let filter = {}
-export let keyword = ''
 
 const dispatch = createEventDispatcher()
 
 $: filterKeys = Object.keys(filter)
 $: lowerCaseSelectedSize = String(filter.size[filter.size.length - 1]).toLowerCase()
-$: filteringByKeyword = !!keyword
+$: filteringByKeyword = filter.search
 $: filteringBySize = ! isDefaultSizeFilter(lowerCaseSelectedSize)
 $: filteringToMyCommitments = $me.id && filter.provider && filter.provider.id === $me.id
 $: filteringToMyRequests = $me.id && filter.createdBy && filter.createdBy.id === $me.id
@@ -31,7 +30,7 @@ div {
     </div>
     <div class="col text-left">
       {#if filteringByKeyword }
-        <FilterTag label="{keyword}" on:remove="{() => dispatch('remove', 'keyword')}" />
+        <FilterTag label="{filter.search}" on:remove="{() => dispatch('remove', 'search')}" />
       {/if}
       
       {#if filteringBySize }

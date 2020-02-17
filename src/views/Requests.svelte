@@ -34,7 +34,7 @@ let showAsList = false
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
 $: searchText = queryStringData.search || ''
-$: filteredRequests = filterRequests($requests, requestFilter, searchText)
+$: filteredRequests = filterRequests($requests, requestFilter)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
 function selectSize(sizeString) {
@@ -73,7 +73,6 @@ function selectProvider(userId) {
 
 function showAll() {
   clearFilter($location, $querystring)
-  searchText = ''
 
   filteredRequestsByAll()
 }
@@ -120,7 +119,7 @@ function onRemoveFilter(event) {
   <div class="col text-right">
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
-        <RequestFilterTags filter={requestFilter} keyword={searchText} on:remove={onRemoveFilter} />
+        <RequestFilterTags filter={requestFilter} on:remove={onRemoveFilter} />
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
         <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
