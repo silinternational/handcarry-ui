@@ -82,7 +82,7 @@ function isInList(user, listOfUsers) {
       <button class="btn btn-sm btn-success" on:click={received}>I already received it</button>
     {/if}
   {:else if isCompleted }
-    It is finished.
+    This request has been completed.
   {/if}
 {:else}
   {#if imProviding }
