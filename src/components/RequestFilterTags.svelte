@@ -4,17 +4,18 @@ import { isDefaultSizeFilter } from '../data/sizes'
 import FilterTag from './FilterTag.svelte'
 import { createEventDispatcher } from 'svelte'
 
-let filter = {}
-export { filter as requestFilter }
+export let filter = {}
+export let keyword = ''
 
 const dispatch = createEventDispatcher()
 
 $: filterKeys = Object.keys(filter)
 $: lowerCaseSelectedSize = String(filter.size[filter.size.length - 1]).toLowerCase()
+$: filteringByKeyword = !!keyword
 $: filteringBySize = ! isDefaultSizeFilter(lowerCaseSelectedSize)
 $: filteringToMyCommitments = $me.id && filter.provider && filter.provider.id === $me.id
 $: filteringToMyRequests = $me.id && filter.createdBy && filter.createdBy.id === $me.id
-$: filtersAreActive = filteringBySize || filteringToMyCommitments || filteringToMyRequests
+$: filtersAreActive = filteringByKeyword || filteringBySize || filteringToMyCommitments || filteringToMyRequests
 </script>
 
 <style>
@@ -29,6 +30,10 @@ div {
       Results filtered for:
     </div>
     <div class="col text-left">
+      {#if filteringByKeyword }
+        <FilterTag label="{keyword}" on:remove="{() => dispatch('remove', 'keyword')}" />
+      {/if}
+      
       {#if filteringBySize }
         <FilterTag label="Size: {lowerCaseSelectedSize}" on:remove="{() => dispatch('remove', 'size')}" />
       {/if}
