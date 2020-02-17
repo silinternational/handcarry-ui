@@ -1,7 +1,7 @@
 <script>
-import FilteredView from '../components/FilterableDisplay.svelte'
 import GridListToggle from '../components/GridListToggle.svelte'
 import RequestListEntry from '../components/RequestListEntry.svelte'
+import RequestFilterTags from '../components/RequestFilterTags.svelte'
 import RequestQuickFilter from '../components/RequestQuickFilter.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
@@ -107,14 +107,13 @@ function resetFilters() {
 </script>
 
 <div class="row">
-  <div class="col-12 col-md-auto text-center text-sm-left">
+  <div class="col-12 col-md-4 col-lg-3">
     <h2>Requests</h2>
   </div>
   <div class="col text-right">
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
-        <RequestQuickFilter {requestFilter} buttonCssClass="my-1 mx-0"
-                            on:all={showAll} on:my-requests={() => selectCreator($me.id)} on:my-commitments={() => selectProvider($me.id)} />
+        <RequestFilterTags {requestFilter} />
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
         <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
