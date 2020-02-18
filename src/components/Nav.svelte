@@ -57,8 +57,14 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
         {/if}
 
         <li class="nav-item">
-          <a href="/#/requests" class="nav-link" class:active={$location === '/requests'}>
+          <a href="/#/requests" class="nav-link" class:active={$location.startsWith('/requests')}>
             {polyglot.t('nav-requests')}
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="/#/events" class="nav-link" class:active={$location.startsWith('/events')}>
+            {polyglot.t('nav-events')}
           </a>
         </li>
 

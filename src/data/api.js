@@ -57,7 +57,7 @@ export async function gql(query) {
   if (response.errors) { 
     throwError(response.errors[0].message)
   }
-     
+
   return response.data
 }
 
