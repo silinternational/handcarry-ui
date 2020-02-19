@@ -30,7 +30,12 @@ function onKeywordInput(event) {
 
 function onMyCommitmentsChange(event) {
   if (event.target.checked) {
-    selectMyCommitments()
+    dispatch('set', {
+      creator: null,
+      provider: $me.id,
+      size: null,
+    })
+    filteredRequestsByProviding()
   } else {
     dispatch('remove', 'provider')
   }
@@ -38,7 +43,12 @@ function onMyCommitmentsChange(event) {
 
 function onMyRequestsChange(event) {
   if (event.target.checked) {
-    selectMyRequests()
+    dispatch('set', {
+      creator: $me.id,
+      provider: null,
+      size: null,
+    })
+    filteredRequestsByMine()
   } else {
     dispatch('remove', 'creator')
   }
@@ -60,26 +70,6 @@ function resetFilters() {
   dispatch('reset')
 
   filteredRequestsByAll()
-}
-
-function selectMyCommitments() {
-  dispatch('set', {
-    creator: null,
-    provider: $me.id,
-    size: null,
-  })
-
-  filteredRequestsByProviding()
-}
-
-function selectMyRequests() {
-  dispatch('set', {
-    creator: $me.id,
-    provider: null,
-    size: null,
-  })
-
-  filteredRequestsByMine()
 }
 </script>
 
