@@ -6,7 +6,7 @@ export function populateFilterFrom(queryStringData) {
     createdBy: { id: queryStringData.creator },
     search: queryStringData.search,
     provider: { id: queryStringData.provider },
-    size: getSelectedSizes(String(queryStringData.size).toUpperCase()),
+    size: getSelectedSizes(queryStringData.size),
   }
 }
 
