@@ -90,16 +90,12 @@ function selectMyRequests() {
   </div>
   
   <div class="card-body">
-    <div>
-      <label>
-        <input type="checkbox" on:change={onMyRequestsChange} checked={onlyMyRequests} /> Only my requests
-      </label>
-    </div>
-    <div>
-      <label>
-        <input type="checkbox" on:change={onMyCommitmentsChange} checked={onlyMyCommitments} /> Only my commitments
-      </label>
-    </div>
+    <label class="d-block">
+      <input type="checkbox" on:change={onMyRequestsChange} checked={onlyMyRequests} /> Only my requests
+    </label>
+    <label class="d-block">
+      <input type="checkbox" on:change={onMyCommitmentsChange} checked={onlyMyCommitments} /> Only my commitments
+    </label>
     
     <hr />
     
