@@ -44,6 +44,15 @@ img {
 }
 </style>
 
+<div class="text-center">
+  <h1 class="pb-4">Welcome to WeCarry!</h1>
+
+  {#if inviteInfo.imageURL}
+    <!-- TODO: deal with wonky image dimensions -->
+    <img src={inviteInfo.imageURL} alt={altText} class="mb-3">
+  {/if}
+</div>
+
 <div class="row">
   <div class="col col-sm-8 offset-sm-2 col-lg-8 offset-lg-2">
       {#if loading}
@@ -54,18 +63,9 @@ img {
           <span class="pl-3 lead">Verifying your invitation...</span>
         </div>
       {:else}
-        <div class="text-center">
-          {#if inviteInfo.imageURL}
-            <!-- TODO: deal with wonky image dimensions -->
-            <img src={inviteInfo.imageURL} alt={altText}>
-          {/if}
-
-          <h1 class="pt-4 pb-3">Welcome to WeCarry!</h1>
-
-          <p>
-            {@html instructions}
-          </p>
-        </div>
+        <p class="text-center">
+          {@html instructions}
+        </p>
       {/if}
   </div>
 </div>
