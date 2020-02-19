@@ -8,7 +8,7 @@ import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import { me } from '../data/user'
 import { requests, loading } from '../data/requests'
-import { location, querystring } from 'svelte-spa-router'
+import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
 import { clearFilter, filterRequests, populateFilterFrom } from '../data/requestFiltering'
@@ -25,11 +25,11 @@ $: filteredRequests = filterRequests($requests, requestFilter)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
 function onResetFilter() {
-  clearFilter($location, $querystring)
+  clearFilter()
 }
 
 function viewAsGrid() {
-  updateQueryString($location, $querystring, {
+  updateQueryString({
     list: null,
   })
 
@@ -37,7 +37,7 @@ function viewAsGrid() {
 }
 
 function viewAsList() {
-  updateQueryString($location, $querystring, {
+  updateQueryString({
     list: 1,
   })
 
@@ -47,12 +47,12 @@ function viewAsList() {
 function onRemoveFilter(event) {
   const updates = {}
   updates[event.detail] = null
-  updateQueryString($location, $querystring, updates)
+  updateQueryString(updates)
 }
 
 function onSetFilter(event) {
   const updates = event.detail
-  updateQueryString($location, $querystring, updates)
+  updateQueryString(updates)
 }
 </script>
 
