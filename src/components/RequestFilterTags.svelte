@@ -42,7 +42,7 @@ div {
       {/if}
       
       {#if filteringToMyRequests }
-        <FilterTag label="Only my requests" on:remove="{() => dispatch('remove', 'createdBy')}" />
+        <FilterTag label="Only my requests" on:remove="{() => dispatch('remove', 'creator')}" />
       {/if}
     </div>
   </div>
