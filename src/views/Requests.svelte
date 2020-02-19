@@ -1,80 +1,31 @@
 <script>
 import GridListToggle from '../components/GridListToggle.svelte'
 import RequestListEntry from '../components/RequestListEntry.svelte'
+import RequestFilters from '../components/RequestFilters.svelte'
 import RequestFilterTags from '../components/RequestFilterTags.svelte'
 import RequestQuickFilter from '../components/RequestQuickFilter.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
-import SizeFilter from '../components/SizeFilter.svelte'
 import { me } from '../data/user'
 import { requests, loading } from '../data/requests'
 import { location, querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
-import Icon from 'fa-svelte'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { clearFilter, filterRequests, populateFilterFrom } from '../data/requestFiltering'
-import { isDefaultSizeFilter } from '../data/sizes'
-import { 
-  filteredRequestsBySize,
-  filteredRequestsByMine,
-  filteredRequestsByProviding,
-  filteredRequestsByAll,
-  viewedRequestsAsGrid,
-  viewedRequestsAsList,
-  searchedRequests,
-} from '../data/analytics'
+import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
 
 let filteredRequests
 let requestFilter = {}
 let queryStringData
-let searchText = ''
 let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateFilterFrom(queryStringData)
-$: searchText = queryStringData.search || ''
 $: filteredRequests = filterRequests($requests, requestFilter)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
-function selectSize(sizeString) {
-  let lowerCaseSize = String(sizeString).toLowerCase()
-
-  filteredRequestsBySize(lowerCaseSize)
-
-  if (isDefaultSizeFilter(lowerCaseSize)) {
-    lowerCaseSize = null
-  }
-
-  updateQueryString($location, $querystring, {
-    size: lowerCaseSize,
-  })
-}
-
-function selectCreator(userId) {
-  updateQueryString($location, $querystring, {
-    creator: userId,
-    provider: null,
-    size: null,
-  })
-
-  filteredRequestsByMine()
-}
-
-function selectProvider(userId) {
-  updateQueryString($location, $querystring, {
-    creator: null,
-    provider: userId,
-    size: null,
-  })
-
-  filteredRequestsByProviding()
-}
-
-function showAll() {
+function onResetFilter() {
   clearFilter($location, $querystring)
-
-  filteredRequestsByAll()
 }
 
 function viewAsGrid() {
@@ -93,21 +44,14 @@ function viewAsList() {
   viewedRequestsAsList()
 }
 
-function searchForText(searchText) {
-  updateQueryString($location, $querystring, {
-    search: searchText,
-  })
-
-  searchedRequests(searchText)
-}
-
-function resetFilters() {
-  showAll()
-}
-
 function onRemoveFilter(event) {
   const updates = {}
   updates[event.detail] = null
+  updateQueryString($location, $querystring, updates)
+}
+
+function onSetFilter(event) {
+  const updates = event.detail
   updateQueryString($location, $querystring, updates)
 }
 </script>
@@ -131,30 +75,7 @@ function onRemoveFilter(event) {
 <div class="row mt-2">
   <div class="col-12 col-md-4 col-lg-3 mb-2">
     <div>
-      <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
-        <div class="card-header text-center p-2">
-          Filters
-          <a href="javascript:void(0)" class="small d-block" on:click={resetFilters}>Reset filters</a>
-        </div>
-        
-        <div class="card-body">
-          <p class="mb-1 text-muted" id="keyword-filter-label">Keyword:</p>
-          <div class="input-group mb-2">
-            <div class="input-group-prepend">
-              <div class="input-group-text"><Icon icon={faSearch} /></div>
-            </div>
-            <input type="text" aria-labelledby="keyword-filter-label" class="form-control form-control-sm"
-                   placeholder="Search" value={searchText} on:input="{event => searchForText(event.target.value)}" />
-          </div>
-          
-          <hr />
-          
-          <p class="mb-1 text-muted" id="size-filter-label">Max. size:</p>
-          <div class="d-inline-block text-md-left" aria-labelledby="size-filter-label">
-            <SizeFilter cssClass="d-md-block" initialValue={queryStringData.size} on:selection={event => selectSize(event.detail)} />
-          </div>
-        </div>
-      </div>
+      <RequestFilters filter={requestFilter} on:remove={onRemoveFilter} on:reset={onResetFilter} on:set={onSetFilter} />
     </div>
   </div>
   <div class="col">
