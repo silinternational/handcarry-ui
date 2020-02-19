@@ -8,12 +8,15 @@ let email = ''
 let inviteInfo = {}
 
 onMount(() => {
-  console.log('invite code: ', params.code)
-  inviteInfo = {
-    type: 'meeting',
-    name: 'Svelte conference',
-    imageURL: 'https://svelte.dev/svelte-logo-horizontal.svg'
-  }
+  setTimeout(() => {
+    console.log(`simulating call for invite info (${params.code})`)
+
+    inviteInfo = {
+      type: 'meeting',
+      name: 'Svelte conference',
+      imageURL: 'https://svelte.dev/svelte-logo-horizontal.svg'
+    }
+  }, 1500)
 })
 
 const config = {
@@ -28,6 +31,7 @@ const config = {
 $: altText = inviteInfo.type && config[inviteInfo.type].alt || ''
 $: instructions = inviteInfo.type && config[inviteInfo.type].instructions(inviteInfo.name) || ''
 $: placeholder = inviteInfo.type && config[inviteInfo.type].placeholder || ''
+$: loading = ! inviteInfo.type
 
 function join() {
   login(email, config[inviteInfo.type].returnTo)
@@ -40,26 +44,41 @@ img {
 }
 </style>
 
-<div class="text-center">
-  <!-- TODO: deal with wonky image dimensions -->
-  <img src={inviteInfo.imageURL} alt={altText}>
-
-  <h1 class="pt-4 pb-3">Welcome to WeCarry!</h1>
-</div>
-
 <div class="row">
   <div class="col col-sm-8 offset-sm-2 col-lg-8 offset-lg-2">
-    <p class="text-center">{@html instructions}</p>
+      {#if loading}
+        <div class="d-flex align-items-center justify-content-center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Verifying your invitation...</span>
+          </div>
+          <span class="pl-3 lead">Verifying your invitation...</span>
+        </div>
+      {:else}
+        <div class="text-center">
+          {#if inviteInfo.imageURL}
+            <!-- TODO: deal with wonky image dimensions -->
+            <img src={inviteInfo.imageURL} alt={altText}>
+          {/if}
+
+          <h1 class="pt-4 pb-3">Welcome to WeCarry!</h1>
+
+          <p>
+            {@html instructions}
+          </p>
+        </div>
+      {/if}
   </div>
 </div>
 
-<!-- the input and button should stack on phones but go inline (and centered) on everything else -->
-<form on:submit|preventDefault={join} class="row mt-2">
-  <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
-    <!-- svelte-ignore a11y-autofocus -->
-    <input type="email" bind:value={email} required {placeholder} autofocus class="form-control form-control-lg">
-  </div>
-  <div class="col-12 col-sm-2">
-    <button class="btn btn-primary btn-lg float-right mt-3 float-sm-none mt-sm-0">Join</button>
-  </div>
-</form>
+{#if !loading}
+  <!-- the input and button should stack on phones but go inline (and centered) on everything else -->
+  <form on:submit|preventDefault={join} class="row mt-2">
+    <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
+      <!-- svelte-ignore a11y-autofocus -->
+      <input type="email" bind:value={email} required {placeholder} autofocus class="form-control form-control-lg">
+    </div>
+    <div class="col-12 col-sm-2">
+      <button class="btn btn-primary btn-lg float-right mt-3 float-sm-none mt-sm-0">Join</button>
+    </div>
+  </form>
+{/if}
