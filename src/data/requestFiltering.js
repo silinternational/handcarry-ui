@@ -69,5 +69,5 @@ function matchesSearchText(request, searchText) {
 }
 
 function stringIsIn(needle, haystack) {
-  return (haystack || '').toLowerCase().indexOf(needle) >= 0
+  return (haystack || '').toLowerCase().indexOf(String(needle).toLowerCase()) >= 0
 }
