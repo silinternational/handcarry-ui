@@ -9,6 +9,7 @@ import Privacy from './Privacy.svelte'
 import Terms from './Terms.svelte'
 import FirstTimePreferences from './FirstTimePreferences.svelte'
 import Events from './Events.svelte'
+import Invitation from './Invitation.svelte'
 
 // https://github.com/ItalyPaleAle/svelte-spa-router
 const routes = {
@@ -29,6 +30,7 @@ const routes = {
 	'/messages': Messages,
 	'/messages/:id': Messages,
 	'/profile': Profile,
+	'/join/:code': Invitation,
  }
 
 export default routes
