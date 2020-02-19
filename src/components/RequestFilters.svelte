@@ -19,11 +19,29 @@ const dispatch = createEventDispatcher()
 
 $: searchText = filter.search || ''
 $: size = filter.size && filter.size[filter.size.length - 1]
+$: onlyMyCommitments = $me.id && filter.provider && filter.provider.id === $me.id
+$: onlyMyRequests = $me.id && filter.createdBy && filter.createdBy.id === $me.id
 
 function onKeywordInput(event) {
   dispatch('set', { search: event.target.value })
 
   searchedRequests(searchText)
+}
+
+function onMyCommitmentsChange(event) {
+  if (event.target.checked) {
+    selectMyCommitments()
+  } else {
+    dispatch('remove', 'provider')
+  }
+}
+
+function onMyRequestsChange(event) {
+  if (event.target.checked) {
+    selectMyRequests()
+  } else {
+    dispatch('remove', 'creator')
+  }
 }
 
 function onSizeSelection(event) {
@@ -72,6 +90,19 @@ function selectMyRequests() {
   </div>
   
   <div class="card-body">
+    <div>
+      <label>
+        <input type="checkbox" on:change={onMyRequestsChange} checked={onlyMyRequests} /> Only my requests
+      </label>
+    </div>
+    <div>
+      <label>
+        <input type="checkbox" on:change={onMyCommitmentsChange} checked={onlyMyCommitments} /> Only my commitments
+      </label>
+    </div>
+    
+    <hr />
+    
     <p class="mb-1 text-muted" id="keyword-filter-label">Keyword:</p>
     <div class="input-group mb-2">
       <div class="input-group-prepend">
