@@ -41,16 +41,20 @@ img {
 </style>
 
 <div class="text-center">
+  <!-- TODO: deal with wonky image dimensions -->
   <img src={inviteInfo.imageURL} alt={altText}>
 
   <h1 class="pt-4 pb-3">Welcome to WeCarry!</h1>
-  
-  <p>{@html instructions}</p>
 </div>
 
+<div class="row">
+  <div class="col col-sm-8 offset-sm-2 col-lg-8 offset-lg-2">
+    <p class="text-center">{@html instructions}</p>
+  </div>
+</div>
 
 <!-- the input and button should stack on phones but go inline (and centered) on everything else -->
-<form on:submit|preventDefault={join} class="row">
+<form on:submit|preventDefault={join} class="row mt-2">
   <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
     <!-- svelte-ignore a11y-autofocus -->
     <input type="email" bind:value={email} required {placeholder} autofocus class="form-control form-control-lg">
