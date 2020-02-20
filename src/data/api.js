@@ -70,16 +70,28 @@ export async function login(email, returnTo) {
     loginUrl += `&return-to=${encodeURIComponent(returnTo)}`
   }
 
-  try {
-    const response = await wrappedFetch(loginUrl)
+  // const response = await wrappedFetch(loginUrl)
+  const response = [
+    {
+      name: 'SIL',
+      logoURL: 'https://static.sil.org/brand-tool/glyph1.png',
+      RedirectURL: 'https://example.org/login'
+    },
+    {
+      name: 'Google',
+      logoURL: 'https://www.naschenweng.info/wp-content/uploads/2010/10/google-logo.png',
+      RedirectURL: 'https://example.org/login'
+    },
+  ]
 
-    window.location = response.RedirectURL
-  } catch (e) {
-    // TODO: need errorhandling and additional use cases with this response
-    //   "Need to review response for error or multiple org 
-    //    options for login. If multiple options you then also need to provide the org_id 
-    //    when resubmitting call to login" –Phillip)
-    throw e
+  if (response.length === 1) {
+    window.location = response[0].RedirectURL
+  } else {
+    // store these auth providers
+    // push to another view
+    // render the options
+    // use the RedirectURL for the window.location in that view
+    // destroy the storage
   }
 }
 
