@@ -4,12 +4,15 @@ import { getInviteInfo, login } from '../data/api'
 
 export let params = {} // URL path parameters, provided by router.
 
+let loading = false
 let email = ''
 let inviteInfo = {}
 
 onMount(async () => {
   try {
-    inviteInfo = await getInviteInfo(params.code)    
+    loading = true
+
+    inviteInfo = await getInviteInfo(params.code)
   } finally {
     loading = false
   }
@@ -18,8 +21,8 @@ onMount(async () => {
 const config = {
   meeting: {
     alt: 'Event logo',
-    instructions: name => `To join the <strong>${name}</strong> event on WeCarry, enter your email address below to get started:`,
-    returnTo: () => `/requests?eventName=${inviteInfo.name}`,
+    instructions: name => `To join the ${name} event on WeCarry, enter your email address below to get started:`,
+    returnTo: () => `/requests?event=${encodeURIComponent(inviteInfo.name)}`, 
     placeholder: `Enter email associated with event`,
   },
 }
@@ -27,7 +30,6 @@ const config = {
 $: altText = inviteInfo.type && config[inviteInfo.type].alt || ''
 $: instructions = inviteInfo.type && config[inviteInfo.type].instructions(inviteInfo.name) || ''
 $: placeholder = inviteInfo.type && config[inviteInfo.type].placeholder || ''
-$: loading = ! inviteInfo.type
 
 function join() {
   login(email, config[inviteInfo.type].returnTo())
@@ -59,7 +61,7 @@ img {
         </div>
       {:else}
         <p class="text-center">
-          {@html instructions}
+          {instructions}
         </p>
       {/if}
   </div>
