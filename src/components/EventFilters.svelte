@@ -16,7 +16,7 @@ $: searchText = filter.search || ''
 function onKeywordInput(event) {
   dispatch('set', { search: event.target.value })
 
-  searchedMeetings(searchText)
+  searchedMeetings(event.target.value)
 }
 
 function resetFilters() {
