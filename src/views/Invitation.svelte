@@ -38,7 +38,6 @@ img {
   <h1 class="pb-4">Welcome to WeCarry!</h1>
 
   {#if inviteInfo.imageURL}
-    <!-- TODO: deal with wonky image dimensions -->
     <img src={inviteInfo.imageURL} alt={altText} class="mb-3">
   {/if}
 </div>
