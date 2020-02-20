@@ -4,7 +4,7 @@ import EventFilterTags from '../components/EventFilterTags.svelte'
 import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-import { clearFilter, filterEvents, populateFilterFrom } from '../data/eventFiltering'
+import { clearEventFilter, filterEvents, populateEventFilterFrom } from '../data/eventFiltering'
 import { init, events, loading } from '../data/events'
 import { updateQueryString } from '../data/url'
 import qs from 'qs'
@@ -25,7 +25,7 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
 let eventFilter = {}
 
 $: queryStringData = qs.parse($querystring)
-$: eventFilter = populateFilterFrom(queryStringData)
+$: eventFilter = populateEventFilterFrom(queryStringData)
 $: filteredEvents = filterEvents($events, eventFilter)
 
 function onRemoveFilter(event) {
@@ -35,7 +35,7 @@ function onRemoveFilter(event) {
 }
 
 function onResetFilter() {
-  clearFilter()
+  clearEventFilter()
 }
 
 function onSetFilter(event) {
