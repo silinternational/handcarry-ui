@@ -1,8 +1,15 @@
 <script>
+import EventFilters from '../components/EventFilters.svelte'
+import EventFilterTags from '../components/EventFilterTags.svelte'
+import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-import { init, events } from '../data/events'
+import { clearEventFilter, filterEvents, populateEventFilterFrom } from '../data/eventFiltering'
+import { init, events, loading } from '../data/events'
+import { updateQueryString } from '../data/url'
+import qs from 'qs'
 import { onMount } from 'svelte'
+import { querystring } from 'svelte-spa-router'
 
 onMount(() => {
   init() // move to App.svelte if data is needed earlier.
@@ -14,6 +21,27 @@ const format = date => new Date(date).toLocaleDateString(undefined, {
   year: 'numeric',
 })
 const logoUrl = event => event.imageFile && event.imageFile.url || ''
+
+let eventFilter = {}
+
+$: queryStringData = qs.parse($querystring)
+$: eventFilter = populateEventFilterFrom(queryStringData)
+$: filteredEvents = filterEvents($events, eventFilter)
+
+function onRemoveFilter(event) {
+  const updates = {}
+  updates[event.detail] = null
+  updateQueryString(updates)
+}
+
+function onResetFilter() {
+  clearEventFilter()
+}
+
+function onSetFilter(event) {
+  const updates = event.detail
+  updateQueryString(updates)
+}
 </script>
 
 <style>
@@ -46,33 +74,45 @@ li {
 }
 </style>
 
-<h2>Events</h2>
-
-{#each $events as event}
-  <ol class="list-group mt-2">
-    <li class="list-group-item">
-      <div class="row">
-        <div class="col-md-4 col-sm-5 logo">
-          <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
-        </div>
-        <div class="col">
-          <h4>{event.name}</h4>
-          
-          <div>{event.location.description}</div>
-          <div class="pb-1">
-            {format(event.startDate)} – {format(event.endDate)}
-          </div>
-
-          {#if event.moreInfoURL}
-            <a href="{event.moreInfoURL}" target="_blank">
-              <Icon icon={faExternalLinkAlt} />
-              <small class="align-bottom">Event Website</small>
-            </a>
-          {/if}
-        </div>
-      </div>
-    </li>
-  </ol>
-{:else}
-  No upcoming events
-{/each}
+<FilteredDisplay title="Events">
+  <div slot="tags">
+    <EventFilterTags filter={eventFilter} on:remove={onRemoveFilter} />
+  </div>
+  <div slot="filters">
+    <EventFilters filter={eventFilter} on:remove={onRemoveFilter} on:reset={onResetFilter} on:set={onSetFilter} />
+  </div>
+  <div slot="items">
+    {#if $loading}
+      <p>⏳ Retrieving events...</p>
+    {:else}
+      {#each filteredEvents as event}
+        <ol class="list-group mb-2">
+          <li class="list-group-item">
+            <div class="row">
+              <div class="col-md-4 col-sm-5 logo">
+                <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
+              </div>
+              <div class="col">
+                <h4>{event.name}</h4>
+                
+                <div>{event.location.description}</div>
+                <div class="pb-1">
+                  {format(event.startDate)} – {format(event.endDate)}
+                </div>
+      
+                {#if event.moreInfoURL}
+                  <a href="{event.moreInfoURL}" target="_blank">
+                    <Icon icon={faExternalLinkAlt} />
+                    <small class="align-bottom">Event Website</small>
+                  </a>
+                {/if}
+              </div>
+            </div>
+          </li>
+        </ol>
+      {:else}
+        No upcoming events
+      {/each}
+    {/if}
+  </div>
+</FilteredDisplay>

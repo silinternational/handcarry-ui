@@ -11,7 +11,7 @@ import { requests, loading } from '../data/requests'
 import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
-import { clearFilter, filterRequests, populateFilterFrom } from '../data/requestFiltering'
+import { clearRequestFilter, filterRequests, populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
 
 let filteredRequests
@@ -20,12 +20,12 @@ let queryStringData
 let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
-$: requestFilter = populateFilterFrom(queryStringData)
+$: requestFilter = populateRequestFilterFrom(queryStringData)
 $: filteredRequests = filterRequests($requests, requestFilter)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
 function onResetFilter() {
-  clearFilter()
+  clearRequestFilter()
 }
 
 function viewAsGrid() {

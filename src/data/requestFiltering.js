@@ -1,7 +1,8 @@
-import { getSelectedSizes } from '../data/sizes'
-import { updateQueryString } from '../data/url'
+import { filterItems, stringIsIn } from './filtering'
+import { getSelectedSizes } from './sizes'
+import { updateQueryString } from './url'
 
-export function populateFilterFrom(queryStringData) {
+export function populateRequestFilterFrom(queryStringData) {
   return {
     createdBy: { id: queryStringData.creator },
     search: queryStringData.search,
@@ -11,7 +12,7 @@ export function populateFilterFrom(queryStringData) {
 }
 
 /** NOTE: This should clear all values used by `populateFilterFrom()` */
-export function clearFilter() {
+export function clearRequestFilter() {
   updateQueryString({
     creator: null,
     search: null,
@@ -21,53 +22,11 @@ export function clearFilter() {
 }
 
 export function filterRequests(requests, filter) {
-  let results = requests.slice(0); // Shallow-clone the array quickly.
-  const requestFilter = Object.assign({}, filter)
-  
-  const searchText = requestFilter.search
-  delete requestFilter.search
-
-  for (const property in requestFilter) {
-    results = results.filter(request => matchesProperty(request, requestFilter, property))
-  }
-
-  if (searchText) {
-    results = results.filter(request => matchesSearchText(request, searchText))
-  }
-
-  return results
+  return filterItems(requests, filter, requestMatchesSearchText)
 }
 
-function matchesProperty(request, requestFilter, property) {
-  if (!requestFilter[property]) {
-    return true
-  }
-
-  if (!request) {
-    return false
-  }
-
-  if (Array.isArray(requestFilter[property])) {
-    return (requestFilter[property].indexOf(request[property]) >= 0)
-  } else if (typeof requestFilter[property] === 'object') {
-    for (const subProperty in requestFilter[property]) {
-      if (!matchesProperty(request[property], requestFilter[property], subProperty)) {
-        return false
-      }
-    }
-    return true
-  }
-  return request[property] === requestFilter[property]
-}
-
-function matchesSearchText(request, searchText) {
-  const lowerCaseSearchText = searchText.toLowerCase()
-
-  return stringIsIn(lowerCaseSearchText, request.title) ||
-         stringIsIn(lowerCaseSearchText, request.destination.description) ||
-         stringIsIn(lowerCaseSearchText, request.createdBy.nickname)
-}
-
-function stringIsIn(needle, haystack) {
-  return (haystack || '').toLowerCase().indexOf(String(needle).toLowerCase()) >= 0
+function requestMatchesSearchText(request, searchText) {
+  return stringIsIn(searchText, request.title) ||
+         stringIsIn(searchText, request.destination.description) ||
+         stringIsIn(searchText, request.createdBy.nickname)
 }
