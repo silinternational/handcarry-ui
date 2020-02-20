@@ -13,7 +13,7 @@ const config = {
   meeting: {
     alt: 'Event logo',
     instructions: name => `To join the <strong>${name}</strong> event on WeCarry, enter your email address below to get started:`,
-    returnTo: `/requests?eventName=${inviteInfo.name}`, // TODO: uri encode the name here if login() doesn't already
+    returnTo: () => `/requests?eventName=${inviteInfo.name}`,
     placeholder: `Enter email associated with event`,
   },
 }
@@ -24,7 +24,7 @@ $: placeholder = inviteInfo.type && config[inviteInfo.type].placeholder || ''
 $: loading = ! inviteInfo.type
 
 function join() {
-  login(email, config[inviteInfo.type].returnTo)
+  login(email, config[inviteInfo.type].returnTo())
 }
 </script>
 
