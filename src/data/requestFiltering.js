@@ -6,13 +6,13 @@ export function populateFilterFrom(queryStringData) {
     createdBy: { id: queryStringData.creator },
     search: queryStringData.search,
     provider: { id: queryStringData.provider },
-    size: getSelectedSizes(String(queryStringData.size).toUpperCase()),
+    size: getSelectedSizes(queryStringData.size),
   }
 }
 
 /** NOTE: This should clear all values used by `populateFilterFrom()` */
-export function clearFilter(location, queryString) {
-  updateQueryString(location, queryString, {
+export function clearFilter() {
+  updateQueryString({
     creator: null,
     search: null,
     provider: null,
@@ -69,5 +69,5 @@ function matchesSearchText(request, searchText) {
 }
 
 function stringIsIn(needle, haystack) {
-  return (haystack || '').toLowerCase().indexOf(needle) >= 0
+  return (haystack || '').toLowerCase().indexOf(String(needle).toLowerCase()) >= 0
 }

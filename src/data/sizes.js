@@ -43,7 +43,8 @@ export const sizes =  [
 ]
 
 export function getSelectedSizes(selectedSizeType) {
-  switch (selectedSizeType) {
+  const upperCaseSize = String(selectedSizeType).toUpperCase()
+  switch (upperCaseSize) {
     case 'TINY': return ['TINY']
     case 'SMALL': return ['TINY', 'SMALL']
     case 'MEDIUM': return ['TINY', 'SMALL', 'MEDIUM']
