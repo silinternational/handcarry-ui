@@ -83,6 +83,10 @@ export async function login(email, returnTo) {
   }
 }
 
+export function getInviteInfo(code) {
+  return wrappedFetch(`auth/invite?code=${encodeURIComponent(code)}`)
+}
+
 export function logout() {
   window.location = `${process.env.BASE_API_URL}/auth/logout?token=${encodeURIComponent(token.pair())}`
 

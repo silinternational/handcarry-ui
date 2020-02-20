@@ -1,23 +1,13 @@
 <script>
 import { onMount } from 'svelte'
-import { login } from '../data/api'
+import { getInviteInfo, login } from '../data/api'
 
 export let params = {} // URL path parameters, provided by router.
 
 let email = ''
 let inviteInfo = {}
 
-onMount(() => {
-  setTimeout(() => {
-    console.log(`simulating call for invite info (${params.code})`)
-
-    inviteInfo = {
-      type: 'meeting',
-      name: 'Svelte conference',
-      imageURL: 'https://svelte.dev/svelte-logo-horizontal.svg'
-    }
-  }, 1500)
-})
+onMount(async () => inviteInfo = await getInviteInfo(params.code))
 
 const config = {
   meeting: {
