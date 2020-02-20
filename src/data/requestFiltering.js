@@ -4,22 +4,28 @@ import { updateQueryString } from '../data/url'
 export function populateFilterFrom(queryStringData) {
   return {
     createdBy: { id: queryStringData.creator },
+    search: queryStringData.search,
     provider: { id: queryStringData.provider },
-    size: getSelectedSizes(String(queryStringData.size).toUpperCase()),
+    size: getSelectedSizes(queryStringData.size),
   }
 }
 
 /** NOTE: This should clear all values used by `populateFilterFrom()` */
-export function clearFilter(location, queryString) {
-  updateQueryString(location, queryString, {
+export function clearFilter() {
+  updateQueryString({
     creator: null,
+    search: null,
     provider: null,
     size: null,
   })
 }
 
-export function filterRequests(requests, requestFilter, searchText) {
+export function filterRequests(requests, filter) {
   let results = requests.slice(0); // Shallow-clone the array quickly.
+  const requestFilter = Object.assign({}, filter)
+  
+  const searchText = requestFilter.search
+  delete requestFilter.search
 
   for (const property in requestFilter) {
     results = results.filter(request => matchesProperty(request, requestFilter, property))
@@ -63,5 +69,5 @@ function matchesSearchText(request, searchText) {
 }
 
 function stringIsIn(needle, haystack) {
-  return (haystack || '').toLowerCase().indexOf(needle) >= 0
+  return (haystack || '').toLowerCase().indexOf(String(needle).toLowerCase()) >= 0
 }
