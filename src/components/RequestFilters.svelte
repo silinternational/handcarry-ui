@@ -25,7 +25,7 @@ $: onlyMyRequests = $me.id && filter.createdBy && filter.createdBy.id === $me.id
 function onKeywordInput(event) {
   dispatch('set', { search: event.target.value })
 
-  searchedRequests(searchText)
+  searchedRequests(event.target.value)
 }
 
 function onMyCommitmentsChange(event) {
