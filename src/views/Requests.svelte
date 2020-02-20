@@ -76,11 +76,9 @@ function onSetFilter(event) {
         {:else}
           <div class="col-6 my-1 col-lg-4"><RequestTile {request} /></div>
         {/if}
-      {/each}
-      
-      {#if !filteredRequests.length}
+      {:else}
         <div class="col-12 my-2 mx-5"><i class="text-muted">None found</i></div>
-      {/if}
+      {/each}
     {/if}
 
     <div class:d-md-block={showAsList} class="d-none col-12 my-1">
