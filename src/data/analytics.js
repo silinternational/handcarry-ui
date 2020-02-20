@@ -34,6 +34,7 @@ function trackEvent(primary, secondary, tertiary) {
 }
 
 const trackAuthEvent     = secondary             => trackEvent('Auth'    , secondary)
+const trackMeetingsEvent = (secondary, tertiary) => trackEvent('Meetings', secondary, tertiary)
 const trackMenuEvent     = (secondary, tertiary) => trackEvent('Menu'    , secondary, tertiary)
 const trackRequestsEvent = (secondary, tertiary) => trackEvent('Requests', secondary, tertiary)
 const trackRequestEvent  = secondary             => trackEvent('Request' , secondary)
@@ -57,6 +58,9 @@ export const filteredRequestsByAll       = ()    => trackRequestsEvent('filter',
 export const viewedRequestsAsGrid        = ()    => trackRequestsEvent('view'  , 'grid')
 export const viewedRequestsAsList        = ()    => trackRequestsEvent('view'  , 'list')
 export const searchedRequests            = query => trackRequestsEvent('search', query)
+
+export const filteredMeetingsByAll = ()    => trackMeetingsEvent('filter', 'all')
+export const searchedMeetings      = query => trackMeetingsEvent('search', query)
 
 export const accepted       = () => trackRequestEvent('accepted')
 export const offered        = () => trackRequestEvent('offered')
