@@ -10,5 +10,6 @@
    "nav-profile": "My profile",
    "ErrorFindingOrgUserOrgs": "We were unable to find an account for you. WeCarry is currently in an Early Access period with limited access. If you would like to be on the waiting list for access please let us know at <a href='mailto:support@wecarry.app'>support@wecarry.app</a>.",
    "ErrorStoreFileTooLarge": "That was too big, please try a smaller one",
-   "ErrorStoreFileBadContentType": "That file type is not supported"
+   "ErrorStoreFileBadContentType": "That file type is not supported",
+   "ErrorInvalidInviteCode": "We did not recognize that code"
 }

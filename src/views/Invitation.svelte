@@ -7,7 +7,13 @@ export let params = {} // URL path parameters, provided by router.
 let email = ''
 let inviteInfo = {}
 
-onMount(async () => inviteInfo = await getInviteInfo(params.code))
+onMount(async () => {
+  try {
+    inviteInfo = await getInviteInfo(params.code)    
+  } finally {
+    loading = false
+  }
+})
 
 const config = {
   meeting: {
@@ -59,7 +65,7 @@ img {
   </div>
 </div>
 
-{#if !loading}
+{#if inviteInfo.type}
   <!-- the input and button should stack on phones but go inline (and centered) on everything else -->
   <form on:submit|preventDefault={join} class="row mt-2">
     <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
