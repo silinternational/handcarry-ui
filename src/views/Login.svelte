@@ -1,5 +1,5 @@
 <script>
-import { login } from '../data/api'
+import { login } from '../data/auth'
 import { querystring, replace } from 'svelte-spa-router'
 import qs from 'qs'
 import { me } from '../data/user'

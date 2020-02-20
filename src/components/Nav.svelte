@@ -3,7 +3,7 @@ import { unreads } from '../data/messaging'
 import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
 import polyglot from '../i18n'
 import UserAvatar from './UserAvatar.svelte'
-import { logout } from '../data/api'
+import { logout } from '../data/auth'
 import CountIndicator from './CountIndicator.svelte'
 import { 
   createRequestByFab, 
