@@ -247,6 +247,7 @@ const postFields = `
   photo {
     url
   }
+  photoID
   potentialProviders {
     id
     nickname

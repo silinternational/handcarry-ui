@@ -18,18 +18,24 @@ export let params = {} // URL path parameters, provided by router.
 
 let imageUrl = ''
 
-const newRequest = {
+const defaults = {
   title: '',
   description: '',
   visibility: 'SAME'
 }
+let request = {}
 const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
-$: request = $requests.find(({ id }) => id === params.id) || newRequest
+$: existingRequest = $requests.find(({ id }) => id === params.id)
+$: initializeUpdates(existingRequest || defaults)
 $: isNew = !request.id
 $: originDescription = (request.origin && request.origin.description) || ''
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
+}
+
+function initializeUpdates(requestBeingEdited) {
+  request = Object.assign({}, requestBeingEdited)
 }
 
 function assertHas(value, errorMessage) {
