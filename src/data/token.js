@@ -39,6 +39,7 @@ function get(key) {
   return sessionStorage.getItem(key) || qsData[key]
 }
 
+// TODO: consider moving this to localStorage so new tabs won't force re-authn.
 function set(key, defaultValue = '') {
   sessionStorage.setItem(key, get(key) || defaultValue)
 }
