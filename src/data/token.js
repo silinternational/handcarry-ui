@@ -1,6 +1,7 @@
 import qs from 'qs'
 import { location, querystring, push } from 'svelte-spa-router'
 import { get as getStoreValue} from 'svelte/store'
+import { onClear } from './storage'
 import { loggedIn } from './analytics'
 
 let qsData = {}
@@ -11,7 +12,6 @@ export default {
   authzHeader: () => `${get('token-type')} ${pair()}`,
   key: () => get('key'),
   pair,
-  reset,
 }
 
 function init() {
@@ -25,6 +25,8 @@ function init() {
   qsData['access-token'] && loggedIn()
   
   cleanAddressBar()
+
+  onClear(reset)
 }
 
 function createKey() {

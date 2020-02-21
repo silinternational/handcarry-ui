@@ -1,10 +1,10 @@
 import token from './token'
 import { loggedOut } from './analytics'
-import { reset } from './reset'
+import { clear } from './storage'
 import { wrappedFetch } from './api'
 
 export async function login(email, returnTo) {
-  token.reset()
+  clear()
 
   let loginUrl = `auth/login?client-id=${encodeURIComponent(token.key())}&auth-email=${encodeURIComponent(email)}`
 
@@ -40,17 +40,11 @@ export async function login(email, returnTo) {
 export function logout() {
   window.location = `${process.env.BASE_API_URL}/auth/logout?token=${encodeURIComponent(token.pair())}`
 
-  clearLocalData()
+  clear()
 
   loggedOut()
 }
 
 export async function upload(formData) {
   return await wrappedFetch('upload', formData)
-}
-
-// TODO: this is also being done in api.js, need to consolidate
-function clearLocalData() {
-  token.reset()
-  reset()
 }
