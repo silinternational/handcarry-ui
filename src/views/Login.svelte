@@ -49,6 +49,7 @@ async function signIn() {
     window.location = identityProviders[0].RedirectURL
   } else {
     // fire modal
+    document.querySelector('[type=hidden]').click()
   }
 }
 </script>
@@ -91,11 +92,8 @@ a > img {
   </div>
 </form>
 
-<!-- TODO: remove once I figure out how to trigger modal via js -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#identityProviders">
-  Launch demo modal
-</button>
-
+<!-- TODO: remove this input once I figure out how to trigger modal via js -->
+<input type="hidden" data-toggle="modal" data-target="#identityProviders" />
 <div class="modal fade" id="identityProviders" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
