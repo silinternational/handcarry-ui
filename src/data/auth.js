@@ -12,29 +12,30 @@ export async function login(email, returnTo) {
     loginUrl += `&return-to=${encodeURIComponent(returnTo)}`
   }
 
-  const response = await wrappedFetch(loginUrl)
-  // const response = [
-  //   {
-  //     name: 'SIL',
-  //     logoURL: 'https://static.sil.org/brand-tool/glyph1.png',
-  //     RedirectURL: 'https://example.org/login'
-  //   },
-  //   {
-  //     name: 'Google',
-  //     logoURL: 'https://www.naschenweng.info/wp-content/uploads/2010/10/google-logo.png',
-  //     RedirectURL: 'https://example.org/login'
-  //   },
-  // ]
-
-  // if (response.length === 1) {
-    window.location = response.RedirectURL //response[0].RedirectURL
-  // } else {
-    // store these auth providers
-    // push to another view
-    // render the options
-    // use the RedirectURL for the window.location in that view
-    // destroy the storage
-  // }
+  // TODO: waiting on api to return array of auth providers
+  // const response = await wrappedFetch(loginUrl)
+  return [
+    {
+      name: 'Google',
+      RedirectURL: 'https://example.org/login'
+    },
+    {
+      name: 'Facebook',
+      RedirectURL: 'https://example.org/login'
+    },
+    {
+      name: 'Twitter',
+      RedirectURL: 'https://example.org/login'
+    },
+    {
+      name: 'LinkedIn',
+      RedirectURL: 'https://example.org/login'
+    },
+    {
+      name: 'Microsoft',
+      RedirectURL: 'https://example.org/login'
+    },
+  ]
 }
 
 export function logout() {

@@ -9,6 +9,7 @@ $: $me.id && replace('/requests') // if they're already authn, no need to login 
 
 let email = getStoredEmail() || ''
 let checked = !!email
+let identityProviders = []
 
 function getStoredEmail() {
   return localStorage.getItem('email')
@@ -22,12 +23,41 @@ function storeRememberMeChoice() {
   }
 }
 
-function signIn() {
+function logo(name) {
+  const urls = {
+    // https://developers.google.com/identity/branding-guidelines
+    google: 'oauth/btn_google_signin_dark_normal_web@2x.png',
+    // https://developers.facebook.com/docs/facebook-login/web/login-button
+    facebook: 'oauth/facebook.png',
+    // https://developer.twitter.com/en/docs/basics/authentication/guides/log-in-with-twitter
+    twitter: 'oauth/twitter_button.png',
+    // https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/sign-in-with-linkedin
+    linkedin: 'oauth/linkedin-Sign-in-Large---Default.png',
+    // https://https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-add-branding-in-azure-ad-apps
+    microsoft: 'oauth/ms-symbollockup_signin_dark.svg',
+  }
+
+  return urls[name.toLowerCase()]
+}
+
+async function signIn() {
   storeRememberMeChoice()
 
-  login(email, returnTo)
+  identityProviders = await login(email, returnTo)
+
+  if (identityProviders.length === 1) {
+    window.location = identityProviders[0].RedirectURL
+  } else {
+    // fire modal
+  }
 }
 </script>
+
+<style>
+a > img {
+  width: 21rem; /* worked pretty well on all screens, no need for breakpoint work here */
+}
+</style>
 
 <form on:submit|preventDefault={signIn} class="row mt-2">
   <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
@@ -60,3 +90,31 @@ function signIn() {
     <button class="btn btn-primary btn-lg float-right mt-3">Sign in</button>
   </div>
 </form>
+
+<!-- TODO: remove once I figure out how to trigger modal via js -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#identityProviders">
+  Launch demo modal
+</button>
+
+<div class="modal fade" id="identityProviders" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+      <div class="modal-body d-flex flex-column align-items-center">
+        <p class="pb-3">
+          To sign in as <strong>{email}</strong>, choose a provider below:
+        </p>
+
+        {#each identityProviders as { RedirectURL, name }}
+          <a href={RedirectURL} class="mb-2">
+            <img src={logo(name)} alt={`Sign in with ${name}`}>
+          </a>
+        {/each}
+      </div>
+    </div>
+  </div>
+</div>
