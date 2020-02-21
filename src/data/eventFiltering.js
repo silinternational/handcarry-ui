@@ -3,6 +3,7 @@ import { updateQueryString } from './url'
 
 export function populateEventFilterFrom(queryStringData) {
   return {
+    location: { description: queryStringData.location },
     search: queryStringData.search,
   }
 }
@@ -10,6 +11,7 @@ export function populateEventFilterFrom(queryStringData) {
 /** NOTE: This should clear all values used by `populateFilterFrom()` */
 export function clearEventFilter() {
   updateQueryString({
+    location: null,
     search: null,
   })
 }

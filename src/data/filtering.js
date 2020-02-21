@@ -46,7 +46,7 @@ function matchesProperty(item, itemFilter, property) {
     }
     return true
   }
-  return item[property] === itemFilter[property]
+  return stringIsIn(itemFilter[property], item[property])
 }
 
 /**

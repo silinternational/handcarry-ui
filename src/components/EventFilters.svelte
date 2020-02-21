@@ -1,6 +1,7 @@
 <script>
 import {
   filteredMeetingsByAll,
+  filteredMeetingsByLocation,
   searchedMeetings,
 } from '../data/analytics'
 import Icon from 'fa-svelte'
@@ -11,12 +12,19 @@ export let filter = {}
 
 const dispatch = createEventDispatcher()
 
+$: location = filter.location.description || ''
 $: searchText = filter.search || ''
 
 function onKeywordInput(event) {
   dispatch('set', { search: event.target.value })
 
   searchedMeetings(event.target.value)
+}
+
+function onLocationInput(event) {
+  dispatch('set', { location: event.target.value })
+
+  filteredMeetingsByLocation(event.target.value)
 }
 
 function resetFilters() {
@@ -33,6 +41,12 @@ function resetFilters() {
   </div>
   
   <div class="card-body">
+    <p class="mb-1 text-muted" id="location-filter-label">Event location:</p>
+    <input aria-labelledby="location-filter-label" class="form-control form-control-sm"
+           placeholder="City" value={location} on:input={onLocationInput} />
+    
+    <hr />
+    
     <p class="mb-1 text-muted" id="keyword-filter-label">Keyword:</p>
     <div class="input-group mb-2">
       <div class="input-group-prepend">
