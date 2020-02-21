@@ -8,14 +8,10 @@ $: returnTo = qs.parse($querystring)['return-to']
 $: $me.id && replace('/requests') // if they're already authn, no need to login again.
 
 let email = getStoredEmail() || ''
-let checked = wasRemembered()
+let checked = !!email
 
 function getStoredEmail() {
   return localStorage.getItem('email')
-}
-
-function wasRemembered(){
-  return getStoredEmail() ? true : false
 }
 
 function storeRememberMeChoice() {
