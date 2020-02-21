@@ -5,7 +5,7 @@ import qs from 'qs'
 import { me } from '../data/user'
 
 $: returnTo = qs.parse($querystring)['return-to']
-$: $me.id && replace('/requests')
+$: $me.id && replace('/requests') // if they're already authn, no need to login again.
 
 let email = getStoredEmail() || ''
 let checked = wasRemembered()
@@ -33,27 +33,32 @@ function signIn() {
 }
 </script>
 
-<form on:submit|preventDefault={signIn}>
-  <div class="form-row">
-    <div class="col-md-6 offset-md-2 col-lg-5 offset-lg-3">
-      <h1 class="pt-5 pb-4">Sign in</h1>
-    </div>
+<form on:submit|preventDefault={signIn} class="row mt-2">
+  <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
+    <h1 class="pb-3">Sign in</h1>
   </div>
+
+  <!-- the input and button should stack on phones but go inline (and centered) on everything else -->
   
-  <div class="form-row align-items-center">
+  <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
     <!-- svelte-ignore a11y-autofocus -->
-    <input type="email" bind:value={email} required placeholder="Enter email address" autofocus class="form-control form-control-lg col-md-6 offset-md-2 col-lg-5 offset-lg-3 mr-4 my-2 pl-2">
-    <button class="btn btn-primary btn-lg my-2">Sign in</button>
+    <input type="email" bind:value={email} required placeholder="Remember my email address" autofocus class="form-control form-control-lg">
   </div>
-  
-  <div class="form-row">
-    <div class="col-md-6 offset-md-2 col-lg-5 offset-lg-3">
-      <div class="form-check">
-        <input type="checkbox" id="rememberMe" bind:checked on:change={storeRememberMeChoice} class="form-check-input">
-        <label for="rememberMe" class="form-check-label">
-          Remember my email address
-        </label>
-      </div>
-    </div>
+
+  <!-- this is typically after the input, except on xs screens -->
+  <div class="d-none d-sm-block">
+    <button class="btn btn-primary btn-lg">Sign in</button>
+  </div>
+
+  <div class="col col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
+      <input type="checkbox" id="rememberMe" bind:checked on:change={storeRememberMeChoice} class="ml-1 mt-3">
+      <label for="rememberMe">
+        Remember my email address
+      </label>
+  </div>
+
+  <!-- only on xs screens is this after the remember me, otherwise it's after the input -->
+  <div class="col-4 d-sm-none">
+    <button class="btn btn-primary btn-lg float-right mt-3">Sign in</button>
   </div>
 </form>
