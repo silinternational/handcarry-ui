@@ -47,10 +47,12 @@ function signIn() {
   </div>
 
   <div class="col col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
-      <input type="checkbox" id="rememberMe" bind:checked on:change={storeRememberMeChoice} class="ml-1 mt-3">
-      <label for="rememberMe">
+    <div class="form-check mt-2 ml-1">
+      <input type="checkbox" id="rememberMe" bind:checked on:change={storeRememberMeChoice} class="form-check-input">
+      <label for="rememberMe" class="form-check-label">
         Remember my email address
       </label>
+    </div>
   </div>
 
   <!-- only on xs screens is this after the remember me, otherwise it's after the input -->
