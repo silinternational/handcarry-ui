@@ -39,10 +39,10 @@ function signIn() {
   </div>
 
   <!-- the input and button should stack on phones but go inline (and centered) on everything else -->
-  
+
   <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
     <!-- svelte-ignore a11y-autofocus -->
-    <input type="email" bind:value={email} required placeholder="Remember my email address" autofocus class="form-control form-control-lg">
+    <input type="email" bind:value={email} required placeholder="Enter email address" autofocus class="form-control form-control-lg">
   </div>
 
   <!-- this is typically after the input, except on xs screens -->
