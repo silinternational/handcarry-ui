@@ -22,5 +22,7 @@ $theme-colors: (
   "red": #e0221f,
 );
 
+$enable-responsive-font-sizes: true;
+
 @import "../../node_modules/bootstrap/scss/bootstrap";
 </style>
