@@ -44,6 +44,8 @@ function set(key, defaultValue = '') {
 }
 
 function reset() {
+  // leaving key in storage since it's preferable to keep it the same during the user's session to avoid
+  // unnecessary re-authn scenarios.
   sessionStorage.removeItem('token-type')
   sessionStorage.removeItem('access-token')
   sessionStorage.removeItem('expires-utc')
