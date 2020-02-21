@@ -101,7 +101,7 @@ a > img {
     <div class="modal-content">
       <div class="modal-header bg-primary">
         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">×</span>
+          <span aria-hidden="true" class="align-text-top">×</span>
         </button>
       </div>
       <div class="modal-body d-flex flex-column align-items-center">
