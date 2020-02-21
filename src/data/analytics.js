@@ -59,8 +59,9 @@ export const viewedRequestsAsGrid        = ()    => trackRequestsEvent('view'  ,
 export const viewedRequestsAsList        = ()    => trackRequestsEvent('view'  , 'list')
 export const searchedRequests            = query => trackRequestsEvent('search', query)
 
-export const filteredMeetingsByAll = ()    => trackMeetingsEvent('filter', 'all')
-export const searchedMeetings      = query => trackMeetingsEvent('search', query)
+export const filteredMeetingsByAll      = ()    => trackMeetingsEvent('filter', 'all')
+export const filteredMeetingsByLocation = query => trackMeetingsEvent('location', query)
+export const searchedMeetings           = query => trackMeetingsEvent('search', query)
 
 export const accepted       = () => trackRequestEvent('accepted')
 export const offered        = () => trackRequestEvent('offered')
