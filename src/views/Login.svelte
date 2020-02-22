@@ -48,8 +48,7 @@ async function signIn() {
   if (identityProviders.length === 1) {
     window.location = identityProviders[0].RedirectURL
   } else {
-    // fire modal
-    document.querySelector('[type=hidden]').click()
+    document.querySelector('[data-toggle=modal]').click()
   }
 }
 </script>
