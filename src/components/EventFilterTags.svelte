@@ -6,8 +6,8 @@ export let filter = {}
 
 const dispatch = createEventDispatcher()
 
-$: filteringByKeyword = !!filter.search
-$: filteringByLocation = !!filter.location.description
+$: filteringByKeyword = filter.search.active
+$: filteringByLocation = filter.location.active
 $: filtersAreActive = filteringByKeyword || filteringByLocation
 </script>
 
@@ -24,11 +24,11 @@ div {
     </div>
     <div class="col text-left">
       {#if filteringByKeyword }
-        <FilterTag label="Keyword: {filter.search}" on:remove="{() => dispatch('remove', 'search')}" />
+        <FilterTag label="{ filter.search.getLabel() }" on:remove="{() => dispatch('remove', 'search')}" />
       {/if}
       
       {#if filteringByLocation }
-        <FilterTag label="Location: {filter.location.description}" on:remove="{() => dispatch('remove', 'location')}" />
+        <FilterTag label="{ filter.location.getLabel() }" on:remove="{() => dispatch('remove', 'location')}" />
       {/if}
     </div>
   </div>

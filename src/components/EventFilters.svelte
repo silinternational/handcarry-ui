@@ -12,8 +12,8 @@ export let filter = {}
 
 const dispatch = createEventDispatcher()
 
-$: location = filter.location.description || ''
-$: searchText = filter.search || ''
+$: location = filter.location.value || ''
+$: searchText = filter.search.value || ''
 
 function onKeywordInput(event) {
   dispatch('set', { search: event.target.value })

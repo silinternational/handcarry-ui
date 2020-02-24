@@ -3,8 +3,18 @@ import { updateQueryString } from './url'
 
 export function populateEventFilterFrom(queryStringData) {
   return {
-    location: { description: queryStringData.location },
-    search: queryStringData.search,
+    location: {
+      active: !! queryStringData.location,
+      getLabel: () => 'Location: ' + queryStringData.location,
+      isMatch: event => stringIsIn(queryStringData.location, event.location.description),
+      value: queryStringData.location,
+    },
+    search: {
+      active: !! queryStringData.search,
+      getLabel: () => 'Keyword: ' + queryStringData.search,
+      isMatch: event => stringIsIn(queryStringData.search, event.name),
+      value: queryStringData.search,
+    },
   }
 }
 
@@ -16,10 +26,16 @@ export function clearEventFilter() {
   })
 }
 
-export function filterEvents(events, filter) {
-  return filterItems(events, filter, eventMatchesSearchText)
+export function filterEvents(items, filters) {
+  let results = items.slice(0); // Shallow-clone the array quickly.
+  
+  Object.values(filters).filter(isActive).forEach(filter => {
+    results = results.filter(filter.isMatch)
+  })
+
+  return results
 }
 
-function eventMatchesSearchText(event, searchText) {
-  return stringIsIn(searchText, event.name)
+function isActive(filter) {
+  return filter.active
 }
