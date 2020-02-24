@@ -3,6 +3,8 @@ import { login } from '../data/auth'
 import { querystring, replace } from 'svelte-spa-router'
 import qs from 'qs'
 import { me } from '../data/user'
+import jquery from 'jquery' // $ is already a reserved word in svelte
+
 
 $: returnTo = qs.parse($querystring)['return-to']
 $: $me.id && replace('/requests') // if they're already authn, no need to login again.
@@ -48,7 +50,8 @@ async function signIn() {
   if (identityProviders.length === 1) {
     window.location = identityProviders[0].RedirectURL
   } else {
-    document.querySelector('[data-toggle=modal]').click()
+    // make sure to use an id here since there may be other plugins that use bootstrap modals, e.g., freshdesk
+    jquery('#identityProviderModal').modal('show')
   }
 }
 </script>
@@ -91,9 +94,7 @@ a > img {
   </div>
 </form>
 
-<!-- TODO: remove this input once I figure out how to trigger modal via js up in signIn() -->
-<input type="hidden" data-toggle="modal" data-target="#identityProviders" />
-<div class="modal fade" id="identityProviders" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="identityProviderModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header bg-primary">
