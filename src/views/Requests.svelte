@@ -20,7 +20,7 @@ let queryStringData
 let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
-$: requestFilter = populateRequestFilterFrom(queryStringData)
+$: requestFilter = populateRequestFilterFrom(queryStringData, $me)
 $: filteredRequests = filterRequests($requests, requestFilter)
 $: showAsList = queryStringData.hasOwnProperty('list')
 

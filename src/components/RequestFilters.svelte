@@ -17,10 +17,10 @@ export let filter = {}
 
 const dispatch = createEventDispatcher()
 
-$: searchText = filter.search || ''
-$: size = filter.size && filter.size[filter.size.length - 1]
-$: onlyMyCommitments = $me.id && filter.provider && filter.provider.id === $me.id
-$: onlyMyRequests = $me.id && filter.createdBy && filter.createdBy.id === $me.id
+$: searchText = filter.search.value || ''
+$: size = filter.size.value
+$: onlyMyCommitments = filter.provider.active
+$: onlyMyRequests = filter.creator.active
 
 function onKeywordInput(event) {
   dispatch('set', { search: event.target.value })
