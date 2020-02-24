@@ -91,7 +91,7 @@ a > img {
   </div>
 </form>
 
-<!-- TODO: remove this input once I figure out how to trigger modal via js -->
+<!-- TODO: remove this input once I figure out how to trigger modal via js up in signIn() -->
 <input type="hidden" data-toggle="modal" data-target="#identityProviders" />
 <div class="modal fade" id="identityProviders" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">

@@ -14,6 +14,7 @@ export async function login(email, returnTo) {
 
   // TODO: waiting on api to return array of auth providers
   // const response = await wrappedFetch(loginUrl)
+  // window.location = response.RedirectURL
   return [
     {
       name: 'Google',
