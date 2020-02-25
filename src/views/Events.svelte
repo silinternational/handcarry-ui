@@ -1,11 +1,11 @@
 <script>
 import EventFilters from '../components/EventFilters.svelte'
-import FilterTags from '../components/FilterTags.svelte'
 import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { clearEventFilter, populateEventFilterFrom } from '../data/eventFiltering'
 import { init, events, loading } from '../data/events'
+import { onRemoveFilter } from '../data/filtering'
 import { updateQueryString } from '../data/url'
 import qs from 'qs'
 import { onMount } from 'svelte'
@@ -26,12 +26,6 @@ let eventFilter = {}
 
 $: queryStringData = qs.parse($querystring)
 $: eventFilter = populateEventFilterFrom(queryStringData)
-
-function onRemoveFilter(event) {
-  const updates = {}
-  updates[event.detail] = null
-  updateQueryString(updates)
-}
 
 function onResetFilter() {
   clearEventFilter()
@@ -74,9 +68,6 @@ li {
 </style>
 
 <FilteredDisplay title="Events" filter={eventFilter} items={$events}>
-  <div slot="tags">
-    <FilterTags filter={eventFilter} on:remove={onRemoveFilter} />
-  </div>
   <div slot="filters">
     <EventFilters filter={eventFilter} on:remove={onRemoveFilter} on:reset={onResetFilter} on:set={onSetFilter} />
   </div>

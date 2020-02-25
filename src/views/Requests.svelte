@@ -1,6 +1,5 @@
 <script>
 import FilteredDisplay from '../components/FilteredDisplay.svelte'
-import FilterTags from '../components/FilterTags.svelte'
 import GridListToggle from '../components/GridListToggle.svelte'
 import RequestListEntry from '../components/RequestListEntry.svelte'
 import RequestFilters from '../components/RequestFilters.svelte'
@@ -10,6 +9,7 @@ import { me } from '../data/user'
 import { requests, loading } from '../data/requests'
 import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
+import { onRemoveFilter } from '../data/filtering'
 import { updateQueryString } from '../data/url'
 import { clearRequestFilter, populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
@@ -42,12 +42,6 @@ function viewAsList() {
   viewedRequestsAsList()
 }
 
-function onRemoveFilter(event) {
-  const updates = {}
-  updates[event.detail] = null
-  updateQueryString(updates)
-}
-
 function onSetFilter(event) {
   const updates = event.detail
   updateQueryString(updates)
@@ -55,9 +49,6 @@ function onSetFilter(event) {
 </script>
 
 <FilteredDisplay title="Requests" filter={requestFilter} items={$requests}>
-  <div slot="tags">
-    <FilterTags filter={requestFilter} on:remove={onRemoveFilter} />
-  </div>
   <div slot="toggles">
     <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
   </div>

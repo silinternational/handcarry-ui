@@ -1,3 +1,5 @@
+import { updateQueryString } from './url'
+
 /**
  * Filter the given array of items based on the given filters.
  *
@@ -23,6 +25,18 @@ export function filterItems(items, filters) {
  */
 export function isActive(filter) {
   return filter.active
+}
+
+/**
+ * Remove the filter named in `event.detail` from the query string.
+ *
+ * @param {Object} event
+ * @param {string} event.detail
+ */
+export function onRemoveFilter(event) {
+  const updates = {}
+  updates[event.detail] = null
+  updateQueryString(updates)
 }
 
 /**
