@@ -1,6 +1,16 @@
-import { filterItems, stringIsIn } from './filtering'
+import { stringIsIn } from './filtering'
 import { includedInSizeSelection } from './sizes'
 import { updateQueryString } from './url'
+
+/** NOTE: This should clear all values used by `populateFilterFrom()` */
+export function clearRequestFilter() {
+  updateQueryString({
+    creator: null,
+    search: null,
+    provider: null,
+    size: null,
+  })
+}
 
 export function populateRequestFilterFrom(queryStringData, me) {
   return {
@@ -31,32 +41,8 @@ export function populateRequestFilterFrom(queryStringData, me) {
   }
 }
 
-/** NOTE: This should clear all values used by `populateFilterFrom()` */
-export function clearRequestFilter() {
-  updateQueryString({
-    creator: null,
-    search: null,
-    provider: null,
-    size: null,
-  })
-}
-
-export function filterRequests(items, filters) {
-  let results = items.slice(0); // Shallow-clone the array quickly.
-
-  Object.values(filters).filter(isActive).forEach(filter => {
-    results = results.filter(filter.isMatch)
-  })
-
-  return results
-}
-
 function iAmProviding(request, me) {
   return me.id && request.provider && request.provider.id === me.id
-}
-
-function isActive(filter) {
-  return filter.active
 }
 
 function isMyRequest(request, me) {

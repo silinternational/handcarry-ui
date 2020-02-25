@@ -4,8 +4,9 @@ import EventFilterTags from '../components/EventFilterTags.svelte'
 import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-import { clearEventFilter, filterEvents, populateEventFilterFrom } from '../data/eventFiltering'
+import { clearEventFilter, populateEventFilterFrom } from '../data/eventFiltering'
 import { init, events, loading } from '../data/events'
+import { filterItems } from '../data/filtering'
 import { updateQueryString } from '../data/url'
 import qs from 'qs'
 import { onMount } from 'svelte'
@@ -26,7 +27,7 @@ let eventFilter = {}
 
 $: queryStringData = qs.parse($querystring)
 $: eventFilter = populateEventFilterFrom(queryStringData)
-$: filteredEvents = filterEvents($events, eventFilter)
+$: filteredEvents = filterItems($events, eventFilter)
 
 function onRemoveFilter(event) {
   const updates = {}

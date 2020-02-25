@@ -6,12 +6,13 @@ import RequestFilters from '../components/RequestFilters.svelte'
 import RequestFilterTags from '../components/RequestFilterTags.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
+import { filterItems } from '../data/filtering'
 import { me } from '../data/user'
 import { requests, loading } from '../data/requests'
 import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
-import { clearRequestFilter, filterRequests, populateRequestFilterFrom } from '../data/requestFiltering'
+import { clearRequestFilter, populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
 
 let filteredRequests
@@ -21,7 +22,7 @@ let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateRequestFilterFrom(queryStringData, $me)
-$: filteredRequests = filterRequests($requests, requestFilter)
+$: filteredRequests = filterItems($requests, requestFilter)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
 function onResetFilter() {

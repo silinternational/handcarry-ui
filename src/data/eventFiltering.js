@@ -1,6 +1,15 @@
-import { filterItems, stringIsIn } from './filtering'
+import { stringIsIn } from './filtering'
 import { updateQueryString } from './url'
 
+/** NOTE: This should clear all values used by `populateEventFilterFrom()` */
+export function clearEventFilter() {
+  updateQueryString({
+    location: null,
+    search: null,
+  })
+}
+
+/** NOTE: All values used here should be cleared by `clearEventFilter()` */
 export function populateEventFilterFrom(queryStringData) {
   return {
     location: {
@@ -16,26 +25,4 @@ export function populateEventFilterFrom(queryStringData) {
       value: queryStringData.search,
     },
   }
-}
-
-/** NOTE: This should clear all values used by `populateFilterFrom()` */
-export function clearEventFilter() {
-  updateQueryString({
-    location: null,
-    search: null,
-  })
-}
-
-export function filterEvents(items, filters) {
-  let results = items.slice(0); // Shallow-clone the array quickly.
-  
-  Object.values(filters).filter(isActive).forEach(filter => {
-    results = results.filter(filter.isMatch)
-  })
-
-  return results
-}
-
-function isActive(filter) {
-  return filter.active
 }
