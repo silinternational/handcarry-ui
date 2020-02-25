@@ -15,7 +15,13 @@ export function filterItems(items, filters) {
   return results
 }
 
-function isActive(filter) {
+/**
+ * Whether the given object of filter data indicates that the filter is active.
+ *
+ * @param {Object} filter
+ * @returns {boolean}
+ */
+export function isActive(filter) {
   return filter.active
 }
 
