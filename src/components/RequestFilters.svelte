@@ -8,8 +8,7 @@ import {
 } from '../data/analytics'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
-import Icon from 'fa-svelte'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
 import { createEventDispatcher } from 'svelte'
 import ToggleFilter from './ToggleFilter.svelte'
@@ -24,9 +23,10 @@ $: onlyMyCommitments = filter.provider.active
 $: onlyMyRequests = filter.creator.active
 
 function onKeywordInput(event) {
-  dispatch('set', { search: event.target.value })
+  const query = event.detail
+  dispatch('set', { search: query })
 
-  searchedRequests(event.target.value)
+  searchedRequests(query)
 }
 
 function onMyCommitmentsChange(event) {
@@ -86,14 +86,7 @@ function resetFilters() {
     
     <hr />
     
-    <p class="mb-1 text-muted" id="keyword-filter-label">Keyword:</p>
-    <div class="input-group mb-2">
-      <div class="input-group-prepend">
-        <div class="input-group-text"><Icon icon={faSearch} /></div>
-      </div>
-      <input type="text" aria-labelledby="keyword-filter-label" class="form-control form-control-sm"
-             placeholder="Search" value={searchText} on:input={onKeywordInput} />
-    </div>
+    <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
     
     <hr />
     
