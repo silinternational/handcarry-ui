@@ -1,6 +1,6 @@
 <script>
 import EventFilters from '../components/EventFilters.svelte'
-import EventFilterTags from '../components/EventFilterTags.svelte'
+import FilterTags from '../components/FilterTags.svelte'
 import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
@@ -75,7 +75,7 @@ li {
 
 <FilteredDisplay title="Events" filter={eventFilter} items={$events}>
   <div slot="tags">
-    <EventFilterTags filter={eventFilter} on:remove={onRemoveFilter} />
+    <FilterTags filter={eventFilter} on:remove={onRemoveFilter} />
   </div>
   <div slot="filters">
     <EventFilters filter={eventFilter} on:remove={onRemoveFilter} on:reset={onResetFilter} on:set={onSetFilter} />

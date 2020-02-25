@@ -1,9 +1,9 @@
 <script>
 import FilteredDisplay from '../components/FilteredDisplay.svelte'
+import FilterTags from '../components/FilterTags.svelte'
 import GridListToggle from '../components/GridListToggle.svelte'
 import RequestListEntry from '../components/RequestListEntry.svelte'
 import RequestFilters from '../components/RequestFilters.svelte'
-import RequestFilterTags from '../components/RequestFilterTags.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
 import { me } from '../data/user'
@@ -56,7 +56,7 @@ function onSetFilter(event) {
 
 <FilteredDisplay title="Requests" filter={requestFilter} items={$requests}>
   <div slot="tags">
-    <RequestFilterTags filter={requestFilter} on:remove={onRemoveFilter} />
+    <FilterTags filter={requestFilter} on:remove={onRemoveFilter} />
   </div>
   <div slot="toggles">
     <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
