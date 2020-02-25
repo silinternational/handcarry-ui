@@ -12,6 +12,7 @@ import Icon from 'fa-svelte'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import SizeFilter from './SizeFilter.svelte'
 import { createEventDispatcher } from 'svelte'
+import ToggleFilter from './ToggleFilter.svelte'
 
 export let filter = {}
 
@@ -29,7 +30,7 @@ function onKeywordInput(event) {
 }
 
 function onMyCommitmentsChange(event) {
-  if (event.target.checked) {
+  if (event.detail) {
     dispatch('set', {
       creator: null,
       provider: $me.id,
@@ -42,7 +43,7 @@ function onMyCommitmentsChange(event) {
 }
 
 function onMyRequestsChange(event) {
-  if (event.target.checked) {
+  if (event.detail) {
     dispatch('set', {
       creator: $me.id,
       provider: null,
@@ -80,12 +81,8 @@ function resetFilters() {
   </div>
   
   <div class="card-body">
-    <label class="d-block">
-      <input type="checkbox" on:change={onMyRequestsChange} checked={onlyMyRequests} /> Only my requests
-    </label>
-    <label class="d-block">
-      <input type="checkbox" on:change={onMyCommitmentsChange} checked={onlyMyCommitments} /> Only my commitments
-    </label>
+    <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
+    <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     
     <hr />
     
