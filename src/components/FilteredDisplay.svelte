@@ -1,5 +1,11 @@
 <script>
+import { filterItems } from '../data/filtering'
+
+export let items = []
+export let filter = {}
 export let title = ''
+
+$: filteredItems = filterItems(items, filter)
 </script>
 
 <div class="row">
@@ -25,6 +31,6 @@ export let title = ''
     </div>
   </div>
   <div class="col">
-    <slot name="items"></slot>
+    <slot name="items" items={filteredItems}></slot>
   </div>
 </div>

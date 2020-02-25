@@ -6,7 +6,6 @@ import RequestFilters from '../components/RequestFilters.svelte'
 import RequestFilterTags from '../components/RequestFilterTags.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
-import { filterItems } from '../data/filtering'
 import { me } from '../data/user'
 import { requests, loading } from '../data/requests'
 import { querystring } from 'svelte-spa-router'
@@ -15,14 +14,12 @@ import { updateQueryString } from '../data/url'
 import { clearRequestFilter, populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
 
-let filteredRequests
 let requestFilter = {}
 let queryStringData
 let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateRequestFilterFrom(queryStringData, $me)
-$: filteredRequests = filterItems($requests, requestFilter)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
 function onResetFilter() {
@@ -57,7 +54,7 @@ function onSetFilter(event) {
 }
 </script>
 
-<FilteredDisplay title="Requests">
+<FilteredDisplay title="Requests" filter={requestFilter} items={$requests}>
   <div slot="tags">
     <RequestFilterTags filter={requestFilter} on:remove={onRemoveFilter} />
   </div>
@@ -67,7 +64,7 @@ function onSetFilter(event) {
   <div slot="filters">
     <RequestFilters filter={requestFilter} on:remove={onRemoveFilter} on:reset={onResetFilter} on:set={onSetFilter} />
   </div>
-  <div slot="items" class="form-row align-items-stretch">
+  <div slot="items" let:items={filteredRequests} class="form-row align-items-stretch">
     {#if $loading}
       <p>⏳ retrieving requests...</p>
     {:else}
