@@ -22,10 +22,6 @@ $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateRequestFilterFrom(queryStringData, $me)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
-function onResetFilter() {
-  clearRequestFilter()
-}
-
 function viewAsGrid() {
   updateQueryString({
     list: null,
@@ -53,7 +49,7 @@ function onSetFilter(event) {
     <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
   </div>
   <div slot="filters">
-    <RequestFilters filter={requestFilter} on:remove={onRemoveFilter} on:reset={onResetFilter} on:set={onSetFilter} />
+    <RequestFilters filter={requestFilter} on:remove={onRemoveFilter} on:reset={clearRequestFilter} on:set={onSetFilter} />
   </div>
   <div slot="items" let:items={filteredRequests} class="form-row align-items-stretch">
     {#if $loading}
