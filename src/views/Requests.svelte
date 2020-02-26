@@ -13,7 +13,6 @@ import { updateQueryString } from '../data/url'
 import { populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
 import { flip } from 'svelte/animate';
-import { send, receive } from '../data/transitions'
 
 let requestFilter = {}
 let showAsList = false
