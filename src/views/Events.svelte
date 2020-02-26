@@ -3,7 +3,7 @@ import EventFilters from '../components/EventFilters.svelte'
 import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-import { clearEventFilter, populateEventFilterFrom } from '../data/eventFiltering'
+import { populateEventFilterFrom } from '../data/eventFiltering'
 import { init, events, loading } from '../data/events'
 import { updateQueryString } from '../data/url'
 import qs from 'qs'
@@ -59,7 +59,7 @@ li {
 
 <FilteredDisplay title="Events" filter={eventFilter} items={$events}>
   <div slot="filters">
-    <EventFilters filter={eventFilter} on:reset={clearEventFilter} />
+    <EventFilters filter={eventFilter} />
   </div>
   <div slot="items" let:items={filteredEvents}>
     {#if $loading}

@@ -7,6 +7,7 @@ import {
   searchedRequests,
 } from '../data/analytics'
 import { removeFilter, setFilters } from '../data/filtering'
+import { clearRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
 import SearchFilter from './SearchFilter.svelte'
@@ -69,7 +70,7 @@ function onSizeSelection(event) {
 }
 
 function resetFilters() {
-  dispatch('reset')
+  clearRequestFilter()
 
   filteredRequestsByAll()
 }

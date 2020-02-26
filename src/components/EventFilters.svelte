@@ -4,6 +4,7 @@ import {
   filteredMeetingsByLocation,
   searchedMeetings,
 } from '../data/analytics'
+import { clearEventFilter } from '../data/eventFiltering'
 import { setFilters } from '../data/filtering'
 import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
@@ -31,7 +32,7 @@ function onLocationInput(event) {
 }
 
 function resetFilters() {
-  dispatch('reset')
+  clearEventFilter()
 
   filteredMeetingsByAll()
 }

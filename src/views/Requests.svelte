@@ -10,7 +10,7 @@ import { requests, loading } from '../data/requests'
 import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
-import { clearRequestFilter, populateRequestFilterFrom } from '../data/requestFiltering'
+import { populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
 
 let requestFilter = {}
@@ -43,7 +43,7 @@ function viewAsList() {
     <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
   </div>
   <div slot="filters">
-    <RequestFilters filter={requestFilter} on:reset={clearRequestFilter} />
+    <RequestFilters filter={requestFilter} />
   </div>
   <div slot="items" let:items={filteredRequests} class="form-row align-items-stretch">
     {#if $loading}
