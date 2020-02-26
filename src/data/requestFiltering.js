@@ -2,7 +2,7 @@ import { stringIsIn } from './filtering'
 import { includedInSizeSelection } from './sizes'
 import { updateQueryString } from './url'
 
-/** NOTE: This should clear all values used by `populateFilterFrom()` */
+/** NOTE: This should clear all values used by `populateRequestFilterFrom()` */
 export function clearRequestFilter() {
   updateQueryString({
     creator: null,
@@ -14,6 +14,7 @@ export function clearRequestFilter() {
   })
 }
 
+/** NOTE: All values used here should be cleared by `clearRequestFilter()` */
 export function populateRequestFilterFrom(queryStringData, me) {
   return {
     creator: {
