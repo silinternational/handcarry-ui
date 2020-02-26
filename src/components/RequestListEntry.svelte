@@ -26,7 +26,7 @@ $: origin = request.origin && request.origin.description
 }
 </style>
 
-<div class="card request-list-entry h-100" on:click="{ () => push(`/requests/${request.id}`) }">
+<div class="{$$props.class} card request-list-entry h-100" on:click="{ () => push(`/requests/${request.id}`) }">
   <div class="row no-gutters h-100">
     <div class="col-2 col-sm-1">
       <div class="card-img text-center h-100">

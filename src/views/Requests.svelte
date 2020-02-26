@@ -12,6 +12,8 @@ import qs from 'qs'
 import { updateQueryString } from '../data/url'
 import { populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
+import { flip } from 'svelte/animate';
+import { send, receive } from '../data/transitions'
 
 let requestFilter = {}
 let showAsList = false
@@ -43,15 +45,16 @@ function viewAsList() {
   <div slot="items" let:items={filteredRequests} class="form-row align-items-stretch">
     {#if $loading}
       <p>⏳ retrieving requests...</p>
+    {:else if !filteredRequests}
+      <div class="col-12 my-2 mx-5"><i class="text-muted">None found</i></div>
     {:else}
-      {#each filteredRequests as request}
-        {#if showAsList }
-          <div class="col-12 my-1"><RequestListEntry {request} /></div>
-        {:else}
-          <div class="col-6 my-1 col-lg-4"><RequestTile {request} /></div>
-        {/if}
-      {:else}
-        <div class="col-12 my-2 mx-5"><i class="text-muted">None found</i></div>
+      {#each filteredRequests as request (request.id) }
+        <div class="{ showAsList ? 'col-12 my-1' : 'col-6 my-1 col-lg-4' }"
+             in:receive="{{key: request.id}}"
+             out:send="{{key: request.id}}">
+           <RequestListEntry {request} class="{ showAsList ? '' : 'd-none' }" />
+           <RequestTile {request} class="{ showAsList ? 'd-none' : '' }" />
+         </div>
       {/each}
     {/if}
 
