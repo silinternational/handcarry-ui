@@ -83,16 +83,9 @@ function resetFilters() {
   <div class="card-body">
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
-    
     <hr />
-    
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
-    
     <hr />
-    
-    <p class="mb-1 text-muted" id="size-filter-label">Max. size:</p>
-    <div class="d-inline-block text-md-left" aria-labelledby="size-filter-label">
-      <SizeFilter cssClass="d-md-block" initialValue={size} on:selection={onSizeSelection} />
-    </div>
+    <SizeFilter cssClass="d-md-block" initialValue={size} on:selection={onSizeSelection} />
   </div>
 </div>
