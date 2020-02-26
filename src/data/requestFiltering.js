@@ -31,7 +31,7 @@ export function populateRequestFilterFrom(queryStringData, me) {
     origin: {
       active: !! queryStringData.origin,
       getLabel: () => 'From: ' + queryStringData.origin,
-      isMatch: request => stringIsIn(queryStringData.origin, request.origin.description),
+      isMatch: request => !request.origin || stringIsIn(queryStringData.origin, request.origin.description),
       value: queryStringData.origin,
     },
     search: {
