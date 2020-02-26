@@ -1,7 +1,7 @@
 import qs from 'qs'
 import { location, querystring, push } from 'svelte-spa-router'
 import { get as getStoreValue} from 'svelte/store'
-import { onClear } from './storage'
+import { onClear, save, LIFESPAN, retrieve, clear, exists } from './storage'
 import { loggedIn } from './analytics'
 
 let qsData = {}
@@ -14,6 +14,7 @@ export default {
   pair,
 }
 
+// TODO: MIGRATION:  historically key was stored in session, need to clean that up if it exists there for a user.
 function init() {
   qsData = qs.parse(getStoreValue(querystring))
 
@@ -36,20 +37,18 @@ function createKey() {
 }
 
 function get(key) {
-  return sessionStorage.getItem(key) || qsData[key]
+  return retrieve(key) || qsData[key]
 }
 
-// TODO: consider moving this to localStorage so new tabs won't force re-authn.
 function set(key, defaultValue = '') {
-  sessionStorage.setItem(key, get(key) || defaultValue)
+  save(key, get(key) || defaultValue, LIFESPAN.LONG)
 }
 
 function reset() {
-  // leaving key in storage since it's preferable to keep it the same during the user's session to avoid
-  // unnecessary re-authn scenarios.
-  sessionStorage.removeItem('token-type')
-  sessionStorage.removeItem('access-token')
-  sessionStorage.removeItem('expires-utc')
+  // not clearing 'key' here to avoid any unnecessary re-authn scenarios.
+  clear('token-type')
+  clear('access-token')
+  clear('expires-utc')
 }
 
 function pair() {
@@ -57,10 +56,8 @@ function pair() {
 }
 
 function cleanAddressBar() {
-  for (let i = 0; i < sessionStorage.length; i++) {
-    delete qsData[sessionStorage.key(i)]
-  }
+  Object.keys(qsData).filter(prop => exists(prop)).map(key => delete qsData[key])
 
-  const newQsParms = qs.stringify(qsData)
-  push(`${getStoreValue(location)}${newQsParms.length ? '?' : ''}${newQsParms}`)
+  const remainingQsParms = qs.stringify(qsData)
+  push(`${getStoreValue(location)}${remainingQsParms.length ? '?' : ''}${remainingQsParms}`)
 }
