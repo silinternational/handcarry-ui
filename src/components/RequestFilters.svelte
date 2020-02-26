@@ -1,6 +1,7 @@
 <script>
 import { 
   filteredRequestsByDestination,
+  filteredRequestsByOrigin,
   filteredRequestsBySize,
   filteredRequestsByMine,
   filteredRequestsByProviding,
@@ -19,6 +20,7 @@ import ToggleFilter from './ToggleFilter.svelte'
 export let filter = {}
 
 $: destinationText = filter.destination.value || ''
+$: originText = filter.origin.value || ''
 $: searchText = filter.search.value || ''
 $: size = filter.size.value
 $: onlyMyCommitments = filter.provider.active
@@ -29,6 +31,13 @@ function onDestinationInput(event) {
   setFilters({ destination: query })
 
   filteredRequestsByDestination(query)
+}
+
+function onOriginInput(event) {
+  const query = event.detail
+  setFilters({ origin: query })
+
+  filteredRequestsByOrigin(query)
 }
 
 function onKeywordInput(event) {
@@ -92,6 +101,8 @@ function resetFilters() {
   <div class="card-body">
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
+    <hr />
+    <LocationFilter title="From" placeholder="Origin city" value={originText} on:input={onOriginInput} />
     <hr />
     <LocationFilter title="To" placeholder="Destination city" value={destinationText} on:input={onDestinationInput} />
     <hr />

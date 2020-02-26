@@ -7,6 +7,7 @@ export function clearRequestFilter() {
   updateQueryString({
     creator: null,
     destination: null,
+    origin: null,
     search: null,
     provider: null,
     size: null,
@@ -26,6 +27,12 @@ export function populateRequestFilterFrom(queryStringData, me) {
       getLabel: () => 'To: ' + queryStringData.destination,
       isMatch: request => stringIsIn(queryStringData.destination, request.destination.description),
       value: queryStringData.destination,
+    },
+    origin: {
+      active: !! queryStringData.origin,
+      getLabel: () => 'From: ' + queryStringData.origin,
+      isMatch: request => stringIsIn(queryStringData.origin, request.origin.description),
+      value: queryStringData.origin,
     },
     search: {
       active: !! queryStringData.search,

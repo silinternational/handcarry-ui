@@ -52,6 +52,7 @@ export const choseMyRequests       = () => trackMenuEvent('my requests')
 export const choseMyCommitments    = () => trackMenuEvent('my commitments')
 
 export const filteredRequestsByDestination = query => trackRequestsEvent('destination', query)
+export const filteredRequestsByOrigin      = query => trackRequestsEvent('origin', query)
 export const filteredRequestsBySize        = size  => trackRequestsEvent('filter', size)
 export const filteredRequestsByMine        = ()    => trackRequestsEvent('filter', 'mine')
 export const filteredRequestsByProviding   = ()    => trackRequestsEvent('filter', 'providing')
