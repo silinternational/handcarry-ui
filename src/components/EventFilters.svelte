@@ -4,6 +4,7 @@ import {
   filteredMeetingsByLocation,
   searchedMeetings,
 } from '../data/analytics'
+import { setFilters } from '../data/filtering'
 import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import { createEventDispatcher } from 'svelte'
@@ -17,14 +18,14 @@ $: searchText = filter.search.value || ''
 
 function onKeywordInput(event) {
   const query = event.detail
-  dispatch('set', { search: query })
+  setFilters({ search: query })
 
   searchedMeetings(query)
 }
 
 function onLocationInput(event) {
   const query = event.detail
-  dispatch('set', { location: query })
+  setFilters({ location: query })
 
   filteredMeetingsByLocation(query)
 }

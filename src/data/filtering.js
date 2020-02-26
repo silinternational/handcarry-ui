@@ -39,6 +39,15 @@ export function removeFilter(name) {
 }
 
 /**
+ * Update the query string with the given filter keys/values.
+ *
+ * @param {Object} updates
+ */
+export function setFilters(updates) {
+  updateQueryString(updates)
+}
+
+/**
  * Whether the given needle (string) is in the given haystack (string).
  * Does a case-insensitive comparison.
  *

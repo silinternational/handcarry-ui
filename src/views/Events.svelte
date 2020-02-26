@@ -25,11 +25,6 @@ let eventFilter = {}
 
 $: queryStringData = qs.parse($querystring)
 $: eventFilter = populateEventFilterFrom(queryStringData)
-
-function onSetFilter(event) {
-  const updates = event.detail
-  updateQueryString(updates)
-}
 </script>
 
 <style>
@@ -64,7 +59,7 @@ li {
 
 <FilteredDisplay title="Events" filter={eventFilter} items={$events}>
   <div slot="filters">
-    <EventFilters filter={eventFilter} on:reset={clearEventFilter} on:set={onSetFilter} />
+    <EventFilters filter={eventFilter} on:reset={clearEventFilter} />
   </div>
   <div slot="items" let:items={filteredEvents}>
     {#if $loading}

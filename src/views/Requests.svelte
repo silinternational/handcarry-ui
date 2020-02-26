@@ -36,11 +36,6 @@ function viewAsList() {
 
   viewedRequestsAsList()
 }
-
-function onSetFilter(event) {
-  const updates = event.detail
-  updateQueryString(updates)
-}
 </script>
 
 <FilteredDisplay title="Requests" filter={requestFilter} items={$requests}>
@@ -48,7 +43,7 @@ function onSetFilter(event) {
     <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
   </div>
   <div slot="filters">
-    <RequestFilters filter={requestFilter} on:reset={clearRequestFilter} on:set={onSetFilter} />
+    <RequestFilters filter={requestFilter} on:reset={clearRequestFilter} />
   </div>
   <div slot="items" let:items={filteredRequests} class="form-row align-items-stretch">
     {#if $loading}

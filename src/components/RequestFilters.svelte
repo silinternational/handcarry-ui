@@ -6,7 +6,7 @@ import {
   filteredRequestsByAll,
   searchedRequests,
 } from '../data/analytics'
-import { removeFilter } from '../data/filtering'
+import { removeFilter, setFilters } from '../data/filtering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
 import SearchFilter from './SearchFilter.svelte'
@@ -25,14 +25,14 @@ $: onlyMyRequests = filter.creator.active
 
 function onKeywordInput(event) {
   const query = event.detail
-  dispatch('set', { search: query })
+  setFilters({ search: query })
 
   searchedRequests(query)
 }
 
 function onMyCommitmentsChange(event) {
   if (event.detail) {
-    dispatch('set', {
+    setFilters({
       creator: null,
       provider: $me.id,
       size: null,
@@ -45,7 +45,7 @@ function onMyCommitmentsChange(event) {
 
 function onMyRequestsChange(event) {
   if (event.detail) {
-    dispatch('set', {
+    setFilters({
       creator: $me.id,
       provider: null,
       size: null,
@@ -64,7 +64,7 @@ function onSizeSelection(event) {
   if (isDefaultSizeFilter(lowerCaseSize)) {
     removeFilter('size')
   } else {
-    dispatch('set', { size: lowerCaseSize })
+    setFilters({ size: lowerCaseSize })
   }
 }
 
