@@ -93,7 +93,7 @@ function resetFilters() {
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     <hr />
-    <LocationFilter title="To" value={destinationText} on:input={onDestinationInput} />
+    <LocationFilter title="To" placeholder="Destination city" value={destinationText} on:input={onDestinationInput} />
     <hr />
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
     <hr />
