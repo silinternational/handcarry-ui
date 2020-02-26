@@ -12,6 +12,7 @@ function onInput(event) {
 }
 </script>
 
-<p class="mb-1 text-muted" id="location-filter-label">{ title }:</p>
-<input aria-labelledby="location-filter-label" class="form-control form-control-sm"
-       {placeholder} {value} on:input={onInput} />
+<label class="d-block">
+  <p class="mb-1 text-muted">{ title }:</p>
+  <input class="form-control form-control-sm" {placeholder} {value} on:input={onInput} />
+</label>
