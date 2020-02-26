@@ -25,7 +25,7 @@ div {
     <div class="col text-left">
       {#each filterKeys as key }
         {#if filter[key].active }
-          <FilterTag label="{ filter[key].getLabel() }" on:remove="{() => dispatch('remove', key)}" />
+          <FilterTag label="{ filter[key].label }" on:remove="{() => dispatch('remove', key)}" />
         {/if}
       {/each}
     </div>

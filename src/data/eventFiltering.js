@@ -14,13 +14,13 @@ export function populateEventFilterFrom(queryStringData) {
   return {
     location: {
       active: !! queryStringData.location,
-      getLabel: () => 'Location: ' + queryStringData.location,
+      label: 'Location: ' + queryStringData.location,
       isMatch: event => stringIsIn(queryStringData.location, event.location.description),
       value: queryStringData.location,
     },
     search: {
       active: !! queryStringData.search,
-      getLabel: () => 'Keyword: ' + queryStringData.search,
+      label: 'Keyword: ' + queryStringData.search,
       isMatch: event => stringIsIn(queryStringData.search, event.name),
       value: queryStringData.search,
     },

@@ -19,37 +19,37 @@ export function populateRequestFilterFrom(queryStringData, me) {
   return {
     creator: {
       active: !! queryStringData.creator,
-      getLabel: () => 'Only my requests',
+      label: 'Only my requests',
       isMatch: request => isMyRequest(request, me),
       value: queryStringData.creator,
     },
     destination: {
       active: !! queryStringData.destination,
-      getLabel: () => 'To: ' + queryStringData.destination,
+      label: 'To: ' + queryStringData.destination,
       isMatch: request => stringIsIn(queryStringData.destination, request.destination.description),
       value: queryStringData.destination,
     },
     origin: {
       active: !! queryStringData.origin,
-      getLabel: () => 'From: ' + queryStringData.origin,
+      label: 'From: ' + queryStringData.origin,
       isMatch: request => !request.origin || stringIsIn(queryStringData.origin, request.origin.description),
       value: queryStringData.origin,
     },
     search: {
       active: !! queryStringData.search,
-      getLabel: () => 'Keyword: ' + queryStringData.search,
+      label: 'Keyword: ' + queryStringData.search,
       isMatch: request => requestMatchesSearchText(request, queryStringData.search),
       value: queryStringData.search,
     },
     provider: {
       active: !! queryStringData.provider,
-      getLabel: () => 'Only my commitments',
+      label: 'Only my commitments',
       isMatch: request => iAmProviding(request, me),
       value: queryStringData.provider,
     },
     size: {
       active: !! queryStringData.size,
-      getLabel: () => 'Size: ' + queryStringData.size,
+      label: 'Size: ' + queryStringData.size,
       isMatch: request => includedInSizeSelection(request.size, queryStringData.size),
       value: queryStringData.size,
     },
