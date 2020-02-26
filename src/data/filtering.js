@@ -41,6 +41,19 @@ export function removeFilter(name) {
 /**
  * Update the query string with the given filter keys/values.
  *
+ * Example:
+ * `setFilters({ size: 'tiny' })`
+ *
+ * To remove some other filter(s) at the same time, send `null` for the filter(s) to be removed.
+ *
+ * Example:
+ * ```
+ * setFilters({
+ *   creator: $me.id,
+ *   provider: null,
+ * })
+ * ```
+ *
  * @param {Object} updates
  */
 export function setFilters(updates) {
