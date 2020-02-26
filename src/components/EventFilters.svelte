@@ -4,6 +4,7 @@ import {
   filteredMeetingsByLocation,
   searchedMeetings,
 } from '../data/analytics'
+import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import { createEventDispatcher } from 'svelte'
 
@@ -22,9 +23,10 @@ function onKeywordInput(event) {
 }
 
 function onLocationInput(event) {
-  dispatch('set', { location: event.target.value })
+  const query = event.detail
+  dispatch('set', { location: query })
 
-  filteredMeetingsByLocation(event.target.value)
+  filteredMeetingsByLocation(query)
 }
 
 function resetFilters() {
@@ -41,12 +43,8 @@ function resetFilters() {
   </div>
   
   <div class="card-body">
-    <p class="mb-1 text-muted" id="location-filter-label">Event location:</p>
-    <input aria-labelledby="location-filter-label" class="form-control form-control-sm"
-           placeholder="City" value={location} on:input={onLocationInput} />
-    
+    <LocationFilter title="Event location" value={location} on:input={onLocationInput} />
     <hr />
-    
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
   </div>
 </div>
