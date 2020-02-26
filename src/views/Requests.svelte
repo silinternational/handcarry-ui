@@ -14,7 +14,6 @@ import { populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
 
 let requestFilter = {}
-let queryStringData
 let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
