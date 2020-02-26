@@ -1,10 +1,9 @@
 <script>
 import EventFilters from '../components/EventFilters.svelte'
-import EventFilterTags from '../components/EventFilterTags.svelte'
 import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-import { clearEventFilter, filterEvents, populateEventFilterFrom } from '../data/eventFiltering'
+import { populateEventFilterFrom } from '../data/eventFiltering'
 import { init, events, loading } from '../data/events'
 import { updateQueryString } from '../data/url'
 import qs from 'qs'
@@ -26,22 +25,6 @@ let eventFilter = {}
 
 $: queryStringData = qs.parse($querystring)
 $: eventFilter = populateEventFilterFrom(queryStringData)
-$: filteredEvents = filterEvents($events, eventFilter)
-
-function onRemoveFilter(event) {
-  const updates = {}
-  updates[event.detail] = null
-  updateQueryString(updates)
-}
-
-function onResetFilter() {
-  clearEventFilter()
-}
-
-function onSetFilter(event) {
-  const updates = event.detail
-  updateQueryString(updates)
-}
 </script>
 
 <style>
@@ -74,14 +57,11 @@ li {
 }
 </style>
 
-<FilteredDisplay title="Events">
-  <div slot="tags">
-    <EventFilterTags filter={eventFilter} on:remove={onRemoveFilter} />
-  </div>
+<FilteredDisplay title="Events" filter={eventFilter} items={$events}>
   <div slot="filters">
-    <EventFilters filter={eventFilter} on:remove={onRemoveFilter} on:reset={onResetFilter} on:set={onSetFilter} />
+    <EventFilters filter={eventFilter} />
   </div>
-  <div slot="items">
+  <div slot="items" let:items={filteredEvents}>
     {#if $loading}
       <p>⏳ Retrieving events...</p>
     {:else}

@@ -1,14 +1,7 @@
-import { filterItems, stringIsIn } from './filtering'
+import { stringIsIn } from './filtering'
 import { updateQueryString } from './url'
 
-export function populateEventFilterFrom(queryStringData) {
-  return {
-    location: { description: queryStringData.location },
-    search: queryStringData.search,
-  }
-}
-
-/** NOTE: This should clear all values used by `populateFilterFrom()` */
+/** NOTE: This should clear all values used by `populateEventFilterFrom()` */
 export function clearEventFilter() {
   updateQueryString({
     location: null,
@@ -16,10 +9,20 @@ export function clearEventFilter() {
   })
 }
 
-export function filterEvents(events, filter) {
-  return filterItems(events, filter, eventMatchesSearchText)
-}
-
-function eventMatchesSearchText(event, searchText) {
-  return stringIsIn(searchText, event.name)
+/** NOTE: All values used here should be cleared by `clearEventFilter()` */
+export function populateEventFilterFrom(queryStringData) {
+  return {
+    location: {
+      active: !! queryStringData.location,
+      label: 'Location: ' + queryStringData.location,
+      isMatch: event => stringIsIn(queryStringData.location, event.location.description),
+      value: queryStringData.location,
+    },
+    search: {
+      active: !! queryStringData.search,
+      label: 'Keyword: ' + queryStringData.search,
+      isMatch: event => stringIsIn(queryStringData.search, event.name),
+      value: queryStringData.search,
+    },
+  }
 }

@@ -4,31 +4,32 @@ import {
   filteredMeetingsByLocation,
   searchedMeetings,
 } from '../data/analytics'
-import Icon from 'fa-svelte'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
-import { createEventDispatcher } from 'svelte'
+import { clearEventFilter } from '../data/eventFiltering'
+import { setFilters } from '../data/filtering'
+import LocationFilter from './LocationFilter.svelte'
+import SearchFilter from './SearchFilter.svelte'
 
 export let filter = {}
 
-const dispatch = createEventDispatcher()
-
-$: location = filter.location.description || ''
-$: searchText = filter.search || ''
+$: location = filter.location.value || ''
+$: searchText = filter.search.value || ''
 
 function onKeywordInput(event) {
-  dispatch('set', { search: event.target.value })
+  const query = event.detail
+  setFilters({ search: query })
 
-  searchedMeetings(event.target.value)
+  searchedMeetings(query)
 }
 
 function onLocationInput(event) {
-  dispatch('set', { location: event.target.value })
+  const query = event.detail
+  setFilters({ location: query })
 
-  filteredMeetingsByLocation(event.target.value)
+  filteredMeetingsByLocation(query)
 }
 
 function resetFilters() {
-  dispatch('reset')
+  clearEventFilter()
 
   filteredMeetingsByAll()
 }
@@ -41,19 +42,8 @@ function resetFilters() {
   </div>
   
   <div class="card-body">
-    <p class="mb-1 text-muted" id="location-filter-label">Event location:</p>
-    <input aria-labelledby="location-filter-label" class="form-control form-control-sm"
-           placeholder="City" value={location} on:input={onLocationInput} />
-    
+    <LocationFilter title="Event location" value={location} on:input={onLocationInput} />
     <hr />
-    
-    <p class="mb-1 text-muted" id="keyword-filter-label">Keyword:</p>
-    <div class="input-group mb-2">
-      <div class="input-group-prepend">
-        <div class="input-group-text"><Icon icon={faSearch} /></div>
-      </div>
-      <input type="text" aria-labelledby="keyword-filter-label" class="form-control form-control-sm"
-             placeholder="Search" value={searchText} on:input={onKeywordInput} />
-    </div>
+    <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
   </div>
 </div>

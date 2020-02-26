@@ -1,52 +1,63 @@
+import { updateQueryString } from './url'
+
 /**
- * Filter the given array of items based on the given filter data. If the
- * filter data has a `search` property, the results will also be filtered by
- * whether the given `matchesSearchText(item, searchText)` function returns
- * true for the item.
+ * Filter the given array of items based on the given filters.
  *
  * @param {Object[]} items
- * @param {Object} filter
- * @param {function(Object, string): boolean} matchesSearchText
- * @returns {Array} - The items that match the filter/search criteria.
+ * @param {Object} filters
+ * @returns {Array} - The items that match the criteria of any active filters.
  */
-export function filterItems(items, filter, matchesSearchText) {
+export function filterItems(items, filters) {
   let results = items.slice(0); // Shallow-clone the array quickly.
-  const itemFilter = Object.assign({}, filter)
-  
-  const searchText = itemFilter.search
-  delete itemFilter.search
 
-  for (const property in itemFilter) {
-    results = results.filter(item => matchesProperty(item, itemFilter, property))
-  }
-
-  if (searchText) {
-    results = results.filter(item => matchesSearchText(item, searchText))
-  }
+  Object.values(filters).filter(isActive).forEach(filter => {
+    results = results.filter(filter.isMatch)
+  })
 
   return results
 }
 
-function matchesProperty(item, itemFilter, property) {
-  if (!itemFilter[property]) {
-    return true
-  }
+/**
+ * Whether the given object of filter data indicates that the filter is active.
+ *
+ * @param {Object} filter
+ * @returns {boolean}
+ */
+export function isActive(filter) {
+  return filter.active
+}
 
-  if (!item) {
-    return false
-  }
+/**
+ * Remove the named filter from the query string.
+ *
+ * @param {string} name
+ */
+export function removeFilter(name) {
+  const updates = {}
+  updates[name] = null
+  updateQueryString(updates)
+}
 
-  if (Array.isArray(itemFilter[property])) {
-    return (itemFilter[property].indexOf(item[property]) >= 0)
-  } else if (typeof itemFilter[property] === 'object') {
-    for (const subProperty in itemFilter[property]) {
-      if (!matchesProperty(item[property], itemFilter[property], subProperty)) {
-        return false
-      }
-    }
-    return true
-  }
-  return stringIsIn(itemFilter[property], item[property])
+/**
+ * Update the query string with the given filter keys/values.
+ *
+ * Example:
+ * `setFilters({ size: 'tiny' })`
+ *
+ * To remove some other filter(s) at the same time, send `null` for the filter(s) to be removed.
+ *
+ * Example:
+ * ```
+ * setFilters({
+ *   creator: $me.id,
+ *   provider: null,
+ * })
+ * ```
+ *
+ * @param {Object} updates
+ */
+export function setFilters(updates) {
+  updateQueryString(updates)
 }
 
 /**
