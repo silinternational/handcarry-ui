@@ -45,17 +45,20 @@ function viewAsList() {
   <div slot="items" let:items={filteredRequests} class="form-row align-items-stretch">
     {#if $loading}
       <p>⏳ retrieving requests...</p>
-    {:else if !filteredRequests}
+    {:else if filteredRequests.length < 1}
       <div class="col-12 my-2 mx-5"><i class="text-muted">None found</i></div>
     {:else}
-      {#each filteredRequests as request (request.id) }
-        <div class="{ showAsList ? 'col-12 my-1' : 'col-6 my-1 col-lg-4' }"
-             in:receive="{{key: request.id}}"
-             out:send="{{key: request.id}}">
-           <RequestListEntry {request} class="{ showAsList ? '' : 'd-none' }" />
-           <RequestTile {request} class="{ showAsList ? 'd-none' : '' }" />
-         </div>
-      {/each}
+      {#if showAsList }
+        {#each filteredRequests as request (request.id) }
+          <div class="col-12 my-1"
+               animate:flip="{{ duration: 250 }}"><RequestListEntry {request} /></div>
+        {/each}
+      {:else}
+        {#each filteredRequests as request (request.id) }
+          <div class="col-6 my-1 col-lg-4"
+               animate:flip="{{ duration: 250 }}"><RequestTile {request} /></div>
+        {/each}
+      {/if}
     {/if}
 
     <div class:d-md-block={showAsList} class="d-none col-12 my-1">
