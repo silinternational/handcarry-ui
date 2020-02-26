@@ -1,5 +1,5 @@
 <script>
-import { filterItems, onRemoveFilter } from '../data/filtering'
+import { filterItems, removeFilter } from '../data/filtering'
 import FilterTags from './FilterTags.svelte'
 
 export let items = []
@@ -7,6 +7,10 @@ export let filter = {}
 export let title = ''
 
 $: filteredItems = filterItems(items, filter)
+
+function onRemoveFilter(event) {
+  removeFilter(event.detail)
+}
 </script>
 
 <div class="row">

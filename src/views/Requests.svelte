@@ -9,7 +9,6 @@ import { me } from '../data/user'
 import { requests, loading } from '../data/requests'
 import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
-import { onRemoveFilter } from '../data/filtering'
 import { updateQueryString } from '../data/url'
 import { clearRequestFilter, populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
@@ -49,7 +48,7 @@ function onSetFilter(event) {
     <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
   </div>
   <div slot="filters">
-    <RequestFilters filter={requestFilter} on:remove={onRemoveFilter} on:reset={clearRequestFilter} on:set={onSetFilter} />
+    <RequestFilters filter={requestFilter} on:reset={clearRequestFilter} on:set={onSetFilter} />
   </div>
   <div slot="items" let:items={filteredRequests} class="form-row align-items-stretch">
     {#if $loading}

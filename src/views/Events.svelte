@@ -5,7 +5,6 @@ import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { clearEventFilter, populateEventFilterFrom } from '../data/eventFiltering'
 import { init, events, loading } from '../data/events'
-import { onRemoveFilter } from '../data/filtering'
 import { updateQueryString } from '../data/url'
 import qs from 'qs'
 import { onMount } from 'svelte'
@@ -65,7 +64,7 @@ li {
 
 <FilteredDisplay title="Events" filter={eventFilter} items={$events}>
   <div slot="filters">
-    <EventFilters filter={eventFilter} on:remove={onRemoveFilter} on:reset={clearEventFilter} on:set={onSetFilter} />
+    <EventFilters filter={eventFilter} on:reset={clearEventFilter} on:set={onSetFilter} />
   </div>
   <div slot="items" let:items={filteredEvents}>
     {#if $loading}

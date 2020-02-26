@@ -28,14 +28,13 @@ export function isActive(filter) {
 }
 
 /**
- * Remove the filter named in `event.detail` from the query string.
+ * Remove the named filter from the query string.
  *
- * @param {Object} event
- * @param {string} event.detail
+ * @param {string} name
  */
-export function onRemoveFilter(event) {
+export function removeFilter(name) {
   const updates = {}
-  updates[event.detail] = null
+  updates[name] = null
   updateQueryString(updates)
 }
 

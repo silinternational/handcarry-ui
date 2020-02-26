@@ -6,6 +6,7 @@ import {
   filteredRequestsByAll,
   searchedRequests,
 } from '../data/analytics'
+import { removeFilter } from '../data/filtering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
 import SearchFilter from './SearchFilter.svelte'
@@ -38,7 +39,7 @@ function onMyCommitmentsChange(event) {
     })
     filteredRequestsByProviding()
   } else {
-    dispatch('remove', 'provider')
+    removeFilter('provider')
   }
 }
 
@@ -51,7 +52,7 @@ function onMyRequestsChange(event) {
     })
     filteredRequestsByMine()
   } else {
-    dispatch('remove', 'creator')
+    removeFilter('creator')
   }
 }
 
@@ -61,7 +62,7 @@ function onSizeSelection(event) {
   filteredRequestsBySize(lowerCaseSize)
 
   if (isDefaultSizeFilter(lowerCaseSize)) {
-    dispatch('remove', 'size')
+    removeFilter('size')
   } else {
     dispatch('set', { size: lowerCaseSize })
   }
