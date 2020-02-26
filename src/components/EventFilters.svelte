@@ -8,11 +8,8 @@ import { clearEventFilter } from '../data/eventFiltering'
 import { setFilters } from '../data/filtering'
 import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
-import { createEventDispatcher } from 'svelte'
 
 export let filter = {}
-
-const dispatch = createEventDispatcher()
 
 $: location = filter.location.value || ''
 $: searchText = filter.search.value || ''

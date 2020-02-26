@@ -12,12 +12,9 @@ import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
 import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
-import { createEventDispatcher } from 'svelte'
 import ToggleFilter from './ToggleFilter.svelte'
 
 export let filter = {}
-
-const dispatch = createEventDispatcher()
 
 $: searchText = filter.search.value || ''
 $: size = filter.size.value
