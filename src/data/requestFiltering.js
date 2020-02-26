@@ -6,6 +6,7 @@ import { updateQueryString } from './url'
 export function clearRequestFilter() {
   updateQueryString({
     creator: null,
+    destination: null,
     search: null,
     provider: null,
     size: null,
@@ -19,6 +20,12 @@ export function populateRequestFilterFrom(queryStringData, me) {
       getLabel: () => 'Only my requests',
       isMatch: request => isMyRequest(request, me),
       value: queryStringData.creator,
+    },
+    destination: {
+      active: !! queryStringData.destination,
+      getLabel: () => 'To: ' + queryStringData.destination,
+      isMatch: request => stringIsIn(queryStringData.destination, request.destination.description),
+      value: queryStringData.destination,
     },
     search: {
       active: !! queryStringData.search,

@@ -1,5 +1,6 @@
 <script>
 import { 
+  filteredRequestsByDestination,
   filteredRequestsBySize,
   filteredRequestsByMine,
   filteredRequestsByProviding,
@@ -10,16 +11,25 @@ import { removeFilter, setFilters } from '../data/filtering'
 import { clearRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
+import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
 import ToggleFilter from './ToggleFilter.svelte'
 
 export let filter = {}
 
+$: destinationText = filter.destination.value || ''
 $: searchText = filter.search.value || ''
 $: size = filter.size.value
 $: onlyMyCommitments = filter.provider.active
 $: onlyMyRequests = filter.creator.active
+
+function onDestinationInput(event) {
+  const query = event.detail
+  setFilters({ destination: query })
+
+  filteredRequestsByDestination(query)
+}
 
 function onKeywordInput(event) {
   const query = event.detail
@@ -82,6 +92,8 @@ function resetFilters() {
   <div class="card-body">
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
+    <hr />
+    <LocationFilter title="To" value={destinationText} on:input={onDestinationInput} />
     <hr />
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
     <hr />
