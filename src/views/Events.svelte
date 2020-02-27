@@ -64,10 +64,10 @@ li {
   <div slot="items" let:items={filteredEvents}>
     {#if $loading}
       <p>⏳ Retrieving events...</p>
-    {:else}
-      {#each filteredEvents as event}
-        <ol class="list-group mb-2">
-          <li class="list-group-item">
+    {:else if filteredEvents.length }
+      <ol class="list-unstyled">
+        {#each filteredEvents as event}
+          <li class="border rounded mb-2 p-2">
             <div class="row">
               <div class="col-md-4 col-sm-5 logo">
                 <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
@@ -89,10 +89,10 @@ li {
               </div>
             </div>
           </li>
-        </ol>
-      {:else}
-        No upcoming events
-      {/each}
+        {/each}
+      </ol>
+    {:else}
+      No upcoming events
     {/if}
   </div>
 </FilteredDisplay>
