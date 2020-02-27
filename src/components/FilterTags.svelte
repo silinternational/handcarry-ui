@@ -1,13 +1,30 @@
 <script>
 import { isActive } from '../data/filtering'
-import { receive, send } from '../data/transitions';
 import FilterTag from './FilterTag.svelte'
 import { createEventDispatcher } from 'svelte'
 import { flip } from 'svelte/animate';
+import { quintInOut } from 'svelte/easing';
+import { crossfade } from 'svelte/transition';
 
 export let filter = {}
 
 const dispatch = createEventDispatcher()
+const [send, receive] = crossfade({
+  fallback(node) {
+    // Preserve any existing CSS transform.
+    const style = getComputedStyle(node);
+    const transform = style.transform === 'none' ? '' : style.transform;
+
+    return {
+      duration: 250,
+      easing: quintInOut,
+      css: t => `
+        transform: ${transform} scale(${t});
+        opacity: ${t}
+      `
+    };
+  }
+});
 
 $: filterKeys = Object.keys(filter)
 $: activeFilterKeys = filterKeys.filter(key => filter[key].active)
