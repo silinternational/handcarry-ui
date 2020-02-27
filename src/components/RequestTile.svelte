@@ -49,7 +49,7 @@ h3.smaller {
 .smaller .from-line { padding-right: 2.1rem;}
 </style>
 
-<div class="{$$props.class} card request-tile" on:click={ () => push(`/requests/${request.id}`) }>
+<div class="card request-tile" on:click={ () => push(`/requests/${request.id}`) }>
   <div class="card-img-top request-image text-center" class:smaller>
     <RequestImage {request} />
   </div>
