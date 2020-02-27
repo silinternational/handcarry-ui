@@ -5,6 +5,7 @@ import RequestListEntry from '../components/RequestListEntry.svelte'
 import RequestFilters from '../components/RequestFilters.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
+import { events } from '../data/events'
 import { me } from '../data/user'
 import { requests, loading } from '../data/requests'
 import { querystring } from 'svelte-spa-router'
@@ -17,7 +18,7 @@ let requestFilter = {}
 let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
-$: requestFilter = populateRequestFilterFrom(queryStringData, $me)
+$: requestFilter = populateRequestFilterFrom(queryStringData, $me, $events)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
 function viewAsGrid() {

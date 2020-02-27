@@ -7,6 +7,7 @@ export function clearRequestFilter() {
   updateQueryString({
     creator: null,
     destination: null,
+    event: null,
     origin: null,
     search: null,
     provider: null,
@@ -15,7 +16,7 @@ export function clearRequestFilter() {
 }
 
 /** NOTE: All values used here should be cleared by `clearRequestFilter()` */
-export function populateRequestFilterFrom(queryStringData, me) {
+export function populateRequestFilterFrom(queryStringData, me, events) {
   return {
     creator: {
       active: !! queryStringData.creator,
@@ -28,6 +29,12 @@ export function populateRequestFilterFrom(queryStringData, me) {
       label: 'To: ' + queryStringData.destination,
       isMatch: request => stringIsIn(queryStringData.destination, request.destination.description),
       value: queryStringData.destination,
+    },
+    event: {
+      active: !! queryStringData.event,
+      label: 'To: ' + getEventName(events, queryStringData.event),
+      isMatch: request => request.meeting && request.meeting.id === queryStringData.event,
+      value: queryStringData.event,
     },
     origin: {
       active: !! queryStringData.origin,
@@ -62,6 +69,11 @@ function iAmProviding(request, me) {
 
 function isMyRequest(request, me) {
   return me.id && request.createdBy && request.createdBy.id === me.id
+}
+
+function getEventName(events, eventId) {
+  const event = events.find(({ id }) => id === eventId) || {}
+  return event.name || '(Unknown event)'
 }
 
 function requestMatchesSearchText(request, searchText) {

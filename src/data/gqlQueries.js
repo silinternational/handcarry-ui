@@ -172,6 +172,7 @@ export async function markMessagesAsRead(threadId) {
 export async function getEvents() {
   const response = await gql(`{
     meetings {
+      id
       name
       location {
         description
@@ -231,6 +232,9 @@ const postFields = `
     latitude
     longitude
     country
+  }
+  meeting {
+    id
   }
   origin {
     description
