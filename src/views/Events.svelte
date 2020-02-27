@@ -68,7 +68,7 @@ li {
       <ol class="list-unstyled">
         {#each filteredEvents as event}
           <li class="border rounded mb-2 p-2">
-            <div class="row">
+            <div class="row align-items-center">
               <div class="col-md-4 col-sm-5 logo">
                 <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
               </div>
