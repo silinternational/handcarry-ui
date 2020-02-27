@@ -6,6 +6,7 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { populateEventFilterFrom } from '../data/eventFiltering'
 import { init, events, loading } from '../data/events'
 import { updateQueryString } from '../data/url'
+import { me } from '../data/user'
 import qs from 'qs'
 import { onMount } from 'svelte'
 import { querystring } from 'svelte-spa-router'
@@ -24,7 +25,7 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
 let eventFilter = {}
 
 $: queryStringData = qs.parse($querystring)
-$: eventFilter = populateEventFilterFrom(queryStringData)
+$: eventFilter = populateEventFilterFrom(queryStringData, $me)
 </script>
 
 <style>

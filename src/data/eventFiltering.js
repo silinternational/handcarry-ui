@@ -5,18 +5,25 @@ import { updateQueryString } from './url'
 export function clearEventFilter() {
   updateQueryString({
     location: null,
+    participant: null,
     search: null,
   })
 }
 
 /** NOTE: All values used here should be cleared by `clearEventFilter()` */
-export function populateEventFilterFrom(queryStringData) {
+export function populateEventFilterFrom(queryStringData, me) {
   return {
     location: {
       active: !! queryStringData.location,
       label: 'Location: ' + queryStringData.location,
       isMatch: event => stringIsIn(queryStringData.location, event.location.description),
       value: queryStringData.location,
+    },
+    participant: {
+      active: !! queryStringData.participant,
+      label: 'Only my events',
+      isMatch: event => isInList(event, me.meetingsAsParticipant),
+      value: queryStringData.participant,
     },
     search: {
       active: !! queryStringData.search,
@@ -25,4 +32,8 @@ export function populateEventFilterFrom(queryStringData) {
       value: queryStringData.search,
     },
   }
+}
+
+function isInList(event, listOfEvents) {
+  return listOfEvents.some(({ id }) => id === event.id)
 }

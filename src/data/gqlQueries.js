@@ -172,6 +172,7 @@ export async function markMessagesAsRead(threadId) {
 export async function getEvents() {
   const response = await gql(`{
     meetings {
+      id
       name
       location {
         description
@@ -211,6 +212,9 @@ const userFields = `
   avatarURL
   email
   id
+  meetingsAsParticipant {
+    id
+  }
   nickname
   organizations {
     id
