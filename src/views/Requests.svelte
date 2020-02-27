@@ -50,13 +50,13 @@ function viewAsList() {
         {#each filteredRequests as request (request.id) }
           <div class="col-12 my-1"
                in:fade
-               animate:flip="{{ duration: 250 }}"><RequestListEntry {request} /></div>
+               animate:flip="{{ duration: 350 }}"><RequestListEntry {request} /></div>
         {/each}
       {:else}
         {#each filteredRequests as request (request.id) }
           <div class="col-6 my-1 col-lg-4"
                in:fade
-               animate:flip="{{ duration: 250 }}"><RequestTile {request} /></div>
+               animate:flip="{{ duration: 350 }}"><RequestTile {request} /></div>
         {/each}
       {/if}
     {:else}
