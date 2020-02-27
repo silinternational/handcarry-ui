@@ -14,8 +14,10 @@ export default {
   pair,
 }
 
-// TODO: MIGRATION:  historically key was stored in session, need to clean that up if it exists there for a user.
 function init() {
+  // MIGRATION NOTE:  historically key was stored in session, need to clean that up if it exists there for a user.
+  sessionStorage.removeItem('key') // TODO: remove this line after some reasonable amount of time has passed to clean up old instances
+
   qsData = qs.parse(getStoreValue(querystring))
 
   set('key', createKey())
