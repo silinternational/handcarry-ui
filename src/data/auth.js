@@ -3,6 +3,9 @@ import { loggedOut } from './analytics'
 import { runCustomClears } from './storage'
 import { wrappedFetch } from './api'
 
+const expirationEta = token.expiration().getTime() - Date.now()
+const autoLogoutTimer = setTimeout(logout, expirationEta)
+
 export async function login(email, returnTo) {
   runCustomClears()
 
@@ -47,6 +50,8 @@ export function logout() {
   window.location = `${process.env.BASE_API_URL}/auth/logout?token=${encodeURIComponent(token.pair())}`
 
   runCustomClears()
+
+  clearTimeout(autoLogoutTimer)
 
   loggedOut()
 }

@@ -12,6 +12,7 @@ export default {
   authzHeader: () => `${get('token-type')} ${pair()}`,
   key: () => get('key'),
   pair,
+  expiration: () => new Date(get('expires-utc') || '9999-12-31'),
 }
 
 function init() {
@@ -23,7 +24,7 @@ function init() {
   set('key', createKey())
   set('token-type', 'Bearer')
   set('access-token')
-  set('expires-utc') // TODO: start a timer for auto-logout at this time?
+  set('expires-utc')
 
   qsData['access-token'] && loggedIn()
   
