@@ -22,7 +22,7 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 
 <style>
 .fab {
-  position: absolute;
+  position: fixed;
   right: 0.5rem;
   bottom: 0.5rem;
   z-index: 1030; /* matches bootstrap's suggestion for z-index-fixed */
