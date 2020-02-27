@@ -8,6 +8,8 @@ import { init, events, loading } from '../data/events'
 import { updateQueryString } from '../data/url'
 import qs from 'qs'
 import { onMount } from 'svelte'
+import { flip } from 'svelte/animate';
+import { fade } from 'svelte/transition';
 import { querystring } from 'svelte-spa-router'
 
 onMount(() => {
@@ -66,8 +68,10 @@ li {
       <p>⏳ Retrieving events...</p>
     {:else if filteredEvents.length }
       <ol class="list-unstyled">
-        {#each filteredEvents as event}
-          <li class="border rounded mb-2 p-2">
+        {#each filteredEvents as event (event.id) }
+          <li class="border rounded mb-2 p-2"
+              animate:flip="{{ duration: 350 }}"
+              in:fade>
             <div class="row align-items-center">
               <div class="col-md-4 col-sm-5 logo">
                 <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
