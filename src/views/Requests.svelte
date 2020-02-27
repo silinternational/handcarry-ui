@@ -13,6 +13,7 @@ import { updateQueryString } from '../data/url'
 import { populateRequestFilterFrom } from '../data/requestFiltering'
 import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
 import { flip } from 'svelte/animate';
+import { fade } from 'svelte/transition';
 
 let requestFilter = {}
 let showAsList = false
@@ -48,11 +49,13 @@ function viewAsList() {
       {#if showAsList }
         {#each filteredRequests as request (request.id) }
           <div class="col-12 my-1"
+               in:fade
                animate:flip="{{ duration: 250 }}"><RequestListEntry {request} /></div>
         {/each}
       {:else}
         {#each filteredRequests as request (request.id) }
           <div class="col-6 my-1 col-lg-4"
+               in:fade
                animate:flip="{{ duration: 250 }}"><RequestTile {request} /></div>
         {/each}
       {/if}
