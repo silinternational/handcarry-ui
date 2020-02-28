@@ -87,6 +87,9 @@ li {
                   </a>
                 {/if}
               </div>
+              <div class="col-auto align-self-start">
+                <a href="#/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary m-2">View Requests</a>
+              </div>
             </div>
           </li>
         {/each}
