@@ -1,5 +1,6 @@
 <script>
 import { init as authenticate, me } from '../data/user'
+import { init as loadEvents } from '../data/events'
 import { init as loadMessaging } from '../data/messaging'
 import { init as loadRequests } from '../data/requests'
 import Nav from './Nav.svelte'
@@ -25,6 +26,7 @@ $: $location && scrollTo(0,0) // ensure route changes behave like a normal page 
 function loadData() {
   loadMessaging()
   loadRequests()
+  loadEvents()
 }
 </script>
 

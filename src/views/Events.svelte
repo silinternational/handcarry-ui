@@ -4,15 +4,11 @@ import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { populateEventFilterFrom } from '../data/eventFiltering'
-import { init, events, loading } from '../data/events'
+import { events, loading } from '../data/events'
 import { updateQueryString } from '../data/url'
 import qs from 'qs'
 import { onMount } from 'svelte'
 import { querystring } from 'svelte-spa-router'
-
-onMount(() => {
-  init() // move to App.svelte if data is needed earlier.
-})
 
 const format = date => new Date(date).toLocaleDateString(undefined, {
   month: 'short',
