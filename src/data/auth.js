@@ -28,4 +28,3 @@ export function logout() {
   loggedOut()
 }
 
-export const upload = async formData => await wrappedFetch('upload', formData)

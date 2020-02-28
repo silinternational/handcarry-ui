@@ -60,6 +60,4 @@ export async function gql(query) {
   return response.data
 }
 
-export async function upload(formData) {
-  return await wrappedFetch('upload', formData)
-}
+export const upload = async formData => await wrappedFetch('upload', formData)
