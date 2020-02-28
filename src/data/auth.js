@@ -15,35 +15,7 @@ export async function login(email, returnTo) {
     loginUrl += `&return-to=${encodeURIComponent(returnTo)}`
   }
 
-  // TODO: waiting on api to return array of auth providers
-  const response = await wrappedFetch(loginUrl)
-  // window.location = response.RedirectURL
-  return [
-    {
-      name: 'SIL',
-      RedirectURL: response.RedirectURL,
-    }
-    // {
-    //   name: 'Google',
-    //   RedirectURL: 'https://example.org/login'
-    // },
-    // {
-    //   name: 'Facebook',
-    //   RedirectURL: 'https://example.org/login'
-    // },
-    // {
-    //   name: 'Twitter',
-    //   RedirectURL: 'https://example.org/login'
-    // },
-    // {
-    //   name: 'LinkedIn',
-    //   RedirectURL: 'https://example.org/login'
-    // },
-    // {
-    //   name: 'Microsoft',
-    //   RedirectURL: 'https://example.org/login'
-    // },
-  ]
+  return await wrappedFetch(loginUrl)
 }
 
 export function logout() {
