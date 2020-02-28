@@ -30,10 +30,11 @@ function onEventChange(domEvent) {
 {#if events.length }
   <p class="mb-2 text-center text-muted">– or –</p>
   
-  <select class="form-control form-control-sm" bind:value={selectedEventId} on:change={onEventChange}>
-    <option value=""></option>
+  <select class="form-control form-control-sm" class:text-muted={!selectedEventId}
+          bind:value={selectedEventId} on:change={onEventChange}>
+    <option class="font-italic text-muted" value="">Upcoming Event</option>
     {#each events as event}
-      <option value={event.id}>{ event.name }</option>
+      <option class="text-dark" value={event.id}>{ event.name }</option>
     {/each}
   </select>
 {/if}
