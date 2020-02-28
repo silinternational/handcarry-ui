@@ -37,7 +37,8 @@ function onDestinationEvent(event) {
     event: eventId,
   })
 
-  filteredRequestsByEvent(eventId)
+  const eventName = $events.find(({ id }) => id === eventId).name
+  filteredRequestsByEvent(eventName)
 }
 
 function onDestinationLocation(event) {
