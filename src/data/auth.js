@@ -28,6 +28,4 @@ export function logout() {
   loggedOut()
 }
 
-export async function upload(formData) {
-  return await wrappedFetch('upload', formData)
-}
+export const upload = async formData => await wrappedFetch('upload', formData)
