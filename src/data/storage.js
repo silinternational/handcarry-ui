@@ -1,8 +1,6 @@
 const customClearFns = []
 
-export function onClear(fn) {
-  customClearFns.push(fn)
-}
+export const onClear = fn => customClearFns.push(fn)
 
 export function clearApp() {
   while (customClearFns.length) {
@@ -17,9 +15,7 @@ export const LIFESPAN = Object.freeze({
   LONG,
 })
 
-export function save(key, value, LIFESPAN) {
-  LIFESPAN.setItem(key, value)
-}
+export const save = (key, value, LIFESPAN) => LIFESPAN.setItem(key, value)
 
 export function retrieve(key) {
   let item = LIFESPAN.SHORT.getItem(key)
@@ -31,11 +27,9 @@ export function retrieve(key) {
   return item
 }
 
-export function clear(key) {
+export const clear = (...keys) => keys.map(key => {
   LIFESPAN.SHORT.removeItem(key)
   LIFESPAN.LONG.removeItem(key)
-}
+})
 
-export function exists(key) {
-  return Object.keys(LIFESPAN.SHORT).includes(key) || Object.keys(LIFESPAN.LONG).includes(key)
-}
+export const exists = key => Object.keys(LIFESPAN.SHORT).includes(key) || Object.keys(LIFESPAN.LONG).includes(key)
