@@ -9,6 +9,8 @@ import { updateQueryString } from '../data/url'
 import { me } from '../data/user'
 import qs from 'qs'
 import { onMount } from 'svelte'
+import { flip } from 'svelte/animate';
+import { fade } from 'svelte/transition';
 import { querystring } from 'svelte-spa-router'
 
 onMount(() => {
@@ -65,11 +67,13 @@ li {
   <div slot="items" let:items={filteredEvents}>
     {#if $loading}
       <p>⏳ Retrieving events...</p>
-    {:else}
-      {#each filteredEvents as event}
-        <ol class="list-group mb-2">
-          <li class="list-group-item">
-            <div class="row">
+    {:else if filteredEvents.length }
+      <ol class="list-unstyled">
+        {#each filteredEvents as event (event.id) }
+          <li class="border rounded mb-2 p-2"
+              animate:flip="{{ duration: 350 }}"
+              in:fade>
+            <div class="row align-items-center">
               <div class="col-md-4 col-sm-5 logo">
                 <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
               </div>
@@ -90,10 +94,10 @@ li {
               </div>
             </div>
           </li>
-        </ol>
-      {:else}
-        No upcoming events
-      {/each}
+        {/each}
+      </ol>
+    {:else}
+      No upcoming events
     {/if}
   </div>
 </FilteredDisplay>
