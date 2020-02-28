@@ -1,4 +1,4 @@
-import token from './token'
+import { authzHeader } from './token'
 import { throwError } from './error'
 import polyglot from '../i18n'
 import { clearApp } from './storage'
@@ -6,7 +6,7 @@ import { clearApp } from './storage'
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 export async function wrappedFetch(url, body) {
   const headers = {
-    authorization: token.authzHeader(),
+    authorization: authzHeader(),
     'content-type': 'application/json',
   }
 
