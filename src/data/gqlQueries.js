@@ -235,6 +235,7 @@ const postFields = `
   }
   meeting {
     id
+    name
   }
   origin {
     description
