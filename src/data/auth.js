@@ -1,13 +1,13 @@
 import token from './token'
 import { loggedOut } from './analytics'
-import { runCustomClears } from './storage'
+import { clearApp } from './storage'
 import { wrappedFetch } from './api'
 
 const expirationEta = token.expiration().getTime() - Date.now()
 const autoLogoutTimer = setTimeout(logout, expirationEta)
 
 export async function login(email, returnTo) {
-  runCustomClears()
+  clearApp()
 
   let loginUrl = `auth/login?client-id=${encodeURIComponent(token.key())}&auth-email=${encodeURIComponent(email)}`
 
@@ -21,10 +21,9 @@ export async function login(email, returnTo) {
 export function logout() {
   window.location = `${process.env.BASE_API_URL}/auth/logout?token=${encodeURIComponent(token.pair())}`
 
-  runCustomClears()
+  clearApp()
 
   clearTimeout(autoLogoutTimer)
 
   loggedOut()
 }
-

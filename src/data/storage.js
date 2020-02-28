@@ -4,7 +4,7 @@ export function onClear(fn) {
   customClearFns.push(fn)
 }
 
-export function runCustomClears() {
+export function clearApp() {
   while (customClearFns.length) {
     customClearFns.pop()()
   }

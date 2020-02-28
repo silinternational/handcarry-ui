@@ -1,7 +1,7 @@
 import token from './token'
 import { throwError } from './error'
 import polyglot from '../i18n'
-import { runCustomClears } from './storage'
+import { clearApp } from './storage'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 export async function wrappedFetch(url, body) {
@@ -37,7 +37,7 @@ export async function wrappedFetch(url, body) {
   }
 
   if (response.status === 401) {
-    runCustomClears()
+    clearApp()
   }
 
   // errors found in one of two places:
