@@ -1,4 +1,4 @@
-import { stringIsIn } from './filtering'
+import { isItemInList, stringIsIn } from './filtering'
 import { updateQueryString } from './url'
 
 /** NOTE: This should clear all values used by `populateEventFilterFrom()` */
@@ -22,7 +22,7 @@ export function populateEventFilterFrom(queryStringData, me) {
     participant: {
       active: !! queryStringData.participant,
       label: 'Only my events',
-      isMatch: event => isInList(event, me.meetingsAsParticipant),
+      isMatch: event => isItemInList(event, me.meetingsAsParticipant),
       value: queryStringData.participant,
     },
     search: {
@@ -32,8 +32,4 @@ export function populateEventFilterFrom(queryStringData, me) {
       value: queryStringData.search,
     },
   }
-}
-
-function isInList(event, listOfEvents) {
-  return listOfEvents.some(({ id }) => id === event.id)
 }
