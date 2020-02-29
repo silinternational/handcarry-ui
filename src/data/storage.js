@@ -15,7 +15,7 @@ export const LIFESPAN = Object.freeze({
   LONG,
 })
 
-export const save = (key, value, LIFESPAN) => LIFESPAN.setItem(key, value)
+export const save = (key, value, lifespan) => lifespan.setItem(key, value)
 
 export function retrieve(key) {
   let item = LIFESPAN.SHORT.getItem(key)
