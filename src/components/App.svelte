@@ -9,7 +9,6 @@ import Footer from './Footer.svelte'
 import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
 import Error from './Error.svelte'
-import { get } from 'svelte/store'
 
 const publicRoutes = ['/login', '/terms', '/privacy']
 
@@ -22,7 +21,7 @@ $: isDataNeeded && loadData()
 $: $location && scrollTo(0,0) // ensure route changes behave like a normal page change in the browser by going back to the top of the page.
 
 function isUserAuthn() {
-  return get(me).id
+  return $me.id
 }
 function loadData() {
   loadMessaging()
