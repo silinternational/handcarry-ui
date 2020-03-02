@@ -1,3 +1,5 @@
+import { throwError } from './error'
+
 const customClearFns = []
 
 export const onClear = fn => customClearFns.push(fn)
@@ -15,21 +17,25 @@ export const LIFESPAN = Object.freeze({
   LONG,
 })
 
-export const save = (key, value, lifespan) => lifespan.setItem(key, value)
+export const save = (key, value, lifespan) => {
+  Object.keys(LIFESPAN).filter(type => LIFESPAN[type] !== lifespan).map(type => {
+    const valueFromOtherLocation = LIFESPAN[type].getItem(key)
 
-export function retrieve(key) {
-  let item = LIFESPAN.SHORT.getItem(key)
+    if (valueFromOtherLocation !== null) {
+      console.error(`Storage key name clash:  ${key} found in ${type} already, moving to requested location.`)
+      clear(key)
+    }
+  })
 
-  if (item === null) {
-    item = LIFESPAN.LONG.getItem(key)
-  }
-
-  return item
+  lifespan.setItem(key, value)
 }
 
-export const clear = (...keys) => keys.map(key => {
-  LIFESPAN.SHORT.removeItem(key)
-  LIFESPAN.LONG.removeItem(key)
-})
+export function retrieve(key) {
+  const values = Object.keys(LIFESPAN).map(type => LIFESPAN[type].getItem(key)).filter(value => value !== null)
 
-export const exists = key => Object.keys(LIFESPAN.SHORT).includes(key) || Object.keys(LIFESPAN.LONG).includes(key)
+  return values.length ? values[0] : null
+}
+
+export const clear = (...keys) => Object.keys(LIFESPAN).map(type => keys.map(key => LIFESPAN[type].removeItem(key)))
+
+export const exists = key => Object.keys(LIFESPAN).some(type => Object.keys(LIFESPAN[type]).includes(key))
