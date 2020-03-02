@@ -42,6 +42,11 @@ function init() {
 function cleanAddressBar() {
   Object.keys(qsData).filter(isAlreadyInStorage).map(key => delete qsData[key])
 
-  const remainingQsParms = qs.stringify(qsData)
-  push(`${getStoreValue(location)}${remainingQsParms.length ? '?' : ''}${remainingQsParms}`)
+  const cleanedUrl = getStoreValue(location)
+
+  if (qsData.length) {
+    cleanedUrl += `?${qs.stringify(qsData)}`
+  }
+
+  push(cleanedUrl)
 }
