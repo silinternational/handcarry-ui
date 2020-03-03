@@ -5,10 +5,10 @@ import { onClear, save, LIFESPAN, retrieve, clear, exists as isAlreadyInStorage 
 import { loggedIn } from './analytics'
 
 const get = key => retrieve(key) || qsData[key]
-export const seed = () => get('seed')
-export const token = () => `${seed() + get('access-token')}`
-export const authzHeader = () => `${get('token-type')} ${token()}`
-export const expiration = () => new Date(get('expires-utc') || '9999-12-31')
+export const getSeed = () => get('seed')
+export const getToken = () => `${getSeed() + get('access-token')}`
+export const getAuthzHeader = () => `${get('token-type')} ${getToken()}`
+export const getExpiration = () => new Date(get('expires-utc') || '9999-12-31')
 
 let qsData = {}
 
