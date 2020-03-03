@@ -12,7 +12,7 @@ export const expiration = () => new Date(get('expires-utc') || '9999-12-31')
 
 let qsData = {}
 
-const set = (key, defaultValue = '') => save(key, get(key) || defaultValue, LIFESPAN.LONG)
+const initialize = (key, defaultValue = '') => save(key, get(key) || defaultValue, LIFESPAN.LONG)
 const reset = () => clear('token-type', 'access-token', 'expires-utc') // not clearing 'seed' here to avoid any unnecessary re-authn scenarios.
 const createSeed = () => 
   Math.random()     // doesn't need to be cryptographically strong
@@ -27,10 +27,10 @@ function init() {
 
   qsData = qs.parse(getStoreValue(querystring))
 
-  set('seed', createSeed())
-  set('token-type', 'Bearer')
-  set('access-token')
-  set('expires-utc')
+  initialize('seed', createSeed())
+  initialize('token-type', 'Bearer')
+  initialize('access-token')
+  initialize('expires-utc')
 
   qsData['access-token'] && loggedIn()
   
