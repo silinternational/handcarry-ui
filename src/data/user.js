@@ -4,13 +4,13 @@ import {
   changedNickname,
   changedAvatar,
  } from '../data/analytics'
-import { register } from './reset'
+import { onClear } from './storage'
 
 export const me = writable({})
 
 export function init() {
   loadAuthenticatedUser()
-  register(reset)
+  onClear(reset)
 }
 
 async function loadAuthenticatedUser() {

@@ -1,13 +1,12 @@
-import token from './token'
+import { getAuthzHeader } from './token'
 import { throwError } from './error'
 import polyglot from '../i18n'
-import { loggedOut } from './analytics'
-import { reset } from './reset'
+import { clearApp } from './storage'
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
-async function wrappedFetch(url, body) {
+export async function wrappedFetch(url, body) {
   const headers = {
-    authorization: token.authzHeader(),
+    authorization: getAuthzHeader(),
     'content-type': 'application/json',
   }
 
@@ -38,7 +37,7 @@ async function wrappedFetch(url, body) {
   }
 
   if (response.status === 401) {
-    clearLocalData()
+    clearApp()
   }
 
   // errors found in one of two places:
@@ -61,45 +60,8 @@ export async function gql(query) {
   return response.data
 }
 
-export async function login(email, returnTo) {
-  token.reset()
-
-  let loginUrl = `auth/login?client-id=${encodeURIComponent(token.key())}&auth-email=${encodeURIComponent(email)}`
-
-  if (returnTo) {
-    loginUrl += `&return-to=${encodeURIComponent(returnTo)}`
-  }
-
-  try {
-    const response = await wrappedFetch(loginUrl)
-
-    window.location = response.RedirectURL
-  } catch (e) {
-    // TODO: need errorhandling and additional use cases with this response
-    //   "Need to review response for error or multiple org 
-    //    options for login. If multiple options you then also need to provide the org_id 
-    //    when resubmitting call to login" –Phillip)
-    throw e
-  }
-}
-
 export function getInviteInfo(code) {
   return wrappedFetch(`auth/invite?code=${encodeURIComponent(code)}`)
 }
 
-export function logout() {
-  window.location = `${process.env.BASE_API_URL}/auth/logout?token=${encodeURIComponent(token.pair())}`
-
-  clearLocalData()
-
-  loggedOut()
-}
-
-export async function upload(formData) {
-  return await wrappedFetch('upload', formData)
-}
-
-function clearLocalData() {
-  token.reset()
-  reset()
-}
+export const upload = async formData => await wrappedFetch('upload', formData)

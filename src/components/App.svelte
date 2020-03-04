@@ -10,18 +10,19 @@ import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
 import Error from './Error.svelte'
 
-const publicRoutes = ['/terms', '/privacy', '/join']
+const publicRoutes = ['/login', '/terms', '/privacy', '/join']
 
 $: isPublicRoute = publicRoutes.some(publicRoute => $location.startsWith(publicRoute))
-$: isProtectedRoute = ! isPublicRoute
+$: ! (isPublicRoute || isUserAuthn()) && authenticate() // should only react to location changes, not user changes.
 $: userIsAuthn = $me.id
-$: userIsNotAuthn = ! userIsAuthn
-$: isProtectedRoute && userIsNotAuthn && authenticate()
-$: minimal = $location.startsWith('/welcome') || userIsNotAuthn
+$: minimal = $location.startsWith('/welcome') || ! userIsAuthn
 $: isDataNeeded = userIsAuthn && ! minimal
 $: isDataNeeded && loadData()
 $: $location && scrollTo(0,0) // ensure route changes behave like a normal page change in the browser by going back to the top of the page.
 
+function isUserAuthn() {
+  return $me.id
+}
 function loadData() {
   loadMessaging()
   loadRequests()
