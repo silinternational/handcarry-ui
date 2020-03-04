@@ -4,7 +4,7 @@ import {
   getMyConversations,
   sendMessage
 } from './gqlQueries'
-import { register } from './reset'
+import { onClear } from './storage'
 
 export const conversations = writable([])
 export const unreads = writable([])
@@ -21,7 +21,7 @@ export function init() {
   const transform = ({ id, unreadMessageCount }) => ({id, count: unreadMessageCount})
   conversations.subscribe(convos => unreads.set(convos.filter(excludeRead).map(transform)))
 
-  register(reset)
+  onClear(reset)
 }
 
 export function listOtherParticipants(conversation, me) {
