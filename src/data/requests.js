@@ -9,7 +9,7 @@ import {
   delivered,
   received,
 } from './gqlQueries'
-import { register } from './reset'
+import { onClear } from './storage'
 
 export const requests = writable([])
 export const loading = writable(false)
@@ -22,7 +22,7 @@ export function init() {
   
   loadRequests()
 
-  register(reset)
+  onClear(reset)
 }
 
 async function loadRequests() {
