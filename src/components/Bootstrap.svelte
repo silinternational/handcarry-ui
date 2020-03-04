@@ -1,5 +1,5 @@
 <script>
-import 'bootstrap'
+import 'bootstrap' //TODO: probably don't need everything, maybe just dropdown, modal, etc.
 </script>
 
 <style type="text/scss" global>
