@@ -94,25 +94,27 @@ a > img {
   </div>
 </form>
 
-<div class="modal fade" id="identityProviderModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true" class="align-text-top">×</span>
-        </button>
-      </div>
-      <div class="modal-body d-flex flex-column align-items-center">
-        <p class="pb-3">
-          To sign in as <strong>{email}</strong>, choose a provider below:
-        </p>
+{#if identityProviders.length > 1}
+  <div class="modal fade" id="identityProviderModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true" class="align-text-top">×</span>
+          </button>
+        </div>
+        <div class="modal-body d-flex flex-column align-items-center">
+          <p class="pb-3">
+            To sign in as <strong>{email}</strong>, choose a provider below:
+          </p>
 
-        {#each identityProviders as { RedirectURL, name }}
-          <a href={RedirectURL} class="mb-2">
-            <img src={logo(name)} alt={`Sign in with ${name}`}>
-          </a>
-        {/each}
+          {#each identityProviders as { RedirectURL, Name }}
+            <a href={RedirectURL} class="mb-2">
+              <img src={logo(Name)} alt={`Sign in with ${Name}`}>
+            </a>
+          {/each}
+        </div>
       </div>
     </div>
   </div>
-</div>
+{/if}
