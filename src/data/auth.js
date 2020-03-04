@@ -19,6 +19,7 @@ export async function login(email, returnTo) {
 }
 
 export function logout() {
+  // TODO: maybe we need to be firing off some modal or progress that the user is being logged out...
   window.location = `${process.env.BASE_API_URL}/auth/logout?token=${encodeURIComponent(getToken())}`
 
   clearApp()
