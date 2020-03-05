@@ -6,6 +6,4 @@ import { me } from '../data/user'
 $me.id && replace('/requests') // if they're already authn, no need to login again.
 </script>
 
-<Login>
-  Sign in
-</Login>
+<Login>Sign in</Login>
