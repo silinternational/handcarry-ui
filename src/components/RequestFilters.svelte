@@ -14,8 +14,8 @@ import { removeFilter, setFilters } from '../data/filtering'
 import { clearRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
+import EventFilter from './EventFilter.svelte'
 import LocationFilter from './LocationFilter.svelte'
-import LocationOrEventFilter from './LocationOrEventFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
 import ToggleFilter from './ToggleFilter.svelte'
@@ -30,8 +30,8 @@ $: size = filter.size.value
 $: onlyMyCommitments = filter.provider.active
 $: onlyMyRequests = filter.creator.active
 
-function onDestinationEvent(event) {
-  const eventId = event.detail
+function onDestinationEventChange(domEvent) {
+  const eventId = domEvent.detail
   setFilters({
     destination: null,
     event: eventId,
@@ -41,7 +41,7 @@ function onDestinationEvent(event) {
   filteredRequestsByEvent(eventName)
 }
 
-function onDestinationLocation(event) {
+function onDestinationLocationInput(event) {
   const query = event.detail
   setFilters({
     destination: query,
@@ -122,9 +122,11 @@ function resetFilters() {
     <hr />
     <LocationFilter title="From" placeholder="Origin city" value={originText} on:input={onOriginInput} />
     <hr />
-    <LocationOrEventFilter title="To" placeholder="Destination city"
-                           events={$events} {eventId} on:event={onDestinationEvent}
-                           location={destinationText} on:location={onDestinationLocation} />
+    <LocationFilter title="To" placeholder="Destination city" value={destinationText} on:input={onDestinationLocationInput} />
+    {#if $events.length }
+      <p class="mb-2 text-center text-muted">– or –</p>
+      <EventFilter events={$events} {eventId} on:change={onDestinationEventChange} />
+    {/if}
     <hr />
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
     <hr />
