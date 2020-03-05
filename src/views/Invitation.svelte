@@ -1,6 +1,7 @@
 <script>
 import { onMount } from 'svelte'
-import { getInviteInfo, login } from '../data/api'
+import { getInviteInfo } from '../data/api'
+import { login } from '../data/auth'
 
 export let params = {} // URL path parameters, provided by router.
 

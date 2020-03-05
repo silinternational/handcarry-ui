@@ -31,7 +31,7 @@ function init() {
   
         reason.message = 'You will need to sign in first before going to that page'
       }
-  
+
       push(loginRoute)
     }
 

@@ -4,7 +4,7 @@ import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { populateEventFilterFrom } from '../data/eventFiltering'
-import { init, events, loading } from '../data/events'
+import { events, loading } from '../data/events'
 import { updateQueryString } from '../data/url'
 import { me } from '../data/user'
 import qs from 'qs'
@@ -12,10 +12,6 @@ import { onMount } from 'svelte'
 import { flip } from 'svelte/animate';
 import { fade } from 'svelte/transition';
 import { querystring } from 'svelte-spa-router'
-
-onMount(() => {
-  init() // move to App.svelte if data is needed earlier.
-})
 
 const format = date => new Date(date).toLocaleDateString(undefined, {
   month: 'short',
@@ -91,6 +87,9 @@ li {
                     <small class="align-bottom">Event Website</small>
                   </a>
                 {/if}
+              </div>
+              <div class="col-auto align-self-start">
+                <a href="#/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary m-2">View Requests</a>
               </div>
             </div>
           </li>

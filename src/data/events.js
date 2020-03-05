@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store'
 import { getEvents } from './gqlQueries'
-import { register } from './reset'
+import { onClear } from './storage'
 
 export const events = writable([])
 export const loading = writable(false)
@@ -8,7 +8,7 @@ export const loading = writable(false)
 export function init() {
   loadEvents()
 
-  register(reset)
+  onClear(reset)
 }
 
 async function loadEvents() {

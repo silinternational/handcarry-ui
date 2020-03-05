@@ -236,6 +236,10 @@ const postFields = `
     longitude
     country
   }
+  meeting {
+    id
+    name
+  }
   origin {
     description
     latitude
