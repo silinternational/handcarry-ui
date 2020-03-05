@@ -32,13 +32,17 @@ $: onlyMyRequests = filter.creator.active
 
 function onEventChange(domEvent) {
   const eventId = domEvent.detail
-  setFilters({
-    destination: null,
-    event: eventId,
-  })
-
-  const eventName = $events.find(({ id }) => id === eventId).name // todo: fix
-  filteredRequestsByEvent(eventName)
+  if (eventId) {
+    setFilters({
+      destination: null,
+      event: eventId,
+    })
+  
+    const eventName = $events.find(({ id }) => id === eventId).name
+    filteredRequestsByEvent(eventName)
+  } else {
+    setFilters({ event: null })
+  }
 }
 
 function onDestinationInput(event) {
