@@ -9,7 +9,7 @@ export let placeholder = 'Enter email address'
 export let buttonText = 'Sign in'
 export let hideRememberMe = false
 export let returnTo = qs.parse($querystring)['return-to']
-console.log('return to : ',returnTo)
+
 let email = getStoredEmail() || ''
 let checked = !!email
 let identityProviders = []
