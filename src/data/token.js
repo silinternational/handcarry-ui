@@ -45,7 +45,7 @@ function cleanAddressBar() {
   let cleanedUrl = getStoreValue(location)
 
   if (Object.keys(qsData).length) {
-    cleanedUrl += `?${qs.stringify(qsData)}` // TODO: does this need to be encoded?
+    cleanedUrl += `?${qs.stringify(qsData)}`
   }
 
   push(cleanedUrl)
