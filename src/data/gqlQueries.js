@@ -189,6 +189,23 @@ export async function getEvents() {
   return response.meetings || []
 }
 
+export async function joinEvent(eventId) {
+  const response = await gql(`
+    mutation {
+      createMeetingParticipant(input: {
+        meetingID: ${json(eventId)},
+      })
+      {
+        user {
+          ${userFields}
+        }
+      }
+    }
+  `)
+
+  return response.createMeetingParticipant.user
+}
+
 
 const defaultFor = function(value, defaultValue) {
   return (value === undefined) ? defaultValue : value

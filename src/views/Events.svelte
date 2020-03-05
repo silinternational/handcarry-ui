@@ -5,8 +5,9 @@ import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { populateEventFilterFrom } from '../data/eventFiltering'
 import { events, loading } from '../data/events'
+import { isItemInList } from '../data/filtering'
 import { updateQueryString } from '../data/url'
-import { me } from '../data/user'
+import { addToMyEvents, me } from '../data/user'
 import qs from 'qs'
 import { onMount } from 'svelte'
 import { flip } from 'svelte/animate';
@@ -24,9 +25,17 @@ let eventFilter = {}
 
 $: queryStringData = qs.parse($querystring)
 $: eventFilter = populateEventFilterFrom(queryStringData, $me)
+
+function amParticipantIn(event) {
+  return isItemInList(event, $me.meetingsAsParticipant)
+}
 </script>
 
 <style>
+.event-buttons-container .btn {
+  width: 10em;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -89,7 +98,17 @@ li {
                 {/if}
               </div>
               <div class="col-auto align-self-start">
-                <a href="#/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary m-2">View Requests</a>
+                <div class="event-buttons-container">
+                  <a href="#/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
+                  <button class="btn btn-outline-dark d-block m-2" disabled={amParticipantIn(event)}
+                          on:click="{ () => addToMyEvents(event.id) }">
+                    {#if amParticipantIn(event) }
+                      Added
+                    {:else}
+                      Add to my events
+                    {/if}
+                  </button>
+                </div>
               </div>
             </div>
           </li>
