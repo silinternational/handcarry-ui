@@ -17,8 +17,10 @@ export const LIFESPAN = Object.freeze({
   LONG,
 })
 
-export const save = (key, value, lifespan) => {
-  Object.keys(LIFESPAN).filter(type => LIFESPAN[type] !== lifespan).map(type => {
+const getAllLifespanTypes = () => Object.keys(LIFESPAN)
+
+export const save = (key, value, lifespanType) => {
+  getAllLifespanTypes().filter(type => LIFESPAN[type] !== lifespanType).map(type => {
     const valueFromOtherLocation = LIFESPAN[type].getItem(key)
 
     if (valueFromOtherLocation !== null) {
@@ -27,15 +29,15 @@ export const save = (key, value, lifespan) => {
     }
   })
 
-  lifespan.setItem(key, value)
+  lifespanType.setItem(key, value)
 }
 
 export function retrieve(key) {
-  const values = Object.keys(LIFESPAN).map(type => LIFESPAN[type].getItem(key)).filter(value => value !== null)
+  const values = getAllLifespanTypes().map(type => LIFESPAN[type].getItem(key)).filter(value => value !== null)
 
   return values.length ? values[0] : null
 }
 
-export const clear = (...keys) => Object.keys(LIFESPAN).map(type => keys.map(key => LIFESPAN[type].removeItem(key)))
+export const clear = (...keys) => getAllLifespanTypes().map(type => keys.map(key => LIFESPAN[type].removeItem(key)))
 
-export const exists = key => Object.keys(LIFESPAN).some(type => Object.keys(LIFESPAN[type]).includes(key))
+export const exists = key => getAllLifespanTypes().some(type => Object.keys(LIFESPAN[type]).includes(key))
