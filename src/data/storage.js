@@ -40,4 +40,6 @@ export function retrieve(key) {
 
 export const clear = (...keys) => getAllLifespanTypes().map(type => keys.map(key => LIFESPAN[type].removeItem(key)))
 
-export const exists = key => getAllLifespanTypes().some(type => Object.keys(LIFESPAN[type]).includes(key))
+export const exists = key => getAllLifespanTypes().some(includes(key))
+
+const includes = key => type => Object.keys(LIFESPAN[type]).includes(key)
