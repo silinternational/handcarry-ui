@@ -30,18 +30,18 @@ $: size = filter.size.value
 $: onlyMyCommitments = filter.provider.active
 $: onlyMyRequests = filter.creator.active
 
-function onDestinationEventChange(domEvent) {
+function onEventChange(domEvent) {
   const eventId = domEvent.detail
   setFilters({
     destination: null,
     event: eventId,
   })
 
-  const eventName = $events.find(({ id }) => id === eventId).name
+  const eventName = $events.find(({ id }) => id === eventId).name // todo: fix
   filteredRequestsByEvent(eventName)
 }
 
-function onDestinationLocationInput(event) {
+function onDestinationInput(event) {
   const query = event.detail
   setFilters({
     destination: query,
@@ -122,10 +122,10 @@ function resetFilters() {
     <hr />
     <LocationFilter title="From" placeholder="Origin city" value={originText} on:input={onOriginInput} />
     <hr />
-    <LocationFilter title="To" placeholder="Destination city" value={destinationText} on:input={onDestinationLocationInput} />
+    <LocationFilter title="To" placeholder="Destination city" value={destinationText} on:input={onDestinationInput} />
     {#if $events.length }
       <p class="mb-2 text-center text-muted">– or –</p>
-      <EventFilter events={$events} {eventId} on:change={onDestinationEventChange} />
+      <EventFilter events={$events} {eventId} on:change={onEventChange} />
     {/if}
     <hr />
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
