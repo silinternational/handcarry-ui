@@ -7,7 +7,7 @@ export let placeholder = 'Upcoming Event'
 
 const dispatch = createEventDispatcher()
 
-// Set up a local variable we can bind to without that binding causing the input variable to change.
+// Ensure that, if not given a value, we use an empty string (to match our "placeholder" option's value).
 $: selectedEventId = eventId || ''
 
 function onChange(domEvent) {
