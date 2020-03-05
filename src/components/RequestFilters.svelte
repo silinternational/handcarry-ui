@@ -1,6 +1,7 @@
 <script>
 import { 
   filteredRequestsByDestination,
+  filteredRequestsByEvent,
   filteredRequestsByOrigin,
   filteredRequestsBySize,
   filteredRequestsByMine,
@@ -8,10 +9,12 @@ import {
   filteredRequestsByAll,
   searchedRequests,
 } from '../data/analytics'
+import { events } from '../data/events'
 import { removeFilter, setFilters } from '../data/filtering'
 import { clearRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
+import EventFilter from './EventFilter.svelte'
 import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
@@ -20,15 +23,30 @@ import ToggleFilter from './ToggleFilter.svelte'
 export let filter = {}
 
 $: destinationText = filter.destination.value || ''
+$: eventId = filter.event.value
 $: originText = filter.origin.value || ''
 $: searchText = filter.search.value || ''
 $: size = filter.size.value
 $: onlyMyCommitments = filter.provider.active
 $: onlyMyRequests = filter.creator.active
 
+function onEventChange(domEvent) {
+  const eventId = domEvent.detail
+  setFilters({
+    destination: null,
+    event: eventId,
+  })
+
+  const eventName = $events.find(({ id }) => id === eventId).name // todo: fix
+  filteredRequestsByEvent(eventName)
+}
+
 function onDestinationInput(event) {
   const query = event.detail
-  setFilters({ destination: query })
+  setFilters({
+    destination: query,
+    event: null,
+  })
 
   filteredRequestsByDestination(query)
 }
@@ -105,6 +123,10 @@ function resetFilters() {
     <LocationFilter title="From" placeholder="Origin city" value={originText} on:input={onOriginInput} />
     <hr />
     <LocationFilter title="To" placeholder="Destination city" value={destinationText} on:input={onDestinationInput} />
+    {#if $events.length }
+      <p class="mb-2 text-center text-muted">– or –</p>
+      <EventFilter events={$events} {eventId} on:change={onEventChange} />
+    {/if}
     <hr />
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
     <hr />
