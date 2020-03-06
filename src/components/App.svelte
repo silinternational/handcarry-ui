@@ -10,6 +10,7 @@ import Footer from './Footer.svelte'
 import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
 import Error from './Error.svelte'
+import { loggingOut } from '../data/auth'
 
 const publicRoutes = ['/login', '/terms', '/privacy', '/join']
 
@@ -38,7 +39,11 @@ function loadData() {
 <main class="container-xl">
   <Error />
 
-  <Router {routes} />
+  {#if $loggingOut}
+     <h4>Thank you for visiting, we are signing you out now...</h4>
+  {:else}
+    <Router {routes} />
+  {/if}
 </main>
 
 <Footer />

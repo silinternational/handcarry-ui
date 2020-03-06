@@ -42,10 +42,10 @@ function init() {
 function cleanAddressBar() {
   Object.keys(qsData).filter(isAlreadyInStorage).map(key => delete qsData[key])
 
-  const cleanedUrl = getStoreValue(location)
+  let cleanedUrl = getStoreValue(location)
 
-  if (qsData.length) {
-    cleanedUrl += `?${qs.stringify(qsData)}` // TODO: does this need to be encoded?
+  if (Object.keys(qsData).length) {
+    cleanedUrl += `?${qs.stringify(qsData)}`
   }
 
   push(cleanedUrl)
