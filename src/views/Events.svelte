@@ -36,6 +36,10 @@ function amParticipantIn(event) {
   width: 10em;
 }
 
+.event-buttons-container .btn:disabled {
+  cursor: unset;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -100,14 +104,11 @@ li {
               <div class="col-auto align-self-start">
                 <div class="event-buttons-container">
                   <a href="#/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
-                  <button class="btn btn-outline-dark d-block m-2" disabled={amParticipantIn(event)}
-                          on:click="{ () => addToMyEvents(event.id) }">
-                    {#if amParticipantIn(event) }
-                      Added
-                    {:else}
-                      Add to my events
-                    {/if}
-                  </button>
+                  {#if amParticipantIn(event) }
+                    <button class="btn btn-light d-block m-2" disabled>Added</button>
+                  {:else}
+                    <button class="btn btn-secondary d-block m-2" on:click="{ () => addToMyEvents(event.id) }">Add to my events</button>
+                  {/if}
                 </div>
               </div>
             </div>
