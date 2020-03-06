@@ -1,5 +1,6 @@
 <script>
 import { init as authenticate, me } from '../data/user'
+import { init as loadEvents } from '../data/events'
 import { init as loadMessaging } from '../data/messaging'
 import { init as loadRequests } from '../data/requests'
 import Nav from './Nav.svelte'
@@ -9,6 +10,7 @@ import Footer from './Footer.svelte'
 import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
 import Error from './Error.svelte'
+import { loggingOut } from '../data/auth'
 
 const publicRoutes = ['/login', '/terms', '/privacy', '/join']
 
@@ -26,6 +28,7 @@ function isUserAuthn() {
 function loadData() {
   loadMessaging()
   loadRequests()
+  loadEvents()
 }
 </script>
 
@@ -36,7 +39,11 @@ function loadData() {
 <main class="container-xl">
   <Error />
 
-  <Router {routes} />
+  {#if $loggingOut}
+     <h4>Thank you for visiting, we are signing you out now...</h4>
+  {:else}
+    <Router {routes} />
+  {/if}
 </main>
 
 <Footer />
