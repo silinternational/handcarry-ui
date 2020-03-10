@@ -177,6 +177,11 @@ export async function getEvents() {
       location {
         description
       }
+      participants {
+        user {
+          id
+        }
+      }
       startDate
       endDate
       moreInfoURL
