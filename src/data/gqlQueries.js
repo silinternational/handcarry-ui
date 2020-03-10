@@ -49,7 +49,6 @@ export async function createRequest(request) {
         photoID: ${json(request.photoID || null)},
         size: ${request.size},
         title: ${json(request.title)},
-        type: REQUEST,
         visibility: ${request.visibility},
       }) 
       {
@@ -234,9 +233,6 @@ const postFields = `
   }
   provider {
     id
-    nickname
-  }
-  receiver {
     nickname
   }
   size
