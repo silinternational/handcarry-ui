@@ -172,22 +172,7 @@ export async function markMessagesAsRead(threadId) {
 export async function getEvents() {
   const response = await gql(`{
     meetings {
-      id
-      name
-      location {
-        description
-      }
-      participants {
-        user {
-          id
-        }
-      }
-      startDate
-      endDate
-      moreInfoURL
-      imageFile {
-        url
-      }
+      ${meetingFields}
     }
   }`)
 
@@ -201,14 +186,14 @@ export async function joinEvent(eventId) {
         meetingID: ${json(eventId)},
       })
       {
-        user {
-          ${userFields}
+        meeting {
+          ${meetingFields}
         }
       }
     }
   `)
 
-  return response.createMeetingParticipant.user
+  return response.createMeetingParticipant.meeting
 }
 
 
@@ -316,4 +301,23 @@ const threadFields = `
     ${postFields}
   }
   unreadMessageCount
+`
+
+const meetingFields = `
+  id
+  name
+  location {
+    description
+  }
+  participants {
+    user {
+      id
+    }
+  }
+  startDate
+  endDate
+  moreInfoURL
+  imageFile {
+    url
+  }
 `

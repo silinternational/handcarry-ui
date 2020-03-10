@@ -34,7 +34,7 @@ export function populateEventFilterFrom(queryStringData, me) {
   }
 }
 
-function isParticipant(user, event) {
+export function isParticipant(user, event) {
   const participantUserIds = event.participants.map(participant => participant.user.id)
   return participantUserIds.some(id => id === user.id)
 }

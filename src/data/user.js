@@ -1,5 +1,5 @@
 import { writable, get } from 'svelte/store'
-import { getUser, joinEvent, updateUser} from './gqlQueries'
+import { getUser, updateUser} from './gqlQueries'
 import { 
   changedNickname,
   changedAvatar,
@@ -17,12 +17,6 @@ async function loadAuthenticatedUser() {
   const user = await getUser()
 
   me.set(user)
-}
-
-export async function addToMyEvents(eventId) {
-  const updatedUser = await joinEvent(eventId)
-  
-  me.set(updatedUser)
 }
 
 export async function changeNickname(nickname) {
