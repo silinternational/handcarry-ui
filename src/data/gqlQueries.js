@@ -49,7 +49,6 @@ export async function createRequest(request) {
         photoID: ${json(request.photoID || null)},
         size: ${request.size},
         title: ${json(request.title)},
-        type: REQUEST,
         visibility: ${request.visibility},
       }) 
       {
@@ -97,7 +96,7 @@ export async function offerToProvide(requestId) {
     }
   `)
 
-  return response.addMeAsPotentialProvider || {}  
+  return response.addMeAsPotentialProvider || {}
 }
 
 export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
@@ -150,7 +149,7 @@ export async function sendMessage(message, conversation) {
     }
   `)
 
-  return response.createMessage && response.createMessage.thread || { thread: {}}
+  return response.createMessage && response.createMessage.thread || { thread: {} }
 }
 
 export async function markMessagesAsRead(threadId) {
@@ -234,9 +233,6 @@ const postFields = `
   }
   provider {
     id
-    nickname
-  }
-  receiver {
     nickname
   }
   size
