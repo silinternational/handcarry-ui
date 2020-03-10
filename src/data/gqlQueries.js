@@ -236,9 +236,6 @@ const postFields = `
     id
     nickname
   }
-  receiver {
-    nickname
-  }
   size
   status
   title
