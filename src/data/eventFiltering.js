@@ -5,7 +5,7 @@ import { updateQueryString } from './url'
 export function clearEventFilter() {
   updateQueryString({
     location: null,
-    participant: null,
+    participating: null,
     search: null,
   })
 }
@@ -19,11 +19,11 @@ export function populateEventFilterFrom(queryStringData, me) {
       isMatch: event => stringIsIn(queryStringData.location, event.location.description),
       value: queryStringData.location,
     },
-    participant: {
-      active: !! queryStringData.participant,
+    participating: {
+      active: !! queryStringData.participating,
       label: 'Only my events',
       isMatch: event => isParticipant(me, event),
-      value: queryStringData.participant,
+      value: queryStringData.participating,
     },
     search: {
       active: !! queryStringData.search,

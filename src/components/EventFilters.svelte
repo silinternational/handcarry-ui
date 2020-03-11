@@ -14,7 +14,7 @@ import ToggleFilter from './ToggleFilter.svelte'
 export let filter = {}
 
 $: location = filter.location.value || ''
-$: onlyMyEvents = filter.participant.active
+$: onlyMyEvents = filter.participating.active
 $: searchText = filter.search.value || ''
 
 function onKeywordInput(event) {
@@ -33,11 +33,11 @@ function onLocationInput(event) {
 
 function onMyEventsChange(event) {
   if (event.detail) {
-    setFilters({ participant: 1 })
+    setFilters({ participating: 1 })
     
     filteredMeetingsByMine()
   } else {
-    removeFilter('participant')
+    removeFilter('participating')
   }
 }
 
