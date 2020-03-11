@@ -7,7 +7,7 @@ install:
 dev:
 	npm run dev
 
-build: install
+build: install clean
 	npm run build
 
 clean:

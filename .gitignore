@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
-public/bundle.*
+.cache
+public/*.css*
+public/*.js*
 public/index.html
 .idea/
 .env
