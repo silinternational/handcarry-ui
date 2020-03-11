@@ -30,7 +30,7 @@ function viewAsGrid() {
 }
 
 function viewAsList() {
-  updateQueryString({ list: 1 })
+  updateQueryString({ list: null })
 
   viewedRequestsAsList()
 }
