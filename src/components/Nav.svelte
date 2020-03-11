@@ -62,12 +62,12 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
           </a>
         </li>
 
-        <li class="nav-item">
+<!--        <li class="nav-item">
           <a href="/#/events" class="nav-link" class:active={$location.startsWith('/events')}>
             {polyglot.t('nav-events')}
           </a>
         </li>
-
+-->
         <li class="nav-item">
           <a href="/#/messages" class="nav-link d-flex align-items-start" class:active={$location.startsWith('/messages')}>
             {polyglot.t('nav-requests-messages')} <CountIndicator number={totalNumUnreads} />
