@@ -24,7 +24,7 @@ export let title = ''
       <slot name="filters"></slot>
     </div>
   </div>
-  <div class="col">
+  <div class="col-12 col-md-8 col-lg-9">
     <slot name="items"></slot>
   </div>
 </div>
