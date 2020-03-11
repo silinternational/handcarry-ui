@@ -4,7 +4,7 @@
 [Node](https://nodejs.org/en/download) and [Make](https://www.gnu.org/software/make)
 
 ## Local development
-This project utilizes [Rollup](https://rollupjs.org) for its builds
+This project utilizes [Parcel](https://parceljs.org) for its builds
 
 > Ensure your `etc/hosts` has a `wecarry.local` and `minio` alias to localhost
 > `cp .env.example .env` and update the values as needed
