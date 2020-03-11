@@ -1,12 +1,11 @@
 <script>
 import { onMount } from 'svelte'
 import { getInviteInfo } from '../data/api'
-import { login } from '../data/auth'
+import Login from '../components/Login.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
 let loading = false
-let email = ''
 let inviteInfo = {}
 
 onMount(async () => {
@@ -31,10 +30,6 @@ const config = {
 $: altText = inviteInfo.type && config[inviteInfo.type].alt || ''
 $: instructions = inviteInfo.type && config[inviteInfo.type].instructions(inviteInfo.name) || ''
 $: placeholder = inviteInfo.type && config[inviteInfo.type].placeholder || ''
-
-function join() {
-  login(email, config[inviteInfo.type].returnTo())
-}
 </script>
 
 <style>
@@ -69,14 +64,5 @@ img {
 </div>
 
 {#if inviteInfo.type}
-  <!-- the input and button should stack on phones but go inline (and centered) on everything else -->
-  <form on:submit|preventDefault={join} class="row mt-2">
-    <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
-      <!-- svelte-ignore a11y-autofocus -->
-      <input type="email" bind:value={email} required {placeholder} autofocus class="form-control form-control-lg">
-    </div>
-    <div class="col-12 col-sm-2">
-      <button class="btn btn-primary btn-lg float-right mt-3 float-sm-none mt-sm-0">Join</button>
-    </div>
-  </form>
+  <Login {placeholder} buttonText="Join" hideRememberMe returnTo={config[inviteInfo.type].returnTo()} />
 {/if}

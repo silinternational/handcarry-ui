@@ -56,7 +56,6 @@ async function onSubmit() {
   if (isNew) {
     await create({
         orgID: request.viewableBy,
-        type: "REQUEST",
         title: request.title,
         description: request.description,
         destination: request.destination,
