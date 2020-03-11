@@ -12,6 +12,9 @@ import WeightDisplay from '../components/WeightDisplay.svelte'
 
 export let params = {} // URL path parameters, provided by router.
 
+const dlTermColumns        = 'col-12 col-md-5 col-lg-3'
+const dlDescriptionColumns = 'col-12 col-md-7 col-lg-9'
+
 $: conversationId = params.conversationId
 $: request = $requests.find(({ id }) => id === params.id) || {}
 $: requester = request.createdBy || {}
@@ -64,12 +67,12 @@ function goToConversation(conversationId) {
       <div class="row">
         <div class="col">
           <h3 class="card-title">{ request.title || ''}</h3>
-          <dl>
-            <dt>Deliver to</dt>
-            <dd>{ destination }</dd>
+          <dl class="row">
+            <dt class={dlTermColumns}>Deliver to</dt>
+            <dd class={dlDescriptionColumns}>{ destination }</dd>
             
-            <dt>From</dt>
-            <dd>
+            <dt class={dlTermColumns}>From</dt>
+            <dd class={dlDescriptionColumns}>
               {#if origin }
                 { origin }
               {:else}
@@ -78,19 +81,19 @@ function goToConversation(conversationId) {
             </dd>
             
             {#if isMine && request.visibility }
-              <dt>Visible to</dt>
-              <dd>{ describeVisibility(request.visibility, [request.organization]) }</dd>
+              <dt class={dlTermColumns}>Visible to</dt>
+              <dd class={dlDescriptionColumns}>{ describeVisibility(request.visibility, [request.organization]) }</dd>
             {/if}
             
             {#if request.neededBefore }
-              <dt>Needed before</dt>
-              <dd>{ (new Date(request.neededBefore + ' 00:00:00')).toLocaleDateString() }</dd>
+              <dt class={dlTermColumns}>Needed before</dt>
+              <dd class={dlDescriptionColumns}>{ (new Date(request.neededBefore + ' 00:00:00')).toLocaleDateString() }</dd>
             {/if}
             
             <!-- Show any actual value (including zero) -->
             {#if request.kilograms != null }
-              <dt>Weight</dt>
-              <dd><WeightDisplay kilograms={request.kilograms} /></dd>
+              <dt class={dlTermColumns}>Weight</dt>
+              <dd class={dlDescriptionColumns}><WeightDisplay kilograms={request.kilograms} /></dd>
             {/if}
           </dl>
         </div>
