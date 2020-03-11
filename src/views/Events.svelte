@@ -3,9 +3,11 @@ import EventFilters from '../components/EventFilters.svelte'
 import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-import { populateEventFilterFrom } from '../data/eventFiltering'
-import { events, loading } from '../data/events'
+import { isParticipant, populateEventFilterFrom } from '../data/eventFiltering'
+import { join, events, loading } from '../data/events'
+import { isItemInList } from '../data/filtering'
 import { updateQueryString } from '../data/url'
+import { me } from '../data/user'
 import qs from 'qs'
 import { onMount } from 'svelte'
 import { flip } from 'svelte/animate';
@@ -22,10 +24,18 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
 let eventFilter = {}
 
 $: queryStringData = qs.parse($querystring)
-$: eventFilter = populateEventFilterFrom(queryStringData)
+$: eventFilter = populateEventFilterFrom(queryStringData, $me)
 </script>
 
 <style>
+.event-buttons-container .btn {
+  width: 10em;
+}
+
+.event-buttons-container .btn:disabled {
+  cursor: unset;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -88,7 +98,14 @@ li {
                 {/if}
               </div>
               <div class="col-auto align-self-start">
-                <a href="#/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary m-2">View Requests</a>
+                <div class="event-buttons-container">
+                  <a href="#/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
+                  {#if isParticipant($me, event) }
+                    <button class="btn btn-light d-block m-2" disabled>Added</button>
+                  {:else}
+                    <button class="btn btn-secondary d-block m-2" on:click="{ () => join(event.id) }">Add to my events</button>
+                  {/if}
+                </div>
               </div>
             </div>
           </li>

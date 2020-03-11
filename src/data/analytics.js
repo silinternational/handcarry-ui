@@ -64,6 +64,7 @@ export const searchedRequests              = query => trackRequestsEvent('search
 
 export const filteredMeetingsByAll      = ()    => trackMeetingsEvent('filter', 'all')
 export const filteredMeetingsByLocation = query => trackMeetingsEvent('location', query)
+export const filteredMeetingsByMine     = ()    => trackMeetingsEvent('filter', 'mine')
 export const searchedMeetings           = query => trackMeetingsEvent('search', query)
 
 export const accepted       = () => trackRequestEvent('accepted')

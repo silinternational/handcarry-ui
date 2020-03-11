@@ -28,6 +28,17 @@ export function isActive(filter) {
 }
 
 /**
+ * See if the given item is in the given list of items (by comparing `id` values).
+ *
+ * @param {Object} item
+ * @param {Object[]} items
+ * @returns {boolean}
+ */
+export function isItemInList(item, items) {
+  return items.some(({ id }) => id === item.id)
+}
+
+/**
  * Remove the named filter from the query string.
  *
  * @param {string} name

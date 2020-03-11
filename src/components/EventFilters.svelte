@@ -2,16 +2,19 @@
 import {
   filteredMeetingsByAll,
   filteredMeetingsByLocation,
+  filteredMeetingsByMine,
   searchedMeetings,
 } from '../data/analytics'
 import { clearEventFilter } from '../data/eventFiltering'
-import { setFilters } from '../data/filtering'
+import { removeFilter, setFilters } from '../data/filtering'
 import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
+import ToggleFilter from './ToggleFilter.svelte'
 
 export let filter = {}
 
 $: location = filter.location.value || ''
+$: onlyMyEvents = filter.participating.active
 $: searchText = filter.search.value || ''
 
 function onKeywordInput(event) {
@@ -28,6 +31,16 @@ function onLocationInput(event) {
   filteredMeetingsByLocation(query)
 }
 
+function onMyEventsChange(event) {
+  if (event.detail) {
+    setFilters({ participating: 1 })
+    
+    filteredMeetingsByMine()
+  } else {
+    removeFilter('participating')
+  }
+}
+
 function resetFilters() {
   clearEventFilter()
 
@@ -42,6 +55,8 @@ function resetFilters() {
   </div>
   
   <div class="card-body">
+    <ToggleFilter on:change={onMyEventsChange} active={onlyMyEvents} label="Only my events" />
+    <hr />
     <LocationFilter title="Event location" value={location} on:input={onLocationInput} />
     <hr />
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
