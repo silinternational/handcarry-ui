@@ -17,8 +17,11 @@ $: origin = request.origin && request.origin.description
 .card-footer.smaller {
   line-height: 1.3;
 }
+.card-title {
+  font-size: 1.3rem;
+}
 h3.smaller {
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   margin-bottom: 0.25rem;
 }
 .multi-line-truncate {
