@@ -3,26 +3,23 @@ import { login } from '../data/auth'
 import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { me } from '../data/user'
-import jquery from 'jquery' // $ is already a reserved word in svelte
+import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
+import { retrieve, save, LIFESPAN, clear } from '../data/storage'
 
 export let placeholder = 'Enter email address'
 export let buttonText = 'Sign in'
 export let hideRememberMe = false
 export let returnTo = qs.parse($querystring)['return-to']
 
-let email = getStoredEmail() || ''
+let email = retrieve('email') || ''
 let checked = !!email
 let identityProviders = []
 
-function getStoredEmail() {
-  return localStorage.getItem('email')
-}
-
 function storeRememberMeChoice() {
   if (checked) {
-    localStorage.setItem('email', email)
+    save('email', email, LIFESPAN.LONG)
   } else {
-    localStorage.removeItem('email')
+    clear('email')
   }
 }
 
@@ -80,16 +77,16 @@ a > img {
     <button class="btn btn-primary btn-lg">{buttonText}</button>
   </div>
 
-    <div class="col col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
-      <div class="form-check mt-2 ml-1">
-        {#if ! hideRememberMe}
-          <input type="checkbox" id="rememberMe" bind:checked on:change={storeRememberMeChoice} class="form-check-input">
-          <label for="rememberMe" class="form-check-label">
-            Remember my email address
-          </label>
-        {/if}
-      </div>
+  <div class="col col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
+    <div class="form-check mt-2 ml-1">
+      {#if ! hideRememberMe}
+        <input type="checkbox" id="rememberMe" bind:checked on:change={storeRememberMeChoice} class="form-check-input">
+        <label for="rememberMe" class="form-check-label">
+          Remember my email address
+        </label>
+      {/if}
     </div>
+  </div>
 
   <!-- only on xs screens is this after the remember me, otherwise it's after the input -->
   <div class="col-4 d-sm-none">
