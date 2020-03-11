@@ -21,8 +21,8 @@
     "svelte-spa-router": "^1.3.0"
   },
   "scripts": {
-    "build": "parcel build src/index.html -d public",
+    "build": "parcel build src/index.html -d public --experimental-scope-hoisting",
     "dev": "parcel src/index.html -d public --host wecarry.local --port 5000",
-    "clean": "rimraf public/global.* public/main.* public/index.html"
+    "clean": "rimraf public/global.* public/main.* public/index.html .cache"
   }
 }
