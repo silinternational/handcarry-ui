@@ -21,6 +21,14 @@ h3.smaller {
   font-size: 1.25rem;
   margin-bottom: 0.25rem;
 }
+.multi-line-truncate {
+  /* See https://stackoverflow.com/a/13924997 and https://caniuse.com/#search=line-clamp for details. */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* number of lines to show */
+}
 .request-tile {
   border-color: #444444;
   cursor: pointer;
@@ -55,7 +63,7 @@ h3.smaller {
     <RequestImage {request} />
   </div>
   <div class="card-body d-flex align-items-start flex-column p-2">
-    <h3 class="card-title mb-auto" class:smaller>{request.title}</h3>
+    <h3 class="card-title mb-auto multi-line-truncate" class:smaller>{request.title}</h3>
   </div>
   <div class="card-footer p-2" class:smaller>
     <div class="position-relative">
