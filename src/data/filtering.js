@@ -45,7 +45,7 @@ export function isItemInList(item, items) {
  */
 export function removeFilter(name) {
   const updates = {}
-  updates[name] = null
+  updates[name] = false
   updateQueryString(updates)
 }
 
@@ -55,14 +55,21 @@ export function removeFilter(name) {
  * Example:
  * `setFilters({ size: 'tiny' })`
  *
- * To remove some other filter(s) at the same time, send `null` for the filter(s) to be removed.
+ * To remove some other filter(s) at the same time, send `false` for the filter(s) to be removed.
  *
  * Example:
  * ```
  * setFilters({
  *   creator: $me.id,
- *   provider: null,
+ *   provider: false,
  * })
+ * ```
+ *
+ * To add a parameter with no value (simply using its presence/absence as a sort of toggle), send `null`.
+ *
+ * Example:
+ * ```
+ * setFilters({ participant: null })
  * ```
  *
  * @param {Object} updates

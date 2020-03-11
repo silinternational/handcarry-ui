@@ -24,13 +24,13 @@ $: requestFilter = populateRequestFilterFrom(queryStringData, $me, $events)
 $: showAsList = queryStringData.hasOwnProperty('list')
 
 function viewAsGrid() {
-  updateQueryString({ list: null })
+  updateQueryString({ list: false })
 
   viewedRequestsAsGrid()
 }
 
 function viewAsList() {
-  updateQueryString({ list: 1 })
+  updateQueryString({ list: null })
 
   viewedRequestsAsList()
 }

@@ -4,9 +4,9 @@ import { updateQueryString } from './url'
 /** NOTE: This should clear all values used by `populateEventFilterFrom()` */
 export function clearEventFilter() {
   updateQueryString({
-    location: null,
-    participating: null,
-    search: null,
+    location: false,
+    participating: false,
+    search: false,
   })
 }
 
@@ -20,10 +20,10 @@ export function populateEventFilterFrom(queryStringData, me) {
       value: queryStringData.location,
     },
     participating: {
-      active: !! queryStringData.participating,
+      active: queryStringData.hasOwnProperty('participating'),
       label: 'Only my events',
       isMatch: event => isParticipant(me, event),
-      value: queryStringData.participating,
+      value: queryStringData.hasOwnProperty('participating'),
     },
     search: {
       active: !! queryStringData.search,
