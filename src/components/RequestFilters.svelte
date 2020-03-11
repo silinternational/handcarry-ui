@@ -34,14 +34,14 @@ function onEventChange(domEvent) {
   const eventId = domEvent.detail
   if (eventId) {
     setFilters({
-      destination: null,
+      destination: false,
       event: eventId,
     })
   
     const eventName = $events.find(({ id }) => id === eventId).name
     filteredRequestsByEvent(eventName)
   } else {
-    setFilters({ event: null })
+    removeFilter('event')
   }
 }
 
@@ -49,7 +49,7 @@ function onDestinationInput(event) {
   const query = event.detail
   setFilters({
     destination: query,
-    event: null,
+    event: false,
   })
 
   filteredRequestsByDestination(query)
@@ -72,9 +72,9 @@ function onKeywordInput(event) {
 function onMyCommitmentsChange(event) {
   if (event.detail) {
     setFilters({
-      creator: null,
+      creator: false,
       provider: $me.id,
-      size: null,
+      size: false,
     })
     filteredRequestsByProviding()
   } else {
@@ -86,8 +86,8 @@ function onMyRequestsChange(event) {
   if (event.detail) {
     setFilters({
       creator: $me.id,
-      provider: null,
-      size: null,
+      provider: false,
+      size: false,
     })
     filteredRequestsByMine()
   } else {

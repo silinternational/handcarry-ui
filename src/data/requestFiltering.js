@@ -5,13 +5,13 @@ import { updateQueryString } from './url'
 /** NOTE: This should clear all values used by `populateRequestFilterFrom()` */
 export function clearRequestFilter() {
   updateQueryString({
-    creator: null,
-    destination: null,
-    event: null,
-    origin: null,
-    search: null,
-    provider: null,
-    size: null,
+    creator: false,
+    destination: false,
+    event: false,
+    origin: false,
+    search: false,
+    provider: false,
+    size: false,
   })
 }
 

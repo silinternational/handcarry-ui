@@ -33,7 +33,7 @@ function onLocationInput(event) {
 
 function onMyEventsChange(event) {
   if (event.detail) {
-    setFilters({ participating: 1 })
+    setFilters({ participating: null })
     
     filteredMeetingsByMine()
   } else {
