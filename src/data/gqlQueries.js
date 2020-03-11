@@ -218,9 +218,6 @@ const userFields = `
   avatarURL
   email
   id
-  meetingsAsParticipant {
-    id
-  }
   nickname
   organizations {
     id
