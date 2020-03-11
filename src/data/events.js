@@ -5,7 +5,7 @@ import { onClear } from './storage'
 export const events = writable([])
 export const loading = writable(false)
 
-export async function addToMyEvents(eventId) {
+export async function join(eventId) {
   const updatedEvent = await joinEvent(eventId)
 
   updateLocalEvents(updatedEvent)

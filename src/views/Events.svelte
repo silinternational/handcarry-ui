@@ -4,7 +4,7 @@ import FilteredDisplay from '../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { isParticipant, populateEventFilterFrom } from '../data/eventFiltering'
-import { addToMyEvents, events, loading } from '../data/events'
+import { join, events, loading } from '../data/events'
 import { isItemInList } from '../data/filtering'
 import { updateQueryString } from '../data/url'
 import { me } from '../data/user'
@@ -103,7 +103,7 @@ li {
                   {#if isParticipant($me, event) }
                     <button class="btn btn-light d-block m-2" disabled>Added</button>
                   {:else}
-                    <button class="btn btn-secondary d-block m-2" on:click="{ () => addToMyEvents(event.id) }">Add to my events</button>
+                    <button class="btn btn-secondary d-block m-2" on:click="{ () => join(event.id) }">Add to my events</button>
                   {/if}
                 </div>
               </div>
