@@ -3,13 +3,13 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import UserAvatar from '../components/UserAvatar.svelte'
 import { push } from 'svelte-spa-router'
-import { format } from 'date-fns'
 
 export let request;
 
 $: user = request.createdBy || {}
 $: size = request.size
-$: origin = request.origin && request.origin.description
+$: from = request.origin && request.origin.description
+$: to = request.meeting ? request.meeting.name : request.destination.description
 </script>
 
 <style>
@@ -38,14 +38,14 @@ $: origin = request.origin && request.origin.description
       <div class="card-body p-1">
         <h3 class="card-title text-truncate">{request.title}</h3>
         <div class="form-row">
-          <div class="col-12 col-sm text-truncate" title={request.destination.description}>
+          <div class="col-12 col-sm text-truncate" title={to}>
             <span class="text-muted small small-caps">To:</span>
-            {request.destination.description}
+            { to }
           </div>
-          <div class="col-12 col-sm text-truncate" title={origin}>
+          <div class="col-12 col-sm text-truncate" title={from}>
             <span class="text-muted small small-caps">From:</span>
-            {#if origin }
-              {origin}
+            {#if from }
+              { from }
             {:else}
               <span class="font-italic">anywhere</span>
             {/if}

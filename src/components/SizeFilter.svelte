@@ -22,12 +22,15 @@ function onChange(size, event) {
 }
 </script>
 
-{#each sizes as size }
-  <div class="form-check form-check-inline {cssClass}">
-    <input type="checkbox" class="form-check-input" id="sizeFilter{size.type}" checked={includedInSizeSelection(size.type, selectedSizeType)}
-           on:change={(event) => onChange(size, event)} />
-    <label class="form-check-label" for="sizeFilter{size.type}">
-      <SizeIndicator size={size.type} />
-    </label>
-  </div>
-{/each}
+<p class="mb-1 text-muted" id="size-filter-label">Max. size:</p>
+<div class="d-inline-block text-md-left" aria-labelledby="size-filter-label">
+  {#each sizes as size }
+    <div class="form-check form-check-inline {cssClass}">
+      <input type="checkbox" class="form-check-input" id="sizeFilter{size.type}" checked={includedInSizeSelection(size.type, selectedSizeType)}
+             on:change={(event) => onChange(size, event)} />
+      <label class="form-check-label" for="sizeFilter{size.type}">
+        <SizeIndicator size={size.type} />
+      </label>
+    </div>
+  {/each}
+</div>

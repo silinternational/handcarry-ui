@@ -14,9 +14,12 @@ Install the project dependencies and start a local server
 make
 ``` 
 
-
 Navigate to [http://wecarry.local:5000](http://wecarry.local:5000). You should see your app running. Edit a component file in `src`, save it, and the page will automatically reload with your changes.
 
+### Testing social providers (oauth)
+In order to utilize the social auth capabilities, `BASE_API_URL` and the locally running api's `HOST` must be `localhost` instead of `wecarry.local`.  These vars are found in the `.env` and `docker-compose.yml` respectively.
+
+### Breakpoint testing
 To see what Bootstrap responsive breakpoint you are currently viewing, add the following to the `Footer.svelte`:
 
 ```

@@ -1,5 +1,3 @@
-import { throwError } from './error'
-
 const customClearFns = []
 
 export const onClear = fn => customClearFns.push(fn)
