@@ -23,7 +23,6 @@ export async function login(email, returnTo) {
 }
 
 export function logout() {
-  debugger
   loggingOut.set(true)
 
   // just in case something goes wrong below, we don't want the page to get stuck in a permanent logging out state
