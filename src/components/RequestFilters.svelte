@@ -1,56 +1,97 @@
 <script>
 import { 
+  filteredRequestsByDestination,
+  filteredRequestsByEvent,
+  filteredRequestsByOrigin,
   filteredRequestsBySize,
   filteredRequestsByMine,
   filteredRequestsByProviding,
   filteredRequestsByAll,
   searchedRequests,
 } from '../data/analytics'
+import { events } from '../data/events'
+import { removeFilter, setFilters } from '../data/filtering'
+import { clearRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
-import Icon from 'fa-svelte'
-import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import EventFilter from './EventFilter.svelte'
+import LocationFilter from './LocationFilter.svelte'
+import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
-import { createEventDispatcher } from 'svelte'
+import ToggleFilter from './ToggleFilter.svelte'
 
 export let filter = {}
 
-const dispatch = createEventDispatcher()
+$: destinationText = filter.destination.value || ''
+$: eventId = filter.event.value
+$: originText = filter.origin.value || ''
+$: searchText = filter.search.value || ''
+$: size = filter.size.value
+$: onlyMyCommitments = filter.provider.active
+$: onlyMyRequests = filter.creator.active
 
-$: searchText = filter.search || ''
-$: size = filter.size && filter.size[filter.size.length - 1]
-$: onlyMyCommitments = $me.id && filter.provider && filter.provider.id === $me.id
-$: onlyMyRequests = $me.id && filter.createdBy && filter.createdBy.id === $me.id
+function onEventChange(domEvent) {
+  const eventId = domEvent.detail
+  if (eventId) {
+    setFilters({
+      destination: false,
+      event: eventId,
+    })
+  
+    const eventName = $events.find(({ id }) => id === eventId).name
+    filteredRequestsByEvent(eventName)
+  } else {
+    removeFilter('event')
+  }
+}
+
+function onDestinationInput(event) {
+  const query = event.detail
+  setFilters({
+    destination: query,
+    event: false,
+  })
+
+  filteredRequestsByDestination(query)
+}
+
+function onOriginInput(event) {
+  const query = event.detail
+  setFilters({ origin: query })
+
+  filteredRequestsByOrigin(query)
+}
 
 function onKeywordInput(event) {
-  dispatch('set', { search: event.target.value })
+  const query = event.detail
+  setFilters({ search: query })
 
-  searchedRequests(searchText)
+  searchedRequests(query)
 }
 
 function onMyCommitmentsChange(event) {
-  if (event.target.checked) {
-    dispatch('set', {
-      creator: null,
+  if (event.detail) {
+    setFilters({
+      creator: false,
       provider: $me.id,
-      size: null,
+      size: false,
     })
     filteredRequestsByProviding()
   } else {
-    dispatch('remove', 'provider')
+    removeFilter('provider')
   }
 }
 
 function onMyRequestsChange(event) {
-  if (event.target.checked) {
-    dispatch('set', {
+  if (event.detail) {
+    setFilters({
       creator: $me.id,
-      provider: null,
-      size: null,
+      provider: false,
+      size: false,
     })
     filteredRequestsByMine()
   } else {
-    dispatch('remove', 'creator')
+    removeFilter('creator')
   }
 }
 
@@ -60,14 +101,14 @@ function onSizeSelection(event) {
   filteredRequestsBySize(lowerCaseSize)
 
   if (isDefaultSizeFilter(lowerCaseSize)) {
-    dispatch('remove', 'size')
+    removeFilter('size')
   } else {
-    dispatch('set', { size: lowerCaseSize })
+    setFilters({ size: lowerCaseSize })
   }
 }
 
 function resetFilters() {
-  dispatch('reset')
+  clearRequestFilter()
 
   filteredRequestsByAll()
 }
@@ -80,29 +121,19 @@ function resetFilters() {
   </div>
   
   <div class="card-body">
-    <label class="d-block">
-      <input type="checkbox" on:change={onMyRequestsChange} checked={onlyMyRequests} /> Only my requests
-    </label>
-    <label class="d-block">
-      <input type="checkbox" on:change={onMyCommitmentsChange} checked={onlyMyCommitments} /> Only my commitments
-    </label>
-    
+    <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
+    <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     <hr />
-    
-    <p class="mb-1 text-muted" id="keyword-filter-label">Keyword:</p>
-    <div class="input-group mb-2">
-      <div class="input-group-prepend">
-        <div class="input-group-text"><Icon icon={faSearch} /></div>
-      </div>
-      <input type="text" aria-labelledby="keyword-filter-label" class="form-control form-control-sm"
-             placeholder="Search" value={searchText} on:input={onKeywordInput} />
-    </div>
-    
+    <LocationFilter title="From" placeholder="Origin city" value={originText} on:input={onOriginInput} />
     <hr />
-    
-    <p class="mb-1 text-muted" id="size-filter-label">Max. size:</p>
-    <div class="d-inline-block text-md-left" aria-labelledby="size-filter-label">
-      <SizeFilter cssClass="d-md-block" initialValue={size} on:selection={onSizeSelection} />
-    </div>
+    <LocationFilter title="To" placeholder="Destination city" value={destinationText} on:input={onDestinationInput} />
+    {#if $events.length }
+      <p class="mb-2 text-center text-muted">– or –</p>
+      <EventFilter events={$events} {eventId} on:change={onEventChange} />
+    {/if}
+    <hr />
+    <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
+    <hr />
+    <SizeFilter cssClass="d-md-block" initialValue={size} on:selection={onSizeSelection} />
   </div>
 </div>

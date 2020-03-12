@@ -2,7 +2,8 @@
 import UserAvatar from '../components/UserAvatar.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me, changeNickname, changeProfilePicture } from '../data/user'
-import { push } from 'svelte-spa-router'
+import { push, querystring } from 'svelte-spa-router'
+import qs from 'qs'
 
 let weightPreference = ''
 let home = null
@@ -18,8 +19,9 @@ function initializeUpdates({ nickname }) {
 async function save() {
   await changeNickname(newNickname)
 
-  // TODO: in the future we may want to pay attention to a possible "return-to" and send the user where they were originally headed.
-  push('/requests')
+  const returnTo = qs.parse($querystring)['return-to']
+  
+  push(returnTo || '/requests')
 }
 
 async function imageUploaded(event) {

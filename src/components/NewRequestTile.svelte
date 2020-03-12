@@ -2,7 +2,6 @@
 import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import { push } from 'svelte-spa-router'
-import { format } from 'date-fns'
 import { createRequestByTile } from '../data/analytics'
 
 function create() {

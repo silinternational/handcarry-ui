@@ -3,14 +3,14 @@ import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import UserAvatar from '../components/UserAvatar.svelte'
 import { push } from 'svelte-spa-router'
-import { format } from 'date-fns'
 
 export let request;
 export let smaller = false;
 
 $: user = request.createdBy || {}
 $: size = request.size
-$: origin = request.origin && request.origin.description
+$: from = request.origin && request.origin.description
+$: to = request.meeting ? request.meeting.name : request.destination.description
 </script>
 
 <style>
@@ -73,15 +73,15 @@ h3.smaller {
       <div class="position-absolute" style="bottom: 0; right: 0;"><UserAvatar {user} small /></div>
       
       <div class="to-from-lines">
-        <div class="text-truncate to-line" class:smaller title={request.destination.description}>
+        <div class="text-truncate to-line" class:smaller title={to}>
           <span class="text-muted small small-caps to-prefix">To:</span>
-          {request.destination.description}
+          { to }
         </div>
         
-        <div class="text-truncate from-line" class:smaller title={origin}>
+        <div class="text-truncate from-line" class:smaller title={from}>
           <span class="text-muted small small-caps from-prefix">From:</span>
-          {#if origin }
-            {origin}
+          {#if from }
+            { from }
           {:else}
             <span class="font-italic">anywhere</span>
           {/if}

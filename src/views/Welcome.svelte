@@ -1,3 +1,15 @@
+<script>
+import { querystring } from 'svelte-spa-router'
+import qs from 'qs'
+
+const returnTo = qs.parse($querystring)['return-to']
+
+let nextUrl = `#/welcome/preferences`
+if (returnTo) {
+  nextUrl += `?return-to=${returnTo}`
+}
+</script>
+
 <div class="d-flex flex-column align-items-center pt-3 pt-md-5">
   <h1 class="py-4 text-center">Welcome to WeCarry!</h1>
 
@@ -18,6 +30,6 @@
     By clicking "Agree & Continue" you are agreeing to our <a href="#/terms" target="_blank">Terms of Use</a> and
     <a href="#/privacy" target="_blank">Privacy Policy</a>.
   </p>
-  
-  <a href="#/welcome/preferences" class="btn btn-primary mt-4">Agree &amp; Continue</a>
+
+  <a href={nextUrl} class="btn btn-primary mt-4">Agree & Continue</a>
 </div>

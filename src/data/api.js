@@ -56,8 +56,12 @@ export async function gql(query) {
   if (response.errors) { 
     throwError(response.errors[0].message)
   }
-     
+
   return response.data
+}
+
+export function getInviteInfo(code) {
+  return wrappedFetch(`auth/invite?code=${encodeURIComponent(code)}`)
 }
 
 export const upload = async formData => await wrappedFetch('upload', formData)
