@@ -5,8 +5,8 @@ import { wrappedFetch } from './api'
 import { push } from 'svelte-spa-router'
 import { writable } from 'svelte/store'
 
-const expirationEta = getExpiration().getTime() - Date.now()
-const autoLogoutTimer = setTimeout(logout, expirationEta)
+// const expirationEta = getExpiration().getTime() - Date.now()
+const autoLogoutTimer = null;//setTimeout(logout, expirationEta)
 
 export const loggingOut = writable(false)
 
