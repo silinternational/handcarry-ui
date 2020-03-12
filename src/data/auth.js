@@ -1,12 +1,9 @@
-import { getExpiration, getSeed, getToken } from './token'
+import { getSeed, getToken } from './token'
 import { loggedOut } from './analytics'
 import { clearApp } from './storage'
 import { wrappedFetch } from './api'
 import { push } from 'svelte-spa-router'
 import { writable } from 'svelte/store'
-
-// const expirationEta = getExpiration().getTime() - Date.now()
-const autoLogoutTimer = null;//setTimeout(logout, expirationEta)
 
 export const loggingOut = writable(false)
 
