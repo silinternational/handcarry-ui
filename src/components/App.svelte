@@ -1,5 +1,6 @@
 <script>
 import { init as authenticate, me } from '../data/user'
+import { init as loadEvents } from '../data/events'
 import { init as loadMessaging } from '../data/messaging'
 import { init as loadRequests } from '../data/requests'
 import Nav from './Nav.svelte'
@@ -11,7 +12,7 @@ import Bootstrap from './Bootstrap.svelte'
 import Error from './Error.svelte'
 import { loggingOut } from '../data/auth'
 
-const publicRoutes = ['/login', '/terms', '/privacy']
+const publicRoutes = ['/login', '/terms', '/privacy', '/join']
 
 $: isPublicRoute = publicRoutes.some(publicRoute => $location.startsWith(publicRoute))
 $: ! (isPublicRoute || isUserAuthn()) && authenticate() // should only react to location changes, not user changes.
@@ -27,6 +28,7 @@ function isUserAuthn() {
 function loadData() {
   loadMessaging()
   loadRequests()
+  loadEvents()
 }
 </script>
 

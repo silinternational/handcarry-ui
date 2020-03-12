@@ -168,6 +168,34 @@ export async function markMessagesAsRead(threadId) {
   return response.setThreadLastViewedAt || {}
 }
 
+export async function getEvents() {
+  const response = await gql(`{
+    meetings {
+      ${meetingFields}
+    }
+  }`)
+
+  return response.meetings || []
+}
+
+export async function joinEvent(eventId) {
+  const response = await gql(`
+    mutation {
+      createMeetingParticipant(input: {
+        meetingID: ${json(eventId)},
+      })
+      {
+        meeting {
+          ${meetingFields}
+        }
+      }
+    }
+  `)
+
+  return response.createMeetingParticipant.meeting
+}
+
+
 const defaultFor = function(value, defaultValue) {
   return (value === undefined) ? defaultValue : value
 }
@@ -210,6 +238,10 @@ const postFields = `
     latitude
     longitude
     country
+  }
+  meeting {
+    id
+    name
   }
   origin {
     description
@@ -262,4 +294,23 @@ const threadFields = `
     ${postFields}
   }
   unreadMessageCount
+`
+
+const meetingFields = `
+  id
+  name
+  location {
+    description
+  }
+  participants {
+    user {
+      id
+    }
+  }
+  startDate
+  endDate
+  moreInfoURL
+  imageFile {
+    url
+  }
 `

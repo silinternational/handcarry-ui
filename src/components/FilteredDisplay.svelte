@@ -1,5 +1,16 @@
 <script>
+import { filterItems, removeFilter } from '../data/filtering'
+import FilterTags from './FilterTags.svelte'
+
+export let items = []
+export let filter = {}
 export let title = ''
+
+$: filteredItems = filterItems(items, filter)
+
+function onRemoveFilter(event) {
+  removeFilter(event.detail)
+}
 </script>
 
 <div class="row">
@@ -9,7 +20,7 @@ export let title = ''
   <div class="col text-right">
     <div class="row">
       <div class="col-12 text-center col-sm text-sm-left text-md-right">
-        <slot name="tags"></slot>
+        <FilterTags {filter} on:remove={onRemoveFilter} />
       </div>
       <div class="col-12 text-center col-sm-auto text-sm-right">
         <slot name="toggles"></slot>
@@ -25,6 +36,6 @@ export let title = ''
     </div>
   </div>
   <div class="col-12 col-md-8 col-lg-9">
-    <slot name="items"></slot>
+    <slot name="items" items={filteredItems}></slot>
   </div>
 </div>

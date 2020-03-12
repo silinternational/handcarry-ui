@@ -1,73 +1,83 @@
-import { getSelectedSizes } from '../data/sizes'
-import { updateQueryString } from '../data/url'
+import { stringIsIn } from './filtering'
+import { includedInSizeSelection } from './sizes'
+import { updateQueryString } from './url'
 
-export function populateFilterFrom(queryStringData) {
-  return {
-    createdBy: { id: queryStringData.creator },
-    search: queryStringData.search,
-    provider: { id: queryStringData.provider },
-    size: getSelectedSizes(queryStringData.size),
-  }
-}
-
-/** NOTE: This should clear all values used by `populateFilterFrom()` */
-export function clearFilter() {
+/** NOTE: This should clear all values used by `populateRequestFilterFrom()` */
+export function clearRequestFilter() {
   updateQueryString({
-    creator: null,
-    search: null,
-    provider: null,
-    size: null,
+    creator: false,
+    destination: false,
+    event: false,
+    origin: false,
+    search: false,
+    provider: false,
+    size: false,
   })
 }
 
-export function filterRequests(requests, filter) {
-  let results = requests.slice(0); // Shallow-clone the array quickly.
-  const requestFilter = Object.assign({}, filter)
-  
-  const searchText = requestFilter.search
-  delete requestFilter.search
-
-  for (const property in requestFilter) {
-    results = results.filter(request => matchesProperty(request, requestFilter, property))
+/** NOTE: All values used here should be cleared by `clearRequestFilter()` */
+export function populateRequestFilterFrom(queryStringData, me, events) {
+  return {
+    creator: {
+      active: !! queryStringData.creator,
+      label: 'Only my requests',
+      isMatch: request => isMyRequest(request, me),
+      value: queryStringData.creator,
+    },
+    destination: {
+      active: !! queryStringData.destination,
+      label: 'To: ' + queryStringData.destination,
+      isMatch: request => stringIsIn(queryStringData.destination, request.destination.description),
+      value: queryStringData.destination,
+    },
+    event: {
+      active: !! queryStringData.event,
+      label: 'To: ' + getEventName(events, queryStringData.event),
+      isMatch: request => request.meeting && request.meeting.id === queryStringData.event,
+      value: queryStringData.event,
+    },
+    origin: {
+      active: !! queryStringData.origin,
+      label: 'From: ' + queryStringData.origin,
+      isMatch: request => !request.origin || stringIsIn(queryStringData.origin, request.origin.description),
+      value: queryStringData.origin,
+    },
+    search: {
+      active: !! queryStringData.search,
+      label: 'Keyword: ' + queryStringData.search,
+      isMatch: request => requestMatchesSearchText(request, queryStringData.search),
+      value: queryStringData.search,
+    },
+    provider: {
+      active: !! queryStringData.provider,
+      label: 'Only my commitments',
+      isMatch: request => iAmProviding(request, me),
+      value: queryStringData.provider,
+    },
+    size: {
+      active: !! queryStringData.size,
+      label: 'Size: ' + queryStringData.size,
+      isMatch: request => includedInSizeSelection(request.size, queryStringData.size),
+      value: queryStringData.size,
+    },
   }
-
-  if (searchText) {
-    results = results.filter(request => matchesSearchText(request, searchText))
-  }
-
-  return results
 }
 
-function matchesProperty(request, requestFilter, property) {
-  if (!requestFilter[property]) {
-    return true
-  }
-
-  if (!request) {
-    return false
-  }
-
-  if (Array.isArray(requestFilter[property])) {
-    return (requestFilter[property].indexOf(request[property]) >= 0)
-  } else if (typeof requestFilter[property] === 'object') {
-    for (const subProperty in requestFilter[property]) {
-      if (!matchesProperty(request[property], requestFilter[property], subProperty)) {
-        return false
-      }
-    }
-    return true
-  }
-  return request[property] === requestFilter[property]
+function iAmProviding(request, me) {
+  return me.id && request.provider && request.provider.id === me.id
 }
 
-function matchesSearchText(request, searchText) {
-  const lowerCaseSearchText = searchText.toLowerCase()
-
-  return stringIsIn(lowerCaseSearchText, request.title) ||
-         stringIsIn(lowerCaseSearchText, request.destination.description) ||
-         stringIsIn(lowerCaseSearchText, request.createdBy.nickname)
+function isMyRequest(request, me) {
+  return me.id && request.createdBy && request.createdBy.id === me.id
 }
 
-function stringIsIn(needle, haystack) {
-  return (haystack || '').toLowerCase().indexOf(String(needle).toLowerCase()) >= 0
+function getEventName(events, eventId) {
+  const event = events.find(({ id }) => id === eventId) || {}
+  return event.name || '(Unknown event)'
+}
+
+function requestMatchesSearchText(request, searchText) {
+  return stringIsIn(searchText, request.title) ||
+         stringIsIn(searchText, request.destination.description) ||
+         stringIsIn(searchText, request.createdBy.nickname)
 }
