@@ -8,12 +8,11 @@ const get = key => retrieve(key) || qsData[key]
 export const getSeed = () => get('seed')
 export const getToken = () => `${getSeed() + get('access-token')}`
 export const getAuthzHeader = () => `${get('token-type')} ${getToken()}`
-export const getExpiration = () => new Date(get('expires-utc') || '9999-12-31')
 
 let qsData = {}
 
 const initialize = (key, defaultValue = '') => save(key, get(key) || defaultValue, LIFESPAN.LONG)
-const reset = () => clear('token-type', 'access-token', 'expires-utc') // not clearing 'seed' here to avoid any unnecessary re-authn scenarios.
+const reset = () => clear('token-type', 'access-token') // not clearing 'seed' here to avoid any unnecessary re-authn scenarios.
 const createSeed = () => 
   Math.random()     // doesn't need to be cryptographically strong
       .toString(36) // convert to base-36 so we get more letters
@@ -24,13 +23,13 @@ function init() {
   // MIGRATION NOTE:  for seeds, historically 'key' was stored in session, need to clean that up if it exists there for a user.
   // TODO: remove this after some reasonable amount of time has passed to clean up old instances
   sessionStorage.removeItem('key')
+  clear('expires-utc') // MIGRATION NOTE: as above, if this exists, get rid of it.  Can be removed at some point.
 
   qsData = qs.parse(getStoreValue(querystring))
 
   initialize('seed', createSeed())
   initialize('token-type', 'Bearer')
   initialize('access-token')
-  initialize('expires-utc')
 
   qsData['access-token'] && loggedIn()
   
