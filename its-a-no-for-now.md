@@ -1,0 +1,1 @@
+while the DX for parcel is initialyl amazing, I found myself fighting with it too much to get the integratiosn right with Svelte.  In the end, the bundle sizes were slightly larger when deployed so I can't think of a good reason to leave rollup at this time.
