@@ -5,8 +5,8 @@ import { wrappedFetch } from './api'
 import { push } from 'svelte-spa-router'
 import { writable } from 'svelte/store'
 
-const expirationEta = getExpiration().getTime() - Date.now()
-const autoLogoutTimer = setTimeout(logout, expirationEta)
+// const expirationEta = getExpiration().getTime() - Date.now()
+const autoLogoutTimer = null;//setTimeout(logout, expirationEta)
 
 export const loggingOut = writable(false)
 
@@ -23,6 +23,7 @@ export async function login(email, returnTo) {
 }
 
 export function logout() {
+  debugger
   loggingOut.set(true)
 
   // just in case something goes wrong below, we don't want the page to get stuck in a permanent logging out state
