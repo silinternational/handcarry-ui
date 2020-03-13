@@ -1,8 +1,9 @@
 <script>
-import 'bootstrap' //TODO: probably don't need everything, maybe just dropdown, modal, etc.
+import 'bootstrap'
 </script>
 
-<style type="text/scss" global>
+<!-- use of this `global` attribute comes from svelte-preprocess, not Svelte. -->
+<style lang="scss" global>
 $theme-colors: (
   "dark-gray" :#292923,
   
@@ -24,5 +25,5 @@ $theme-colors: (
 
 $enable-responsive-font-sizes: true;
 
-@import "../../node_modules/bootstrap/scss/bootstrap";
+@import "bootstrap/scss/bootstrap";
 </style>
