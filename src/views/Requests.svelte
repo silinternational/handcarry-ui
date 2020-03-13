@@ -12,7 +12,6 @@ import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
 import { populateRequestFilterFrom } from '../data/requestFiltering'
-import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
 import { flip } from 'svelte/animate';
 import { fade } from 'svelte/transition';
 
@@ -25,14 +24,10 @@ $: showAsList = queryStringData.hasOwnProperty('list')
 
 function viewAsGrid() {
   updateQueryString({ list: false })
-
-  viewedRequestsAsGrid()
 }
 
 function viewAsList() {
   updateQueryString({ list: null })
-
-  viewedRequestsAsList()
 }
 </script>
 
