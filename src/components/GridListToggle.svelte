@@ -1,17 +1,19 @@
 <script>
 import Icon from 'fa-svelte'
-import { createEventDispatcher } from 'svelte'
 import { faThList, faTh } from '@fortawesome/free-solid-svg-icons'
+import { createEventDispatcher } from 'svelte'
 
-export let buttonCssClass = ''
-export let showAsList
+export let choice = 'grid'
 
 const dispatch = createEventDispatcher()
+
+$: isGrid = choice === 'grid'
+$: isList = choice === 'list'
 </script>
 
-<button class="btn btn-sm {buttonCssClass}" title="Show as a grid" on:click={() => dispatch('grid')} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
+<button title="Show as a grid" on:click={() => dispatch('click', 'grid')} class="btn btn-sm" class:btn-secondary={isGrid} class:btn-outline-secondary={!isGrid}>
   <Icon icon={faTh} />
 </button>
-<button class="btn btn-sm {buttonCssClass}" title="Show as a list" on:click={() => dispatch('list')} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
+<button  title="Show as a list" on:click={() => dispatch('click', 'list')} class="btn btn-sm" class:btn-secondary={isList} class:btn-outline-secondary={!isList}>
   <Icon icon={faThList} />
 </button>

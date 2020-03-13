@@ -58,8 +58,7 @@ export const filteredRequestsBySize        = size  => trackRequestsEvent('filter
 export const filteredRequestsByMine        = ()    => trackRequestsEvent('filter', 'mine')
 export const filteredRequestsByProviding   = ()    => trackRequestsEvent('filter', 'providing')
 export const filteredRequestsByAll         = ()    => trackRequestsEvent('filter', 'all')
-export const viewedRequestsAsGrid          = ()    => trackRequestsEvent('view'  , 'grid')
-export const viewedRequestsAsList          = ()    => trackRequestsEvent('view'  , 'list')
+export const viewedRequestsAs              = type  => trackRequestsEvent('view'  , type)
 export const searchedRequests              = query => trackRequestsEvent('search', query)
 
 export const filteredMeetingsByAll      = ()    => trackMeetingsEvent('filter', 'all')
