@@ -24,7 +24,7 @@ $: requestFilter = populateRequestFilterFrom(queryStringData, $me, $events)
 
 <FilteredDisplay title="Requests" filter={requestFilter} items={$requests}>
   <div slot="toggles">
-    <GridListToggle on:list={() => showAsList = true} on:grid={() => showAsList = false} buttonCssClass="my-1 mx-0" />
+    <GridListToggle on:list={() => showAsList = true} on:grid={() => showAsList = false} class="my-1 mx-0" />
   </div>
   <div slot="filters">
     <RequestFilters filter={requestFilter} />
