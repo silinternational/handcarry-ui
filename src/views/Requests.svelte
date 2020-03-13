@@ -12,19 +12,30 @@ import { querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
 import { populateRequestFilterFrom } from '../data/requestFiltering'
-import { flip } from 'svelte/animate';
-import { fade } from 'svelte/transition';
+import { flip } from 'svelte/animate'
+import { fade } from 'svelte/transition'
+import { viewedRequestsAs } from '../data/analytics'
+import { save, LIFESPAN, retrieve } from '../data/storage'
 
 let requestFilter = {}
-let showAsList = false
+let viewPreference = retrieve('view-requests-as') || 'grid'
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateRequestFilterFrom(queryStringData, $me, $events)
+$: showAsList = viewPreference === 'list'
+
+function viewToggled(choice) {
+  viewPreference = choice
+
+  save('view-requests-as', choice, LIFESPAN.LONG)
+
+  viewedRequestsAs(choice)
+}
 </script>
 
 <FilteredDisplay title="Requests" filter={requestFilter} items={$requests}>
   <div slot="toggles">
-    <GridListToggle on:list={() => showAsList = true} on:grid={() => showAsList = false} class="my-1 mx-0" />
+    <GridListToggle on:click={({detail}) => viewToggled(detail)} choice={viewPreference} class="my-1 mx-0" />
   </div>
   <div slot="filters">
     <RequestFilters filter={requestFilter} />
