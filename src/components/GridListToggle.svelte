@@ -1,27 +1,30 @@
 <script>
 import Icon from 'fa-svelte'
-import { createEventDispatcher } from 'svelte'
 import { faThList, faTh } from '@fortawesome/free-solid-svg-icons'
-import { viewedRequestsAsGrid, viewedRequestsAsList } from '../data/analytics'
+import { createEventDispatcher } from 'svelte'
+import { viewedRequestsAs } from '../data/analytics'
 
 export let buttonCssClass = ''
-export let showAsList
+
+let chosen = 'grid'
 
 const dispatch = createEventDispatcher()
 
-function wantsGrid() {
-  viewedRequestsAsGrid()
-  dispatch('grid')
-}
-function wantsList() {
-  viewedRequestsAsList()
-  dispatch('list')
+$: isGrid = chosen === 'grid'
+$: isList = chosen === 'list'
+
+function wants(choice) {
+  chosen = choice
+  
+  viewedRequestsAs(chosen)
+  
+  dispatch(chosen)
 }
 </script>
 
-<button class="btn btn-sm {buttonCssClass}" title="Show as a grid" on:click={wantsGrid} class:btn-secondary={!showAsList} class:btn-outline-secondary={showAsList}>
+<button title="Show as a grid" on:click={() => wants('grid')} class="btn btn-sm {buttonCssClass}" class:btn-secondary={isGrid} class:btn-outline-secondary={!isGrid}>
   <Icon icon={faTh} />
 </button>
-<button class="btn btn-sm {buttonCssClass}" title="Show as a list" on:click={wantsList} class:btn-secondary={showAsList} class:btn-outline-secondary={!showAsList}>
+<button  title="Show as a list" on:click={() => wants('list')} class="btn btn-sm {buttonCssClass}" class:btn-secondary={isList} class:btn-outline-secondary={!isList}>
   <Icon icon={faThList} />
 </button>

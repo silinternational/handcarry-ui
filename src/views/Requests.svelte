@@ -20,20 +20,11 @@ let showAsList = false
 
 $: queryStringData = qs.parse($querystring)
 $: requestFilter = populateRequestFilterFrom(queryStringData, $me, $events)
-$: showAsList = queryStringData.hasOwnProperty('list')
-
-function viewAsGrid() {
-  updateQueryString({ list: false })
-}
-
-function viewAsList() {
-  updateQueryString({ list: null })
-}
 </script>
 
 <FilteredDisplay title="Requests" filter={requestFilter} items={$requests}>
   <div slot="toggles">
-    <GridListToggle on:list={viewAsList} on:grid={viewAsGrid} {showAsList} buttonCssClass="my-1 mx-0" />
+    <GridListToggle on:list={() => showAsList = true} on:grid={() => showAsList = false} buttonCssClass="my-1 mx-0" />
   </div>
   <div slot="filters">
     <RequestFilters filter={requestFilter} />
