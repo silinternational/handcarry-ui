@@ -3,8 +3,9 @@ import Icon from 'fa-svelte'
 import { faThList, faTh } from '@fortawesome/free-solid-svg-icons'
 import { createEventDispatcher } from 'svelte'
 import { viewedRequestsAs } from '../data/analytics'
+import { save, LIFESPAN, retrieve } from '../data/storage'
 
-let chosen = 'grid'
+let chosen = retrieve('preference-grid-list-view') || 'grid'
 
 const dispatch = createEventDispatcher()
 const classes = `btn btn-sm ${$$props.class}`
@@ -15,6 +16,8 @@ $: isList = chosen === 'list'
 function wants(choice) {
   chosen = choice
   
+  save('preference-grid-list-view', chosen, LIFESPAN.LONG)
+
   viewedRequestsAs(chosen)
   
   dispatch(chosen)
