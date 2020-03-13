@@ -35,7 +35,7 @@ function viewToggled(choice) {
 
 <FilteredDisplay title="Requests" filter={requestFilter} items={$requests}>
   <div slot="toggles">
-    <GridListToggle on:click={({detail}) => viewToggled(detail)} choice={viewPreference} class="my-1 mx-0" />
+    <GridListToggle on:click={({detail}) => viewToggled(detail)} choice={viewPreference} />
   </div>
   <div slot="filters">
     <RequestFilters filter={requestFilter} />
