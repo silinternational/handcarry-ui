@@ -5,7 +5,7 @@ import { init as loadMessaging } from '../data/messaging'
 import { init as loadRequests } from '../data/requests'
 import Nav from './Nav.svelte'
 import Router from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
-import { location } from 'svelte-spa-router'
+import { location, replace } from 'svelte-spa-router'
 import Footer from './Footer.svelte'
 import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
@@ -17,6 +17,7 @@ const publicRoutes = ['/login', '/terms', '/privacy', '/join']
 $: isPublicRoute = publicRoutes.some(publicRoute => $location.startsWith(publicRoute))
 $: ! (isPublicRoute || isUserAuthn()) && authenticate() // should only react to location changes, not user changes.
 $: userIsAuthn = $me.id
+$: ['/', '/login'].includes($location) && userIsAuthn && replace('/requests') // if they're already authn, no need to login again.
 $: minimal = $location.startsWith('/welcome') || ! userIsAuthn
 $: isDataNeeded = userIsAuthn && ! minimal
 $: isDataNeeded && loadData()
