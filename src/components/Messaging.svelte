@@ -56,7 +56,7 @@ async function suggestDefaultConversation() {
     </div>
   {/if}
   <div class="col">
-    <div class="tab-content card conversation-card" class:conversation-card-empty={!selectedConversation.post}>
+    <div class="tab-content card conversation-card" class:conversation-card-empty={!selectedConversation.request}>
       <!-- on:new is being used to passed up to consumer, i.e., views/Request.svelte -->
       <Conversation conversation={selectedConversation} on:new {minimal} />
     </div>

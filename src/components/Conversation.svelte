@@ -13,9 +13,9 @@ let reply = ''
 const FIVE_SECONDS = 5000
 const dispatch = createEventDispatcher()
 
-$: post = conversation.post || {}
+$: request = conversation.request || {}
 $: messages = conversation.messages || []
-$: destination = post.destination && post.destination.description
+$: destination = request.destination && request.destination.description
 $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 $: unread.count > 0 && setTimeout(() => saw(conversation.id), FIVE_SECONDS)
 $: participants = conversation.participants || []
@@ -59,23 +59,23 @@ const focusOnCreate = element => element.focus()
 </style>
 
 <div class="tab-pane card-body active">
-  {#if ! post.id}
+  {#if ! request.id}
     <p class="text-center"><i>Please select a conversation to see its messages</i></p>
   {:else}
     {#if ! minimal }
       <div class="row">
         <div class="col-8">
-          <h3 class="text-center"><a href="#/requests/{post.id}">{post.title}</a></h3>
+          <h3 class="text-center"><a href="#/requests/{request.id}">{request.title}</a></h3>
     
           <div class="text-center">
             <small>
-              <strong>{post.createdBy.nickname}</strong> @ {destination}
+              <strong>{request.createdBy.nickname}</strong> @ {destination}
             </small>
           </div>
         </div>
     
         <div class="col text-right mb-1">
-          <RequestAction request={post} conversationParticipants={participants} />
+          <RequestAction request={request} conversationParticipants={participants} />
         </div>
       </div>
     
