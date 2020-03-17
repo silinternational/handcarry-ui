@@ -28,18 +28,18 @@ export async function updateUser(user) {
 
 export async function getRequests() {
   const response = await gql(`{
-    posts {
-      ${postFields}
+    requests {
+      ${requestFields}
     }
   }`)
 
-  return response.posts || []
+  return response.requests || []
 }
 
 export async function createRequest(request) {
   const response = await gql(`
     mutation {
-      createPost(input: {
+      createRequest(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
         kilograms: ${json(defaultFor(request.kilograms, null))}, 
@@ -52,19 +52,19 @@ export async function createRequest(request) {
         visibility: ${request.visibility},
       }) 
       {
-        ${postFields}
+        ${requestFields}
       }
     }
   `)
 
-  return response.createPost || {}
+  return response.createRequest || {}
 }
 
 export async function updateRequest(request) {
   // TODO: When API is updated to erase values when we send `null`, update `|| something` to `|| null`
   const response = await gql(`
     mutation {
-      updatePost(input: {
+      updateRequest(input: {
         description: ${json(request.description || '')},
         kilograms: ${json(request.kilograms)}, 
         id: ${json(request.id)},
@@ -76,22 +76,22 @@ export async function updateRequest(request) {
         visibility: ${request.visibility},
       }) 
       {
-        ${postFields}
+        ${requestFields}
       }
     }
   `)
 
-  return response.updatePost || {}
+  return response.updateRequest || {}
 }
 
 export async function offerToProvide(requestId) {
   const response = await gql(`
     mutation {
       addMeAsPotentialProvider(
-        postID: ${json(requestId)},
+        requestID: ${json(requestId)},
       )
       {
-        ${postFields}
+        ${requestFields}
       }
     }
   `)
@@ -107,7 +107,7 @@ export const received = async requestId => updateRequestStatus(requestId, 'COMPL
 async function updateRequestStatus(id, status, providerUserId = null) {
   const response = await gql(`
     mutation {
-      updatePostStatus(
+      updateRequestStatus(
         input: {
           id: ${json(id)},
           status: ${status},
@@ -115,12 +115,12 @@ async function updateRequestStatus(id, status, providerUserId = null) {
         }
       ) 
       {
-        ${postFields}
+        ${requestFields}
       }
     }
   `)
 
-  return response.updatePostStatus || {}
+  return response.updateRequestStatus || {}
 }
 
 export async function getMyConversations() {
@@ -138,7 +138,7 @@ export async function sendMessage(message, conversation) {
     mutation {
       createMessage(input: {
         content: ${json(message)},
-        postID: ${json(conversation.post.id || '')}
+        requestID: ${json(conversation.request.id || '')}
         threadID: ${json(conversation.id || '')},
       }) 
       {
@@ -226,7 +226,7 @@ const userFields = `
   photoID
 `
 
-const postFields = `
+const requestFields = `
   createdBy {
     avatarURL
     id
@@ -290,8 +290,8 @@ const threadFields = `
     id
     nickname
   }
-  post {
-    ${postFields}
+  request {
+    ${requestFields}
   }
   unreadMessageCount
 `
