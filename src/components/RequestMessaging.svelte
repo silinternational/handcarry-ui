@@ -16,13 +16,13 @@ let newMessageContent = null
 
 $: requester = request.createdBy || {}
 $: isMine = $me.id && (requester.id === $me.id)
-$: conversationsOnThisRequest = $conversations.filter(({ request }) => request.id === request.id)
+$: conversationsOnThisRequest = $conversations.filter(({ request: aRequest }) => aRequest.id === request.id)
 $: selectedConversation = conversationsOnThisRequest.find(({ id }) => id === conversationId) || {}
 $: hasConversation = conversationsOnThisRequest.length > 0
 
 async function startConversation() {
   if (newMessageContent) {
-    const newConversation = await send(newMessageContent, {request: request})
+    const newConversation = await send(newMessageContent, {request})
     newMessageContent = ''
     dispatch('conversation-selected', newConversation.id)
     
