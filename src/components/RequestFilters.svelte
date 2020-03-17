@@ -15,10 +15,12 @@ import { clearRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
 import EventFilter from './EventFilter.svelte'
-import LocationFilter from './LocationFilter.svelte'
+import LocationInput from './LocationInput.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
 import ToggleFilter from './ToggleFilter.svelte'
+import Icon from 'fa-svelte'
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
 export let filter = {}
 
@@ -46,7 +48,7 @@ function onEventChange(domEvent) {
 }
 
 function onDestinationInput(event) {
-  const query = event.detail
+  const query = event.detail.description
   setFilters({
     destination: query,
     event: false,
@@ -56,7 +58,7 @@ function onDestinationInput(event) {
 }
 
 function onOriginInput(event) {
-  const query = event.detail
+  const query = event.detail.description
   setFilters({ origin: query })
 
   filteredRequestsByOrigin(query)
@@ -124,9 +126,29 @@ function resetFilters() {
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     <hr />
-    <LocationFilter title="From" placeholder="Origin city" value={originText} on:input={onOriginInput} />
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <Icon icon={faMapMarkerAlt} />
+          </span>
+        </div>
+
+        <LocationInput class="form-control" on:change={onOriginInput} placeholder="Origin city" />
+      </div>
+    </div>
     <hr />
-    <LocationFilter title="To" placeholder="Destination city" value={destinationText} on:input={onDestinationInput} />
+    <div class="form-group">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">
+            <Icon icon={faMapMarkerAlt} />
+          </span>
+        </div>
+
+        <LocationInput class="form-control" on:change={onDestinationInput} placeholder="Destination city" />
+      </div>
+    </div>
     {#if $events.length }
       <p class="mb-2 text-center text-muted">– or –</p>
       <EventFilter events={$events} {eventId} on:change={onEventChange} />
