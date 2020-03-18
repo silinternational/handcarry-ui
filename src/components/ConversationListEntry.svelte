@@ -12,9 +12,9 @@ export let minimal = false
 
 const dispatch = createEventDispatcher()
 
-$: isCreatedByMe = post => post.createdBy.id === $me.id
-$: isProvidedByMe = post => post.provider && post.provider.id === $me.id
-$: creator = post => post.createdBy && post.createdBy.nickname
+$: isCreatedByMe = request => request.createdBy.id === $me.id
+$: isProvidedByMe = request => request.provider && request.provider.id === $me.id
+$: creator = request => request.createdBy && request.createdBy.nickname
 $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
 </script>
 
@@ -23,15 +23,15 @@ $: unread = $unreads.find(({ id }) => id === conversation.id) || {}
         class="list-group-item list-group-item-action d-flex align-items-center">
   <span class="flex-fill">
     {#if !minimal }
-      { conversation.post.title } – 
+      { conversation.request.title } – 
     {/if}
     
-    { `${ isCreatedByMe(conversation.post) ? listOtherParticipants(conversation, $me) : creator(conversation.post) }` }
+    { `${ isCreatedByMe(conversation.request) ? listOtherParticipants(conversation, $me) : creator(conversation.request) }` }
   </span>
 
   <CountIndicator number={unread.count} />
   
-  {#if isProvidedByMe(conversation.post)}
+  {#if isProvidedByMe(conversation.request)}
   <Icon icon={faCheckCircle} class="ml-2" />
   {/if}
 </button>
