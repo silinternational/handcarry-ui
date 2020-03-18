@@ -195,6 +195,26 @@ export async function joinEvent(eventId) {
   return response.createMeetingParticipant.meeting
 }
 
+export async function createWatch(filters) {
+  console.log(filters)
+  const response = await gql(`
+    mutation {
+      watch:createWatch(input: {
+        name: "",
+        location: ${formatLocationForGql(filters.destination.obj)},
+        meetingID: ${json(defaultFor(filters.event.value, null))},
+        searchText: ${json(defaultFor(filters.search.value, null))},
+        size: ${defaultFor(filters.size.value && filters.size.value.toUpperCase(),"XLARGE")},
+      })
+      {
+        id
+      }
+    }
+  `)
+
+  return response.watch.id
+}
+
 
 const defaultFor = function(value, defaultValue) {
   return (value === undefined) ? defaultValue : value

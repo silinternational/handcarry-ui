@@ -1,4 +1,4 @@
-import { stringIsIn } from './filtering'
+import { stringIsIn, near } from './filtering'
 import { includedInSizeSelection } from './sizes'
 import { updateQueryString } from './url'
 
@@ -17,6 +17,9 @@ export function clearRequestFilter() {
 
 /** NOTE: All values used here should be cleared by `clearRequestFilter()` */
 export function populateRequestFilterFrom(queryStringData, me, events) {
+  let dest = queryStringData.destination && JSON.parse(queryStringData.destination)
+  let orig = queryStringData.origin && JSON.parse(queryStringData.origin)
+  
   return {
     creator: {
       active: !! queryStringData.creator,
@@ -26,9 +29,10 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     },
     destination: {
       active: !! queryStringData.destination,
-      label: 'To: ' + queryStringData.destination,
-      isMatch: request => stringIsIn(queryStringData.destination, request.destination.description),
-      value: queryStringData.destination,
+      label: dest && 'To: ' + dest.description,
+      isMatch: request => near(dest, request.destination),
+      value: dest && dest.description,
+      obj: dest
     },
     event: {
       active: !! queryStringData.event,
@@ -38,9 +42,9 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     },
     origin: {
       active: !! queryStringData.origin,
-      label: 'From: ' + queryStringData.origin,
-      isMatch: request => !request.origin || stringIsIn(queryStringData.origin, request.origin.description),
-      value: queryStringData.origin,
+      label: orig && 'From: ' + orig.description,
+      isMatch: request => !request.origin || near(orig, request.origin),
+      value: orig && orig.description,
     },
     search: {
       active: !! queryStringData.search,

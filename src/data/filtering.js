@@ -89,3 +89,41 @@ export function setFilters(updates) {
 export function stringIsIn(needle, haystack) {
   return (haystack || '').toLowerCase().indexOf(String(needle).toLowerCase()) >= 0
 }
+
+/**
+ * Whether two locations are near each other.
+ * Near is defined as in the same country or within a predefined distance of each other.
+ * The distance of 1000 km should always be the same as the number defined in wecarry-api.
+ * 
+ * @param {Object} loc1
+ * @param {Object} loc2
+ * @return {boolean}
+ */
+export function near(loc1, loc2) {
+  if (loc1.country === loc2.country) {
+    return true
+  }
+  if (distance(loc1.latitude, loc1.longitude, loc2.latitude, loc2.longitude) < 1000) {
+    return true
+  }
+  return false
+}
+
+/**
+ * Haversine formula implementation derived from Stack Overflow answer:
+ * https://stackoverflow.com/a/21623206
+
+ * @param {number} lat1 
+ * @param {number} lon1 
+ * @param {number} lat2 
+ * @param {number} lon2 
+ */
+function distance(lat1, lon1, lat2, lon2) {
+  var p = 0.017453292519943295;    // Math.PI / 180
+  var c = Math.cos;
+  var a = 0.5 - c((lat2 - lat1) * p)/2 + 
+          c(lat1 * p) * c(lat2 * p) * 
+          (1 - c((lon2 - lon1) * p))/2;
+
+  return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+}

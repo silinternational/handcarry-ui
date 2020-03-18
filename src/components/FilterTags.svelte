@@ -5,6 +5,7 @@ import { createEventDispatcher } from 'svelte'
 import { flip } from 'svelte/animate';
 import { quintInOut } from 'svelte/easing';
 import { crossfade } from 'svelte/transition';
+import { create } from '../data/watch'
 
 export let filter = {}
 
@@ -26,6 +27,10 @@ const [send, receive] = crossfade({
   }
 });
 
+function createAlert() {
+  create(filter)
+}
+
 $: filterKeys = Object.keys(filter)
 $: activeFilterKeys = filterKeys.filter(key => filter[key].active)
 $: filtersAreActive = Object.values(filter).some(isActive)
@@ -39,6 +44,7 @@ div {
 
 {#if filtersAreActive }
   <div class="row d-flex align-items-center">
+    <button class="btn btn-secondary btn-sm" on:click={createAlert}>Create Alert</button>
     <div class="col-auto">
       Results filtered for:
     </div>
