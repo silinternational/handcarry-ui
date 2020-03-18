@@ -7,12 +7,14 @@ $: nickname = user.nickname || ''
 
 <style>
 img {
-  max-width: 100%;
-  max-height: 100%;
+  object-fit: contain;
+  width: 10rem;
+  height: 10rem;
 }
 
 .small {
   height: 2rem;
+  width: 2rem;
 }
 </style>
 
