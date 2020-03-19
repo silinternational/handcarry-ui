@@ -53,7 +53,7 @@ function onEventChange(domEvent) {
 function onDestinationInput(event) {
   const query = event.detail
   setFilters({
-    destination: JSON.stringify(query),
+    destination: (query !== null) && JSON.stringify(query),
     event: false,
   })
 
@@ -62,7 +62,7 @@ function onDestinationInput(event) {
 
 function onOriginInput(event) {
   const query = event.detail
-  setFilters({ origin: JSON.stringify(query) })
+  setFilters({ origin: (query !== null) && JSON.stringify(query) })
 
   filteredRequestsByOrigin(query)
 }
