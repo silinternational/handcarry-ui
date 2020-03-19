@@ -29,12 +29,13 @@ const [send, receive] = crossfade({
 
 function createAlert() {
   create(filter)
+  // TODO: analytics call
 }
 
 $: filterKeys = Object.keys(filter)
 $: activeFilterKeys = filterKeys.filter(key => filter[key].active)
 $: filtersAreActive = Object.values(filter).some(isActive)
-$: alertableActiveFilters = activeFilterKeys.filter(key => key != 'creator' && key != 'provider')
+$: canAlert = activeFilterKeys.filter(key => ['creator', 'provider'].includes(key)).length
 </script>
 
 <style>
@@ -45,9 +46,6 @@ div {
 
 {#if filtersAreActive }
   <div class="row d-flex align-items-center">
-    {#if alertableActiveFilters.length }
-    <button class="btn btn-secondary btn-sm" on:click={createAlert}>Create Alert</button>
-    {/if}
     <div class="col-auto">
       Results filtered for:
     </div>
@@ -60,6 +58,9 @@ div {
           <FilterTag label="{ filter[key].label }" on:remove="{() => dispatch('remove', key)}" />
         </div>
       {/each}
+      {#if canAlert }
+        <button class="btn btn-link btn-sm" on:click={createAlert}>Create Alert</button>
+      {/if}
     </div>
   </div>
 {/if}
