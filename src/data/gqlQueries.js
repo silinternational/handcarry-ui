@@ -205,6 +205,7 @@ export async function createWatch(filters) {
         meetingID: ${json(defaultFor(filters.event.value, null))},
         searchText: ${json(defaultFor(filters.search.value, null))},
         size: ${defaultFor(filters.size.value && filters.size.value.toUpperCase(),"XLARGE")},
+        kilograms: ${defaultFor(filters.weight.value, null)}
       })
       {
         id

@@ -4,6 +4,7 @@ import {
   filteredRequestsByEvent,
   filteredRequestsByOrigin,
   filteredRequestsBySize,
+  filteredRequestsByWeight,
   filteredRequestsByMine,
   filteredRequestsByProviding,
   filteredRequestsByAll,
@@ -21,6 +22,7 @@ import SizeFilter from './SizeFilter.svelte'
 import ToggleFilter from './ToggleFilter.svelte'
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import WeightFilter from './WeightFilter.svelte'
 
 export let filter = {}
 
@@ -31,6 +33,7 @@ $: searchText = filter.search.value || ''
 $: size = filter.size.value
 $: onlyMyCommitments = filter.provider.active
 $: onlyMyRequests = filter.creator.active
+$: weight = filter.weight.value
 
 function onEventChange(domEvent) {
   const eventId = domEvent.detail
@@ -109,6 +112,13 @@ function onSizeSelection(event) {
   }
 }
 
+function onWeightInput(event) {
+  const query = event.detail
+  setFilters({ weight: query })
+
+  filteredRequestsByWeight(query)
+}
+
 function resetFilters() {
   clearRequestFilter()
 
@@ -157,5 +167,7 @@ function resetFilters() {
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
     <hr />
     <SizeFilter cssClass="d-md-block" initialValue={size} on:selection={onSizeSelection} />
+    <hr />
+    <WeightFilter title="Max. weight" value={weight} on:input={onWeightInput} />
   </div>
 </div>

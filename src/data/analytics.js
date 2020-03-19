@@ -55,6 +55,7 @@ export const filteredRequestsByDestination = query => trackRequestsEvent('destin
 export const filteredRequestsByEvent       = name  => trackRequestsEvent('event', name)
 export const filteredRequestsByOrigin      = query => trackRequestsEvent('origin', query)
 export const filteredRequestsBySize        = size  => trackRequestsEvent('filter', size)
+export const filteredRequestsByWeight      = kg    => trackRequestsEvent('filter', kg)
 export const filteredRequestsByMine        = ()    => trackRequestsEvent('filter', 'mine')
 export const filteredRequestsByProviding   = ()    => trackRequestsEvent('filter', 'providing')
 export const filteredRequestsByAll         = ()    => trackRequestsEvent('filter', 'all')
