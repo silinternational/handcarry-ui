@@ -34,6 +34,7 @@ function createAlert() {
 $: filterKeys = Object.keys(filter)
 $: activeFilterKeys = filterKeys.filter(key => filter[key].active)
 $: filtersAreActive = Object.values(filter).some(isActive)
+$: alertableActiveFilters = activeFilterKeys.filter(key => key != 'creator' && key != 'provider')
 </script>
 
 <style>
@@ -44,7 +45,9 @@ div {
 
 {#if filtersAreActive }
   <div class="row d-flex align-items-center">
+    {#if alertableActiveFilters.length }
     <button class="btn btn-secondary btn-sm" on:click={createAlert}>Create Alert</button>
+    {/if}
     <div class="col-auto">
       Results filtered for:
     </div>
