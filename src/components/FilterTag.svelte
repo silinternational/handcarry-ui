@@ -12,6 +12,7 @@ function onClick() {
 
 <style>
 button {
+  border-radius: 0;
   line-height: 1;
 }
 
