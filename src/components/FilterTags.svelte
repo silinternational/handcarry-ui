@@ -35,7 +35,7 @@ function createAlert() {
 $: filterKeys = Object.keys(filter)
 $: activeFilterKeys = filterKeys.filter(key => filter[key].active)
 $: filtersAreActive = Object.values(filter).some(isActive)
-$: canAlert = activeFilterKeys.filter(key => ['creator', 'provider'].includes(key)).length
+$: canAlert = activeFilterKeys.filter(key => ['destination','origin','event','search','size'].includes(key)).length
 </script>
 
 <style>
