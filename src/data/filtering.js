@@ -91,22 +91,15 @@ export function stringIsIn(needle, haystack) {
 }
 
 /**
- * Whether two locations are near each other.
- * Near is defined as in the same country or within a predefined distance of each other.
- * The distance of 1000 km should always be the same as the number defined in wecarry-api.
+ * Whether two locations are within 100 km each other. This should always be the same as
+ * the calculation in wecarry-api.
  * 
  * @param {Object} loc1
  * @param {Object} loc2
  * @return {boolean}
  */
 export function near(loc1, loc2) {
-  if (loc1.country === loc2.country) {
-    return true
-  }
-  if (distance(loc1.latitude, loc1.longitude, loc2.latitude, loc2.longitude) < 1000) {
-    return true
-  }
-  return false
+  return distance(loc1.latitude, loc1.longitude, loc2.latitude, loc2.longitude) < 100
 }
 
 /**
