@@ -6,6 +6,7 @@ import { flip } from 'svelte/animate';
 import { quintInOut } from 'svelte/easing';
 import { crossfade } from 'svelte/transition';
 import { create } from '../data/watch'
+import { createdAlert } from '../data/analytics'
 
 export let filter = {}
 
@@ -29,7 +30,7 @@ const [send, receive] = crossfade({
 
 function createAlert() {
   create(filter)
-  // TODO: analytics call
+  createdAlert()
 }
 
 $: filterKeys = Object.keys(filter)
