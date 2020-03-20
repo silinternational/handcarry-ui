@@ -3,6 +3,9 @@ import GooglePlacesAutocomplete from '@silintl/svelte-google-places-autocomplete
 import { createEventDispatcher } from 'svelte'
 
 export let placeholder
+export let location = null
+
+$: description = (location && location.description) || ''
 
 const dispatch = createEventDispatcher()
 const googlePlacesApiKey = process.env.GOOGLE_PLACES_API_KEY
@@ -39,4 +42,4 @@ function clearLocation() {
 </script>
 
 <GooglePlacesAutocomplete apiKey={googlePlacesApiKey} class={$$props.class} on:place_changed={onPlaceChanged} {options}
-                          {placeholder} />
+                          {placeholder} value={description} />
