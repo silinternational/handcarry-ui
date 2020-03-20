@@ -6,9 +6,15 @@ import { updateQueryString } from './url'
 export function clearRequestFilter() {
   updateQueryString({
     creator: false,
-    destination: false,
+    toDescription: false,
+    toCountry: false,
+    toLatitude: false,
+    toLongitude: false,
+    fromDescription: false,
+    fromCountry: false,
+    fromLatitude: false,
+    fromLongitude: false,
     event: false,
-    origin: false,
     search: false,
     provider: false,
     size: false,
@@ -18,9 +24,19 @@ export function clearRequestFilter() {
 
 /** NOTE: All values used here should be cleared by `clearRequestFilter()` */
 export function populateRequestFilterFrom(queryStringData, me, events) {
-  let dest = queryStringData.destination && JSON.parse(queryStringData.destination)
-  let orig = queryStringData.origin && JSON.parse(queryStringData.origin)
-  
+  let destination = queryStringData.toDescription && {
+    description: queryStringData.toDescription,
+    country: queryStringData.toCountry,
+    latitude: Number(queryStringData.toLatitude),
+    longitude: Number(queryStringData.toLongitude),
+  }
+  let origin = queryStringData.fromDescription && {
+    description: queryStringData.fromDescription,
+    country: queryStringData.fromCountry,
+    latitude: Number(queryStringData.fromLatitude),
+    longitude: Number(queryStringData.fromLongitude),
+  }
+
   return {
     creator: {
       active: !! queryStringData.creator,
@@ -29,10 +45,10 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
       value: queryStringData.creator,
     },
     destination: {
-      active: !! queryStringData.destination,
-      label: dest && 'To: ' + dest.description,
-      isMatch: request => !dest || !request.destination || near(dest, request.destination),
-      value: dest,
+      active: !! queryStringData.toDescription,
+      label: 'To: ' + queryStringData.toDescription,
+      isMatch: request => near(destination, request.destination),
+      value: destination,
     },
     event: {
       active: !! queryStringData.event,
@@ -41,10 +57,10 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
       value: queryStringData.event,
     },
     origin: {
-      active: !! queryStringData.origin,
-      label: orig && 'From: ' + orig.description,
-      isMatch: request => !orig || !request.origin || near(orig, request.origin),
-      value: orig,
+      active: !! queryStringData.fromDescription,
+      label: 'From: ' + queryStringData.fromDescription,
+      isMatch: request => near(origin, request.origin),
+      value: origin,
     },
     search: {
       active: !! queryStringData.search,

@@ -45,7 +45,19 @@ export function isItemInList(item, items) {
  */
 export function removeFilter(name) {
   const updates = {}
-  updates[name] = false
+  if (name === 'destination'){
+    updates['toDescription'] = false
+    updates['toCountry'] = false
+    updates['toLatitude'] = false
+    updates['toLongitude'] = false
+  } else if  (name === 'origin'){
+    updates['fromDescription'] = false
+    updates['fromCountry'] = false
+    updates['fromLatitude'] = false
+    updates['fromLongitude'] = false
+  } else {
+    updates[name] = false
+  }
   updateQueryString(updates)
 }
 
@@ -99,7 +111,7 @@ export function stringIsIn(needle, haystack) {
  * @return {boolean}
  */
 export function near(loc1, loc2) {
-  return distance(loc1.latitude, loc1.longitude, loc2.latitude, loc2.longitude) < 100
+  return !loc1 || !loc2 || distance(loc1.latitude, loc1.longitude, loc2.latitude, loc2.longitude) < 100
 }
 
 /**

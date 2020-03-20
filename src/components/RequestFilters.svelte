@@ -26,8 +26,8 @@ import WeightFilter from './WeightFilter.svelte'
 
 export let filter = {}
 
-$: destinationText = filter.destination.value || ''
 $: eventId = filter.event.value
+$: destination = filter.destination.value
 $: origin = filter.origin.value
 $: searchText = filter.search.value || ''
 $: size = filter.size.value
@@ -53,7 +53,10 @@ function onEventChange(domEvent) {
 function onDestinationInput(event) {
   const query = event.detail
   setFilters({
-    destination: (query !== null) && JSON.stringify(query),
+    toDescription: query.description,
+    toCountry: query.country,
+    toLatitude: query.latitude,
+    toLongitude: query.longitude,
     event: false,
   })
 
@@ -62,7 +65,12 @@ function onDestinationInput(event) {
 
 function onOriginInput(event) {
   const query = event.detail
-  setFilters({ origin: (query !== null) && JSON.stringify(query) })
+  setFilters({
+    fromDescription: (query !== null) && query.description,
+    fromCountry: (query !== null) && query.country,
+    fromLatitude: (query !== null) && query.latitude,
+    fromLongitude: (query !== null) && query.longitude,
+  })
 
   filteredRequestsByOrigin(query)
 }
@@ -157,7 +165,8 @@ function resetFilters() {
           </span>
         </div>
 
-        <LocationInput class="form-control" on:change={onDestinationInput} placeholder="Destination city" />
+        <LocationInput class="form-control" on:change={onDestinationInput} placeholder="Destination city"
+                       location={destination} />
       </div>
     </div>
     {#if $events.length }
