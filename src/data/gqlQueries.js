@@ -196,16 +196,15 @@ export async function joinEvent(eventId) {
 }
 
 export async function createWatch(filters) {
-  console.log(filters)
   const response = await gql(`
     mutation {
       watch:createWatch(input: {
         name: "",
-        location: ${formatLocationForGql(filters.destination.obj)},
+        destination: ${formatLocationForGql(filters.destination.obj)},
+        origin: ${formatLocationForGql(filters.origin.obj)},
         meetingID: ${json(defaultFor(filters.event.value, null))},
         searchText: ${json(defaultFor(filters.search.value, null))},
         size: ${defaultFor(filters.size.value && filters.size.value.toUpperCase(),"XLARGE")},
-        kilograms: ${defaultFor(filters.weight.value, null)}
       })
       {
         id

@@ -167,7 +167,5 @@ function resetFilters() {
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
     <hr />
     <SizeFilter cssClass="d-md-block" initialValue={size} on:selection={onSizeSelection} />
-    <hr />
-    <WeightFilter title="Max. weight" value={weight} on:input={onWeightInput} />
   </div>
 </div>
