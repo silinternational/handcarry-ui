@@ -32,8 +32,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
       active: !! queryStringData.destination,
       label: dest && 'To: ' + dest.description,
       isMatch: request => !dest || !request.destination || near(dest, request.destination),
-      value: dest && dest.description,
-      obj: dest
+      value: dest,
     },
     event: {
       active: !! queryStringData.event,
@@ -45,8 +44,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
       active: !! queryStringData.origin,
       label: orig && 'From: ' + orig.description,
       isMatch: request => !orig || !request.origin || near(orig, request.origin),
-      value: orig && orig.description,
-      obj: orig,
+      value: orig,
     },
     search: {
       active: !! queryStringData.search,

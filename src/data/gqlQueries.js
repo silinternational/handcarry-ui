@@ -200,8 +200,8 @@ export async function createWatch(filters) {
     mutation {
       watch:createWatch(input: {
         name: "",
-        destination: ${formatLocationForGql(filters.destination.obj)},
-        origin: ${formatLocationForGql(filters.origin.obj)},
+        destination: ${formatLocationForGql(filters.destination.value)},
+        origin: ${formatLocationForGql(filters.origin.value)},
         meetingID: ${json(defaultFor(filters.event.value, null))},
         searchText: ${json(defaultFor(filters.search.value, null))},
         size: ${defaultFor(filters.size.value && filters.size.value.toUpperCase(),"XLARGE")},

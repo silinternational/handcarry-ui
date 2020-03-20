@@ -28,7 +28,7 @@ export let filter = {}
 
 $: destinationText = filter.destination.value || ''
 $: eventId = filter.event.value
-$: originText = filter.origin.value || ''
+$: origin = filter.origin.value
 $: searchText = filter.search.value || ''
 $: size = filter.size.value
 $: onlyMyCommitments = filter.provider.active
@@ -144,7 +144,8 @@ function resetFilters() {
           </span>
         </div>
 
-        <LocationInput class="form-control" on:change={onOriginInput} placeholder="Origin city" />
+        <LocationInput class="form-control" on:change={onOriginInput} placeholder="Origin city"
+                       location={origin} />
       </div>
     </div>
     <hr />
