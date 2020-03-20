@@ -1,5 +1,5 @@
 import { createWatch } from './gqlQueries'
 
-export function create(filters) {
-    createWatch(filters)
+export function create(name, filters) {
+    createWatch(name, filters)
 }
