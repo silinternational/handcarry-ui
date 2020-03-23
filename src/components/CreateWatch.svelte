@@ -30,7 +30,7 @@ $: watchFilters = getFiltersForWatch(filter)
 
 </script>
 {#if canWatch}
-  <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#thisModal">Create Alert</button>
+  <button class={$$props.class} data-toggle="modal" data-target="#thisModal">Create Alert</button>
 
   <div class="modal fade" id="thisModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

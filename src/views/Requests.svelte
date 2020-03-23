@@ -5,6 +5,7 @@ import RequestListEntry from '../components/RequestListEntry.svelte'
 import RequestFilters from '../components/RequestFilters.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
+import CreateWatch from '../components/CreateWatch.svelte'
 import { events } from '../data/events'
 import { me } from '../data/user'
 import { requests, loading } from '../data/requests'
@@ -58,7 +59,10 @@ function viewToggled(choice) {
         {/each}
       {/if}
     {:else}
-      <div class="col-12 my-2 mx-5"><i class="text-muted">None found</i></div>
+      <div class="col-12 my-2 mx-5">
+        <i class="text-muted">None found </i>
+        <CreateWatch class="btn btn-link" filter="{requestFilter}" />
+      </div>
     {/if}
 
     <div class:d-md-block={showAsList} class="d-none col-12 my-1">
