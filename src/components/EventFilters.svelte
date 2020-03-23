@@ -25,7 +25,7 @@ function onKeywordInput(event) {
 }
 
 function onLocationInput(event) {
-  const query = event.detail
+  const query = event.detail && event.detail.description
   setFilters({ location: query })
 
   filteredMeetingsByLocation(query)

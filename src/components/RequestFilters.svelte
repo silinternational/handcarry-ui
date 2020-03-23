@@ -16,12 +16,10 @@ import { clearRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
 import EventFilter from './EventFilter.svelte'
-import LocationInput from './LocationInput.svelte'
+import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
 import ToggleFilter from './ToggleFilter.svelte'
-import Icon from 'fa-svelte'
-import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 import WeightFilter from './WeightFilter.svelte'
 
 export let filter = {}
@@ -39,7 +37,10 @@ function onEventChange(domEvent) {
   const eventId = domEvent.detail
   if (eventId) {
     setFilters({
-      destination: false,
+      toDescription: false,
+      toCountry: false,
+      toLatitude: false,
+      toLongitude: false,
       event: eventId,
     })
   
@@ -144,31 +145,9 @@ function resetFilters() {
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     <hr />
-    <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">
-            <Icon icon={faMapMarkerAlt} />
-          </span>
-        </div>
-
-        <LocationInput class="form-control" on:change={onOriginInput} placeholder="Origin city"
-                       location={origin} />
-      </div>
-    </div>
+    <LocationFilter on:input={onOriginInput} placeholder="Origin city" value={origin} title="From"/>
     <hr />
-    <div class="form-group">
-      <div class="input-group">
-        <div class="input-group-prepend">
-          <span class="input-group-text">
-            <Icon icon={faMapMarkerAlt} />
-          </span>
-        </div>
-
-        <LocationInput class="form-control" on:change={onDestinationInput} placeholder="Destination city"
-                       location={destination} />
-      </div>
-    </div>
+    <LocationFilter on:input={onDestinationInput} placeholder="Destination city" value={destination} title="To"/>
     {#if $events.length }
       <p class="mb-2 text-center text-muted">– or –</p>
       <EventFilter events={$events} {eventId} on:change={onEventChange} />
