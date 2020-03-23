@@ -82,4 +82,4 @@ export const sentMessage = () => trackEvent('Messaging', 'sent')
 
 export const uploadedImage = () => trackEvent('Image', 'uploaded')
 
-export const createdAlert = () => trackEvent('alert', 'created')
+export const createdWatch = () => trackEvent('watch', 'created')

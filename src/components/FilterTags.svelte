@@ -5,7 +5,7 @@ import { createEventDispatcher } from 'svelte'
 import { flip } from 'svelte/animate';
 import { quintInOut } from 'svelte/easing';
 import { crossfade } from 'svelte/transition';
-import CreateAlert from './CreateAlert.svelte'
+import CreateWatch from './CreateWatch.svelte'
 
 export let filter = {}
 
@@ -51,7 +51,7 @@ div {
           <FilterTag label="{ filter[key].label }" on:remove="{() => dispatch('remove', key)}" />
         </div>
       {/each}
-      <CreateAlert {filter} />
+      <CreateWatch {filter} />
     </div>
   </div>
 {/if}

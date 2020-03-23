@@ -1,8 +1,8 @@
 <script>
 import { getActiveFilterKeys } from '../data/filtering'
-import { getFiltersForAlert, getAlertableKeys } from '../data/alerting'
+import { getFiltersForWatch, getWatchableKeys } from '../data/watch'
 import { create } from '../data/watch'
-import { createdAlert } from '../data/analytics'
+import { createdWatch } from '../data/analytics'
 import FilterTag from './FilterTag.svelte'
 
 export let filter
@@ -12,15 +12,15 @@ let submitted = false
 
 function onSubmit() {
   create(name, filter)
-  createdAlert()
+  createdWatch()
   submitted = true
 }
 
-$: canAlert = getAlertableKeys(getActiveFilterKeys(filter)).length
-$: alertFilters = getFiltersForAlert(filter)
+$: canWatch = getWatchableKeys(getActiveFilterKeys(filter)).length
+$: watchFilters = getFiltersForWatch(filter)
 
 </script>
-{#if canAlert}
+{#if canWatch}
   <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#modal">Create Alert</button>
 
   <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -38,7 +38,7 @@ $: alertFilters = getFiltersForAlert(filter)
               <div>
                 Alert Settings:
               </div>
-                {#each alertFilters as f}
+                {#each watchFilters as f}
                   <FilterTag label="{f.label}" showCloseButton="{false}" />
                 {/each}
               <div class="form-group">
