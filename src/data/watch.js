@@ -6,7 +6,7 @@ export function create(name, filters) {
 }
 
 /**
- * Get the watchable and active filters for use in creating an watch
+ * Get the watchable and active filters for use in creating a watch
  *
  * @param {Object} filter
  * @returns {Object[]}

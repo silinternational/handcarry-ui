@@ -33,13 +33,8 @@ $: onlyMyRequests = filter.creator.active
 function onEventChange(domEvent) {
   const eventId = domEvent.detail
   if (eventId) {
-    setFilters({
-      toDescription: false,
-      toCountry: false,
-      toLatitude: false,
-      toLongitude: false,
-      event: eventId,
-    })
+    setFilters({toDescription: false})
+    removeFilter('destination')
   
     const eventName = $events.find(({ id }) => id === eventId).name
     filteredRequestsByEvent(eventName)
@@ -135,9 +130,9 @@ function resetFilters() {
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     <hr />
-    <LocationFilter on:input={onOriginInput} placeholder="Origin city" value={origin} title="From"/>
+    <LocationFilter title="From" placeholder="Origin city" value={origin} on:input={onOriginInput}/>
     <hr />
-    <LocationFilter on:input={onDestinationInput} placeholder="Destination city" value={destination} title="To"/>
+    <LocationFilter title="To" placeholder="Destination city" value={destination} on:input={onDestinationInput}/>
     {#if $events.length }
       <p class="mb-2 text-center text-muted">– or –</p>
       <EventFilter events={$events} {eventId} on:change={onEventChange} />
