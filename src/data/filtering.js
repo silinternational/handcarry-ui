@@ -27,6 +27,18 @@ export function isActive(filter) {
   return filter.active
 }
 
+
+/**
+ * Get a list of the active filter keys.
+ *
+ * @param {Object} filter
+ * @returns {string[]}
+ */
+export function getActiveFilterKeys(filter) {
+  const filterKeys = Object.keys(filter)
+  return filterKeys.filter(key => filter[key].active)
+}
+
 /**
  * See if the given item is in the given list of items (by comparing `id` values).
  *
