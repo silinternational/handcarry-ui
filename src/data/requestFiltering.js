@@ -18,7 +18,6 @@ export function clearRequestFilter() {
     search: false,
     provider: false,
     size: false,
-    weight: false,
   })
 }
 
@@ -80,12 +79,6 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
       isMatch: request => includedInSizeSelection(request.size, queryStringData.size),
       value: queryStringData.size,
     },
-    weight: {
-      active: !! queryStringData.weight,
-      label: 'Weight: ' + queryStringData.weight,
-      isMatch: request => !request.kilograms || (request.kilograms < Number(queryStringData.weight) + 0.1),
-      value: queryStringData.weight,
-    }
   }
 }
 

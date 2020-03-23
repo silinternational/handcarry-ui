@@ -4,7 +4,6 @@ import {
   filteredRequestsByEvent,
   filteredRequestsByOrigin,
   filteredRequestsBySize,
-  filteredRequestsByWeight,
   filteredRequestsByMine,
   filteredRequestsByProviding,
   filteredRequestsByAll,
@@ -20,7 +19,6 @@ import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
 import ToggleFilter from './ToggleFilter.svelte'
-import WeightFilter from './WeightFilter.svelte'
 
 export let filter = {}
 
@@ -31,7 +29,6 @@ $: searchText = filter.search.value || ''
 $: size = filter.size.value
 $: onlyMyCommitments = filter.provider.active
 $: onlyMyRequests = filter.creator.active
-$: weight = filter.weight.value
 
 function onEventChange(domEvent) {
   const eventId = domEvent.detail
@@ -119,13 +116,6 @@ function onSizeSelection(event) {
   } else {
     setFilters({ size: lowerCaseSize })
   }
-}
-
-function onWeightInput(event) {
-  const query = event.detail
-  setFilters({ weight: query })
-
-  filteredRequestsByWeight(query)
 }
 
 function resetFilters() {
