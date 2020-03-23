@@ -4,6 +4,8 @@ import { getFiltersForWatch, getWatchableKeys } from '../data/watch'
 import { create } from '../data/watch'
 import { createdWatch } from '../data/analytics'
 import FilterTag from './FilterTag.svelte'
+import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
+import { onMount } from 'svelte'
 
 export let filter
 
@@ -16,14 +18,21 @@ function onSubmit() {
   submitted = true
 }
 
+onMount(async () => {
+    jquery('#thisModal').on('hidden.bs.modal', function (e) {
+        name = ''
+        submitted = false
+    })
+});
+
 $: canWatch = getWatchableKeys(getActiveFilterKeys(filter)).length
 $: watchFilters = getFiltersForWatch(filter)
 
 </script>
 {#if canWatch}
-  <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#modal">Create Alert</button>
+  <button class="btn btn-link btn-sm" data-toggle="modal" data-target="#thisModal">Create Alert</button>
 
-  <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="thisModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header bg-primary">
