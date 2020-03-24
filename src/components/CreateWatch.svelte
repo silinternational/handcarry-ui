@@ -47,7 +47,7 @@ $: watchFilters = getFiltersForWatch(filter)
                 Alert Settings:
               </div>
                 {#each watchFilters as f}
-                  <FilterTag label="{f.label}" showCloseButton="{false}" />
+                  <FilterTag label="{f.label}" hideCloseButton />
                 {/each}
               <div class="form-group">
                 <label for="alert-name" class="col-form-label">Alert Name:</label>

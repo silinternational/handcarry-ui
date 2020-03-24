@@ -2,7 +2,7 @@
 import { createEventDispatcher } from 'svelte'
 
 export let label
-export let showCloseButton = true
+export let hideCloseButton = false
 
 const dispatch = createEventDispatcher()
 
@@ -26,7 +26,7 @@ span {
 
 <span class="badge badge-light border border-secondary p-0 m-1">
   <span class="px-2">{ label }</span>
-  {#if showCloseButton }
+  {#if !hideCloseButton }
     <button class="btn btn-secondary btn-sm p-1 m-0" type="button" on:click={onClick}>×</button>
   {/if}
 </span>
