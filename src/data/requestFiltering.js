@@ -1,4 +1,4 @@
-import { stringIsIn, near } from './filtering'
+import { stringIsIn, near, setFilters, removeFilter } from './filtering'
 import { includedInSizeSelection } from './sizes'
 import { updateQueryString } from './url'
 
@@ -99,4 +99,29 @@ function requestMatchesSearchText(request, searchText) {
   return stringIsIn(searchText, request.title) ||
          stringIsIn(searchText, request.destination.description) ||
          stringIsIn(searchText, request.createdBy.nickname)
+}
+
+/**
+ * Remove the named request filter from the query string.
+ *
+ * @param {string} name
+ */
+export function removeRequestFilter(name) {
+  if (name === 'destination'){
+    setFilters({
+      toDescription: false,
+      toCountry: false,
+      toLatitude: false,
+      toLongitude: false,
+    })
+  } else if  (name === 'origin'){
+    setFilters({
+      fromDescription: false,
+      fromCountry: false,
+      fromLatitude: false,
+      fromLongitude: false,
+    })
+  } else {
+    removeFilter(name)
+  }
 }

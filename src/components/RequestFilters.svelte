@@ -10,8 +10,8 @@ import {
   searchedRequests,
 } from '../data/analytics'
 import { events } from '../data/events'
-import { removeFilter, setFilters } from '../data/filtering'
-import { clearRequestFilter } from '../data/requestFiltering'
+import { setFilters } from '../data/filtering'
+import { clearRequestFilter, removeRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
 import EventFilter from './EventFilter.svelte'
@@ -33,13 +33,18 @@ $: onlyMyRequests = filter.creator.active
 function onEventChange(domEvent) {
   const eventId = domEvent.detail
   if (eventId) {
-    setFilters({toDescription: false})
-    removeFilter('destination')
+    setFilters({
+      toDescription: false,
+      toCountry: false,
+      toLatitude: false,
+      toLongitude: false,
+      event: eventId,
+    })
   
     const eventName = $events.find(({ id }) => id === eventId).name
     filteredRequestsByEvent(eventName)
   } else {
-    removeFilter('event')
+    removeRequestFilter('event')
   }
 }
 
@@ -84,7 +89,7 @@ function onMyCommitmentsChange(event) {
     })
     filteredRequestsByProviding()
   } else {
-    removeFilter('provider')
+    removeRequestFilter('provider')
   }
 }
 
@@ -97,7 +102,7 @@ function onMyRequestsChange(event) {
     })
     filteredRequestsByMine()
   } else {
-    removeFilter('creator')
+    removeRequestFilter('creator')
   }
 }
 
@@ -107,7 +112,7 @@ function onSizeSelection(event) {
   filteredRequestsBySize(lowerCaseSize)
 
   if (isDefaultSizeFilter(lowerCaseSize)) {
-    removeFilter('size')
+    removeRequestFilter('size')
   } else {
     setFilters({ size: lowerCaseSize })
   }

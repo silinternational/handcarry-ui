@@ -56,19 +56,7 @@ export function isItemInList(item, items) {
  */
 export function removeFilter(name) {
   const updates = {}
-  if (name === 'destination'){
-    updates['toDescription'] = false
-    updates['toCountry'] = false
-    updates['toLatitude'] = false
-    updates['toLongitude'] = false
-  } else if  (name === 'origin'){
-    updates['fromDescription'] = false
-    updates['fromCountry'] = false
-    updates['fromLatitude'] = false
-    updates['fromLongitude'] = false
-  } else {
-    updates[name] = false
-  }
+  updates[name] = false
   updateQueryString(updates)
 }
 
