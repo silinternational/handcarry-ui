@@ -121,8 +121,8 @@ export function stringIsIn(needle, haystack) {
  * Whether two locations are within 100 km each other. This should always be the same as
  * the calculation in wecarry-api.
  * 
- * @param {Object} loc1
- * @param {Object} loc2
+ * @param {Object|null} loc1
+ * @param {Object|null} loc2
  * @return {boolean}
  */
 export function isNear(loc1, loc2) {
