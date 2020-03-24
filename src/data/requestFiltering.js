@@ -45,25 +45,25 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     },
     destination: {
       active: !! queryStringData.toDescription,
-      label: 'To: ' + queryStringData.toDescription,
+      label: `To: ${queryStringData.toDescription}`,
       isMatch: request => isNear(destination, request.destination),
       value: destination,
     },
     event: {
       active: !! queryStringData.event,
-      label: 'To: ' + getEventName(events, queryStringData.event),
+      label: `To: ${getEventName(events, queryStringData.event)}`,
       isMatch: request => request.meeting && request.meeting.id === queryStringData.event,
       value: queryStringData.event,
     },
     origin: {
       active: !! queryStringData.fromDescription,
-      label: 'From: ' + queryStringData.fromDescription,
+      label: `From: ${queryStringData.fromDescription}`,
       isMatch: request => isNear(origin, request.origin),
       value: origin,
     },
     search: {
       active: !! queryStringData.search,
-      label: 'Keyword: ' + queryStringData.search,
+      label: `Keyword: ${queryStringData.search}`,
       isMatch: request => requestMatchesSearchText(request, queryStringData.search),
       value: queryStringData.search,
     },
@@ -75,7 +75,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     },
     size: {
       active: !! queryStringData.size,
-      label: 'Size: ' + queryStringData.size,
+      label: `Size: ${queryStringData.size}`,
       isMatch: request => includedInSizeSelection(request.size, queryStringData.size),
       value: queryStringData.size,
     },
