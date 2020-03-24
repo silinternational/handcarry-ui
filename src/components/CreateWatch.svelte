@@ -43,20 +43,23 @@ $: watchFilters = getFiltersForWatch(filter)
         {#if !submitted}
           <form on:submit|preventDefault={onSubmit}>
             <div class="modal-body">
-              <div>
-                Alert Settings:
-              </div>
+              <div class="form-group">
+                <div>
+                  Alert Settings:
+                </div>
                 {#each watchFilters as f}
                   <FilterTag label="{f.label}" hideCloseButton />
                 {/each}
+              </div>
               <div class="form-group">
-                <label for="alert-name" class="col-form-label">Alert Name:</label>
-                <input type="text" class="form-control" id="alert-name" bind:value={name} placeholder="Alert Name"
-                       minlength="3">
+                <label class="col-form-label">Alert name:
+                  <input type="text" class="form-control" bind:value={name} placeholder="Alert Name"
+                         minlength="3" required>
+                </label>
               </div>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="modal-footer justify-content-between">
+              <button type="button" class="btn btn-outline-dark" data-dismiss="modal" tabindex="-1">Close</button>
               <button type="submit" class="btn btn-primary">Create Alert</button>
             </div>
           </form>
