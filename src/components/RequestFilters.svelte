@@ -10,7 +10,7 @@ import {
   searchedRequests,
 } from '../data/analytics'
 import { events } from '../data/events'
-import { setFilters } from '../data/filtering'
+import { setFilters, removeFilter } from '../data/filtering'
 import { clearRequestFilter, removeRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
@@ -49,28 +49,36 @@ function onEventChange(domEvent) {
 }
 
 function onDestinationChange(event) {
-  const query = event.detail
-  setFilters({
-    toDescription: query.description,
-    toCountry: query.country,
-    toLatitude: query.latitude,
-    toLongitude: query.longitude,
-    event: false,
-  })
+  const location = event.detail
+  if (location) {
+    setFilters({
+      toDescription: location.description,
+      toCountry: location.country,
+      toLatitude: location.latitude,
+      toLongitude: location.longitude,
+      event: false,
+    })
 
-  filteredRequestsByDestination(query)
+    filteredRequestsByDestination(location.description)
+  } else {
+    removeFilter('destination')
+  }
 }
 
 function onOriginChange(event) {
-  const query = event.detail
-  setFilters({
-    fromDescription: query.description,
-    fromCountry: query.country,
-    fromLatitude: query.latitude,
-    fromLongitude: query.longitude,
-  })
+  const location = event.detail
+  if (location) {
+    setFilters({
+      fromDescription: location.description,
+      fromCountry: location.country,
+      fromLatitude: location.latitude,
+      fromLongitude: location.longitude,
+    })
 
-  filteredRequestsByOrigin(query)
+    filteredRequestsByOrigin(location.description)
+  } else {
+    removeFilter('origin')
+  }
 }
 
 function onKeywordInput(event) {
