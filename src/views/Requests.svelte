@@ -61,7 +61,6 @@ function viewToggled(choice) {
     {:else}
       <div class="col-12 my-2 mx-5">
         <i class="text-muted">None found </i>
-        <CreateWatch class="btn btn-link" filter="{requestFilter}" />
       </div>
     {/if}
 
