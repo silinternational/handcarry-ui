@@ -121,7 +121,7 @@ export function stringIsIn(needle, haystack) {
  * @param {Object} loc2
  * @return {boolean}
  */
-export function near(loc1, loc2) {
+export function isNear(loc1, loc2) {
   return !loc1 || !loc2 || distance(loc1.latitude, loc1.longitude, loc2.latitude, loc2.longitude) < 100
 }
 

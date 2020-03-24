@@ -1,4 +1,4 @@
-import { stringIsIn, near } from './filtering'
+import { stringIsIn, isNear } from './filtering'
 import { includedInSizeSelection } from './sizes'
 import { updateQueryString } from './url'
 
@@ -46,7 +46,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     destination: {
       active: !! queryStringData.toDescription,
       label: 'To: ' + queryStringData.toDescription,
-      isMatch: request => near(destination, request.destination),
+      isMatch: request => isNear(destination, request.destination),
       value: destination,
     },
     event: {
@@ -58,7 +58,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     origin: {
       active: !! queryStringData.fromDescription,
       label: 'From: ' + queryStringData.fromDescription,
-      isMatch: request => near(origin, request.origin),
+      isMatch: request => isNear(origin, request.origin),
       value: origin,
     },
     search: {
