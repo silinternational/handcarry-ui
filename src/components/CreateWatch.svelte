@@ -18,7 +18,7 @@ function onSubmit() {
 }
 
 onMount(() => {
-    jquery('#thisModal').on('hidden.bs.modal', function (e) {
+    jquery('#createWatchModal').on('hidden.bs.modal', function (e) {
         name = ''
         submitted = false
     })
@@ -29,9 +29,9 @@ $: watchFilters = getFiltersForWatch(filter)
 
 </script>
 {#if canWatch}
-  <button class={$$props.class} data-toggle="modal" data-target="#thisModal">Create Alert</button>
+  <button class={$$props.class} data-toggle="modal" data-target="#createWatchModal">Create alert</button>
 
-  <div class="modal fade" id="thisModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal fade" id="createWatchModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header bg-primary">
