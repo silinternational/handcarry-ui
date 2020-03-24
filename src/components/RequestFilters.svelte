@@ -43,7 +43,7 @@ function onEventChange(domEvent) {
   }
 }
 
-function onDestinationInput(event) {
+function onDestinationChange(event) {
   const query = event.detail
   setFilters({
     toDescription: query.description,
@@ -56,7 +56,7 @@ function onDestinationInput(event) {
   filteredRequestsByDestination(query)
 }
 
-function onOriginInput(event) {
+function onOriginChange(event) {
   const query = event.detail
   setFilters({
     fromDescription: (query !== null) && query.description,
@@ -130,9 +130,9 @@ function resetFilters() {
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     <hr />
-    <LocationFilter title="From" placeholder="Origin city" value={origin} on:input={onOriginInput}/>
+    <LocationFilter title="From" placeholder="Origin city" value={origin} on:change={onOriginChange}/>
     <hr />
-    <LocationFilter title="To" placeholder="Destination city" value={destination} on:input={onDestinationInput}/>
+    <LocationFilter title="To" placeholder="Destination city" value={destination} on:change={onDestinationChange}/>
     {#if $events.length }
       <p class="mb-2 text-center text-muted">– or –</p>
       <EventFilter events={$events} {eventId} on:change={onEventChange} />

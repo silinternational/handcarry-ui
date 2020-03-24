@@ -24,7 +24,7 @@ function onKeywordInput(event) {
   searchedMeetings(query)
 }
 
-function onLocationInput(event) {
+function onLocationChange(event) {
   const query = event.detail && event.detail.description
   setFilters({ location: query })
 
@@ -57,7 +57,7 @@ function resetFilters() {
   <div class="card-body">
     <ToggleFilter on:change={onMyEventsChange} active={onlyMyEvents} label="Only my events" />
     <hr />
-    <LocationFilter title="Event location" value={location} on:input={onLocationInput} />
+    <LocationFilter title="Event location" value={location} on:change={onLocationChange} />
     <hr />
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
   </div>

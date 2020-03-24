@@ -11,7 +11,7 @@ export let placeholder = 'City'
 const dispatch = createEventDispatcher()
 
 function onChange(event) {
-  dispatch('input', event.detail)
+  dispatch('change', event.detail)
 }
 </script>
 
