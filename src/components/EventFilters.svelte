@@ -13,7 +13,7 @@ import ToggleFilter from './ToggleFilter.svelte'
 
 export let filter = {}
 
-$: location = filter.location.value || ''
+$: location = {description: filter.location.value}
 $: onlyMyEvents = filter.participating.active
 $: searchText = filter.search.value || ''
 
@@ -57,7 +57,7 @@ function resetFilters() {
   <div class="card-body">
     <ToggleFilter on:change={onMyEventsChange} active={onlyMyEvents} label="Only my events" />
     <hr />
-    <LocationFilter title="Event location" value={location} on:change={onLocationChange} />
+    <LocationFilter title="Event location" {location} on:change={onLocationChange} />
     <hr />
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />
   </div>

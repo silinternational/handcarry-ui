@@ -5,7 +5,7 @@ import LocationInput from './LocationInput.svelte'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
 export let title
-export let value
+export let location
 export let placeholder = 'City'
 
 const dispatch = createEventDispatcher()
@@ -23,5 +23,5 @@ function onChange(event) {
         </div>
       </div>
 
-      <LocationInput class="form-control form-control-sm" on:change={onChange} {placeholder} location={value} />
+      <LocationInput class="form-control form-control-sm" on:change={onChange} {placeholder} {location} />
   </div>
