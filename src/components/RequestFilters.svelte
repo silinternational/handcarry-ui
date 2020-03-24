@@ -64,10 +64,10 @@ function onDestinationChange(event) {
 function onOriginChange(event) {
   const query = event.detail
   setFilters({
-    fromDescription: (query !== null) && query.description,
-    fromCountry: (query !== null) && query.country,
-    fromLatitude: (query !== null) && query.latitude,
-    fromLongitude: (query !== null) && query.longitude,
+    fromDescription: query.description,
+    fromCountry: query.country,
+    fromLatitude: query.latitude,
+    fromLongitude: query.longitude,
   })
 
   filteredRequestsByOrigin(query)
