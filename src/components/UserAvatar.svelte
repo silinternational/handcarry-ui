@@ -7,7 +7,7 @@ $: nickname = user.nickname || ''
 
 <style>
 img {
-  object-fit: contain;
+  object-fit: cover;
   width: 10rem;
   height: 10rem;
 }
