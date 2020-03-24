@@ -12,14 +12,11 @@ export function create(name, filters) {
  * @returns {Object[]}
  */
 export function getFiltersForWatch(filter) {
-    const activeFilterKeys = getActiveFilterKeys(filter)
-    const watchableKeys = getWatchableKeys(activeFilterKeys)
-
-    let returnValues = []
-    watchableKeys.forEach(key => returnValues.push(filter[key]))
-
-    return returnValues
+    return getActiveFilterKeys(filter).filter(isWatchable).map(key => filter[key])
 }
+
+const watchableKeys = ['destination', 'origin', 'event', 'search', 'size']
+const isWatchable = filterKey => watchableKeys.includes(filterKey) 
 
 /**
  * Get only the watchable keys from a list of filter keys
@@ -28,5 +25,5 @@ export function getFiltersForWatch(filter) {
  * @returns {string[]}
  */
 export function getWatchableKeys(filterKeys) {
-    return filterKeys.filter(key => ['destination','origin','event','search','size'].includes(key))
+    return filterKeys.filter(key => watchableKeys.includes(key))
 }
