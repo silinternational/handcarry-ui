@@ -35,8 +35,7 @@ export function isActive(filter) {
  * @returns {string[]}
  */
 export function getActiveFilterKeys(filter) {
-  const filterKeys = Object.keys(filter)
-  return filterKeys.filter(key => filter[key].active)
+  return Object.keys(filter).filter(key => filter[key].active)
 }
 
 /**
@@ -136,11 +135,12 @@ export function near(loc1, loc2) {
  * @param {number} lon2 
  */
 function distance(lat1, lon1, lat2, lon2) {
-  var p = 0.017453292519943295;    // Math.PI / 180
-  var c = Math.cos;
-  var a = 0.5 - c((lat2 - lat1) * p)/2 + 
-          c(lat1 * p) * c(lat2 * p) * 
-          (1 - c((lon2 - lon1) * p))/2;
+  const p = Math.PI / 180
+  const c = Math.cos
+  const a = 0.5 - c((lat2 - lat1) * p) / 2 +
+      c(lat1 * p) * c(lat2 * p) *
+      (1 - c((lon2 - lon1) * p)) / 2
+  const earthDiameterInKilometers = 12742
 
-  return 12742 * Math.asin(Math.sqrt(a)); // 2 * R; R = 6371 km
+  return earthDiameterInKilometers * Math.asin(Math.sqrt(a));
 }

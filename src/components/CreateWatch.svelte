@@ -1,7 +1,6 @@
 <script>
 import { getActiveFilterKeys } from '../data/filtering'
-import { getFiltersForWatch, getWatchableKeys } from '../data/watch'
-import { create } from '../data/watch'
+import { getFiltersForWatch, getWatchableKeys, create } from '../data/watch'
 import { createdWatch } from '../data/analytics'
 import FilterTag from './FilterTag.svelte'
 import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
@@ -18,7 +17,7 @@ function onSubmit() {
   submitted = true
 }
 
-onMount(async () => {
+onMount(() => {
     jquery('#thisModal').on('hidden.bs.modal', function (e) {
         name = ''
         submitted = false
