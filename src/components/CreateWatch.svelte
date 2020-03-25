@@ -8,11 +8,18 @@ import { onMount } from 'svelte'
 
 export let filter
 
+let validationError = false
 let name = ''
 let submitted = false
 
-function onSubmit() {
-  create(name, filter)
+async function onSubmit() {
+  if (!name) {
+      validationError = true
+      return
+  }
+
+  await create(name, filter)
+
   createdWatch()
   submitted = true
 }
@@ -45,17 +52,20 @@ $: watchFilters = getFiltersForWatch(filter)
             <div class="modal-body">
               <div class="form-group">
                 <div>
-                  Alert settings:
+                  <label class="col-form-label">
+                    Alert settings:
+                  </label>
                 </div>
                 {#each watchFilters as watchFilter}
                   <FilterTag label="{watchFilter.label}" hideCloseButton />
                 {/each}
               </div>
               <div class="form-group">
-                <label class="col-form-label">Alert name:
-                  <input type="text" class="form-control" bind:value={name} placeholder="Alert Name"
-                         minlength="3" required>
-                </label>
+                <label class="col-form-label" for="watch-name">Provide a descriptive name:</label>
+                <input id="watch-name" type="text" class="form-control" bind:value={name}>
+                {#if validationError}
+                  <span class="form-text text-danger ml-1">Required</span>
+                {/if}
               </div>
             </div>
             <div class="modal-footer justify-content-between">

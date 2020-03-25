@@ -1,8 +1,8 @@
 import { createWatch } from './gqlQueries'
 import {getActiveFilterKeys} from "./filtering";
 
-export function create(name, filters) {
-    createWatch(name, filters)
+export async function create(name, filters) {
+    await createWatch(name, filters)
 }
 
 /**
