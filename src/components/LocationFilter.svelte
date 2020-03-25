@@ -14,6 +14,4 @@ function onChange(event) {
 </script>
 
   <p class="mb-1 text-muted">{ title }:</p>
-  <div class="input-group mb-2">
-      <LocationInput class="form-control form-control-sm" on:change={onChange} {placeholder} {location} />
-  </div>
+  <LocationInput class="form-control form-control-sm" on:change={onChange} {placeholder} {location} />

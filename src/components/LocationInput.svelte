@@ -43,10 +43,12 @@ function clearLocation() {
 }
 </script>
 
-<div class="input-group-prepend">
-    <div class="input-group-text">
-        <Icon icon={faMapMarkerAlt} />
-    </div>
+<div class="input-group mb-2">
+  <div class="input-group-prepend">
+      <div class="input-group-text">
+          <Icon icon={faMapMarkerAlt} />
+      </div>
+  </div>
+  <GooglePlacesAutocomplete apiKey={googlePlacesApiKey} class={$$props.class} on:place_changed={onPlaceChanged} {options}
+                            {placeholder} value={description} />
 </div>
-<GooglePlacesAutocomplete apiKey={googlePlacesApiKey} class={$$props.class} on:place_changed={onPlaceChanged} {options}
-                          {placeholder} value={description} />
