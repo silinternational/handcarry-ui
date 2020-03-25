@@ -134,16 +134,8 @@ function onWeightChanged(event) {
     
     <div class="col">
       <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <Icon icon={faMapMarkerAlt} />
-            </span>
-          </div>
-
-          <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
-                         placeholder="Destination city" location={request.destination} />
-        </div>
+        <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
+                       placeholder="Destination city" location={request.destination} />
       </div>
     </div>
   </div>
@@ -156,16 +148,8 @@ function onWeightChanged(event) {
     
     <div class="col">
       <div class="form-group">
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">
-              <Icon icon={faMapMarkerAlt} />
-            </span>
-          </div>
-
-          <LocationInput class="form-control form-control-lg" on:change={onOriginChanged}
-                         placeholder="Origin city" location={request.origin} />
-        </div>
+        <LocationInput class="form-control form-control-lg" on:change={onOriginChanged}
+                       placeholder="Origin city" location={request.origin} />
       </div>
     </div>
   </div>
