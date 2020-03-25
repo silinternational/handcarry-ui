@@ -1,18 +1,17 @@
 <script>
 import { createEventDispatcher } from 'svelte'
+import LocationInput from './LocationInput.svelte'
 
 export let title
-export let value
+export let location
 export let placeholder = 'City'
 
 const dispatch = createEventDispatcher()
 
-function onInput(event) {
-  dispatch('input', event.target.value)
+function onChange(event) {
+  dispatch('change', event.detail)
 }
 </script>
 
-<label class="d-block">
   <p class="mb-1 text-muted">{ title }:</p>
-  <input class="form-control form-control-sm" {placeholder} {value} on:input={onInput} />
-</label>
+  <LocationInput class="form-control form-control-sm" on:change={onChange} {placeholder} {location} />

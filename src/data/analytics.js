@@ -80,3 +80,5 @@ export const changedAvatar   = () => trackUserEvent('changed avatar')
 export const sentMessage = () => trackEvent('Messaging', 'sent')
 
 export const uploadedImage = () => trackEvent('Image', 'uploaded')
+
+export const createdWatch = () => trackEvent('watch', 'created')

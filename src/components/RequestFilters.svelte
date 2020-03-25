@@ -10,8 +10,8 @@ import {
   searchedRequests,
 } from '../data/analytics'
 import { events } from '../data/events'
-import { removeFilter, setFilters } from '../data/filtering'
-import { clearRequestFilter } from '../data/requestFiltering'
+import { setFilters, removeFilter } from '../data/filtering'
+import { clearRequestFilter, removeRequestFilter } from '../data/requestFiltering'
 import { isDefaultSizeFilter } from '../data/sizes'
 import { me } from '../data/user'
 import EventFilter from './EventFilter.svelte'
@@ -22,10 +22,10 @@ import ToggleFilter from './ToggleFilter.svelte'
 
 export let filter = {}
 
-$: destinationText = filter.destination.value || ''
 $: eventId = filter.event.value
-$: originText = filter.origin.value || ''
-$: searchText = filter.search.value || ''
+$: destination = filter.destination.value
+$: origin = filter.origin.value
+$: searchText = filter.requestSearch.value || ''
 $: size = filter.size.value
 $: onlyMyCommitments = filter.provider.active
 $: onlyMyRequests = filter.creator.active
@@ -34,32 +34,51 @@ function onEventChange(domEvent) {
   const eventId = domEvent.detail
   if (eventId) {
     setFilters({
-      destination: false,
+      toDescription: false,
+      toCountry: false,
+      toLatitude: false,
+      toLongitude: false,
       event: eventId,
     })
   
     const eventName = $events.find(({ id }) => id === eventId).name
     filteredRequestsByEvent(eventName)
   } else {
-    removeFilter('event')
+    removeRequestFilter('event')
   }
 }
 
-function onDestinationInput(event) {
-  const query = event.detail
-  setFilters({
-    destination: query,
-    event: false,
-  })
+function onDestinationChange(event) {
+  const location = event.detail
+  if (location) {
+    setFilters({
+      toDescription: location.description,
+      toCountry: location.country,
+      toLatitude: location.latitude,
+      toLongitude: location.longitude,
+      event: false,
+    })
 
-  filteredRequestsByDestination(query)
+    filteredRequestsByDestination(location.description)
+  } else {
+    removeFilter('destination')
+  }
 }
 
-function onOriginInput(event) {
-  const query = event.detail
-  setFilters({ origin: query })
+function onOriginChange(event) {
+  const location = event.detail
+  if (location) {
+    setFilters({
+      fromDescription: location.description,
+      fromCountry: location.country,
+      fromLatitude: location.latitude,
+      fromLongitude: location.longitude,
+    })
 
-  filteredRequestsByOrigin(query)
+    filteredRequestsByOrigin(location.description)
+  } else {
+    removeFilter('origin')
+  }
 }
 
 function onKeywordInput(event) {
@@ -78,7 +97,7 @@ function onMyCommitmentsChange(event) {
     })
     filteredRequestsByProviding()
   } else {
-    removeFilter('provider')
+    removeRequestFilter('provider')
   }
 }
 
@@ -91,7 +110,7 @@ function onMyRequestsChange(event) {
     })
     filteredRequestsByMine()
   } else {
-    removeFilter('creator')
+    removeRequestFilter('creator')
   }
 }
 
@@ -101,7 +120,7 @@ function onSizeSelection(event) {
   filteredRequestsBySize(lowerCaseSize)
 
   if (isDefaultSizeFilter(lowerCaseSize)) {
-    removeFilter('size')
+    removeRequestFilter('size')
   } else {
     setFilters({ size: lowerCaseSize })
   }
@@ -124,9 +143,9 @@ function resetFilters() {
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     <hr />
-    <LocationFilter title="From" placeholder="Origin city" value={originText} on:input={onOriginInput} />
+    <LocationFilter title="From" placeholder="Origin city" location={origin} on:change={onOriginChange}/>
     <hr />
-    <LocationFilter title="To" placeholder="Destination city" value={destinationText} on:input={onDestinationInput} />
+    <LocationFilter title="To" placeholder="Destination city" location={destination} on:change={onDestinationChange}/>
     {#if $events.length }
       <p class="mb-2 text-center text-muted">– or –</p>
       <EventFilter events={$events} {eventId} on:change={onEventChange} />
