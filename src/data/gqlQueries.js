@@ -66,6 +66,7 @@ export async function updateRequest(request) {
     mutation {
       updateRequest(input: {
         description: ${json(request.description || '')},
+        destination: ${formatLocationForGql(request.destination)},
         kilograms: ${json(request.kilograms)}, 
         id: ${json(request.id)},
         neededBefore: ${json(request.neededBefore || null)}, 
