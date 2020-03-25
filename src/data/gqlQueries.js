@@ -203,7 +203,7 @@ export async function createWatch(name, filters) {
         destination: ${formatLocationForGql(filters.destination.value)},
         origin: ${formatLocationForGql(filters.origin.value)},
         meetingID: ${json(defaultFor(filters.event.value, null))},
-        searchText: ${json(defaultFor(filters.search.value, null))},
+        searchText: ${json(defaultFor(filters.requestSearch.value, null))},
         size: ${defaultFor(filters.size.value && filters.size.value.toUpperCase(),"XLARGE")},
       })
       {

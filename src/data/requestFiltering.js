@@ -61,7 +61,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
       isMatch: request => isNear(origin, request.origin),
       value: origin,
     },
-    search: {
+    requestSearch: {
       active: !! queryStringData.search,
       label: `Keyword: ${queryStringData.search}`,
       isMatch: request => requestMatchesSearchText(request, queryStringData.search),

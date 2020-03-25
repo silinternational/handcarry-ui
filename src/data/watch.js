@@ -15,7 +15,7 @@ export function getFiltersForWatch(filter) {
     return getActiveFilterKeys(filter).filter(isWatchable).map(key => filter[key])
 }
 
-const watchableKeys = ['destination', 'origin', 'event', 'search', 'size']
+const watchableKeys = ['destination', 'origin', 'event', 'requestSearch', 'size']
 const isWatchable = filterKey => watchableKeys.includes(filterKey) 
 
 /**
