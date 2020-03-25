@@ -1,10 +1,11 @@
 <script>
-import { isActive } from '../data/filtering'
+import { isActive, getActiveFilterKeys } from '../data/filtering'
 import FilterTag from './FilterTag.svelte'
 import { createEventDispatcher } from 'svelte'
 import { flip } from 'svelte/animate';
 import { quintInOut } from 'svelte/easing';
 import { crossfade } from 'svelte/transition';
+import CreateWatch from './CreateWatch.svelte'
 
 export let filter = {}
 
@@ -26,8 +27,7 @@ const [send, receive] = crossfade({
   }
 });
 
-$: filterKeys = Object.keys(filter)
-$: activeFilterKeys = filterKeys.filter(key => filter[key].active)
+$: activeFilterKeys = getActiveFilterKeys(filter)
 $: filtersAreActive = Object.values(filter).some(isActive)
 </script>
 
@@ -51,6 +51,7 @@ div {
           <FilterTag label="{ filter[key].label }" on:remove="{() => dispatch('remove', key)}" />
         </div>
       {/each}
+      <CreateWatch class="btn btn-link btn-sm" {filter} />
     </div>
   </div>
 {/if}
