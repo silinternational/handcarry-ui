@@ -64,7 +64,7 @@ export async function updateRequest(request) {
   // TODO: When API is updated to erase values when we send `null`, update `|| something` to `|| null`
   const response = await gql(`
     mutation {
-      updateRequest(input: {
+      request:updateRequest(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
         kilograms: ${json(request.kilograms)}, 
@@ -82,7 +82,7 @@ export async function updateRequest(request) {
     }
   `)
 
-  return response.updateRequest || {}
+  return response.request || {}
 }
 
 export async function offerToProvide(requestId) {
