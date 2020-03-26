@@ -29,7 +29,6 @@ const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 $: existingRequest = $requests.find(({ id }) => id === params.id)
 $: initializeUpdates(existingRequest || defaults)
 $: isNew = !request.id
-$: originDescription = (request.origin && request.origin.description) || ''
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
@@ -134,21 +133,10 @@ function onWeightChanged(event) {
     </label>
     
     <div class="col">
-      {#if isNew}
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <Icon icon={faMapMarkerAlt} />
-              </span>
-            </div>
-
-            <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged} placeholder="Destination city" />
-          </div>
-        </div>
-      {:else}
-        <input class="form-control form-control-lg" placeholder={request.destination.description} readonly>
-      {/if}
+      <div class="form-group">
+        <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
+                       placeholder="Destination city" location={request.destination} />
+      </div>
     </div>
   </div>
   
@@ -159,21 +147,10 @@ function onWeightChanged(event) {
     </label>
     
     <div class="col">
-      {#if isNew}
-        <div class="form-group">
-          <div class="input-group">
-            <div class="input-group-prepend">
-              <span class="input-group-text">
-                <Icon icon={faMapMarkerAlt} />
-              </span>
-            </div>
-
-            <LocationInput class="form-control form-control-lg" on:change={onOriginChanged} placeholder="Origin city" />
-          </div>
-        </div>
-      {:else}
-        <input class="form-control form-control-lg" placeholder={originDescription} readonly>
-      {/if}
+      <div class="form-group">
+        <LocationInput class="form-control form-control-lg" on:change={onOriginChanged}
+                       placeholder="Origin city" location={request.origin} />
+      </div>
     </div>
   </div>
 

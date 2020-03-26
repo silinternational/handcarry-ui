@@ -5,10 +5,11 @@ import RequestListEntry from '../components/RequestListEntry.svelte'
 import RequestFilters from '../components/RequestFilters.svelte'
 import RequestTile from '../components/RequestTile.svelte'
 import NewRequestTile from '../components/NewRequestTile.svelte'
+import CreateWatch from '../components/CreateWatch.svelte'
 import { events } from '../data/events'
 import { me } from '../data/user'
 import { requests, loading } from '../data/requests'
-import { querystring } from 'svelte-spa-router'
+import { push, querystring } from 'svelte-spa-router'
 import qs from 'qs'
 import { updateQueryString } from '../data/url'
 import { populateRequestFilterFrom } from '../data/requestFiltering'
@@ -58,11 +59,13 @@ function viewToggled(choice) {
         {/each}
       {/if}
     {:else}
-      <div class="col-12 my-2 mx-5"><i class="text-muted">None found</i></div>
+      <div class="col-12 my-2 mx-5">
+        <i class="text-muted">None found </i>
+      </div>
     {/if}
 
     <div class:d-md-block={showAsList} class="d-none col-12 my-1">
-      <a href="#/requests/new" class="btn btn-success btn-sm"><span style="font-size: larger">+</span> Make a request</a>
+      <button on:click="{() => push('/requests/new')}" class="btn btn-success btn-sm w-100"><span style="font-size: larger">+</span> Make a request</button>
     </div>
     
     <div class:d-md-block={!showAsList} class="d-none col-6 mb-1 my-sm-1 col-md-6 col-lg-4"><NewRequestTile /></div>

@@ -64,8 +64,9 @@ export async function updateRequest(request) {
   // TODO: When API is updated to erase values when we send `null`, update `|| something` to `|| null`
   const response = await gql(`
     mutation {
-      updateRequest(input: {
+      request:updateRequest(input: {
         description: ${json(request.description || '')},
+        destination: ${formatLocationForGql(request.destination)},
         kilograms: ${json(request.kilograms)}, 
         id: ${json(request.id)},
         neededBefore: ${json(request.neededBefore || null)}, 
@@ -81,7 +82,7 @@ export async function updateRequest(request) {
     }
   `)
 
-  return response.updateRequest || {}
+  return response.request || {}
 }
 
 export async function offerToProvide(requestId) {
@@ -193,6 +194,26 @@ export async function joinEvent(eventId) {
   `)
 
   return response.createMeetingParticipant.meeting
+}
+
+export async function createWatch(name, filters) {
+  const response = await gql(`
+    mutation {
+      watch:createWatch(input: {
+        name: ${json(name)},
+        destination: ${formatLocationForGql(filters.destination.value)},
+        origin: ${formatLocationForGql(filters.origin.value)},
+        meetingID: ${json(defaultFor(filters.event.value, null))},
+        searchText: ${json(defaultFor(filters.requestSearch.value, null))},
+        size: ${defaultFor(filters.size.value && filters.size.value.toUpperCase(),"XLARGE")},
+      })
+      {
+        id
+      }
+    }
+  `)
+
+  return response.watch.id
 }
 
 

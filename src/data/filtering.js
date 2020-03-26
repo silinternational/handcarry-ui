@@ -27,6 +27,17 @@ export function isActive(filter) {
   return filter.active
 }
 
+
+/**
+ * Get a list of the active filter keys.
+ *
+ * @param {Object} filter
+ * @returns {string[]}
+ */
+export function getActiveFilterKeys(filter) {
+  return Object.keys(filter).filter(key => filter[key].active)
+}
+
 /**
  * See if the given item is in the given list of items (by comparing `id` values).
  *
@@ -44,8 +55,24 @@ export function isItemInList(item, items) {
  * @param {string} name
  */
 export function removeFilter(name) {
-  const updates = {}
-  updates[name] = false
+  let updates = {}
+  if (name === 'destination'){
+    updates = {
+      toDescription: false,
+      toCountry: false,
+      toLatitude: false,
+      toLongitude: false,
+    }
+  } else if  (name === 'origin'){
+    updates = {
+      fromDescription: false,
+      fromCountry: false,
+      fromLatitude: false,
+      fromLongitude: false,
+    }
+  } else {
+    updates[name] = false
+  }
   updateQueryString(updates)
 }
 
@@ -88,4 +115,36 @@ export function setFilters(updates) {
  */
 export function stringIsIn(needle, haystack) {
   return (haystack || '').toLowerCase().indexOf(String(needle).toLowerCase()) >= 0
+}
+
+/**
+ * Whether two locations are within 100 km each other. This should always be the same as
+ * the calculation in wecarry-api.
+ * 
+ * @param {Object|null} loc1
+ * @param {Object|null} loc2
+ * @return {boolean}
+ */
+export function isNear(loc1, loc2) {
+  return !loc1 || !loc2 || distance(loc1.latitude, loc1.longitude, loc2.latitude, loc2.longitude) < 100
+}
+
+/**
+ * Haversine formula implementation derived from Stack Overflow answer:
+ * https://stackoverflow.com/a/21623206
+
+ * @param {number} lat1 
+ * @param {number} lon1 
+ * @param {number} lat2 
+ * @param {number} lon2 
+ */
+function distance(lat1, lon1, lat2, lon2) {
+  const p = Math.PI / 180
+  const c = Math.cos
+  const a = 0.5 - c((lat2 - lat1) * p) / 2 +
+      c(lat1 * p) * c(lat2 * p) *
+      (1 - c((lon2 - lon1) * p)) / 2
+  const earthDiameterInKilometers = 12742
+
+  return earthDiameterInKilometers * Math.asin(Math.sqrt(a));
 }

@@ -1,8 +1,13 @@
 <script>
 import GooglePlacesAutocomplete from '@silintl/svelte-google-places-autocomplete'
 import { createEventDispatcher } from 'svelte'
+import Icon from 'fa-svelte'
+import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 
 export let placeholder
+export let location = null
+
+$: description = (location && location.description) || ''
 
 const dispatch = createEventDispatcher()
 const googlePlacesApiKey = process.env.GOOGLE_PLACES_API_KEY
@@ -38,5 +43,12 @@ function clearLocation() {
 }
 </script>
 
-<GooglePlacesAutocomplete apiKey={googlePlacesApiKey} class={$$props.class} on:place_changed={onPlaceChanged} {options}
-                          {placeholder} />
+<div class="input-group mb-2">
+  <div class="input-group-prepend">
+      <div class="input-group-text">
+          <Icon icon={faMapMarkerAlt} />
+      </div>
+  </div>
+  <GooglePlacesAutocomplete apiKey={googlePlacesApiKey} class={$$props.class} on:place_changed={onPlaceChanged} {options}
+                            {placeholder} value={description} />
+</div>
