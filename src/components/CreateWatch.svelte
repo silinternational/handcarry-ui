@@ -5,6 +5,8 @@ import { createdWatch } from '../data/analytics'
 import FilterTag from './FilterTag.svelte'
 import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
 import { onMount } from 'svelte'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
+import Icon from 'fa-svelte'
 
 export let filter
 
@@ -36,7 +38,9 @@ $: watchFilters = getFiltersForWatch(filter)
 
 </script>
 {#if canWatch}
-  <button class={$$props.class} data-toggle="modal" data-target="#createWatchModal">Create alert</button>
+  <button class={$$props.class} data-toggle="modal" data-target="#createWatchModal">
+      <Icon icon={faBell} />&nbsp;Create alert
+  </button>
 
   <div class="modal fade" id="createWatchModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
