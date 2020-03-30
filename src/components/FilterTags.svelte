@@ -51,7 +51,7 @@ div {
           <FilterTag label="{ filter[key].label }" on:remove="{() => dispatch('remove', key)}" />
         </div>
       {/each}
-<!--      <CreateWatch class="btn btn-link btn-sm" {filter} />-->
+      <CreateWatch class="btn btn-info btn-sm" {filter} />
     </div>
   </div>
 {/if}
