@@ -39,7 +39,7 @@ $: watchFilters = getFiltersForWatch(filter)
 </script>
 {#if canWatch}
   <button class={$$props.class} data-toggle="modal" data-target="#createWatchModal">
-      <Icon icon={faBell} />&nbsp;Create alert
+      <Icon icon={faBell} class="mr-2" />Create alert
   </button>
 
   <div class="modal fade" id="createWatchModal" tabindex="-1" role="dialog" aria-hidden="true">
