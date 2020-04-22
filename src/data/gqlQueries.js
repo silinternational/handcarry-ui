@@ -13,7 +13,7 @@ export async function getUser() {
 export async function updateUser(user) {
   const response = await gql(`
     mutation {
-      updateUser(input: {
+      user:updateUser(input: {
         nickname: ${json(user.nickname)}
         photoID: ${json(user.photoID)}
       })
@@ -23,7 +23,7 @@ export async function updateUser(user) {
     }
   `)
 
-  return response.updateUser || {}
+  return response.user || {}
 }
 
 export async function getRequests() {
@@ -39,7 +39,7 @@ export async function getRequests() {
 export async function createRequest(request) {
   const response = await gql(`
     mutation {
-      createRequest(input: {
+      request:createRequest(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
         kilograms: ${json(defaultFor(request.kilograms, null))}, 
@@ -57,7 +57,7 @@ export async function createRequest(request) {
     }
   `)
 
-  return response.createRequest || {}
+  return response.request || {}
 }
 
 export async function updateRequest(request) {
@@ -88,7 +88,7 @@ export async function updateRequest(request) {
 export async function offerToProvide(requestId) {
   const response = await gql(`
     mutation {
-      addMeAsPotentialProvider(
+      request:addMeAsPotentialProvider(
         requestID: ${json(requestId)},
       )
       {
@@ -97,7 +97,7 @@ export async function offerToProvide(requestId) {
     }
   `)
 
-  return response.addMeAsPotentialProvider || {}  
+  return response.request || {}  
 }
 
 export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
@@ -108,7 +108,7 @@ export const received = async requestId => updateRequestStatus(requestId, 'COMPL
 async function updateRequestStatus(id, status, providerUserId = null) {
   const response = await gql(`
     mutation {
-      updateRequestStatus(
+      request:updateRequestStatus(
         input: {
           id: ${json(id)},
           status: ${status},
@@ -121,23 +121,23 @@ async function updateRequestStatus(id, status, providerUserId = null) {
     }
   `)
 
-  return response.updateRequestStatus || {}
+  return response.request || {}
 }
 
 export async function getMyConversations() {
   const response = await gql(`{
-    myThreads {
+    conversations:myThreads {
       ${threadFields}
     }
   }`)
 
-  return response.myThreads || []
+  return response.conversations || []
 }
 
 export async function sendMessage(message, conversation) {
   const response = await gql(`
     mutation {
-      createMessage(input: {
+      message:createMessage(input: {
         content: ${json(message)},
         requestID: ${json(conversation.request.id || '')}
         threadID: ${json(conversation.id || '')},
@@ -150,13 +150,13 @@ export async function sendMessage(message, conversation) {
     }
   `)
 
-  return response.createMessage && response.createMessage.thread || { thread: {}}
+  return response.message && response.message.thread || { thread: {}}
 }
 
 export async function markMessagesAsRead(threadId) {
   const response = await gql(`
     mutation {
-      setThreadLastViewedAt(input: {
+      conversation:setThreadLastViewedAt(input: {
         threadID: ${json(threadId || '')},
         time: ${json(new Date().toISOString())}
       }) 
@@ -166,7 +166,7 @@ export async function markMessagesAsRead(threadId) {
     }
   `)
 
-  return response.setThreadLastViewedAt || {}
+  return response.conversation || {}
 }
 
 export async function getEvents() {
@@ -182,7 +182,7 @@ export async function getEvents() {
 export async function joinEvent(eventId) {
   const response = await gql(`
     mutation {
-      createMeetingParticipant(input: {
+      participant:createMeetingParticipant(input: {
         meetingID: ${json(eventId)},
       })
       {
@@ -193,7 +193,7 @@ export async function joinEvent(eventId) {
     }
   `)
 
-  return response.createMeetingParticipant.meeting
+  return response.participant.meeting
 }
 
 export async function createWatch(name, filters) {
