@@ -216,6 +216,31 @@ export async function createWatch(name, filters) {
   return response.watch.id
 }
 
+export async function getMyWatches() {
+  const response = await gql(`{
+    watches:myWatches {
+      #destination {
+      #  description
+      #}
+      #id
+      #meeting {
+      #  name
+      #}
+      name
+      #origin {
+      #  description
+      #}
+      #owner {
+      #  nickname
+      #}
+      #searchText
+      #size        
+    }
+  }`)
+
+  return response.watches || []
+}
+
 
 const defaultFor = function(value, defaultValue) {
   return (value === undefined) ? defaultValue : value

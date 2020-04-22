@@ -4,10 +4,23 @@ import Uploader from '../components/Uploader.svelte'
 import { me, changeNickname, changeProfilePicture } from '../data/user'
 import Icon from 'fa-svelte'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { getWatches } from '../data/watch'
+import { onMount } from 'svelte'
 
 let editingNickname = false
 let newNickname = {}
+let watches = []
+let loading = false
 
+onMount(async () => {
+  try {
+    loading = true
+    watches = await getWatches()  
+  } finally {
+    loading = false
+  }
+})
+      
 $: orgs = $me.organizations || []
 $: initializeUpdates($me)
 
@@ -67,4 +80,24 @@ async function saveNewNickname() {
   </div>
 
   <div class="col-md"/>
-</div>  
+</div>
+
+<div class="row">
+  <div class="col-md" />
+
+  <div class="col-md-3">
+    <h2>Saved alerts</h2>
+
+    {#each watches as watch}
+      {watch.name}
+    {:else}
+      {#if loading}
+        ⏳ checking for saved alerts...
+      {:else}
+        No saved alerts.
+      {/if}
+    {/each}
+  </div>
+  
+  <div class="col-md" />
+</div>
