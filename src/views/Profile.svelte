@@ -3,7 +3,7 @@ import UserAvatar from '../components/UserAvatar.svelte'
 import Uploader from '../components/Uploader.svelte'
 import { me, changeNickname, changeProfilePicture } from '../data/user'
 import Icon from 'fa-svelte'
-import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { getWatches } from '../data/watch'
 import { onMount } from 'svelte'
 
@@ -77,19 +77,30 @@ async function saveNewNickname() {
     {#each orgs as org}
       <span class="badge badge-pill badge-info mr-2">{org.name}</span>
     {/each}
-  </div>
 
-  <div class="col-md"/>
-</div>
-
-<div class="row">
-  <div class="col-md" />
-
-  <div class="col-md-3">
-    <h2>Saved alerts</h2>
-
+    <h2 class="pt-4 pb-2">Saved alerts</h2>
+    <!-- TODO: bunch of alerts?  scrollable container? "see more..." -->
+    <!-- TODO: integrate FilterTags component -->
+    <!-- TODO: refactor requestFiltering for labels -->
+    <!-- TODO: bunch of criteria?  how close do they get to the delete button? -->
     {#each watches as watch}
-      {watch.name}
+      <div class="card mb-2">
+        <div class="row no-gutters">
+          <div class="col">
+            <div class="card-body">
+              <h5 class="card-title">{watch.name}</h5>
+              <p class="card-text">
+                <code class="font">TODO:</code>criteria for this alert
+              </p>
+            </div>
+          </div>
+          <div class="col-1 d-flex align-items-end justify-content-center">
+            <button type="button" class="btn btn-sm" title="Delete this alert">
+              <Icon icon={faTrash} class="text-danger" />
+            </button>
+          </div>
+        </div>
+      </div>
     {:else}
       {#if loading}
         ⏳ checking for saved alerts...
@@ -98,6 +109,6 @@ async function saveNewNickname() {
       {/if}
     {/each}
   </div>
-  
-  <div class="col-md" />
+
+  <div class="col-md"/>
 </div>
