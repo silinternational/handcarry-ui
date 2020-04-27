@@ -238,6 +238,20 @@ export async function getMyWatches() {
   return response.watches || []
 }
 
+export async function removeWatch(id) {
+  const response = await gql(`
+    mutation {
+      watch:removeWatch(input: {
+        id: ${json(id)}
+      })
+      {
+        id
+      }
+    }
+  `)
+
+  return response.watch.id
+}
 
 const defaultFor = function(value, defaultValue) {
   return (value === undefined) ? defaultValue : value

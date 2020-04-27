@@ -1,7 +1,7 @@
 <script>
 import Icon from 'fa-svelte'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { getWatches } from '../data/watch'
+import { getWatches, deleteWatch } from '../data/watch'
 import { onMount } from 'svelte'
 import FilterTag from './FilterTag.svelte'
 import { labelFor } from '../data/requestFiltering'
@@ -9,14 +9,16 @@ import { labelFor } from '../data/requestFiltering'
 let watches = []
 let loading = false
 
-onMount(async () => {
+onMount(loadWatches)
+
+async function loadWatches() {
   try {
     loading = true
     watches = await getWatches()  
   } finally {
     loading = false
   }
-})
+}
 
 const relevantCriteria = watch => Object.keys(watch).filter(key => isCriteriaField(key) && hasValue(watch[key]))
 const isCriteriaField = field => ! ['id', 'name'].includes(field)
@@ -28,6 +30,11 @@ function valueFor(criteria, watch) {
   return value.description || value.name || value
 }
 
+async function remove(id) {
+  await deleteWatch(id)
+
+  loadWatches()
+}
 </script>
 
 <!-- TODO: bunch of alerts?  scrollable container? "see more..." -->
@@ -46,7 +53,7 @@ function valueFor(criteria, watch) {
         </div>
       </div>
       <div class="col-1 d-flex align-items-end justify-content-center">
-        <button type="button" class="btn btn-sm" title="Delete this alert">
+        <button type="button" on:click={() => remove(watch.id)} class="btn btn-sm" title="Delete this alert">
           <Icon icon={faTrash} class="text-danger" />
         </button>
       </div>
