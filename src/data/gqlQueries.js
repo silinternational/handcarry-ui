@@ -219,22 +219,19 @@ export async function createWatch(name, filters) {
 export async function getMyWatches() {
   const response = await gql(`{
     watches:myWatches {
-      #destination {
-      #  description
-      #}
-      #id
-      #meeting {
-      #  name
-      #}
+      destination {
+        description
+      }
+      id
+      meeting {
+        name
+      }
       name
-      #origin {
-      #  description
-      #}
-      #owner {
-      #  nickname
-      #}
-      #searchText
-      #size        
+      origin {
+        description
+      }
+      searchText
+      size        
     }
   }`)
 
