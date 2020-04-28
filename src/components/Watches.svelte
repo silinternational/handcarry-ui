@@ -5,20 +5,19 @@ import { getWatches, deleteWatch } from '../data/watch'
 import { onMount } from 'svelte'
 import FilterTag from './FilterTag.svelte'
 import { labelFor } from '../data/requestFiltering'
+import { fly } from 'svelte/transition'
 
 let watches = []
 let loading = false
 
-onMount(loadWatches)
-
-async function loadWatches() {
+onMount(async () => {
   try {
     loading = true
     watches = await getWatches()  
   } finally {
     loading = false
   }
-}
+})
 
 const relevantCriteria = watch => Object.keys(watch).filter(key => isCriteriaField(key) && hasValue(watch[key]))
 const isCriteriaField = field => ! ['id', 'name'].includes(field)
@@ -30,16 +29,16 @@ function valueFor(criteria, watch) {
   return value.description || value.name || value
 }
 
-async function remove(id) {
-  await deleteWatch(id)
+async function remove(watch) {
+  await deleteWatch(watch.id)
 
-  loadWatches()
+  watches = watches.filter(w => w !== watch)
 }
 </script>
 
 <!-- TODO: bunch of alerts?  scrollable container? "see more..." -->
-{#each watches as watch}
-  <div class="card mb-2">
+{#each watches as watch (watch.id)} <!-- id needed for animation -->
+  <div class="card mb-2" out:fly={{ x: 300, duration: 1000}}>
     <div class="row no-gutters">
       <div class="col">
         <div class="card-body">
@@ -53,7 +52,7 @@ async function remove(id) {
         </div>
       </div>
       <div class="col-1 d-flex align-items-end justify-content-center">
-        <button type="button" on:click={() => remove(watch.id)} class="btn btn-sm" title="Delete this alert">
+        <button type="button" on:click={() => remove(watch)} class="btn btn-sm" title="Delete this alert">
           <Icon icon={faTrash} class="text-danger" />
         </button>
       </div>
