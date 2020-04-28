@@ -9,6 +9,7 @@ import { fly } from 'svelte/transition'
 
 let watches = []
 let loading = false
+let numVisibleLimited = true
 
 onMount(async () => {
   try {
@@ -18,6 +19,10 @@ onMount(async () => {
     loading = false
   }
 })
+
+$: visibleWatches = numVisibleLimited ? firstThree(watches) : watches
+
+const firstThree = array => array.slice(0,3)
 
 const relevantCriteria = watch => Object.keys(watch).filter(key => isCriteriaField(key) && hasValue(watch[key]))
 const isCriteriaField = field => ! ['id', 'name'].includes(field)
@@ -34,10 +39,13 @@ async function remove(watch) {
 
   watches = watches.filter(w => w !== watch)
 }
+
+function showAll() {
+  numVisibleLimited = false
+}
 </script>
 
-<!-- TODO: bunch of alerts?  scrollable container? "see more..." -->
-{#each watches as watch (watch.id)} <!-- id needed for animation -->
+{#each visibleWatches as watch (watch.id)} <!-- id needed for animation -->
   <div class="card mb-2" out:fly={{ x: 300, duration: 1000}}>
     <div class="row no-gutters">
       <div class="col">
@@ -65,3 +73,7 @@ async function remove(watch) {
     No saved alerts.
   {/if}
 {/each}
+
+{#if watches.length > 3 && numVisibleLimited}
+  <button on:click={showAll} class="btn btn-link w-100 text-right">see all...</button>
+{/if}
