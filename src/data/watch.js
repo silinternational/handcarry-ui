@@ -1,5 +1,5 @@
-import { createWatch } from './gqlQueries'
-import {getActiveFilterKeys} from "./filtering";
+import { createWatch, getMyWatches, removeWatch } from './gqlQueries'
+import { getActiveFilterKeys } from './filtering'
 
 export async function create(name, filters) {
     await createWatch(name, filters)
@@ -27,3 +27,6 @@ const isWatchable = filterKey => watchableKeys.includes(filterKey)
 export function getWatchableKeys(filterKeys) {
     return filterKeys.filter(key => watchableKeys.includes(key))
 }
+
+export const getWatches = async () => await getMyWatches()
+export const deleteWatch = async id => await removeWatch(id)
