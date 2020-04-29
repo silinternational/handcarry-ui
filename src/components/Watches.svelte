@@ -37,7 +37,7 @@ function valueFor(criteria, watch) {
 async function remove(watch) {
   await deleteWatch(watch.id)
 
-  watches = watches.filter(w => w !== watch)
+  watches = watches.filter(({ id }) => id !== watch.id)
 }
 
 function showAll() {
