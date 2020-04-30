@@ -4,10 +4,11 @@ import Uploader from '../components/Uploader.svelte'
 import { me, changeNickname, changeProfilePicture } from '../data/user'
 import Icon from 'fa-svelte'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
+import Watches from '../components/Watches.svelte'
 
 let editingNickname = false
 let newNickname = {}
-
+      
 $: orgs = $me.organizations || []
 $: initializeUpdates($me)
 
@@ -64,7 +65,10 @@ async function saveNewNickname() {
     {#each orgs as org}
       <span class="badge badge-pill badge-info mr-2">{org.name}</span>
     {/each}
+
+    <h2 class="pt-4 pb-2">Saved alerts</h2>
+    <Watches />
   </div>
 
   <div class="col-md"/>
-</div>  
+</div>

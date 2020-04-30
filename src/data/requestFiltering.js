@@ -45,25 +45,25 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     },
     destination: {
       active: !! queryStringData.toDescription,
-      label: `To: ${queryStringData.toDescription}`,
+      label: labelFor('destination', queryStringData.toDescription),
       isMatch: request => isNear(destination, request.destination),
       value: destination,
     },
     event: {
       active: !! queryStringData.event,
-      label: `To: ${getEventName(events, queryStringData.event)}`,
+      label: labelFor('meeting', queryStringData.event),
       isMatch: request => request.meeting && request.meeting.id === queryStringData.event,
       value: queryStringData.event,
     },
     origin: {
       active: !! queryStringData.fromDescription,
-      label: `From: ${queryStringData.fromDescription}`,
+      label: labelFor('origin', queryStringData.fromDescription),
       isMatch: request => isNear(origin, request.origin),
       value: origin,
     },
     requestSearch: {
       active: !! queryStringData.search,
-      label: `Keyword: ${queryStringData.search}`,
+      label: labelFor('searchText', queryStringData.search),
       isMatch: request => requestMatchesSearchText(request, queryStringData.search),
       value: queryStringData.search,
     },
@@ -75,11 +75,23 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     },
     size: {
       active: !! queryStringData.size,
-      label: `Size: ${queryStringData.size}`,
+      label: labelFor('size', queryStringData.size),
       isMatch: request => includedInSizeSelection(request.size, queryStringData.size),
       value: queryStringData.size,
     },
   }
+}
+
+export function labelFor(name, value) {
+  const map = {
+    destination: 'To: ',
+    meeting: 'To: ',
+    origin: 'From: ',
+    searchText: 'Keyword: ',
+    size: 'Size: ',
+  }
+
+  return `${map[name]} ${value}`
 }
 
 function iAmProviding(request, me) {

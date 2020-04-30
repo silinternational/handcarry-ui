@@ -91,6 +91,10 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
               {polyglot.t('nav-requests-commitments')}
             </a>
 
+            <a href="/#/profile" class="dropdown-item">
+              {polyglot.t('nav-alerts')}
+            </a>
+
             <div class="dropdown-divider"></div>
             
             <button on:click={logout} class="dropdown-item">
