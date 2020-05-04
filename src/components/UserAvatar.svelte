@@ -8,8 +8,8 @@ $: nickname = user.nickname || ''
 <style>
 img {
   object-fit: cover;
-  width: 10rem;
-  height: 10rem;
+  width: 5rem;
+  height: 5rem;
 }
 
 .small {
