@@ -40,9 +40,6 @@ function goToConversation(conversationId) {
   margin-right: auto;
   max-width: 160px;
 }
-.user-avatar-container {
-  max-width: 90px;
-}
 </style>
 
 <div class="row mb-3">
@@ -98,7 +95,7 @@ function goToConversation(conversationId) {
           </dl>
         </div>
         <div class="col-auto">
-          <div class="user-avatar-container text-center mb-2">
+          <div class="text-center mb-2">
             <UserAvatar user={requester} />
             <div>{ requester.nickname || '' }</div>
           </div>
