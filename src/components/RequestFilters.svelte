@@ -136,7 +136,7 @@ function resetFilters() {
 <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
   <div class="card-header text-center p-2">
     Filters
-    <a href="javascript:void(0)" class="small d-block" on:click={resetFilters}>Reset filters</a>
+    <button on:click={resetFilters} class="btn btn-link w-100 p-0"><small>Reset filters</small></button>
   </div>
   
   <div class="card-body">
