@@ -49,9 +49,9 @@ function resetFilters() {
 </script>
 
 <div class="card border-bottom"><!-- Note: Remove "border-bottom" if another card is added. -->
-  <div class="card-header text-center p-2">
-    Filters
-    <a href="javascript:void(0)" class="small d-block" on:click={resetFilters}>Reset filters</a>
+  <div class="card-header d-flex flex-row justify-content-between align-items-center">
+      Filters
+      <button on:click={resetFilters} class="btn btn-link p-0"><small>clear filters</small></button>
   </div>
   
   <div class="card-body">

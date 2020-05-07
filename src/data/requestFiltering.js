@@ -51,7 +51,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     },
     event: {
       active: !! queryStringData.event,
-      label: labelFor('meeting', queryStringData.event),
+      label: labelFor('meeting', getEventName(events, queryStringData.event)),
       isMatch: request => request.meeting && request.meeting.id === queryStringData.event,
       value: queryStringData.event,
     },

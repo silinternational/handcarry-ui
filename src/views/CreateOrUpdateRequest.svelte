@@ -109,7 +109,7 @@ function onWeightChanged(event) {
 </script>
 
 <style>
-.image-preview {
+.preview {
   max-height: 160px;
 }
 </style>
@@ -178,8 +178,8 @@ function onWeightChanged(event) {
     </div>
     
     {#if imageUrl || request.photo && request.photo.url}
-      <div class="col-12 col-sm-5 image-preview text-center text-sm-left">
-        <img src={imageUrl || request.photo && request.photo.url} alt="Your image" class="image-preview" />
+      <div class="col-12 col-sm-5 text-center text-sm-left">
+        <img src={imageUrl || request.photo && request.photo.url} alt="Request details" class="preview" />
       </div>
     {/if}
   </div>
