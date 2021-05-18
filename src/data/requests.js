@@ -1,8 +1,9 @@
 import { writable } from 'svelte/store'
-import { 
-  createRequest, 
-  updateRequest, 
-  getRequests, 
+import {
+  createRequest,
+  updateRequest,
+  getRequest,
+  getRequests,
   cancelRequest,
   offerToProvide,
   acceptOfferToProvide,
@@ -19,7 +20,7 @@ let intervalId = 0
 export function init() {
   const EVERY_10_MINUTES = 60 * 1000 * 10
   intervalId = setInterval(loadRequests, EVERY_10_MINUTES)
-  
+
   loadRequests()
 
   onClear(reset)
@@ -41,6 +42,18 @@ async function loadRequests() {
   }
 }
 
+export async function getOneRequest(id) {
+  try {
+    loading.set(true)
+
+    return await getRequest(id)
+  } catch (e) {
+    throw e
+  } finally {
+    loading.set(false)
+  }
+}
+
 export async function create(request) {
   const newRequest = await createRequest(request)
 
@@ -54,8 +67,8 @@ export async function update(request) {
     const i = currentRequests.findIndex(({ id }) => id === updatedRequest.id)
     if (i >= 0) {
       currentRequests[i] = updatedRequest
-    } 
-    
+    }
+
     return currentRequests
   })
 }
