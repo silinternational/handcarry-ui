@@ -29,7 +29,7 @@ export async function updateUser(user) {
 export async function getRequests() {
   const response = await gql(`{
     requests {
-      ${requestFields}
+      ${requestFieldsAbridged}
     }
   }`)
 
@@ -338,6 +338,27 @@ const requestFields = `
   status
   title
   visibility
+`
+const requestFieldsAbridged = `
+  createdBy {
+    avatarURL
+    nickname
+  }
+  destination {
+    description
+  }
+  meeting {
+    name
+  }
+  origin {
+    description
+  }
+  id
+  photo {
+    url
+  }
+  size
+  title
 `
 const messageFields = `
   content
