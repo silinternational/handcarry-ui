@@ -9,7 +9,7 @@
    "nav-sign-out": "Sign out",
    "nav-profile": "Profile",
    "nav-alerts": "Saved alerts",
-   "ErrorFindingUserByEmail": "We were unable to find an account for you. WeCarry is currently in an Early Access period with limited access. If you would like to be on the waiting list for access please let us know at <a href='mailto:support@wecarry.app'>support@wecarry.app</a>.",
+   "ErrorFindingUserByEmail": "We were unable to find an account for you. WeCarry is currently in an Early Access period with limited access. If you would like to be on the waiting list for access please let us know at support@wecarry.app.",
    "ErrorStoreFileTooLarge": "That was too big, please try a smaller one",
    "ErrorStoreFileBadContentType": "That file type is not supported",
    "ErrorInvalidInviteCode": "We did not recognize that code"
