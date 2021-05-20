@@ -3,7 +3,7 @@ import { me } from '../data/user'
 import { replace } from 'svelte-spa-router'
 import RequestImage from '../components/RequestImage.svelte'
 import SizeTile from '../components/SizeTile.svelte'
-import { requests, loading } from '../data/requests'
+import { getOneRequest, loading } from '../data/requests'
 import UserAvatar from '../components/UserAvatar.svelte'
 import RequestMessaging from '../components/RequestMessaging.svelte'
 import OtherRequestsBy from '../components/OtherRequestsBy.svelte'
@@ -15,8 +15,10 @@ export let params = {} // URL path parameters, provided by router.
 const dlTermColumns        = 'col-12 col-md-5 col-lg-3'
 const dlDescriptionColumns = 'col-12 col-md-7 col-lg-9'
 
+let request = {}
+
 $: conversationId = params.conversationId
-$: request = $requests.find(({ id }) => id === params.id) || {}
+$: params.id, getOneRequest(params.id).then(r => request = r)
 $: requester = request.createdBy || {}
 $: isMine = $me.id && (requester.id === $me.id) // Check $me.id first to avoid `undefined === undefined`
 $: destination = (request.destination && request.destination.description) || ''
@@ -59,7 +61,7 @@ function goToConversation(conversationId) {
         <div class="col col-sm-12 mb-4"><div class="size-tile-container"><SizeTile size={request.size} /></div></div>
       </div>
     </div>
-    
+
     <div class="col">
       <div class="row">
         <div class="col">
@@ -67,7 +69,7 @@ function goToConversation(conversationId) {
           <dl class="row">
             <dt class={dlTermColumns}>Deliver to</dt>
             <dd class={dlDescriptionColumns}>{ destination }</dd>
-            
+
             <dt class={dlTermColumns}>From</dt>
             <dd class={dlDescriptionColumns}>
               {#if origin }
@@ -76,17 +78,17 @@ function goToConversation(conversationId) {
                 <span class="font-italic">anywhere</span>
               {/if}
             </dd>
-            
+
             {#if isMine && request.visibility }
               <dt class={dlTermColumns}>Visible to</dt>
               <dd class={dlDescriptionColumns}>{ describeVisibility(request.visibility, [request.organization]) }</dd>
             {/if}
-            
+
             {#if request.neededBefore }
               <dt class={dlTermColumns}>Needed before</dt>
               <dd class={dlDescriptionColumns}>{ (new Date(request.neededBefore + ' 00:00:00')).toLocaleDateString() }</dd>
             {/if}
-            
+
             <!-- Show any actual value (including zero) -->
             {#if request.kilograms != null }
               <dt class={dlTermColumns}>Weight</dt>

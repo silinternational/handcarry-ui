@@ -29,11 +29,21 @@ export async function updateUser(user) {
 export async function getRequests() {
   const response = await gql(`{
     requests {
-      ${requestFields}
+      ${requestFieldsAbridged}
     }
   }`)
 
   return response.requests || []
+}
+
+export async function getRequest(id) {
+  const response = await gql(`{
+    request:request(id: ${json(id)}) {
+      ${requestFields}
+    }
+  }`)
+
+  return response.request || {}
 }
 
 export async function createRequest(request) {
@@ -42,15 +52,15 @@ export async function createRequest(request) {
       request:createRequest(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
-        kilograms: ${json(defaultFor(request.kilograms, null))}, 
-        neededBefore: ${json(request.neededBefore || null)}, 
+        kilograms: ${json(defaultFor(request.kilograms, null))},
+        neededBefore: ${json(request.neededBefore || null)},
         origin: ${formatLocationForGql(request.origin)},
         orgID: ${json(request.orgID)},
         photoID: ${json(request.photoID || null)},
         size: ${request.size},
         title: ${json(request.title)},
         visibility: ${request.visibility},
-      }) 
+      })
       {
         ${requestFields}
       }
@@ -67,15 +77,15 @@ export async function updateRequest(request) {
       request:updateRequest(input: {
         description: ${json(request.description || '')},
         destination: ${formatLocationForGql(request.destination)},
-        kilograms: ${json(request.kilograms)}, 
+        kilograms: ${json(request.kilograms)},
         id: ${json(request.id)},
-        neededBefore: ${json(request.neededBefore || null)}, 
+        neededBefore: ${json(request.neededBefore || null)},
         origin: ${formatLocationForGql(request.origin)},
         photoID: ${json(request.photoID || null)},
         size: ${request.size},
         title: ${json(request.title)},
         visibility: ${request.visibility},
-      }) 
+      })
       {
         ${requestFields}
       }
@@ -97,7 +107,7 @@ export async function offerToProvide(requestId) {
     }
   `)
 
-  return response.request || {}  
+  return response.request || {}
 }
 
 export const cancelRequest = async requestId => updateRequestStatus(requestId, 'REMOVED')
@@ -114,7 +124,7 @@ async function updateRequestStatus(id, status, providerUserId = null) {
           status: ${status},
           providerUserID: ${json(providerUserId)}
         }
-      ) 
+      )
       {
         ${requestFields}
       }
@@ -141,11 +151,11 @@ export async function sendMessage(message, conversation) {
         content: ${json(message)},
         requestID: ${json(conversation.request.id || '')}
         threadID: ${json(conversation.id || '')},
-      }) 
+      })
       {
         thread {
           ${threadFields}
-        }    
+        }
       }
     }
   `)
@@ -159,7 +169,7 @@ export async function markMessagesAsRead(threadId) {
       conversation:setThreadLastViewedAt(input: {
         threadID: ${json(threadId || '')},
         time: ${json(new Date().toISOString())}
-      }) 
+      })
       {
         ${threadFields}
       }
@@ -231,7 +241,7 @@ export async function getMyWatches() {
         description
       }
       searchText
-      size        
+      size
     }
   }`)
 
@@ -328,6 +338,27 @@ const requestFields = `
   status
   title
   visibility
+`
+const requestFieldsAbridged = `
+  createdBy {
+    avatarURL
+    nickname
+  }
+  destination {
+    description
+  }
+  meeting {
+    name
+  }
+  origin {
+    description
+  }
+  id
+  photo {
+    url
+  }
+  size
+  title
 `
 const messageFields = `
   content
