@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser'
 import json from '@rollup/plugin-json'
 import dotenvPlugin from 'rollup-plugin-dotenv'
 import htmlTemplate from 'rollup-plugin-generate-html-template'
+import replace from '@rollup/plugin-replace'
 import autoPreprocess from 'svelte-preprocess'
 
 const cacheBust = Date.now()
@@ -68,8 +69,12 @@ export default {
 				'__GLOBAL_CSS_CACHE_BUST__': cacheBust,
 				'__BUNDLE_CSS_CACHE_BUST__': cacheBust
 			}
-    })
-	],
+    }),
+
+    replace({
+      "process.env.NODE_ENV": JSON.stringify("development"),
+    }),
+  ],
 	watch: {
 		clearScreen: false
 	}

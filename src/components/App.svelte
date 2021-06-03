@@ -11,6 +11,9 @@ import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
 import Error from './Error.svelte'
 import { loggingOut } from '../data/auth'
+import { initClient } from "@urql/svelte"
+import { getToken } from '../data/token'
+import { baseURL } from '../data/api'
 
 const publicRoutes = ['/login', '/terms', '/privacy', '/join']
 
@@ -31,6 +34,18 @@ function loadData() {
   loadRequests()
   loadEvents()
 }
+
+const options = {
+  url: baseURL,
+  fetchOptions: () => {
+    const token = getToken()
+    return {
+      headers: { authorization: token ? `Bearer ${token}` : '' },
+    };
+  },
+}
+
+initClient(options);
 </script>
 
 <Bootstrap />

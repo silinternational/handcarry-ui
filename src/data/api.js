@@ -3,6 +3,8 @@ import { throwError } from './error'
 import polyglot from '../i18n'
 import { clearApp } from './storage'
 
+export const baseURL = `${process.env.BASE_API_URL}/gql`
+
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#Supplying_request_options
 export async function wrappedFetch(url, body) {
   const headers = {
