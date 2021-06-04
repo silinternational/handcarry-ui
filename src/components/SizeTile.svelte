@@ -25,7 +25,7 @@ img {
 /* Technique based on https://stackoverflow.com/a/17541916 */
 /* TODO: fix this, it was broken by a dependency update. The primary effect is that a tab into this component does not
    outline the first size. */
-input[type=radio]:focus + .btn-outline-dark {
+/* input[type=radio]:focus + .btn-outline-dark {
   border-color: var(--blue);
   color: var(--blue);
 }
@@ -37,7 +37,7 @@ input[type=radio]:focus + .btn-outline-dark {
 
 [type=radio]:hover + .btn {
   background-color: var(--blue);
-}
+} */
 </style>
 
 <div class="{extraCssClasses} h-100 d-flex align-items-end flex-column">
