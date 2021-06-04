@@ -91,6 +91,7 @@ input[type=number] {
     {/if}
   </div>
   <div class="col-auto">
+    <!-- svelte-ignore a11y-no-onchange -->
     <select class="form-control" on:change={onUnitsChanged} bind:value={units}>
       <option value="kg">kg</option>
       <option value="lb">lb</option>

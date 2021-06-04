@@ -19,21 +19,6 @@ $: alt = name ? `picture of something ${name}` : ''
 </script>
 
 <style>
-/* Technique based on https://stackoverflow.com/a/17541916 */
-[type=radio]:focus + .btn-outline-dark {
-  border-color: var(--blue);
-  color: var(--blue);
-}
-
-[type=radio]:focus:hover + .btn {
-  border-color: var(--dark);
-  color: var(--light);
-}
-
-[type=radio]:hover + .btn {
-  background-color: var(--blue);
-}
-
 img {
   width: 60px;
 }
