@@ -59,7 +59,7 @@ async function onSubmit() {
         description: request.description,
         destination: request.destination,
         kilograms: request.kilograms,
-        neededBefore: request.neededBefore, 
+        neededBefore: request.neededBefore,
         origin: request.origin,
         photoID: request.photoID,
         size: request.size,
@@ -80,14 +80,14 @@ async function onSubmit() {
 
 function imageUploaded(event) {
   request.photoID = event.detail.id
-  imageUrl = event.detail.url 
+  imageUrl = event.detail.url
 }
 
 async function cancelRequest() {
   await cancel(params.id)
 
   push(`/requests`)
-  
+
   cancelled()
 }
 
@@ -121,17 +121,17 @@ function onWeightChanged(event) {
     <label for="request-title" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Requesting:
     </label>
-    
+
     <div class="col">
       <input type="text" class="form-control form-control-lg" id="request-title" bind:value={request.title} placeholder="What?">
     </div>
   </div>
-  
+
   <div class="form-row form-group">
-    <label class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+    <span class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       To:
-    </label>
-    
+    </span>
+
     <div class="col">
       <div class="form-group">
         <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
@@ -139,13 +139,13 @@ function onWeightChanged(event) {
       </div>
     </div>
   </div>
-  
+
   <div class="form-row form-group">
-    <label class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+    <span class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       From: <br />
       <small class="text-muted font-italic">(optional)</small>
-    </label>
-    
+    </span>
+
     <div class="col">
       <div class="form-group">
         <LocationInput class="form-control form-control-lg" on:change={onOriginChanged}
@@ -158,7 +158,7 @@ function onWeightChanged(event) {
     <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">Size: </div>
     <div class="col"><SizeSelector bind:selectedName={request.size} /></div>
   </div>
-  
+
   <div class="form-row form-group">
     <div class="col-12 col-md-3 col-lg-2 col-form-label-lg">
       Weight:<br />
@@ -166,7 +166,7 @@ function onWeightChanged(event) {
     </div>
     <div class="col"><WeightSelector on:change={onWeightChanged} kilograms={request.kilograms} /></div>
   </div>
-  
+
   <div class="form-row form-group">
     <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
       Upload image: <br />
@@ -176,30 +176,30 @@ function onWeightChanged(event) {
     <div class="col-auto mt-1">
       <Uploader on:uploaded={imageUploaded} type={ request.photo && request.photo.url ? 'change' : 'add'}/>
     </div>
-    
+
     {#if imageUrl || request.photo && request.photo.url}
       <div class="col-12 col-sm-5 text-center text-sm-left">
         <img src={imageUrl || request.photo && request.photo.url} alt="Request details" class="preview" />
       </div>
     {/if}
   </div>
-  
+
   <div class="form-row form-group">
     <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       <label for="request-description">Description:</label>
     </div>
     <div class="col">
-      <textarea class="form-control" bind:value={request.description} rows="3" 
+      <textarea class="form-control" bind:value={request.description} rows="3"
                 id="request-description" placeholder="Please describe the item" />
     </div>
   </div>
 
   <div class="form-row form-group">
     <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      <label>
+      <span>
         Visibility:<br />
         <small class="text-muted font-italic">(Who can see this request)</small>
-      </label>
+      </span>
     </div>
     <div class="col p-2">
       <VisibilitySelector on:change={OnVisibilityChanged} visibility={request.visibility} />
@@ -223,7 +223,7 @@ function onWeightChanged(event) {
       <a href="#/requests" on:click|preventDefault={pop} class="btn btn-outline-dark">« Cancel</a>
     </div>
     <div class="col"></div>
-    
+
     {#if !isNew}
       <div class="col-auto text-center">
         <button type="button" on:click={cancelRequest} class="btn btn-outline-danger">
@@ -232,7 +232,7 @@ function onWeightChanged(event) {
       </div>
       <div class="col"></div>
     {/if}
-    
+
     <div class="col-auto">
       <button type="submit" class="btn btn-primary float-right">
         {#if isNew}
