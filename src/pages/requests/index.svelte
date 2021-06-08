@@ -1,29 +1,29 @@
 <script>
-import FilteredDisplay from '../components/FilteredDisplay.svelte'
-import GridListToggle from '../components/GridListToggle.svelte'
-import RequestListEntry from '../components/RequestListEntry.svelte'
-import RequestFilters from '../components/RequestFilters.svelte'
-import RequestTile from '../components/RequestTile.svelte'
-import NewRequestTile from '../components/NewRequestTile.svelte'
-import CreateWatch from '../components/CreateWatch.svelte'
-import { events } from '../data/events'
-import { me } from '../data/user'
-import { requests, loading } from '../data/requests'
-import { push, querystring } from 'svelte-spa-router'
-import qs from 'qs'
-import { updateQueryString } from '../data/url'
-import { populateRequestFilterFrom } from '../data/requestFiltering'
+import FilteredDisplay from '../../components/FilteredDisplay.svelte'
+import GridListToggle from '../../components/GridListToggle.svelte'
+import RequestListEntry from '../../components/RequestListEntry.svelte'
+import RequestFilters from '../../components/RequestFilters.svelte'
+import RequestTile from '../../components/RequestTile.svelte'
+import NewRequestTile from '../../components/NewRequestTile.svelte'
+import { events } from '../../data/events'
+import { me } from '../../data/user'
+import { requests, loading } from '../../data/requests'
+import { goto, params } from '@roxi/routify'
+import { populateRequestFilterFrom } from '../../data/requestFiltering'
 import { flip } from 'svelte/animate'
 import { fade } from 'svelte/transition'
-import { viewedRequestsAs } from '../data/analytics'
-import { save, LIFESPAN, retrieve } from '../data/storage'
+import { viewedRequestsAs } from '../../data/analytics'
+import { save, LIFESPAN, retrieve } from '../../data/storage'
 
 let requestFilter = {}
 let viewPreference = retrieve('view-requests-as') || 'grid'
 
-$: queryStringData = qs.parse($querystring)
-$: requestFilter = populateRequestFilterFrom(queryStringData, $me, $events)
+// TODO: this probably doesn't work as-is with $params
+$: requestFilter = populateRequestFilterFrom($params, $me, $events)
 $: showAsList = viewPreference === 'list'
+$: console.log('requestFilter', requestFilter)
+$: console.log('$requests', $requests)
+$: console.log('$params', $params)
 
 function viewToggled(choice) {
   viewPreference = choice
@@ -65,9 +65,9 @@ function viewToggled(choice) {
     {/if}
 
     <div class:d-md-block={showAsList} class="d-none col-12 my-1">
-      <button on:click="{() => push('/requests/new')}" class="btn btn-success btn-sm w-100"><span style="font-size: larger">+</span> Make a request</button>
+      <button on:click="{() => $goto('/requests/new')}" class="btn btn-success btn-sm w-100"><span style="font-size: larger">+</span> Make a request</button>
     </div>
-    
+
     <div class:d-md-block={!showAsList} class="d-none col-6 mb-1 my-sm-1 col-md-6 col-lg-4"><NewRequestTile /></div>
   </div>
 </FilteredDisplay>

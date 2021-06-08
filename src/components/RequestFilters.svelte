@@ -1,5 +1,5 @@
 <script>
-import { 
+import {
   filteredRequestsByDestination,
   filteredRequestsByEvent,
   filteredRequestsByOrigin,
@@ -19,6 +19,7 @@ import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import SizeFilter from './SizeFilter.svelte'
 import ToggleFilter from './ToggleFilter.svelte'
+import { goto } from '@roxi/routify'
 
 export let filter = {}
 
@@ -33,25 +34,27 @@ $: onlyMyRequests = filter.creator.active
 function onEventChange(domEvent) {
   const eventId = domEvent.detail
   if (eventId) {
-    setFilters({
+    const newUrl = setFilters({
       toDescription: false,
       toCountry: false,
       toLatitude: false,
       toLongitude: false,
       event: eventId,
     })
-  
+
     const eventName = $events.find(({ id }) => id === eventId).name
     filteredRequestsByEvent(eventName)
+
+    $goto(newUrl)
   } else {
-    removeRequestFilter('event')
+    $goto(removeRequestFilter('event'))
   }
 }
 
 function onDestinationChange(event) {
   const location = event.detail
   if (location) {
-    setFilters({
+    const newUrl = setFilters( {
       toDescription: location.description,
       toCountry: location.country,
       toLatitude: location.latitude,
@@ -60,15 +63,17 @@ function onDestinationChange(event) {
     })
 
     filteredRequestsByDestination(location.description)
+
+    $goto(newUrl)
   } else {
-    removeFilter('destination')
+    $goto(removeFilter('destination'))
   }
 }
 
 function onOriginChange(event) {
   const location = event.detail
   if (location) {
-    setFilters({
+    const newUrl = setFilters( {
       fromDescription: location.description,
       fromCountry: location.country,
       fromLatitude: location.latitude,
@@ -76,41 +81,51 @@ function onOriginChange(event) {
     })
 
     filteredRequestsByOrigin(location.description)
+
+    $goto(newUrl)
   } else {
-    removeFilter('origin')
+    $goto(removeFilter('origin'))
   }
 }
 
 function onKeywordInput(event) {
   const query = event.detail
-  setFilters({ search: query })
+  const newUrl = setFilters( { search: query })
 
   searchedRequests(query)
+
+  $goto(newUrl)
 }
 
 function onMyCommitmentsChange(event) {
   if (event.detail) {
-    setFilters({
+    const newUrl = setFilters( {
       creator: false,
       provider: $me.id,
       size: false,
     })
+
     filteredRequestsByProviding()
+
+    $goto(newUrl)
   } else {
-    removeRequestFilter('provider')
+    $goto(removeRequestFilter('provider'))
   }
 }
 
 function onMyRequestsChange(event) {
   if (event.detail) {
-    setFilters({
+    const newUrl = setFilters( {
       creator: $me.id,
       provider: false,
       size: false,
     })
+
     filteredRequestsByMine()
+
+    $goto(newUrl)
   } else {
-    removeRequestFilter('creator')
+    $goto(removeRequestFilter('creator'))
   }
 }
 
@@ -120,16 +135,18 @@ function onSizeSelection(event) {
   filteredRequestsBySize(lowerCaseSize)
 
   if (isDefaultSizeFilter(lowerCaseSize)) {
-    removeRequestFilter('size')
+    $goto(removeRequestFilter('size'))
   } else {
-    setFilters({ size: lowerCaseSize })
+    $goto(setFilters( { size: lowerCaseSize }))
   }
 }
 
 function resetFilters() {
-  clearRequestFilter()
+  const newUrl = clearRequestFilter()
 
   filteredRequestsByAll()
+
+  $goto(newUrl)
 }
 </script>
 
@@ -138,7 +155,7 @@ function resetFilters() {
       Filters
       <button on:click={resetFilters} class="btn btn-link p-0"><small>clear filters</small></button>
   </div>
-  
+
   <div class="card-body">
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />

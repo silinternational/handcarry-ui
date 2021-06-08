@@ -1,6 +1,6 @@
 <script>
 import { login } from '../data/auth'
-import { querystring } from 'svelte-spa-router'
+import { params } from '@roxi/routify'
 import qs from 'qs'
 import { me } from '../data/user'
 import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
@@ -9,7 +9,8 @@ import { retrieve, save, LIFESPAN, clear } from '../data/storage'
 export let placeholder = 'Enter email address'
 export let buttonText = 'Sign in'
 export let hideRememberMe = false
-export let returnTo = qs.parse($querystring)['return-to']
+// TODO: test this
+export let returnTo = $params.ReturnTo
 
 let email = retrieve('email') || ''
 let checked = !!email

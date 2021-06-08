@@ -2,8 +2,8 @@ import { getSeed, getToken } from './token'
 import { loggedOut } from './analytics'
 import { clearApp } from './storage'
 import { wrappedFetch } from './api'
-import { push } from 'svelte-spa-router'
-import { writable } from 'svelte/store'
+import { goto } from '@roxi/routify'
+import { get, writable } from 'svelte/store'
 
 export const loggingOut = writable(false)
 
@@ -26,7 +26,7 @@ export function logout() {
   const TEN_SECS = 10000
   setTimeout(() => loggingOut.set(false), TEN_SECS)
 
-  push('/login')
+  get(goto)('/login')
 
   window.location = `${process.env.BASE_API_URL}/auth/logout?token=${encodeURIComponent(getToken())}`
 

@@ -4,24 +4,28 @@ import { init as loadEvents } from '../data/events'
 import { init as loadMessaging } from '../data/messaging'
 import { init as loadRequests } from '../data/requests'
 import Nav from './Nav.svelte'
-import Router from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
-import { location, replace } from 'svelte-spa-router'
 import Footer from './Footer.svelte'
-import routes from '../views/routes'
 import Bootstrap from './Bootstrap.svelte'
 import Error from './Error.svelte'
 import { loggingOut } from '../data/auth'
+import { redirect, Router, url } from '@roxi/routify'
+import { routes } from '../../.routify/routes'
+import { parse, stringify } from 'qs'
 
 const publicRoutes = ['/login', '/terms', '/privacy', '/join']
 
-$: isPublicRoute = publicRoutes.some(publicRoute => $location.startsWith(publicRoute))
+let minimal = false
+let isPublicRoute = false
+
+// FIXME
+// $: isPublicRoute = publicRoutes.some(publicRoute => $url().startsWith(publicRoute))
 $: ! (isPublicRoute || isUserAuthn()) && authenticate() // should only react to location changes, not user changes.
 $: userIsAuthn = $me.id
-$: ['/', '/login'].includes($location) && userIsAuthn && replace('/requests') // if they're already authn, no need to login again.
-$: minimal = $location.startsWith('/welcome') || ! userIsAuthn
+// FIXME
+// $: ['/', '/login'].includes($url()) && userIsAuthn && $redirect('/requests') // if they're already authn, no need to login again.
+// $: minimal = $url().startsWith('/welcome') || ! userIsAuthn
 $: isDataNeeded = userIsAuthn && ! minimal
 $: isDataNeeded && loadData()
-$: $location && scrollTo(0,0) // ensure route changes behave like a normal page change in the browser by going back to the top of the page.
 
 function isUserAuthn() {
   return $me.id
@@ -30,6 +34,10 @@ function loadData() {
   loadMessaging()
   loadRequests()
   loadEvents()
+}
+const queryHandler = {
+	parse: params => parse(params, {ignoreQueryPrefix: true}),
+	stringify
 }
 </script>
 
@@ -43,7 +51,7 @@ function loadData() {
   {#if $loggingOut}
      <h4>Thank you for visiting, we are signing you out now...</h4>
   {:else}
-    <Router {routes} />
+    <Router {routes} config={{queryHandler}} />
   {/if}
 </main>
 

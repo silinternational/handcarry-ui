@@ -1,9 +1,8 @@
-import { location, push, querystring } from 'svelte-spa-router'
-import { get } from 'svelte/store'
 import qs from 'qs'
 
 export function updateQueryString(updates) {
-  let queryStringData = qs.parse(get(querystring), { strictNullHandling: true })
+  const querystring = window.location.search
+  let queryStringData = qs.parse(querystring, { ignoreQueryPrefix: true, strictNullHandling: true })
 
   for (const key in updates) {
     const value = updates[key]
@@ -19,5 +18,7 @@ export function updateQueryString(updates) {
   }
 
   const newQueryString = qs.stringify(queryStringData, { strictNullHandling: true })
-  newQueryString ? push(get(location) + '?' + newQueryString) : push(get(location))
+  const url = window.location.origin + window.location.pathname
+  const newUrl = newQueryString ? `${url}?${newQueryString}` : url
+  return newUrl
 }

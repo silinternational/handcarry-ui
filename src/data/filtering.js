@@ -53,6 +53,7 @@ export function isItemInList(item, items) {
  * Remove the named filter from the query string.
  *
  * @param {string} name
+ * @returns {string} updated URL
  */
 export function removeFilter(name) {
   let updates = {}
@@ -73,7 +74,7 @@ export function removeFilter(name) {
   } else {
     updates[name] = false
   }
-  updateQueryString(updates)
+  return updateQueryString(updates)
 }
 
 /**
@@ -101,8 +102,8 @@ export function removeFilter(name) {
  *
  * @param {Object} updates
  */
-export function setFilters(updates) {
-  updateQueryString(updates)
+export function setFilters(params,updates) {
+  return updateQueryString(params, updates)
 }
 
 /**
@@ -120,7 +121,7 @@ export function stringIsIn(needle, haystack) {
 /**
  * Whether two locations are within 100 km each other. This should always be the same as
  * the calculation in wecarry-api.
- * 
+ *
  * @param {Object|null} loc1
  * @param {Object|null} loc2
  * @return {boolean}
@@ -133,10 +134,10 @@ export function isNear(loc1, loc2) {
  * Haversine formula implementation derived from Stack Overflow answer:
  * https://stackoverflow.com/a/21623206
 
- * @param {number} lat1 
- * @param {number} lon1 
- * @param {number} lat2 
- * @param {number} lon2 
+ * @param {number} lat1
+ * @param {number} lon1
+ * @param {number} lat2
+ * @param {number} lon2
  */
 function distance(lat1, lon1, lat2, lon2) {
   const p = Math.PI / 180

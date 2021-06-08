@@ -12,7 +12,7 @@ This project utilizes [Rollup](https://rollupjs.org) for its builds
 Install the project dependencies and start a local server
 ```
 make
-``` 
+```
 
 Navigate to [http://wecarry.local:5000](http://wecarry.local:5000). You should see your app running. Edit a component file in `src`, save it, and the page will automatically reload with your changes.
 
@@ -44,4 +44,4 @@ import BootstrapWidthIndicator from '../components/BootstrapWidthIndicator.svelt
 make build
 ```
 
-The contents of the `public` folder can then be deployed to your host
+The contents of the `dist` folder can then be deployed to your host

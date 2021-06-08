@@ -1,4 +1,4 @@
-import { location } from 'svelte-spa-router'
+import { url } from '@roxi/routify'
 
 init()
 
@@ -11,7 +11,8 @@ function init() {
 
   loadLib()
 
-  location.subscribe(trackPageView)
+  // FIXME
+  // url.subscribe(trackPageView)
 }
 
 function loadLib() {
@@ -19,7 +20,7 @@ function loadLib() {
 
   el.src = 'https://www.google-analytics.com/analytics.js'
   el.async = true
-  
+
   document.head.appendChild(el)
 }
 

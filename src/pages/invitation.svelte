@@ -2,8 +2,7 @@
 import { onMount } from 'svelte'
 import { getInviteInfo } from '../data/api'
 import Login from '../components/Login.svelte'
-
-export let params = {} // URL path parameters, provided by router.
+import { params } from '@roxi/routify'
 
 let loading = false
 let inviteInfo = {}
@@ -12,7 +11,7 @@ onMount(async () => {
   try {
     loading = true
 
-    inviteInfo = await getInviteInfo(params.code)
+    inviteInfo = await getInviteInfo($params.code)
   } finally {
     loading = false
   }
@@ -22,7 +21,7 @@ const config = {
   meeting: {
     alt: 'Event logo',
     instructions: name => `To join the ${name} event on WeCarry, enter your email address below to get started:`,
-    returnTo: () => `/requests?event=${encodeURIComponent(inviteInfo.name)}`, 
+    returnTo: () => `/requests?event=${encodeURIComponent(inviteInfo.name)}`,
     placeholder: `Enter email associated with event`,
   },
 }

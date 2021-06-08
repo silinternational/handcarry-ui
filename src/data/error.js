@@ -1,6 +1,5 @@
-import { writable } from 'svelte/store'
-import { push, location } from 'svelte-spa-router'
-import { get } from 'svelte/store'
+import { get, writable } from 'svelte/store'
+import { goto, url } from '@roxi/routify'
 
 const defaultError = {
   code: 0,
@@ -22,7 +21,7 @@ function init() {
       // we need to get the user over to the login page but we may want to set up some additional
       // handling in case they were in the middle of something in the app already, i.e., they
       // already authenticated but their credenitals expired while they were looking at requests.
-      const currentRoute = get(location)
+      const currentRoute = get(url)()
       let loginRoute = '/login'
       if (! ['/', loginRoute].includes(currentRoute)) {
         // they were on some page in the app already and lost their credentials,
@@ -30,7 +29,7 @@ function init() {
         loginRoute += `?return-to=${currentRoute}`
       }
 
-      push(loginRoute)
+      get(goto)(loginRoute)
     }
 
     error.set(reason)

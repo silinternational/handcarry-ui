@@ -4,7 +4,7 @@ import { updateQueryString } from './url'
 
 /** NOTE: This should clear all values used by `populateRequestFilterFrom()` */
 export function clearRequestFilter() {
-  updateQueryString({
+  return updateQueryString({
     creator: false,
     toDescription: false,
     toCountry: false,
@@ -120,20 +120,22 @@ function requestMatchesSearchText(request, searchText) {
  */
 export function removeRequestFilter(name) {
   if (name === 'destination'){
-    setFilters({
+    return setFilters({
       toDescription: false,
       toCountry: false,
       toLatitude: false,
       toLongitude: false,
     })
-  } else if  (name === 'origin'){
-    setFilters({
+  }
+
+  if  (name === 'origin'){
+    return setFilters({
       fromDescription: false,
       fromCountry: false,
       fromLatitude: false,
       fromLongitude: false,
     })
-  } else {
-    removeFilter(name)
   }
+
+  return removeFilter(name)
 }

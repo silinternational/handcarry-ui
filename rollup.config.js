@@ -1,76 +1,75 @@
-import svelte from 'rollup-plugin-svelte'
-import resolve from 'rollup-plugin-node-resolve'
-import commonjs from 'rollup-plugin-commonjs'
-import livereload from 'rollup-plugin-livereload'
-import { terser } from 'rollup-plugin-terser'
+import commonjs from '@rollup/plugin-commonjs'
 import json from '@rollup/plugin-json'
-import dotenvPlugin from 'rollup-plugin-dotenv'
-import htmlTemplate from 'rollup-plugin-generate-html-template'
+import resolve from '@rollup/plugin-node-resolve'
+import dotenv from 'rollup-plugin-dotenv'
+import livereload from 'rollup-plugin-livereload'
+import postcss from 'rollup-plugin-postcss'
+import svelte from 'rollup-plugin-svelte'
+import { terser } from 'rollup-plugin-terser'
+import { generateSW } from 'rollup-plugin-workbox'
+import routify from '@roxi/routify/plugins/rollup'
 import autoPreprocess from 'svelte-preprocess'
 
-const cacheBust = Date.now()
 const production = !process.env.ROLLUP_WATCH
 
 export default {
 	input: 'src/main.js',
 	output: {
-		sourcemap: true,
+		file: 'dist/bundle.js',
 		format: 'iife',
-		name: 'app',
-		file: `public/bundle.${cacheBust}.js`
+		sourcemap: production,
 	},
+	preserveEntrySignatures: 'strict',
+	inlineDynamicImports: true,
 	plugins: [
 		svelte({
-			preprocess: autoPreprocess(),
-			
 			// enable run-time checks when not in production
 			dev: !production,
-			
-			// we'll extract any component CSS out into
-			// a separate file — better for performance
-			css: css => {
-				css.write(`bundle.${cacheBust}.css`)
-			}
+			emitCss: true, // give component style to postcss() for processing
+			preprocess: autoPreprocess(),
 		}),
 
-		// makes NAME=VALUE pairs in a .env file available in the app as process.env.<NAME> vars
-		dotenvPlugin(),
-		
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
-		// some cases you'll need additional configuration —
+		// some cases you'll need additional configuration -
 		// consult the documentation for details:
-		// https://github.com/rollup/rollup-plugin-commonjs
+		// https://github.com/rollup/plugins/tree/master/packages/commonjs
 		resolve({
 			browser: true,
-			dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/')
+			dedupe: ['svelte'],
 		}),
 		commonjs(),
 
 		// added so i18n/[lang].json files can be loaded in i18n/index.js
 		json(),
+		postcss({
+			extract: true, // create a css file alongside the output.file
+			sourceMap: production,
+			use: {
+				sass: {
+					includePaths: ['node_modules']
+				}
+			},
+		}),
+		routify({}),
 
-		// Watch the `public` directory and refresh the
-		// browser on changes when not in production
-		!production && livereload('public'),
+		// makes NAME=VALUE pairs in a .env file available in the app as process.env.<NAME> vars
+		dotenv(),
 
-		// If we're building for production (npm run build
-		// instead of npm run dev), minify
-		production && terser(),
+    // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.generateSW
+    // generateSW({
+    //   globDirectory: 'dist',
+    //   globPatterns: ['**/*.{css,html,js,json,png}'],
+    //   globIgnores: ['oauth/*'],
+    //   navigateFallback: 'index.html',
+    //   offlineGoogleAnalytics: true,
+    //   swDest: 'dist/service-worker.js',
+    // }),
 
-		// generates a public/index.html that pulls in the newly cache-busted
-		// app files, e.g., public/bundle.[timestamp].js
-		htmlTemplate({
-      template: 'src/prebuild-index.html',
-			target: 'public/index.html',
-			attrs: ['defer'],
-			replaceVars: {
-				'__GLOBAL_CSS_CACHE_BUST__': cacheBust,
-				'__BUNDLE_CSS_CACHE_BUST__': cacheBust
-			}
-    })
+		//           minify     auto-refresh browser on changes
+		production ? terser() : livereload('dist'),
 	],
 	watch: {
-		clearScreen: false
+		clearScreen: false,
 	}
 }
