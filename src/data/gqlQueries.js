@@ -347,12 +347,16 @@ const requestFieldsAbridged = `
   }
   destination {
     description
+    latitude
+    longitude
   }
   meeting {
     name
   }
   origin {
     description
+    latitude
+    longitude
   }
   id
   photo {
