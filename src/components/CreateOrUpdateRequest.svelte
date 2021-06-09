@@ -217,8 +217,7 @@ function onWeightChanged(event) {
 
   <div class="form-row form-group">
     <div class="col-auto">
-      <!-- FIXME: should go "back" instead of "/" -->
-      <a href="/requests" on:click|preventDefault={$goto('/')} class="btn btn-outline-dark">« Cancel</a>
+      <a href="/requests" on:click|preventDefault={() => history.back()} class="btn btn-outline-dark">« Cancel</a>
     </div>
     <div class="col"></div>
 
