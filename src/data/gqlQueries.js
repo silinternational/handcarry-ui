@@ -341,6 +341,7 @@ const requestFields = `
 `
 const requestFieldsAbridged = `
   createdBy {
+    id
     avatarURL
     nickname
   }
@@ -356,6 +357,9 @@ const requestFieldsAbridged = `
   id
   photo {
     url
+  }
+  provider {
+    id
   }
   size
   title
