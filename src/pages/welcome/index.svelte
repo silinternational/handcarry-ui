@@ -1,7 +1,6 @@
 <script>
 import { params } from '@roxi/routify'
 
-// TODO: double-check
 const returnTo = $params['return-to']
 
 let nextUrl = `/welcome/preferences`

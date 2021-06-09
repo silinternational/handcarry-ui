@@ -19,10 +19,7 @@ function initializeUpdates({ nickname }) {
 async function save() {
   await changeNickname(newNickname)
 
-  // TODO: check that this is correct for 'return-to'
-  const returnTo = $params.returnTo
-
-  $goto(returnTo || '/requests')
+  $goto($params['return-to'] || '/requests')
 }
 
 async function imageUploaded(event) {

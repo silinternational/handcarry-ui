@@ -19,9 +19,7 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
 
 let eventFilter = {}
 
-// TODO: will this work?
-$: queryStringData = $params
-$: eventFilter = populateEventFilterFrom(queryStringData, $me)
+$: eventFilter = populateEventFilterFrom($params, $me)
 </script>
 
 <style>
