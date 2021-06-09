@@ -21,12 +21,12 @@ $: minimal = $page.path.startsWith('/welcome') || ! userIsAuthn
 </script>
 
 <style>
-/*.fab {
+.fab {
   position: fixed;
   right: 0.5rem;
   bottom: 0.5rem;
-  z-index: 1030;*/ /* matches bootstrap's suggestion for z-index-fixed */
-/*}*/
+  z-index: 1030; /* matches bootstrap's suggestion for z-index-fixed */
+}
 </style>
 
 {#if $isActive('/requests')}
