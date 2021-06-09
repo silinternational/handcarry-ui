@@ -34,18 +34,16 @@ $: onlyMyRequests = filter.creator.active
 function onEventChange(domEvent) {
   const eventId = domEvent.detail
   if (eventId) {
-    const newUrl = setFilters({
+    $goto(setFilters({
       toDescription: false,
       toCountry: false,
       toLatitude: false,
       toLongitude: false,
       event: eventId,
-    })
+    }))
 
     const eventName = $events.find(({ id }) => id === eventId).name
     filteredRequestsByEvent(eventName)
-
-    $goto(newUrl)
   } else {
     $goto(removeRequestFilter('event'))
   }
@@ -54,17 +52,15 @@ function onEventChange(domEvent) {
 function onDestinationChange(event) {
   const location = event.detail
   if (location) {
-    const newUrl = setFilters( {
+    $goto(setFilters( {
       toDescription: location.description,
       toCountry: location.country,
       toLatitude: location.latitude,
       toLongitude: location.longitude,
       event: false,
-    })
+    }))
 
     filteredRequestsByDestination(location.description)
-
-    $goto(newUrl)
   } else {
     $goto(removeFilter('destination'))
   }
@@ -73,16 +69,14 @@ function onDestinationChange(event) {
 function onOriginChange(event) {
   const location = event.detail
   if (location) {
-    const newUrl = setFilters( {
+    $goto(setFilters( {
       fromDescription: location.description,
       fromCountry: location.country,
       fromLatitude: location.latitude,
       fromLongitude: location.longitude,
-    })
+    }))
 
     filteredRequestsByOrigin(location.description)
-
-    $goto(newUrl)
   } else {
     $goto(removeFilter('origin'))
   }
@@ -90,24 +84,20 @@ function onOriginChange(event) {
 
 function onKeywordInput(event) {
   const query = event.detail
-  const newUrl = setFilters( { search: query })
+  $goto(setFilters( { search: query }))
 
   searchedRequests(query)
-
-  $goto(newUrl)
 }
 
 function onMyCommitmentsChange(event) {
   if (event.detail) {
-    const newUrl = setFilters( {
+    $goto(setFilters( {
       creator: false,
       provider: $me.id,
       size: false,
-    })
+    }))
 
     filteredRequestsByProviding()
-
-    $goto(newUrl)
   } else {
     $goto(removeRequestFilter('provider'))
   }
@@ -115,15 +105,13 @@ function onMyCommitmentsChange(event) {
 
 function onMyRequestsChange(event) {
   if (event.detail) {
-    const newUrl = setFilters( {
+    $goto(setFilters( {
       creator: $me.id,
       provider: false,
       size: false,
-    })
+    }))
 
     filteredRequestsByMine()
-
-    $goto(newUrl)
   } else {
     $goto(removeRequestFilter('creator'))
   }
@@ -142,11 +130,9 @@ function onSizeSelection(event) {
 }
 
 function resetFilters() {
-  const newUrl = clearRequestFilter()
+  $goto(clearRequestFilter())
 
   filteredRequestsByAll()
-
-  $goto(newUrl)
 }
 </script>
 
