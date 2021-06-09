@@ -102,8 +102,8 @@ export function removeFilter(name) {
  *
  * @param {Object} updates
  */
-export function setFilters(params,updates) {
-  return updateQueryString(params, updates)
+export function setFilters(updates) {
+  return updateQueryString(updates)
 }
 
 /**

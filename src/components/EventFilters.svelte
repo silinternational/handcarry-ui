@@ -20,40 +20,32 @@ $: searchText = filter.search.value || ''
 
 function onKeywordInput(event) {
   const query = event.detail
-  const newUrl = setFilters({ search: query })
+  $goto(setFilters({ search: query }))
 
   searchedMeetings(query)
-
-  $goto(newUrl)
 }
 
 function onLocationChange(event) {
   const query = event.detail && event.detail.description
-  const newUrl = setFilters({ location: query })
+  $goto(setFilters({ location: query }))
 
   filteredMeetingsByLocation(query)
-
-  $goto(newUrl)
 }
 
 function onMyEventsChange(event) {
   if (event.detail) {
-    const newUrl = setFilters({ participating: null })
+    $goto(setFilters({ participating: null }))
 
     filteredMeetingsByMine()
-
-    $goto(newUrl)
   } else {
     $goto(removeFilter('participating'))
   }
 }
 
 function resetFilters() {
-  const newUrl = clearEventFilter()
+  $goto(clearEventFilter())
 
   filteredMeetingsByAll()
-
-  $goto(newUrl)
 }
 </script>
 
