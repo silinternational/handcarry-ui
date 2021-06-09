@@ -1,45 +1,50 @@
-import qs from 'qs'
-import { onClear, save, LIFESPAN, retrieve, clear, exists as isAlreadyInStorage } from './storage'
-import { loggedIn } from './analytics'
-
-const get = key => retrieve(key) || qsData[key]
-export const getSeed = () => get('seed')
-export const getToken = () => `${getSeed() + get('access-token')}`
-export const getAuthzHeader = () => `${get('token-type')} ${getToken()}`
-
-let qsData = {}
-
-const initialize = (key, defaultValue = '') => save(key, get(key) || defaultValue, LIFESPAN.LONG)
-const reset = () => clear('token-type', 'access-token') // not clearing 'seed' here to avoid any unnecessary re-authn scenarios.
-const createSeed = () =>
-  Math.random()     // doesn't need to be cryptographically strong
-      .toString(36) // convert to base-36 so we get more letters
-      .substring(2) // strip off the leading '0.'
-
-init()
-function init() {
-  qsData = qs.parse(window.location.search.substring(1))
-
-  initialize('seed', createSeed())
-  initialize('token-type', 'Bearer')
-  initialize('access-token')
-
-  qsData['access-token'] && loggedIn()
-
-  cleanAddressBar()
-
-  onClear(reset)
+export const getSeed = () => localStorage.getItem('seed')
+export const getToken = () => getSeed() + getAccessToken()
+export const getAuthzHeader = () => `${getTokenType()} ${getToken()}`
+export const clear = () => {
+  localStorage.removeItem('seed')
+  localStorage.removeItem('access-token')
+  localStorage.removeItem('token-type')
 }
 
-function cleanAddressBar() {
-  Object.keys(qsData).filter(isAlreadyInStorage).map(key => delete qsData[key])
+const generateRandomID = (prefix = '') => prefix + Math.random().toString(36).slice(2)
 
-  let cleanedUrl = window.location.pathname
+initialize()
+function initialize() {
+  localStorage.getItem('seed') || localStorage.setItem('seed', generateRandomID())
 
-  if (Object.keys(qsData).length) {
-    cleanedUrl += `?${qs.stringify(qsData)}`
+  initializeToken()
+}
+
+function initializeToken() {
+  const params = new URLSearchParams(location.search)
+
+  if (init('access-token') || init('token-type')) {
+    cleanAddressBar()
   }
 
-  // FIXME: this refreshes the browser, which causes this code to re-execute infinitely
-  // window.location = cleanedUrl
+  function init(name) {
+    const value = params.get(name)
+
+    if (value !== null) {
+      localStorage.setItem(name, value)
+      params.delete(name)
+    }
+
+    return value
+  }
+
+  function cleanAddressBar() {
+    const search = [...params].length ? `?${params.toString()}` : ''
+
+    location.replace(location.pathname + search)
+  }
+}
+
+function getAccessToken() {
+  return localStorage.getItem('access-token') || ''
+}
+
+function getTokenType(){
+  return localStorage.getItem('token-type') || 'Bearer'
 }
