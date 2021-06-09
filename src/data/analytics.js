@@ -19,7 +19,7 @@ function loadLib() {
   document.head.appendChild(el)
 }
 
-export function trackPageView(route) {
+export function trackPageView() {
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/pages#pageview_fields
   ga('send', 'pageview', window.location.pathname)
 }
