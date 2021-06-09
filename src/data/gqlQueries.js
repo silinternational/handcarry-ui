@@ -351,6 +351,7 @@ const requestFieldsAbridged = `
     longitude
   }
   meeting {
+    id
     name
   }
   origin {
