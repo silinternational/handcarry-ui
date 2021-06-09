@@ -57,14 +57,14 @@ export default {
 		dotenv(),
 
     // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.generateSW
-    // generateSW({
-    //   globDirectory: 'dist',
-    //   globPatterns: ['**/*.{css,html,js,json,png}'],
-    //   globIgnores: ['oauth/*'],
-    //   navigateFallback: 'index.html',
-    //   offlineGoogleAnalytics: true,
-    //   swDest: 'dist/service-worker.js',
-    // }),
+    generateSW({
+      globDirectory: 'dist',
+      globPatterns: ['**/*.{css,html,js,json,png}'],
+      globIgnores: ['oauth/*'],
+      navigateFallback: 'index.html',
+      offlineGoogleAnalytics: true,
+      swDest: 'dist/service-worker.js',
+    }),
 
 		//           minify     auto-refresh browser on changes
 		production ? terser() : livereload('dist'),
