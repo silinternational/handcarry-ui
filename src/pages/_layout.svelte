@@ -7,7 +7,7 @@
   import { init as authenticate, me } from '../data/user'
   import { page } from '@roxi/routify'
 
-  const publicRoutes = ['/login', '/terms', '/privacy', '/join']
+  const publicRoutes = ['/terms', '/privacy', '/join']
 
   let isPublicRoute = false
 
