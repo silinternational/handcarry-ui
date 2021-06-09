@@ -1,10 +1,3 @@
-<script>
-import { scrollToHtmlId } from '../data/scroll'
-import { params } from '@roxi/routify'
-
-$: scrollToHtmlId($params.section)
-</script>
-
 <style>
 h2 {
   margin-top: 36px;
@@ -17,22 +10,22 @@ h2 {
 <p>Thank you for entrusting WeCarry with your hand-carry coordination needs. We understand this may include personal information about you such as your location and name, and so we take great care and responsibility to protect your information. This page describes what information we collect and how we use it.</p>
 
 <h2 id="the-short-version">The short version</h2>
-<p>We only collect the information you choose to give us, and we process it with your consent, or on another legal basis; we only require the minimum amount of personal information that is necessary to fulfill the purpose of your interaction with us; we don't sell it to third parties; and we only use it as this Privacy Policy describes. If you're visiting us from the European Union (EU), European Economic Area (EEA), Switzerland, or the United Kingdom (UK), please see our <a href="/privacy/our-global-privacy-practices">global privacy practices</a>: we comply with the General Data Protection Regulation (GDPR). No matter where you are, where you live, or what your citizenship is, we provide a high standard of privacy protection to all our users around the world, regardless of their country of origin or location.</p>
+<p>We only collect the information you choose to give us, and we process it with your consent, or on another legal basis; we only require the minimum amount of personal information that is necessary to fulfill the purpose of your interaction with us; we don't sell it to third parties; and we only use it as this Privacy Policy describes. If you're visiting us from the European Union (EU), European Economic Area (EEA), Switzerland, or the United Kingdom (UK), please see our <a href="/privacy#our-global-privacy-practices">global privacy practices</a>: we comply with the General Data Protection Regulation (GDPR). No matter where you are, where you live, or what your citizenship is, we provide a high standard of privacy protection to all our users around the world, regardless of their country of origin or location.</p>
 <p>Of course, the short version doesn't tell you everything, so please read on for more details!</p>
 
 <h2 id="outline">Outline</h2>
-<p><a href="/privacy/the-short-version">The short version</a></p>
-<p><a href="/privacy/outline">Outline</a></p>
-<p><a href="/privacy/personal-information-wecarry-collects-and-why">Personal information WeCarry collects and why</a></p>
-<p><a href="/privacy/how-we-share-the-information-we-collect">How we share the information we collect</a></p>
-<p><a href="/privacy/how-you-can-access-or-request-removal-of-information-about-you">How you can access or request removal of information about you</a></p>
-<p><a href="/privacy/how-we-use-cookies-and-tracking">How we use cookies and tracking</a></p>
-<p><a href="/privacy/where-we-host-our-service-and-store-your-information">Where we host our service and store your information</a></p>
-<p><a href="/privacy/how-we-secure-your-information">How we secure your information</a></p>
-<p><a href="/privacy/our-global-privacy-practices">Our global privacy practices</a></p>
-<p><a href="/privacy/how-we-communicate-with-you">How we communicate with you</a></p>
-<p><a href="/privacy/changes-to-our-privacy-policy">Changes to our Privacy Policy</a></p>
-<p><a href="/privacy/contacting-us">Contacting us</a></p>
+<p><a href="/privacy#the-short-version">The short version</a></p>
+<p><a href="/privacy#outline">Outline</a></p>
+<p><a href="/privacy#personal-information-wecarry-collects-and-why">Personal information WeCarry collects and why</a></p>
+<p><a href="/privacy#how-we-share-the-information-we-collect">How we share the information we collect</a></p>
+<p><a href="/privacy#how-you-can-access-or-request-removal-of-information-about-you">How you can access or request removal of information about you</a></p>
+<p><a href="/privacy#how-we-use-cookies-and-tracking">How we use cookies and tracking</a></p>
+<p><a href="/privacy#where-we-host-our-service-and-store-your-information">Where we host our service and store your information</a></p>
+<p><a href="/privacy#how-we-secure-your-information">How we secure your information</a></p>
+<p><a href="/privacy#our-global-privacy-practices">Our global privacy practices</a></p>
+<p><a href="/privacy#how-we-communicate-with-you">How we communicate with you</a></p>
+<p><a href="/privacy#changes-to-our-privacy-policy">Changes to our Privacy Policy</a></p>
+<p><a href="/privacy#contacting-us">Contacting us</a></p>
 
 <h2 id="personal-information-wecarry-collects-and-why">Personal information WeCarry collects and why</h2>
 <p>We think very carefully about each piece of information we collect to be careful not to collect more than is necessary. This table outlines the information collected and how it is used.</p>
@@ -129,7 +122,7 @@ h2 {
 <p>You may send an email to support@wecarry.app to request access to the information we have about you or to request that we delete the information we have about you. In some cases where removal of your information is not possible due to impact to others or the service in general, your information will be anonymized to remove any connection with you. </p>
 
 <h2 id="how-we-use-cookies-and-tracking">How we use cookies and tracking</h2>
-<p>WeCarry uses Google Analytics to help us understand how visitors interact with the app, but we do NOT use it to track, collect or send to Google any data that personally identifies an individual. For more information on how Google Analytics collects and processes data, see "How Google uses data when you use our partners' sites or apps" <a href="https://www.google.com/policies/privacy/partners/" target="_blank">https://www.google.com/policies/privacy/partners/</a>.</p>
+<p>WeCarry uses Google Analytics to help us understand how visitors interact with the app, but we do NOT use it to track, collect or send to Google any data that personally identifies an individual. For more information on how Google Analytics collects and processes data, see "How Google uses data when you use our partners' sites or apps" <a href="https://www.google.com/policies/privacy#partners/" target="_blank">https://www.google.com/policies/privacy/partners/</a>.</p>
 <p>Other than any cookies used by Google Analytics (which we cannot see) and the session cookie automatically used by your browser to allow you to login (if applicable), WeCarry does not use cookies to collect any data about you.</p>
 <p>While we may provide links to other websites, please be aware that we are not responsible for the content or privacy practices of third-party websites.</p>
 
