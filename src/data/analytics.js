@@ -1,5 +1,3 @@
-import { url } from '@roxi/routify'
-
 init()
 
 // https://developers.google.com/analytics/devguides/collection/analyticsjs
@@ -10,9 +8,6 @@ function init() {
   ga('create', process.env.GOOGLE_ANALYTICS_ID, 'auto')
 
   loadLib()
-
-  // FIXME
-  // url.subscribe(trackPageView)
 }
 
 function loadLib() {
@@ -24,9 +19,9 @@ function loadLib() {
   document.head.appendChild(el)
 }
 
-function trackPageView(route) {
+export function trackPageView(route) {
   // https://developers.google.com/analytics/devguides/collection/analyticsjs/pages#pageview_fields
-  ga('send', 'pageview', route)
+  ga('send', 'pageview', window.location.pathname)
 }
 
 function trackEvent(primary, secondary, tertiary) {

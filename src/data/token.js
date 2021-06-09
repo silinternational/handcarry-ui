@@ -1,6 +1,4 @@
 import qs from 'qs'
-import { goto, params, url } from '@roxi/routify'
-import { get as getStoreValue} from 'svelte/store'
 import { onClear, save, LIFESPAN, retrieve, clear, exists as isAlreadyInStorage } from './storage'
 import { loggedIn } from './analytics'
 
@@ -18,16 +16,9 @@ const createSeed = () =>
       .toString(36) // convert to base-36 so we get more letters
       .substring(2) // strip off the leading '0.'
 
-// FIXME
-// init()
+init()
 function init() {
-  // MIGRATION NOTE:  for seeds, historically 'key' was stored in session, need to clean that up if it exists there for a user.
-  // TODO: remove this after some reasonable amount of time has passed to clean up old instances
-  sessionStorage.removeItem('key')
-  clear('expires-utc') // MIGRATION NOTE: as above, if this exists, get rid of it.  Can be removed at some point.
-
-  // TODO: will this work as-is?
-  qsData = getStoreValue(params)
+  qsData = qs.parse(window.location.search.substring(1))
 
   initialize('seed', createSeed())
   initialize('token-type', 'Bearer')
@@ -43,11 +34,12 @@ function init() {
 function cleanAddressBar() {
   Object.keys(qsData).filter(isAlreadyInStorage).map(key => delete qsData[key])
 
-  let cleanedUrl = getStoreValue(url)()
+  let cleanedUrl = window.location.pathname
 
   if (Object.keys(qsData).length) {
     cleanedUrl += `?${qs.stringify(qsData)}`
   }
 
-  getStoreValue(goto)(cleanedUrl)
+  // FIXME: this refreshes the browser, which causes this code to re-execute infinitely
+  // window.location = cleanedUrl
 }

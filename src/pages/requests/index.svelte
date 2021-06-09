@@ -18,12 +18,8 @@ import { save, LIFESPAN, retrieve } from '../../data/storage'
 let requestFilter = {}
 let viewPreference = retrieve('view-requests-as') || 'grid'
 
-// TODO: this probably doesn't work as-is with $params
 $: requestFilter = populateRequestFilterFrom($params, $me, $events)
 $: showAsList = viewPreference === 'list'
-$: console.log('requestFilter', requestFilter)
-$: console.log('$requests', $requests)
-$: console.log('$params', $params)
 
 function viewToggled(choice) {
   viewPreference = choice
