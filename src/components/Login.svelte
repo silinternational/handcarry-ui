@@ -1,7 +1,6 @@
 <script>
 import { login } from '../data/auth'
-import { params } from '@roxi/routify'
-import qs from 'qs'
+import { goto, params } from '@roxi/routify'
 import { me } from '../data/user'
 import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
 import { retrieve, save, LIFESPAN, clear } from '../data/storage'
@@ -9,12 +8,14 @@ import { retrieve, save, LIFESPAN, clear } from '../data/storage'
 export let placeholder = 'Enter email address'
 export let buttonText = 'Sign in'
 export let hideRememberMe = false
-// TODO: test this
-export let returnTo = $params.ReturnTo
 
+let returnTo = $params['return-to']
 let email = retrieve('email') || ''
 let checked = !!email
 let identityProviders = []
+
+$: userIsAuthn = $me.id
+$: userIsAuthn && $goto('/requests') // if they're already authn, no need to login again.
 
 function storeRememberMeChoice() {
   if (checked) {
