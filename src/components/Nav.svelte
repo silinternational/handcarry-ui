@@ -1,6 +1,6 @@
 <script>
 import { unreads } from '../data/messaging'
-import { isActive, url } from '@roxi/routify'
+import { isActive, page } from '@roxi/routify'
 import polyglot from '../i18n'
 import UserAvatar from './UserAvatar.svelte'
 import { logout } from '../data/auth'
@@ -14,13 +14,10 @@ import {
 } from '../data/analytics'
 
 export let user = {}
-export let minimal = false
-
-// let thisUrl = $url() || ''
-let thisUrl = ''
 
 $: userIsAuthn = user.id
 $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
+$: minimal = $page.path.startsWith('/welcome') || ! userIsAuthn
 </script>
 
 <style>
@@ -32,13 +29,12 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 /*}*/
 </style>
 
-<!-- FIXME -->
-<!-- {#if $isActive('/requests')} -->
+{#if $isActive('/requests')}
   <!-- only shown on phones -->
-  <!-- <a href="/requests/new" title="{polyglot.t('nav-requests-create')}" on:click={createRequestByFab} class="btn btn-lg btn-success rounded-circle fab shadow-lg text-monospace d-block d-md-none">
+  <a href="/requests/new" title="{polyglot.t('nav-requests-create')}" on:click={createRequestByFab} class="btn btn-lg btn-success rounded-circle fab shadow-lg text-monospace d-block d-md-none">
     +
   </a>
-{/if} -->
+{/if}
 
 <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
   <a class="navbar-brand" href={userIsAuthn ? '/requests' : '/login'} on:click={clickedLogo}>
@@ -52,7 +48,7 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto align-items-center">
-        {#if thisUrl !== '/requests/new'}
+        {#if $page.path !== '/requests/new'}
           <li class="nav-item pr-2 d-none d-md-block"> <!-- hidden on phones -->
             <a href="/requests/new" on:click={createRequestByButton} class="btn btn-sm btn-success">
               {polyglot.t('nav-requests-create')}
@@ -61,19 +57,19 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
         {/if}
 
         <li class="nav-item">
-          <a href="/requests" class="nav-link" class:active={thisUrl.startsWith('/requests')}>
+          <a href="/requests" class="nav-link" class:active={$page.path.startsWith('/requests')}>
             {polyglot.t('nav-requests')}
           </a>
         </li>
 
 <!--        <li class="nav-item">
-          <a href="/events" class="nav-link" class:active={thisUrl.startsWith('/events')}>
+          <a href="/events" class="nav-link" class:active={$page.path.startsWith('/events')}>
             {polyglot.t('nav-events')}
           </a>
         </li>
 -->
         <li class="nav-item">
-          <a href="/messages" class="nav-link d-flex align-items-start" class:active={thisUrl.startsWith('/messages')}>
+          <a href="/messages" class="nav-link d-flex align-items-start" class:active={$page.path.startsWith('/messages')}>
             {polyglot.t('nav-requests-messages')} <CountIndicator number={totalNumUnreads} />
           </a>
         </li>
