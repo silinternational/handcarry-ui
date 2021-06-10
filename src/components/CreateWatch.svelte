@@ -57,9 +57,9 @@ $: watchFilters = getFiltersForWatch(filter)
             <div class="modal-body">
               <div class="form-group">
                 <div>
-                  <label class="col-form-label">
+                  <div class="col-form-label">
                     Alert settings:
-                  </label>
+                  </div>
                 </div>
                 {#each watchFilters as watchFilter}
                   <FilterTag label="{watchFilter.label}" hideCloseButton />

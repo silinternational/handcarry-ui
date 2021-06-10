@@ -19,7 +19,7 @@ function loadLib() {
 
   el.src = 'https://www.google-analytics.com/analytics.js'
   el.async = true
-  
+
   document.head.appendChild(el)
 }
 
@@ -47,7 +47,6 @@ export const createRequestByFab    = () => trackMenuEvent('create request', 'fab
 export const createRequestByButton = () => trackMenuEvent('create request', 'button')
 export const createRequestByTile   = () => trackMenuEvent('create request', 'tile')
 export const clickedLogo           = () => trackMenuEvent('logo clicked')
-export const clickedHelp           = () => trackMenuEvent('help')
 export const choseMyRequests       = () => trackMenuEvent('my requests')
 export const choseMyCommitments    = () => trackMenuEvent('my commitments')
 

@@ -341,21 +341,30 @@ const requestFields = `
 `
 const requestFieldsAbridged = `
   createdBy {
+    id
     avatarURL
     nickname
   }
   destination {
     description
+    latitude
+    longitude
   }
   meeting {
+    id
     name
   }
   origin {
     description
+    latitude
+    longitude
   }
   id
   photo {
     url
+  }
+  provider {
+    id
   }
   size
   title

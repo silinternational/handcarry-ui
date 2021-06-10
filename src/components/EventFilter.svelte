@@ -15,6 +15,7 @@ function onChange(domEvent) {
 }
 </script>
 
+<!-- svelte-ignore a11y-no-onchange -->
 <select class="form-control form-control-sm" class:text-muted={!selectedEventId}
         bind:value={selectedEventId} on:change={onChange}>
   <option class="font-italic text-muted" value="">{ placeholder }</option>
