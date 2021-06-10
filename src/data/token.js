@@ -1,3 +1,5 @@
+import { loggedIn } from './analytics'
+
 export const getSeed = () => localStorage.getItem('seed')
 export const getToken = () => getSeed() + getAccessToken()
 export const getAuthzHeader = () => `${getTokenType()} ${getToken()}`
@@ -18,6 +20,8 @@ function initialize() {
 
 function initializeToken() {
   const params = new URLSearchParams(location.search)
+
+  params.get('access-token') && loggedIn()
 
   if (init('access-token') || init('token-type')) {
     cleanAddressBar()
