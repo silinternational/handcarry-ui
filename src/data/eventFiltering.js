@@ -3,7 +3,7 @@ import { updateQueryString } from './url'
 
 /** NOTE: This should clear all values used by `populateEventFilterFrom()` */
 export function clearEventFilter() {
-  updateQueryString({
+  return updateQueryString({
     location: false,
     participating: false,
     search: false,

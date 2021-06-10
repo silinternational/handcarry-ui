@@ -10,6 +10,7 @@ import { removeFilter, setFilters } from '../data/filtering'
 import LocationFilter from './LocationFilter.svelte'
 import SearchFilter from './SearchFilter.svelte'
 import ToggleFilter from './ToggleFilter.svelte'
+import { goto } from '@roxi/routify'
 
 export let filter = {}
 
@@ -19,30 +20,30 @@ $: searchText = filter.search.value || ''
 
 function onKeywordInput(event) {
   const query = event.detail
-  setFilters({ search: query })
+  $goto(setFilters({ search: query }))
 
   searchedMeetings(query)
 }
 
 function onLocationChange(event) {
   const query = event.detail && event.detail.description
-  setFilters({ location: query })
+  $goto(setFilters({ location: query }))
 
   filteredMeetingsByLocation(query)
 }
 
 function onMyEventsChange(event) {
   if (event.detail) {
-    setFilters({ participating: null })
-    
+    $goto(setFilters({ participating: null }))
+
     filteredMeetingsByMine()
   } else {
-    removeFilter('participating')
+    $goto(removeFilter('participating'))
   }
 }
 
 function resetFilters() {
-  clearEventFilter()
+  $goto(clearEventFilter())
 
   filteredMeetingsByAll()
 }
@@ -53,7 +54,7 @@ function resetFilters() {
       Filters
       <button on:click={resetFilters} class="btn btn-link p-0"><small>clear filters</small></button>
   </div>
-  
+
   <div class="card-body">
     <ToggleFilter on:change={onMyEventsChange} active={onlyMyEvents} label="Only my events" />
     <hr />

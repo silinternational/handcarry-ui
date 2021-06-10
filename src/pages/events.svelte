@@ -5,14 +5,10 @@ import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
 import { isParticipant, populateEventFilterFrom } from '../data/eventFiltering'
 import { join, events, loading } from '../data/events'
-import { isItemInList } from '../data/filtering'
-import { updateQueryString } from '../data/url'
 import { me } from '../data/user'
-import qs from 'qs'
-import { onMount } from 'svelte'
 import { flip } from 'svelte/animate';
 import { fade } from 'svelte/transition';
-import { querystring } from 'svelte-spa-router'
+import { params } from '@roxi/routify'
 
 const format = date => new Date(date).toLocaleDateString(undefined, {
   month: 'short',
@@ -23,8 +19,7 @@ const logoUrl = event => event.imageFile && event.imageFile.url || ''
 
 let eventFilter = {}
 
-$: queryStringData = qs.parse($querystring)
-$: eventFilter = populateEventFilterFrom(queryStringData, $me)
+$: eventFilter = populateEventFilterFrom($params, $me)
 </script>
 
 <style>
@@ -84,12 +79,12 @@ li {
               </div>
               <div class="col">
                 <h4>{event.name}</h4>
-                
+
                 <div>{event.location.description}</div>
                 <div class="pb-1">
                   {format(event.startDate)} – {format(event.endDate)}
                 </div>
-      
+
                 {#if event.moreInfoURL}
                   <a href="{event.moreInfoURL}" target="_blank">
                     <Icon icon={faExternalLinkAlt} />
@@ -99,7 +94,7 @@ li {
               </div>
               <div class="col-auto align-self-start">
                 <div class="event-buttons-container">
-                  <a href="#/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
+                  <a href="/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
                   {#if isParticipant($me, event) }
                     <button class="btn btn-light d-block m-2" disabled>Added</button>
                   {:else}

@@ -1,15 +1,22 @@
+quick-start: deps dev
 
-start: install dev
-
-install:
+deps:
 	npm install
 
-dev:
-	npm run dev
-
-build: install
-	npm run build
-
 clean:
-	npm prune
 	npm run clean
+
+dev: 
+	npm run local:dev
+
+prod:
+	npm run local:prod
+
+build: deps
+	npm run build:prod
+
+status:
+	npm outdated
+
+update:
+	npm update

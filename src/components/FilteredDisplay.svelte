@@ -1,6 +1,7 @@
 <script>
 import { filterItems, removeFilter } from '../data/filtering'
 import FilterTags from './FilterTags.svelte'
+import { goto } from '@roxi/routify'
 
 export let items = []
 export let filter = {}
@@ -9,7 +10,7 @@ export let title = ''
 $: filteredItems = filterItems(items, filter)
 
 function onRemoveFilter(event) {
-  removeFilter(event.detail)
+  $goto(removeFilter(event.detail))
 }
 </script>
 

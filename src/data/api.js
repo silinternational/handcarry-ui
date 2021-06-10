@@ -25,19 +25,25 @@ export async function wrappedFetch(url, body) {
   })
 
   const contents = await response.json()
-  
+
   // gql responses can be the following:
   //   200's can be good { data } or bad { errors, data }
   //   422 is also possible, e.g., if the gql syntax is wrong, { errors }
   // buffalo responses more similarly mimic REST, error format will be:
   //   { code, key } where the message to display must be derived from { key }
 
-  if (response.ok) { 
+  if (response.ok) {
     return contents
   }
 
   if (response.status === 401) {
     clearApp()
+
+    if (! ['/', '/login'].includes(location.pathname)) {
+      location.replace(`${location.origin}/login?return-to=${location.pathname}`)
+    }
+
+    return response
   }
 
   // errors found in one of two places:
@@ -50,10 +56,10 @@ export async function gql(query) {
   const body = JSON.stringify({
     query
   })
-  
+
   const response = await wrappedFetch('gql', body)
-  
-  if (response.errors) { 
+
+  if (response.errors) {
     throwError(response.errors[0].message)
   }
 

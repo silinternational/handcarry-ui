@@ -7,7 +7,7 @@ export async function getUser() {
     }
   }`)
 
-  return response.user || {}
+  return response?.user || {}
 }
 
 export async function updateUser(user) {

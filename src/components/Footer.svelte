@@ -22,9 +22,9 @@ html > body {
 </style>
 
 <footer class="footer text-center small">
-    <a href="#/terms" class="mx-2 text-muted">Terms of Use</a>
+    <a href="/terms" class="mx-2 text-muted">Terms of Use</a>
     |
-    <a href="#/privacy" class="mx-2 text-muted">Privacy Policy</a>
+    <a href="/privacy" class="mx-2 text-muted">Privacy Policy</a>
 
     <Help />
 </footer>

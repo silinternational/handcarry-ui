@@ -1,8 +1,7 @@
 <script>
 import RequestImage from '../components/RequestImage.svelte'
-import SizeIndicator from '../components/SizeIndicator.svelte'
 import UserAvatar from '../components/UserAvatar.svelte'
-import { push } from 'svelte-spa-router'
+import { goto } from '@roxi/routify'
 
 export let request;
 export let smaller = false;
@@ -61,7 +60,7 @@ h3.smaller {
 .smaller .from-line { padding-right: 2.1rem;}
 </style>
 
-<div class="card request-tile" on:click={ () => push(`/requests/${request.id}`) }>
+<div class="card request-tile" on:click={ () => $goto(`/requests/${request.id}`) }>
   <div class="card-img-top request-image text-center" class:smaller>
     <RequestImage {request} />
   </div>
@@ -71,13 +70,13 @@ h3.smaller {
   <div class="card-footer p-2" class:smaller>
     <div class="position-relative">
       <div class="position-absolute" style="bottom: 0; right: 0;"><UserAvatar {user} small /></div>
-      
+
       <div class="to-from-lines">
         <div class="text-truncate to-line" class:smaller title={to}>
           <span class="text-muted small small-caps to-prefix">To:</span>
           { to }
         </div>
-        
+
         <div class="text-truncate from-line" class:smaller title={from}>
           <span class="text-muted small small-caps from-prefix">From:</span>
           {#if from }

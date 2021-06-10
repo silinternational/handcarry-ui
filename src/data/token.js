@@ -1,51 +1,54 @@
-import qs from 'qs'
-import { location, querystring, push } from 'svelte-spa-router'
-import { get as getStoreValue} from 'svelte/store'
-import { onClear, save, LIFESPAN, retrieve, clear, exists as isAlreadyInStorage } from './storage'
 import { loggedIn } from './analytics'
 
-const get = key => retrieve(key) || qsData[key]
-export const getSeed = () => get('seed')
-export const getToken = () => `${getSeed() + get('access-token')}`
-export const getAuthzHeader = () => `${get('token-type')} ${getToken()}`
-
-let qsData = {}
-
-const initialize = (key, defaultValue = '') => save(key, get(key) || defaultValue, LIFESPAN.LONG)
-const reset = () => clear('token-type', 'access-token') // not clearing 'seed' here to avoid any unnecessary re-authn scenarios.
-const createSeed = () => 
-  Math.random()     // doesn't need to be cryptographically strong
-      .toString(36) // convert to base-36 so we get more letters
-      .substring(2) // strip off the leading '0.'
-
-init()
-function init() {
-  // MIGRATION NOTE:  for seeds, historically 'key' was stored in session, need to clean that up if it exists there for a user.
-  // TODO: remove this after some reasonable amount of time has passed to clean up old instances
-  sessionStorage.removeItem('key')
-  clear('expires-utc') // MIGRATION NOTE: as above, if this exists, get rid of it.  Can be removed at some point.
-
-  qsData = qs.parse(getStoreValue(querystring))
-
-  initialize('seed', createSeed())
-  initialize('token-type', 'Bearer')
-  initialize('access-token')
-
-  qsData['access-token'] && loggedIn()
-  
-  cleanAddressBar()
-
-  onClear(reset)
+export const getSeed = () => localStorage.getItem('seed')
+export const getToken = () => getSeed() + getAccessToken()
+export const getAuthzHeader = () => `${getTokenType()} ${getToken()}`
+export const clear = () => {
+  localStorage.removeItem('seed')
+  localStorage.removeItem('access-token')
+  localStorage.removeItem('token-type')
 }
 
-function cleanAddressBar() {
-  Object.keys(qsData).filter(isAlreadyInStorage).map(key => delete qsData[key])
+const generateRandomID = (prefix = '') => prefix + Math.random().toString(36).slice(2)
 
-  let cleanedUrl = getStoreValue(location)
+initialize()
+function initialize() {
+  localStorage.getItem('seed') || localStorage.setItem('seed', generateRandomID())
 
-  if (Object.keys(qsData).length) {
-    cleanedUrl += `?${qs.stringify(qsData)}`
+  initializeToken()
+}
+
+function initializeToken() {
+  const params = new URLSearchParams(location.search)
+
+  params.get('access-token') && loggedIn()
+
+  if (init('access-token') || init('token-type')) {
+    cleanAddressBar()
   }
 
-  push(cleanedUrl)
+  function init(name) {
+    const value = params.get(name)
+
+    if (value !== null) {
+      localStorage.setItem(name, value)
+      params.delete(name)
+    }
+
+    return value
+  }
+
+  function cleanAddressBar() {
+    const search = [...params].length ? `?${params.toString()}` : ''
+
+    location.replace(location.pathname + search)
+  }
+}
+
+function getAccessToken() {
+  return localStorage.getItem('access-token') || ''
+}
+
+function getTokenType(){
+  return localStorage.getItem('token-type') || 'Bearer'
 }

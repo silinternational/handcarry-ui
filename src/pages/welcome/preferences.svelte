@@ -1,8 +1,8 @@
 <script>
-import UserAvatar from '../components/UserAvatar.svelte'
-import Uploader from '../components/Uploader.svelte'
-import { me, changeNickname, changeProfilePicture } from '../data/user'
-import { push, querystring } from 'svelte-spa-router'
+import UserAvatar from '../../components/UserAvatar.svelte'
+import Uploader from '../../components/Uploader.svelte'
+import { me, changeNickname, changeProfilePicture } from '../../data/user'
+import { goto, params } from '@roxi/routify'
 import qs from 'qs'
 
 let weightPreference = ''
@@ -19,9 +19,7 @@ function initializeUpdates({ nickname }) {
 async function save() {
   await changeNickname(newNickname)
 
-  const returnTo = qs.parse($querystring)['return-to']
-  
-  push(returnTo || '/requests')
+  $goto($params['return-to'] || '/requests')
 }
 
 async function imageUploaded(event) {
@@ -34,7 +32,7 @@ async function imageUploaded(event) {
 
   <div class="col-lg-7">
     <h1 class="text-center">Let's get personal</h1>
-    
+
     <p class="text-center">
       To ensure your WeCarry experience is just right for you, please adjust the options below to your liking.  You can always change them later in your preferences.
     </p>
@@ -42,13 +40,13 @@ async function imageUploaded(event) {
 
   <div class="col-lg"/>
 </div>
-  
+
 <div class="row pt-4">
   <div class="col-lg"/>
 
   <div class="col-lg-2 d-flex flex-column align-items-center">
     <UserAvatar user={$me} />
-    
+
     <div class="pt-2">
       <Uploader on:uploaded={imageUploaded} type='change' small />
     </div>
@@ -95,8 +93,8 @@ async function imageUploaded(event) {
   </div>
 
   <div class="col-lg"/>
-</div>  
-  
+</div>
+
 
 <div class="row">
   <div class="col"/>
@@ -106,5 +104,5 @@ async function imageUploaded(event) {
   </div>
 
   <div class="col"/>
-</div>  
+</div>
 

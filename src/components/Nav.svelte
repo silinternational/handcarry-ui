@@ -1,12 +1,12 @@
 <script>
 import { unreads } from '../data/messaging'
-import { location } from 'svelte-spa-router' // https://github.com/ItalyPaleAle/svelte-spa-router
+import { isActive, page } from '@roxi/routify'
 import polyglot from '../i18n'
 import UserAvatar from './UserAvatar.svelte'
 import { logout } from '../data/auth'
 import CountIndicator from './CountIndicator.svelte'
-import { 
-  createRequestByFab, 
+import {
+  createRequestByFab,
   clickedLogo,
   createRequestByButton,
   choseMyRequests,
@@ -14,10 +14,10 @@ import {
 } from '../data/analytics'
 
 export let user = {}
-export let minimal = false
 
 $: userIsAuthn = user.id
 $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
+$: minimal = $page.path.startsWith('/welcome') || ! userIsAuthn
 </script>
 
 <style>
@@ -29,15 +29,15 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 }
 </style>
 
-{#if $location === '/requests'}
+{#if $isActive('/requests')}
   <!-- only shown on phones -->
-  <a href="/#/requests/new" title="{polyglot.t('nav-requests-create')}" on:click={createRequestByFab} class="btn btn-lg btn-success rounded-circle fab shadow-lg text-monospace d-block d-md-none">
+  <a href="/requests/new" title="{polyglot.t('nav-requests-create')}" on:click={createRequestByFab} class="btn btn-lg btn-success rounded-circle fab shadow-lg text-monospace d-block d-md-none">
     +
   </a>
 {/if}
 
 <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
-  <a class="navbar-brand" href={userIsAuthn ? '/#/requests' : '/#/login'} on:click={clickedLogo}>
+  <a class="navbar-brand" href={userIsAuthn ? '/requests' : '/login'} on:click={clickedLogo}>
     <img src="/logo.svg" alt="WeCarry logo" />
   </a>
 
@@ -48,55 +48,55 @@ $: totalNumUnreads = $unreads.reduce((sum, { count }) => sum + count, 0)
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto align-items-center">
-        {#if $location !== '/requests/new'}
+        {#if $page.path !== '/requests/new'}
           <li class="nav-item pr-2 d-none d-md-block"> <!-- hidden on phones -->
-            <a href="/#/requests/new" on:click={createRequestByButton} class="btn btn-sm btn-success">
+            <a href="/requests/new" on:click={createRequestByButton} class="btn btn-sm btn-success">
               {polyglot.t('nav-requests-create')}
             </a>
           </li>
         {/if}
 
         <li class="nav-item">
-          <a href="/#/requests" class="nav-link" class:active={$location.startsWith('/requests')}>
+          <a href="/requests" class="nav-link" class:active={$page.path.startsWith('/requests')}>
             {polyglot.t('nav-requests')}
           </a>
         </li>
 
 <!--        <li class="nav-item">
-          <a href="/#/events" class="nav-link" class:active={$location.startsWith('/events')}>
+          <a href="/events" class="nav-link" class:active={$page.path.startsWith('/events')}>
             {polyglot.t('nav-events')}
           </a>
         </li>
 -->
         <li class="nav-item">
-          <a href="/#/messages" class="nav-link d-flex align-items-start" class:active={$location.startsWith('/messages')}>
+          <a href="/messages" class="nav-link d-flex align-items-start" class:active={$page.path.startsWith('/messages')}>
             {polyglot.t('nav-requests-messages')} <CountIndicator number={totalNumUnreads} />
           </a>
         </li>
 
         <li class="nav-item dropdown">
-          <a href="/#/profile" data-toggle="dropdown" id="avatarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
+          <a href="/profile" data-toggle="dropdown" id="avatarDropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">
             <UserAvatar {user} small />
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="avatarDropdown">
-            <a href="/#/profile" class="dropdown-item">
+            <a href="/profile" class="dropdown-item">
               {polyglot.t('nav-profile')}
             </a>
 
-            <a href="/#/requests?creator={user.id}" on:click={choseMyRequests} class="dropdown-item">
+            <a href="/requests?creator={user.id}" on:click={choseMyRequests} class="dropdown-item">
               {polyglot.t('nav-requests-mine')}
             </a>
 
-            <a href="/#/requests?provider={user.id}" on:click={choseMyCommitments} class="dropdown-item">
+            <a href="/requests?provider={user.id}" on:click={choseMyCommitments} class="dropdown-item">
               {polyglot.t('nav-requests-commitments')}
             </a>
 
-            <a href="/#/profile" class="dropdown-item">
+            <a href="/profile" class="dropdown-item">
               {polyglot.t('nav-alerts')}
             </a>
 
             <div class="dropdown-divider"></div>
-            
+
             <button on:click={logout} class="dropdown-item">
               {polyglot.t('nav-sign-out')}
             </button>
