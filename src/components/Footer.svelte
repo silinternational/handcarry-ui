@@ -1,5 +1,5 @@
 <script>
-import HelpLink from './HelpLink.svelte'
+import Help from './Help.svelte'
 </script>
 
 <style global>
@@ -26,5 +26,5 @@ html > body {
     |
     <a href="/privacy" class="mx-2 text-muted">Privacy Policy</a>
     |
-    <HelpLink class="mx-2 text-muted">Support & Feedback</HelpLink>
+    <Help />
 </footer>
