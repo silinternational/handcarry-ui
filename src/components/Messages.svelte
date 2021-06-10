@@ -1,11 +1,10 @@
 <script>
 import Messaging from '../components/Messaging.svelte'
-import { params, redirect } from '@roxi/routify'
+import { redirect } from '@roxi/routify'
 import { conversations } from '../data/messaging'
 
-let conversationId
+export let conversationId
 
-$: conversationId = $params.messageId
 $: if (!conversationId && $conversations.length > 0) {
   goToConversation($conversations[0].id)
 }
