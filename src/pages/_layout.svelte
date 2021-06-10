@@ -14,7 +14,6 @@
   $: isPublicRoute = publicRoutes.some(publicRoute => $page.path.startsWith(publicRoute))
   $: ! (isPublicRoute || isUserAuthn()) && authenticate() // should only react to location changes, not user changes.
   $: userIsAuthn = $me.id
-  $: minimal = $page.path.startsWith('/welcome') || ! userIsAuthn
 
   function isUserAuthn() {
     return $me.id
@@ -23,7 +22,7 @@
 
 <Bootstrap />
 
-<Nav user={$me} {minimal} />
+<Nav user={$me} />
 
 <main class="container-xl">
   <Error />
