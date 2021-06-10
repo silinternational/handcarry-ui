@@ -81,7 +81,7 @@ function imageUploaded(event) {
 }
 
 async function cancelRequest() {
-  await cancel($params.id)
+  await cancel($params.requestId)
 
   $goto(`/requests`)
 
