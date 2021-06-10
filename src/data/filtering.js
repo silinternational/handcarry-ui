@@ -101,6 +101,7 @@ export function removeFilter(name) {
  * ```
  *
  * @param {Object} updates
+ * @returns {string} the URL with updated query string
  */
 export function setFilters(updates) {
   return updateQueryString(updates)
