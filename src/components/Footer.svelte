@@ -1,7 +1,3 @@
-<script>
-import Help from './Help.svelte'
-</script>
-
 <style global>
 /* Sticky footer styles */
 html {
@@ -25,6 +21,4 @@ html > body {
     <a href="/terms" class="mx-2 text-muted">Terms of Use</a>
     |
     <a href="/privacy" class="mx-2 text-muted">Privacy Policy</a>
-
-    <Help />
 </footer>
