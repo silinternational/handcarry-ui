@@ -8,13 +8,9 @@ import qs from 'qs'
 let weightPreference = ''
 let home = null
 let timezone = null
-let newNickname = {}
+let newNickname
 
-$: initializeUpdates($me)
-
-function initializeUpdates({ nickname }) {
-  newNickname = nickname
-}
+$: !newNickname && (newNickname = $me.nickname)
 
 async function save() {
   await changeNickname(newNickname)
