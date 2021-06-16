@@ -1,11 +1,11 @@
 <script>
 import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
-import { push } from 'svelte-spa-router'
+import { goto } from '@roxi/routify'
 import { createRequestByTile } from '../data/analytics'
 
 function create() {
-  push(`/requests/new`)
+  $goto(`/requests/new`)
 
   createRequestByTile()
 }
@@ -31,7 +31,7 @@ function create() {
   </div>
   <div class="card-footer p-2 bg-success">
     <div class="row">
-      <div class="col text-center"><a class="text-light" href="#/requests/new">Make a request</a></div>
+      <div class="col text-center"><a class="text-light" href="/requests/new">Make a request</a></div>
     </div>
   </div>
 </div>

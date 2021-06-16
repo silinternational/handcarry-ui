@@ -1,20 +1,17 @@
 <script>
-import RequestImage from '../components/RequestImage.svelte'
-import SizeSelector from '../components/SizeSelector.svelte'
-import VisibilitySelector from '../components/VisibilitySelector.svelte'
-import Uploader from '../components/Uploader.svelte'
+import SizeSelector from './SizeSelector.svelte'
+import VisibilitySelector from './VisibilitySelector.svelte'
+import Uploader from './Uploader.svelte'
 import { me } from '../data/user'
 import { requests, cancel, create, update } from '../data/requests'
-import { push, pop } from 'svelte-spa-router'
 import { format, addDays } from 'date-fns'
-import LocationInput from '../components/LocationInput.svelte'
-import WeightSelector from '../components/WeightSelector.svelte'
+import LocationInput from './LocationInput.svelte'
+import WeightSelector from './WeightSelector.svelte'
 import Icon from 'fa-svelte'
-import { faMapMarkerAlt, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updated, created, cancelled } from '../data/analytics'
 import { throwError } from '../data/error'
-
-export let params = {} // URL path parameters, provided by router.
+import { goto, params } from '@roxi/routify'
 
 let imageUrl = ''
 
@@ -26,7 +23,7 @@ const defaults = {
 let request = {}
 const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
-$: existingRequest = $requests.find(({ id }) => id === params.id)
+$: existingRequest = $requests.find(({ id }) => id === $params.requestId)
 $: initializeUpdates(existingRequest || defaults)
 $: isNew = !request.id
 $: if ($me.organizations && $me.organizations.length > 0) {
@@ -66,13 +63,13 @@ async function onSubmit() {
         visibility: request.visibility,
     })
 
-    push(`/requests`)
+    $goto(`/requests`)
 
     created()
   } else {
     await update(request)
 
-    push(`/requests/${request.id}`)
+    $goto(`/requests/${request.id}`)
 
     updated()
   }
@@ -84,9 +81,9 @@ function imageUploaded(event) {
 }
 
 async function cancelRequest() {
-  await cancel(params.id)
+  await cancel($params.requestId)
 
-  push(`/requests`)
+  $goto(`/requests`)
 
   cancelled()
 }
@@ -220,7 +217,7 @@ function onWeightChanged(event) {
 
   <div class="form-row form-group">
     <div class="col-auto">
-      <a href="#/requests" on:click|preventDefault={pop} class="btn btn-outline-dark">« Cancel</a>
+      <a href="/requests" on:click|preventDefault={() => history.back()} class="btn btn-outline-dark">« Cancel</a>
     </div>
     <div class="col"></div>
 

@@ -1,19 +1,16 @@
 <script>
 import Messaging from '../components/Messaging.svelte'
-import { replace } from 'svelte-spa-router'
+import { redirect } from '@roxi/routify'
 import { conversations } from '../data/messaging'
 
-export let params = {} // URL path parameters, provided by router.
+export let conversationId
 
-let conversationId
-
-$: conversationId = params.id
 $: if (!conversationId && $conversations.length > 0) {
   goToConversation($conversations[0].id)
 }
 
 function goToConversation(conversationId) {
-  replace('/messages/' + conversationId)
+  $redirect('/messages/' + conversationId)
 }
 </script>
 

@@ -1,7 +1,12 @@
 .DS_Store
-node_modules
-public/bundle.*
-public/index.html
 .idea/
 .env
 
+# build files
+dist/bundle*
+dist/service-worker*
+dist/workbox*
+.routify
+
+# deps
+node_modules

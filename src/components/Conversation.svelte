@@ -25,7 +25,7 @@ async function sendMessage() {
     const updatedConversation = await send(reply, conversation)
 
     reply = ''
-    
+
     const isNewConversation = !conversation.id
     if (isNewConversation) {
       dispatch('new', updatedConversation)
@@ -62,26 +62,26 @@ const focusOnCreate = element => element.focus()
   {#if ! request.id}
     <p class="text-center"><i>Please select a conversation to see its messages</i></p>
   {:else}
-    {#if ! minimal }
+    {#if ! minimal}
       <div class="row">
         <div class="col-8">
-          <h3 class="text-center"><a href="#/requests/{request.id}">{request.title}</a></h3>
-    
+          <h3 class="text-center"><a href="/requests/{request.id}">{request.title}</a></h3>
+
           <div class="text-center">
             <small>
               <strong>{request.createdBy.nickname}</strong> @ {destination}
             </small>
           </div>
         </div>
-    
+
         <div class="col text-right mb-1">
           <RequestAction request={request} conversationParticipants={participants} />
         </div>
       </div>
-    
+
       <hr class="mt-1" />
     {/if}
-    
+
     {#each messages as message}
       {#if message.sender.id === $me.id}
         <blockquote class="blockquote text-right">
@@ -95,17 +95,17 @@ const focusOnCreate = element => element.focus()
         </blockquote>
       {/if}
     {/each}
-  
+
     <div class="card-footer">
       <form on:submit|preventDefault={sendMessage}>
         <div class="row">
           <div class="col">
             <label class="sr-only" for="replyField">Reply</label>
-  
+
             <input bind:value={reply} class="form-control mb-2 mr-sm-2"
                    placeholder="Reply" autocomplete="off" use:focusOnCreate />
           </div>
-    
+
           <div class="col-auto">
             <button type="submit" class="btn btn-primary mb-2">Send</button>
           </div>

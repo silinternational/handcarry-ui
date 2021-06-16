@@ -7,7 +7,7 @@ import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
 import { onMount } from 'svelte'
 import { faBell } from '@fortawesome/free-solid-svg-icons'
 import Icon from 'fa-svelte'
-import { push } from 'svelte-spa-router'
+import { goto } from '@roxi/routify'
 
 export let filter
 
@@ -80,7 +80,7 @@ $: watchFilters = getFiltersForWatch(filter)
           </form>
         {:else}
           <div class="modal-body text-center">
-            <span>Alert was created successfully.  You can find all of your <a href="#/profile" on:click={() => push('/profile')} data-dismiss="modal">saved alerts</a> in your profile.</span>
+            <span>Alert was created successfully.  You can find all of your <a href="/profile" on:click={() => $goto('/profile')} data-dismiss="modal">saved alerts</a> in your profile.</span>
           </div>
           <div class="modal-footer">
             <button class="btn btn-primary" data-dismiss="modal">Close</button>

@@ -1,0 +1,50 @@
+:root{
+  --dark-gray:#292923;
+
+  --primary: #0095F3;
+  --blue: #0095F3;
+
+  --success: #71a230;
+  --green: #71a230;
+
+  --info: #37c89e;
+  --teal: #37c89e;
+
+  --warning: #f35e00;
+  --orange: #f35e00;
+
+  --danger: #e0221f;
+  --red: #e0221f;
+}
+
+body {
+  color: var(--dark-gray);
+}
+
+h2{
+  color: var(--dark-gray);
+}
+
+h3{
+  color: var(--blue);
+}
+
+/* Bootstrap */
+.alert-secondary {
+  background-color: var(--light);
+}
+
+.form-control:focus {
+  border-color: var(--blue);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px var(--blue);
+}
+
+.form-group.required .control-label:after {
+  content: " * ";
+  color: red;
+}
+
+/* Nav */
+nav img {
+  height: 2rem;
+}

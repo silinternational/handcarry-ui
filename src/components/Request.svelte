@@ -1,31 +1,29 @@
 <script>
 import { me } from '../data/user'
-import { replace } from 'svelte-spa-router'
-import RequestImage from '../components/RequestImage.svelte'
-import SizeTile from '../components/SizeTile.svelte'
+import { params, redirect } from '@roxi/routify'
+import RequestImage from './RequestImage.svelte'
+import SizeTile from './SizeTile.svelte'
 import { getOneRequest, loading } from '../data/requests'
-import UserAvatar from '../components/UserAvatar.svelte'
-import RequestMessaging from '../components/RequestMessaging.svelte'
-import OtherRequestsBy from '../components/OtherRequestsBy.svelte'
+import UserAvatar from './UserAvatar.svelte'
+import RequestMessaging from './RequestMessaging.svelte'
+import OtherRequestsBy from './OtherRequestsBy.svelte'
 import { describeVisibility } from '../data/visibility.js'
-import WeightDisplay from '../components/WeightDisplay.svelte'
-
-export let params = {} // URL path parameters, provided by router.
+import WeightDisplay from './WeightDisplay.svelte'
 
 const dlTermColumns        = 'col-12 col-md-5 col-lg-3'
 const dlDescriptionColumns = 'col-12 col-md-7 col-lg-9'
 
 let request = {}
 
-$: conversationId = params.conversationId
-$: params.id, getOneRequest(params.id).then(r => request = r)
+$: conversationId = $params.conversationId
+$: $params.requestId && getOneRequest($params.requestId).then(r => request = r)
 $: requester = request.createdBy || {}
 $: isMine = $me.id && (requester.id === $me.id) // Check $me.id first to avoid `undefined === undefined`
 $: destination = (request.destination && request.destination.description) || ''
 $: origin = (request.origin && request.origin.description) || ''
 
 function goToConversation(conversationId) {
-  replace(`/requests/${params.id}/conversation/${conversationId}`)
+  $redirect(`/requests/${$params.requestId}/conversation/${conversationId}`)
 }
 </script>
 
@@ -46,7 +44,7 @@ function goToConversation(conversationId) {
 
 <div class="row mb-3">
   <div class="col">
-    <a href="#/requests" class="text-secondary mb-3">« back to requests</a>
+    <a href="/requests" class="text-secondary mb-3">« back to requests</a>
   </div>
 </div>
 
@@ -105,7 +103,7 @@ function goToConversation(conversationId) {
       </div>
       <p class="mb-4 keep-line-breaks">{ request.description || '' }</p>
       {#if isMine}
-        <a href="#/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary mb-2">Edit request</a>
+        <a href="/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary mb-2">Edit request</a>
       {/if}
       <RequestMessaging {request} {conversationId} on:conversation-selected={event => goToConversation(event.detail)} />
       {#if !isMine }

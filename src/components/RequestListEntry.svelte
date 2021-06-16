@@ -2,7 +2,7 @@
 import RequestImage from '../components/RequestImage.svelte'
 import SizeIndicator from '../components/SizeIndicator.svelte'
 import UserAvatar from '../components/UserAvatar.svelte'
-import { push } from 'svelte-spa-router'
+import { goto } from '@roxi/routify'
 
 export let request;
 
@@ -27,7 +27,7 @@ $: to = request.meeting ? request.meeting.name : request.destination.description
 }
 </style>
 
-<div class="card request-list-entry h-100" on:click="{ () => push(`/requests/${request.id}`) }">
+<div class="card request-list-entry h-100" on:click="{ () => $goto(`/requests/${request.id}`) }">
   <div class="row no-gutters h-100">
     <div class="col-2 col-sm-1">
       <div class="card-img text-center h-100">
