@@ -4,8 +4,7 @@ export function updateQueryString(updates) {
   const querystring = window.location.search
   let queryStringData = qs.parse(querystring, { ignoreQueryPrefix: true, strictNullHandling: true })
 
-  for (const key in updates) {
-    const value = updates[key]
+  for (const [key, value] of Object.entries(updates)) {
     if (value === null) {
       // For mere present/absent parameters, we can use `null`, which causes `qs.stringify()` (if using
       // `strictNullHandling`) to omit the = sign and value.
