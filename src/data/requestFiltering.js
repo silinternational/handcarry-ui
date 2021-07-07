@@ -103,7 +103,7 @@ function matchByRegion (location, requestLocation) {
   if (location.sublocality || location.locality || location.county) {
     return isNear(location, requestLocation)
   } else if (location.state) {
-    return requestLocation.description.includes(location.state)
+    return requestLocation.description.includes(location.state)  || requestLocation.description.includes(location.description)
   } else if (location.country) {
     return requestLocation.description.includes(location.country) || requestLocation.description.includes(location.description)
   }
