@@ -154,9 +154,9 @@ function resetFilters() {
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     <hr />
-    <LocationFilter title="From" placeholder="Origin city" location={origin} on:change={onOriginChange}/>
+    <LocationFilter title="From" placeholder="Origin" location={origin} on:change={onOriginChange}/>
     <hr />
-    <LocationFilter title="To" placeholder="Destination city" location={destination} on:change={onDestinationChange}/>
+    <LocationFilter title="To" placeholder="Destination" location={destination} on:change={onDestinationChange}/>
     {#if $events.length }
       <p class="mb-2 text-center text-muted">– or –</p>
       <EventFilter events={$events} {eventId} on:change={onEventChange} />
