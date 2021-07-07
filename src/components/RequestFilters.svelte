@@ -55,6 +55,10 @@ function onDestinationChange(event) {
     $goto(setFilters( {
       toDescription: location.description,
       toCountry: location.country,
+      toState: location.state,
+      toCounty: location.county,
+      toLocality: location.locality,
+      toSublocality: location.sublocality,
       toLatitude: location.latitude,
       toLongitude: location.longitude,
       event: false,
@@ -72,6 +76,10 @@ function onOriginChange(event) {
     $goto(setFilters( {
       fromDescription: location.description,
       fromCountry: location.country,
+      fromState: location.state,
+      fromCounty: location.county,
+      fromLocality: location.locality,
+      fromSublocality: location.sublocality,
       fromLatitude: location.latitude,
       fromLongitude: location.longitude,
     }))
@@ -146,9 +154,9 @@ function resetFilters() {
     <ToggleFilter on:change={onMyRequestsChange} active={onlyMyRequests} label="Only my requests" />
     <ToggleFilter on:change={onMyCommitmentsChange} active={onlyMyCommitments} label="Only my commitments" />
     <hr />
-    <LocationFilter title="From" placeholder="Origin city" location={origin} on:change={onOriginChange}/>
+    <LocationFilter title="From" placeholder="Origin" location={origin} on:change={onOriginChange}/>
     <hr />
-    <LocationFilter title="To" placeholder="Destination city" location={destination} on:change={onDestinationChange}/>
+    <LocationFilter title="To" placeholder="Destination" location={destination} on:change={onDestinationChange}/>
     {#if $events.length }
       <p class="mb-2 text-center text-muted">– or –</p>
       <EventFilter events={$events} {eventId} on:change={onEventChange} />

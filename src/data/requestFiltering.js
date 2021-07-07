@@ -8,10 +8,18 @@ export function clearRequestFilter() {
     creator: false,
     toDescription: false,
     toCountry: false,
+    toState: false,
+    toCounty: false,
+    toLocality: false,
+    toSublocality: false,
     toLatitude: false,
     toLongitude: false,
     fromDescription: false,
     fromCountry: false,
+    fromState: false,
+    fromCounty: false,
+    fromLocality: false,
+    fromSublocality: false,
     fromLatitude: false,
     fromLongitude: false,
     event: false,
@@ -26,12 +34,20 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
   let destination = queryStringData.toDescription && {
     description: queryStringData.toDescription,
     country: queryStringData.toCountry,
+    state: queryStringData.toState,
+    county: queryStringData.toCounty,
+    locality: queryStringData.toLocality,
+    sublocality: queryStringData.toSublocality,
     latitude: Number(queryStringData.toLatitude),
     longitude: Number(queryStringData.toLongitude),
   }
   let origin = queryStringData.fromDescription && {
     description: queryStringData.fromDescription,
     country: queryStringData.fromCountry,
+    state: queryStringData.fromState,
+    county: queryStringData.fromCounty,
+    locality: queryStringData.fromLocality,
+    sublocality: queryStringData.fromSublocality,
     latitude: Number(queryStringData.fromLatitude),
     longitude: Number(queryStringData.fromLongitude),
   }
@@ -46,7 +62,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     destination: {
       active: !! queryStringData.toDescription,
       label: labelFor('destination', queryStringData.toDescription),
-      isMatch: request => isNear(destination, request.destination),
+      isMatch: request => matchByRegion(destination, request.destination),
       value: destination,
     },
     event: {
@@ -58,7 +74,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     origin: {
       active: !! queryStringData.fromDescription,
       label: labelFor('origin', queryStringData.fromDescription),
-      isMatch: request => isNear(origin, request.origin),
+      isMatch: request => matchByRegion(origin, request.origin),
       value: origin,
     },
     requestSearch: {
@@ -79,6 +95,17 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
       isMatch: request => includedInSizeSelection(request.size, queryStringData.size),
       value: queryStringData.size,
     },
+  }
+}
+
+function matchByRegion (location, requestLocation) {
+  if (!location || !requestLocation) return true
+  if (location.sublocality || location.locality || location.county) {
+    return isNear(location, requestLocation)
+  } else if (location.state) {
+    return requestLocation.description.includes(location.state)  || requestLocation.description.includes(location.description)
+  } else if (location.country) {
+    return requestLocation.description.includes(location.country) || requestLocation.description.includes(location.description)
   }
 }
 
@@ -123,6 +150,10 @@ export function removeRequestFilter(name) {
     return setFilters({
       toDescription: false,
       toCountry: false,
+      toState: false,
+      toCounty: false,
+      toLocality: false,
+      toSublocality: false,
       toLatitude: false,
       toLongitude: false,
     })
@@ -132,6 +163,10 @@ export function removeRequestFilter(name) {
     return setFilters({
       fromDescription: false,
       fromCountry: false,
+      fromState: false,
+      fromCounty: false,
+      fromLocality: false,
+      fromSublocality: false,
       fromLatitude: false,
       fromLongitude: false,
     })

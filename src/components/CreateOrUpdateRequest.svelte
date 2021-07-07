@@ -132,7 +132,7 @@ function onWeightChanged(event) {
     <div class="col">
       <div class="form-group">
         <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
-                       placeholder="Destination city" location={request.destination} />
+                       placeholder="Destination" location={request.destination} />
       </div>
     </div>
   </div>
@@ -146,7 +146,7 @@ function onWeightChanged(event) {
     <div class="col">
       <div class="form-group">
         <LocationInput class="form-control form-control-lg" on:change={onOriginChanged}
-                       placeholder="Origin city" location={request.origin} />
+                       placeholder="Origin" location={request.origin} />
       </div>
     </div>
   </div>
