@@ -55,6 +55,10 @@ function onDestinationChange(event) {
     $goto(setFilters( {
       toDescription: location.description,
       toCountry: location.country,
+      toState: location.state,
+      toCounty: location.county,
+      toLocality: location.locality,
+      toSublocality: location.sublocality,
       toLatitude: location.latitude,
       toLongitude: location.longitude,
       event: false,
@@ -72,6 +76,10 @@ function onOriginChange(event) {
     $goto(setFilters( {
       fromDescription: location.description,
       fromCountry: location.country,
+      fromState: location.state,
+      fromCounty: location.county,
+      fromLocality: location.locality,
+      fromSublocality: location.sublocality,
       fromLatitude: location.latitude,
       fromLongitude: location.longitude,
     }))

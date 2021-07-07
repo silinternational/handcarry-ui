@@ -61,6 +61,10 @@ export function removeFilter(name) {
     updates = {
       toDescription: false,
       toCountry: false,
+      toState: false,
+      toCounty: false,
+      toLocality: false,
+      toSublocality: false,
       toLatitude: false,
       toLongitude: false,
     }
@@ -68,6 +72,10 @@ export function removeFilter(name) {
     updates = {
       fromDescription: false,
       fromCountry: false,
+      fromState: false,
+      fromCounty: false,
+      fromLocality: false,
+      fromSublocality: false,
       fromLatitude: false,
       fromLongitude: false,
     }
