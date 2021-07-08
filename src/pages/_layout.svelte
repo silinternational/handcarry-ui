@@ -29,7 +29,7 @@
     <Error />
     
     {#if $loggingOut}
-    <h4>Thank you for visiting, we are signing you out now...</h4>
+      <h4>Thank you for visiting, we are signing you out now...</h4>
     {/if}
     
     <slot />
