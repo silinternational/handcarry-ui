@@ -19,19 +19,21 @@
     return $me.id
   }
 </script>
+<!-- This div prevents material from messing up the layout. Once converted to material grid it can be removed -->
+<div class='w-100'>
+  <Bootstrap />
+  
+  <Nav user={$me} />
+  
+  <main class="container-xl">
+    <Error />
+    
+    {#if $loggingOut}
+    <h4>Thank you for visiting, we are signing you out now...</h4>
+    {/if}
+    
+    <slot />
+  </main>
 
-<Bootstrap />
-
-<Nav user={$me} />
-
-<main class="container-xl">
-  <Error />
-
-  {#if $loggingOut}
-     <h4>Thank you for visiting, we are signing you out now...</h4>
-  {/if}
-
-  <slot />
-</main>
-
-<Footer />
+  <Footer />
+</div>
