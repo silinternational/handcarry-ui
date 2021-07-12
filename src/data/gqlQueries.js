@@ -338,6 +338,7 @@ const requestFields = `
   status
   title
   visibility
+  isEditable
 `
 const requestFieldsAbridged = `
   createdBy {
