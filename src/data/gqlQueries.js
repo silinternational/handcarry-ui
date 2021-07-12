@@ -346,19 +346,23 @@ const requestFieldsAbridged = `
     avatarURL
     nickname
   }
+  description
   destination {
     description
     latitude
     longitude
+    country
   }
   meeting {
     id
     name
   }
+  neededBefore
   origin {
     description
     latitude
     longitude
+    country
   }
   id
   kilograms
@@ -369,7 +373,10 @@ const requestFieldsAbridged = `
     id
   }
   size
+  status
   title
+  url
+  visibility
 `
 const messageFields = `
   content
