@@ -1,26 +1,15 @@
 <script>
+  import RequestImage from '../components/RequestImage.svelte'
   import UserAvatar from '../components/UserAvatar.svelte'
   import { goto } from '@roxi/routify'
   import { Card } from '@silintl/ui-components'
-  import { sizes } from '../data/sizes'
 
   export let request;
+  export let smaller = false;
 
   $: user = request.createdBy || {}
-  $: size = request.size
   $: from = request.origin?.description
   $: to = request.meeting ? request.meeting.name : request.destination.description
-  $: photoUrl = request.photo?.url || ''
-  $: imgUrl = photoUrl || getGraphicForSize(size)
-  $: console.log(request)
-
-  function getGraphicForSize(requestSize) {
-    for (const size of sizes) {
-      if (size.type === requestSize) {
-        return size.genericGraphicUrl
-      }
-    }
-  }
 </script>
 
 <style>
@@ -37,6 +26,10 @@
     -webkit-line-clamp: 1; /* number of lines to show */
   }
 
+  .line-clamp-3 {
+    -webkit-line-clamp: 3; /* number of lines to show */
+  }
+
   .max-height {
     max-height: 100px;
     min-height: 40px;
@@ -50,6 +43,14 @@
     margin: 0; padding: 60px 0; 
     background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
   }
+
+  .request-image {
+    overflow: hidden;
+    height: 10rem;
+  }
+  .request-image.smaller {
+    height: 6rem;
+  }
 </style>
 
 <div tabindex="0" on:click={ $goto(`/requests/${request.id}`) }>
@@ -57,7 +58,7 @@
     <div class="flex justify-between align-items-center black m-2">
       <UserAvatar {user} small />
 
-      <div class="request-header">
+      <div>
         <h5 class="multi-line-truncate my-0">{request.title}</h5>
 
         <div class="multi-line-truncate">{user.nickname}</div>
@@ -66,8 +67,8 @@
       <span class="material-icons">chat</span>  
     </div>
 
-    <div class="request-image flex justify-center mb-2">
-      <img class="w-100" src={imgUrl} alt='item'/>
+    <div class="card-img-top request-image text-center mb-2" class:smaller>
+      <RequestImage {request} />
     </div>
 
     <div class="fs-14 mb-1">
@@ -90,7 +91,7 @@
     </div>
 
     {#if true}
-      <div class="content fs-12 gray max-height h-100 mb-1">
+      <div class="content multi-line-truncate line-clamp-3 fs-12 gray max-height h-100 mb-1">
         Descriptons of stuff. More text to show how it will respond. Descriptons of stuff. More text to show how it will respond. Descriptons of stuff. More text to show how it will respond. Descriptons of stuff. More text to show how it will respond.
         
         <div class="fadeout align-center w-100"></div>
