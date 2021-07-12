@@ -15,7 +15,7 @@ export async function login(email, returnTo) {
     loginUrl += `&return-to=${encodeURIComponent(returnTo)}`
   }
 
-  return await wrappedFetch(loginUrl)
+  return await wrappedFetch('post', loginUrl)
 }
 
 export function logout() {
