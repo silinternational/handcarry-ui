@@ -14,7 +14,7 @@ const dispatch = createEventDispatcher()
 
 let newMessageContent = null
 
-$: requester = request.createdBy || {}
+$: requester = request.created_by || {}
 $: isMine = $me.id && (requester.id === $me.id)
 $: conversationsOnThisRequest = $conversations.filter(({ request: aRequest }) => aRequest.id === request.id)
 $: selectedConversation = conversationsOnThisRequest.find(({ id }) => id === conversationId) || {}
@@ -25,7 +25,7 @@ async function startConversation() {
     const newConversation = await send(newMessageContent, {request})
     newMessageContent = ''
     dispatch('conversation-selected', newConversation.id)
-    
+
     sentMessage()
   }
 }
@@ -41,7 +41,7 @@ hr {
   <hr />
   <div class="row my-4">
     <div class="col">
-      
+
       <div class="row">
         <div class="col">
           <h4>Chat privately with { listOtherParticipants(selectedConversation, $me) }</h4>
@@ -50,14 +50,14 @@ hr {
           <RequestAction {request} conversationParticipants={selectedConversation.participants} />
         </div>
       </div>
-      
+
       <div class="row">
         <div class="col">
           <Messaging minimal listColumns="col-12 col-md-3" conversations={conversationsOnThisRequest} {conversationId}
                      on:conversation-selected />
         </div>
       </div>
-      
+
     </div>
   </div>
 {:else if !isMine }

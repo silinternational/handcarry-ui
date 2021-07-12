@@ -1,8 +1,7 @@
-import { writable } from 'svelte/store'
+import { GET } from './api'
 import {
   createRequest,
   updateRequest,
-  getRequest,
   getRequests,
   cancelRequest,
   offerToProvide,
@@ -11,6 +10,7 @@ import {
   received,
 } from './gqlQueries'
 import { onClear } from './storage'
+import { writable } from 'svelte/store'
 
 export const requests = writable([])
 export const loading = writable(false)
@@ -46,7 +46,7 @@ export async function getOneRequest(id) {
   try {
     loading.set(true)
 
-    return await getRequest(id)
+    return await GET(`/requests/${id}`)
   } catch (e) {
     throw e
   } finally {
