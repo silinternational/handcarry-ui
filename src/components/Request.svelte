@@ -17,7 +17,7 @@ let request = {}
 
 $: conversationId = $params.conversationId
 $: $params.requestId && getOneRequest($params.requestId).then(r => request = r)
-$: requester = request.createdBy || {}
+$: requester = request.created_by || {}
 $: isMine = $me.id && (requester.id === $me.id) // Check $me.id first to avoid `undefined === undefined`
 $: destination = (request.destination && request.destination.description) || ''
 $: origin = (request.origin && request.origin.description) || ''
@@ -82,9 +82,9 @@ function goToConversation(conversationId) {
               <dd class={dlDescriptionColumns}>{ describeVisibility(request.visibility, [request.organization]) }</dd>
             {/if}
 
-            {#if request.neededBefore }
+            {#if request.needed_before }
               <dt class={dlTermColumns}>Needed before</dt>
-              <dd class={dlDescriptionColumns}>{ (new Date(request.neededBefore + ' 00:00:00')).toLocaleDateString() }</dd>
+              <dd class={dlDescriptionColumns}>{ (new Date(request.needed_before + ' 00:00:00')).toLocaleDateString() }</dd>
             {/if}
 
             <!-- Show any actual value (including zero) -->
@@ -102,7 +102,7 @@ function goToConversation(conversationId) {
         </div>
       </div>
       <p class="mb-4 keep-line-breaks">{ request.description || '' }</p>
-      {#if request.isEditable}
+      {#if request.is_editable}
         <a href="/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary mb-2">Edit request</a>
       {/if}
       <RequestMessaging {request} {conversationId} on:conversation-selected={event => goToConversation(event.detail)} />
