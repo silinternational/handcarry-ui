@@ -361,6 +361,7 @@ const requestFieldsAbridged = `
     longitude
   }
   id
+  kilograms
   photo {
     url
   }
