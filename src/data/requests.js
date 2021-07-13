@@ -30,7 +30,7 @@ async function loadRequests() {
   try {
     loading.set(true)
 
-    const currentRequests = await getRequests()
+    const currentRequests = await GET('/requests')
 
     requests.set(currentRequests)
   } catch (e) {
@@ -61,6 +61,7 @@ export async function create(request) {
 }
 
 export async function update(request) {
+  request.photo_id = request.photo_id
   const updatedRequest = await updateRequest(request)
 
   requests.update(currentRequests => {

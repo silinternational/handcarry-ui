@@ -29,6 +29,7 @@ $: isNew = !request.id
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
+$: neededBefore = request.needed_before && request.needed_before.split("T")[0] || ''
 
 function initializeUpdates(requestBeingEdited) {
   request = Object.assign({}, requestBeingEdited)
@@ -56,9 +57,9 @@ async function onSubmit() {
         description: request.description,
         destination: request.destination,
         kilograms: request.kilograms,
-        neededBefore: request.neededBefore,
+        neededBefore: request.needed_before,
         origin: request.origin,
-        photoID: request.photoID,
+        photoID: request.photo.id,
         size: request.size,
         visibility: request.visibility,
     })
@@ -76,7 +77,7 @@ async function onSubmit() {
 }
 
 function imageUploaded(event) {
-  request.photoID = event.detail.id
+  request.photo = event.detail
   imageUrl = event.detail.url
 }
 
@@ -211,7 +212,7 @@ function onWeightChanged(event) {
       </label>
     </div>
     <div class="col-auto">
-      <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={request.neededBefore} />
+      <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={neededBefore} />
     </div>
   </div>
 
