@@ -32,7 +32,6 @@ $: if ($me.organizations && $me.organizations.length > 0) {
 
 function initializeUpdates(requestBeingEdited) {
   request = Object.assign({}, requestBeingEdited)
-  request.needed_before = request.needed_before?.split("T")[0] || null
 }
 
 function assertHas(value, errorMessage) {
@@ -57,7 +56,7 @@ async function onSubmit() {
         description: request.description,
         destination: request.destination,
         kilograms: request.kilograms,
-        needed_before: request.needed_before && `${request.needed_before}T00:00:00Z`,
+        needed_before: request.needed_before,
         origin: request.origin,
         photo_id: request.photo?.id,
         size: request.size,

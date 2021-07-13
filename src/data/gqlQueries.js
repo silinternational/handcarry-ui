@@ -73,8 +73,6 @@ export async function createRequest(request) {
 export async function updateRequest(request) {
   // TODO: When API is updated to erase values when we send `null`, update `|| something` to `|| null`
 
-  const neededBefore = request.needed_before?.split("T")[0] || null
-
   const response = await gql(`
     mutation {
       request:updateRequest(input: {
@@ -82,7 +80,7 @@ export async function updateRequest(request) {
         destination: ${formatLocationForGql(request.destination)},
         kilograms: ${json(request.kilograms)},
         id: ${json(request.id)},
-        neededBefore: ${json(neededBefore)},
+        neededBefore: ${json(request.neededBefore || null)},
         origin: ${formatLocationForGql(request.origin)},
         photoID: ${json(request.photoID || null)},
         size: ${request.size},

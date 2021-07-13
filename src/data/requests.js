@@ -1,6 +1,5 @@
-import { GET, POST } from './api'
+import { GET, POST, PUT } from './api'
 import {
-  updateRequest,
   cancelRequest,
   offerToProvide,
   acceptOfferToProvide,
@@ -59,8 +58,8 @@ export async function create(request) {
 }
 
 export async function update(request) {
-  request.photo_id = request.photo_id
-  const updatedRequest = await updateRequest(request)
+  request.photo_id = request.photo?.id
+  const updatedRequest = await PUT(`requests/${request.id}`, request)
 
   requests.update(currentRequests => {
     const i = currentRequests.findIndex(({ id }) => id === updatedRequest.id)
