@@ -10,6 +10,8 @@
   $: user = request.createdBy || {}
   $: from = request.origin?.description
   $: to = request.meeting ? request.meeting.name : request.destination.description
+
+  const gotoRequest = () => $goto(`/requests/${request.id}`)
 </script>
 
 <style>
@@ -53,49 +55,47 @@
   }
 </style>
 
-<div tabindex="0" on:click={ $goto(`/requests/${request.id}`) }>
-  <Card class="mdc-card__primary-action h-100 py-1">
-    <div class="flex justify-between align-items-center black m-2">
-      <UserAvatar {user} small />
+<Card isClickable on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-1">
+  <div class="flex justify-between align-items-center black m-2">
+    <UserAvatar {user} small />
+
+    <div>
+      <h5 class="multi-line-truncate my-0">{request.title}</h5>
+
+      <div class="multi-line-truncate">{user.nickname}</div>
+    </div>
+
+    <span class="material-icons">chat</span>
+  </div>
+
+  <div class="card-img-top request-image text-center mb-2" class:smaller>
+    <RequestImage {request} />
+  </div>
+
+  <div class="fs-14 mb-1">
+    <div class="flex justify-between align-items-center black">
+      <div>
+        <div class="uppercase fs-10">from</div>
+        {#if from }
+          <p>{from}</p>
+        {:else}
+          <p class="font-italic">anywhere</p>
+        {/if}
+      </div>
 
       <div>
-        <h5 class="multi-line-truncate my-0">{request.title}</h5>
+        <div class="uppercase fs-10">to</div>
 
-        <div class="multi-line-truncate">{user.nickname}</div>
-      </div>
-
-      <span class="material-icons">chat</span>  
-    </div>
-
-    <div class="card-img-top request-image text-center mb-2" class:smaller>
-      <RequestImage {request} />
-    </div>
-
-    <div class="fs-14 mb-1">
-      <div class="flex justify-between align-items-center black">
-        <div>
-          <div class="uppercase fs-10">from</div>
-          {#if from }
-            <p>{from}</p>
-          {:else}
-            <p class="font-italic">anywhere</p>
-          {/if}
-        </div>
-
-        <div>
-          <div class="uppercase fs-10">to</div>
-
-          <p>{to}</p>
-        </div>
+        <p>{to}</p>
       </div>
     </div>
+  </div>
 
-    {#if true}
-      <div class="content multi-line-truncate line-clamp-3 fs-12 gray max-height h-100 mb-1">
-        Descriptons of stuff. More text to show how it will respond. Descriptons of stuff. More text to show how it will respond. Descriptons of stuff. More text to show how it will respond. Descriptons of stuff. More text to show how it will respond.
-        
-        <div class="fadeout align-center w-100"></div>
-      </div>
-    {/if}
-  </Card>
-</div>
+  {#if true}
+    <div class="content multi-line-truncate line-clamp-3 fs-12 gray max-height h-100 mb-1">
+      {request.descripton}
+      
+      <div class="fadeout align-center w-100"></div>
+    </div>
+  {/if}
+</Card>
