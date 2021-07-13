@@ -12,13 +12,13 @@ export const DELETE = async (uri, body) => await wrappedFetch('delete', uri, bod
 export async function wrappedFetch(method, url, body) {
   const headers = {
     authorization: getAuthzHeader(),
-    'content-type': 'application/json',
   }
 
   // when dealing with FormData, i.e., when uploading files, allow the browser to set the request up
   // so boundary information is built properly.
-  if (body instanceof FormData) {
-    delete headers['content-type']
+  if (!(body instanceof FormData)) {
+    headers['content-type'] = 'application/json'
+    body = JSON.stringify(body)
   }
 
   // reminder: fetch does not throw exceptions for non-200 responses (https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/fetch)
@@ -58,11 +58,7 @@ export async function wrappedFetch(method, url, body) {
 }
 
 export async function gql(query) {
-  const body = JSON.stringify({
-    query
-  })
-
-  const response = await wrappedFetch('post', 'gql', body)
+  const response = await wrappedFetch('post', 'gql', { query })
 
   if (response.errors) {
     throwError(response.errors[0].message)

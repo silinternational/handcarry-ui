@@ -32,7 +32,7 @@ $: if ($me.organizations && $me.organizations.length > 0) {
 
 function initializeUpdates(requestBeingEdited) {
   request = Object.assign({}, requestBeingEdited)
-  request.needed_before = request.needed_before?.split("T")[0] || ''
+  request.needed_before = request.needed_before?.split("T")[0] || null
 }
 
 function assertHas(value, errorMessage) {
@@ -52,14 +52,14 @@ async function onSubmit() {
 
   if (isNew) {
     await create({
-        orgID: request.viewableBy,
+        org_id: request.viewableBy,
         title: request.title,
         description: request.description,
         destination: request.destination,
         kilograms: request.kilograms,
-        neededBefore: request.needed_before,
+        needed_before: request.needed_before && `${request.needed_before}T00:00:00Z`,
         origin: request.origin,
-        photoID: request.photo.id,
+        photo_id: request.photo?.id,
         size: request.size,
         visibility: request.visibility,
     })

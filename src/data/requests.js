@@ -1,8 +1,6 @@
-import { GET } from './api'
+import { GET, POST } from './api'
 import {
-  createRequest,
   updateRequest,
-  getRequests,
   cancelRequest,
   offerToProvide,
   acceptOfferToProvide,
@@ -30,7 +28,7 @@ async function loadRequests() {
   try {
     loading.set(true)
 
-    const currentRequests = await GET('/requests')
+    const currentRequests = await GET('requests')
 
     requests.set(currentRequests)
   } catch (e) {
@@ -46,7 +44,7 @@ export async function getOneRequest(id) {
   try {
     loading.set(true)
 
-    return await GET(`/requests/${id}`)
+    return await GET(`requests/${id}`)
   } catch (e) {
     throw e
   } finally {
@@ -55,7 +53,7 @@ export async function getOneRequest(id) {
 }
 
 export async function create(request) {
-  const newRequest = await createRequest(request)
+  const newRequest = await POST('requests', request)
 
   requests.update(currentRequests => [newRequest, ...currentRequests])
 }
