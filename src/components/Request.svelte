@@ -84,7 +84,7 @@ function goToConversation(conversationId) {
 
             {#if request.needed_before }
               <dt class={dlTermColumns}>Needed before</dt>
-              <dd class={dlDescriptionColumns}>{ (new Date(request.needed_before)).toLocaleDateString() }</dd>
+              <dd class={dlDescriptionColumns}>{ (new Date(request.needed_before)).toLocaleDateString([], { timeZone: 'UTC' }) }</dd>
             {/if}
 
             <!-- Show any actual value (including zero) -->

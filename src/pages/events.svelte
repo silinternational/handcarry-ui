@@ -10,10 +10,11 @@ import { flip } from 'svelte/animate';
 import { fade } from 'svelte/transition';
 import { params } from '@roxi/routify'
 
-const format = date => new Date(date).toLocaleDateString(undefined, {
+const format = date => new Date(date).toLocaleDateString([], {
   month: 'short',
   day: 'numeric',
   year: 'numeric',
+  timeZone: 'UTC',
 })
 const logoUrl = event => event.imageFile && event.imageFile.url || ''
 
