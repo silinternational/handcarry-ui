@@ -29,10 +29,10 @@ $: isNew = !request.id
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
-$: neededBefore = request.needed_before && request.needed_before.split("T")[0] || ''
 
 function initializeUpdates(requestBeingEdited) {
   request = Object.assign({}, requestBeingEdited)
+  request.needed_before = request.needed_before?.split("T")[0] || ''
 }
 
 function assertHas(value, errorMessage) {
@@ -212,7 +212,7 @@ function onWeightChanged(event) {
       </label>
     </div>
     <div class="col-auto">
-      <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={neededBefore} />
+      <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={request.needed_before} />
     </div>
   </div>
 
