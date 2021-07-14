@@ -90,7 +90,7 @@
 
   {#if true}
     <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2">
-      {request.descripton  || 'This is a sentence. This is a sentence. This is a sentence. This is a sentence. This is a sentence. This is a sentence.'}
+      {request.descripton  || ''}
     </div>
   {/if}
 </Card>
