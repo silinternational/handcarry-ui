@@ -32,26 +32,21 @@
     -webkit-line-clamp: 3; /* number of lines to show */
   }
 
-  .max-height {
-    max-height: 100px;
-    min-height: 40px;
-    overflow: hidden;
-  }
-
-  .max-height .fadeout { 
-    position: absolute; 
-    bottom: 0; 
-    left: 0;
-    margin: 0; padding: 60px 0; 
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
-  }
-
   .request-image {
     overflow: hidden;
     height: 10rem;
   }
+
   .request-image.smaller {
     height: 6rem;
+  }
+
+  h5.smaller {
+    font-size: 1.15rem;
+  }
+
+  .smaller {
+    font-size: 0.9rem;
   }
 </style>
 
@@ -60,9 +55,9 @@
     <UserAvatar {user} small />
 
     <div>
-      <h5 class="multi-line-truncate my-0">{request.title}</h5>
+      <h5 class="multi-line-truncate my-0" class:smaller>{request.title}</h5>
 
-      <div class="multi-line-truncate">{user.nickname}</div>
+      <div class="multi-line-truncate" class:smaller>{user.nickname}</div>
     </div>
 
     <span class="material-icons">chat</span>
@@ -72,30 +67,26 @@
     <RequestImage {request} />
   </div>
 
-  <div class="fs-14 mb-1">
-    <div class="flex justify-between align-items-center black">
-      <div>
-        <div class="uppercase fs-10">from</div>
-        {#if from }
-          <p>{from}</p>
-        {:else}
-          <p class="font-italic">anywhere</p>
-        {/if}
-      </div>
+  <div class="flex justify-between align-items-center black fs-14 mb-1">
+    <div>
+      <div class="uppercase fs-10">from</div>
+      {#if from }
+        <p class="mb-1" class:smaller>{from}</p>
+      {:else}
+        <p class="mb-1 font-italic" class:smaller>anywhere</p>
+      {/if}
+    </div>
 
-      <div>
-        <div class="uppercase fs-10">to</div>
+    <div>
+      <div class="uppercase fs-10">to</div>
 
-        <p>{to}</p>
-      </div>
+      <p class="mb-1" class:smaller>{to}</p>
     </div>
   </div>
 
   {#if true}
-    <div class="content multi-line-truncate line-clamp-3 fs-12 gray max-height h-100 mb-1">
-      {request.descripton}
-      
-      <div class="fadeout align-center w-100"></div>
+    <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2">
+      {request.descripton  || ''}
     </div>
   {/if}
 </Card>
