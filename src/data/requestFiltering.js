@@ -114,7 +114,7 @@ export function labelFor(name, value) {
     destination: 'To: ',
     meeting: 'To: ',
     origin: 'From: ',
-    searchText: 'Keyword: ',
+    search_text: 'Keyword: ',
     size: 'Size: ',
   }
 

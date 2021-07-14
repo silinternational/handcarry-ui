@@ -72,3 +72,15 @@ export function getInviteInfo(code) {
 }
 
 export const upload = async formData => await wrappedFetch('post', 'upload', formData)
+
+export const locationForApi = location => {
+  if (location) {
+    return {
+      country: location.country,
+      description: location.description,
+      latitude: location.latitude,
+      longitude: location.longitude,
+    }
+  }
+  return null
+}
