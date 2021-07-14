@@ -7,7 +7,7 @@
   export let request;
   export let smaller = false;
 
-  $: user = request.createdBy || {}
+  $: user = request.created_by || {}
   $: from = request.origin?.description
   $: to = request.meeting ? request.meeting.name : request.destination.description
 
