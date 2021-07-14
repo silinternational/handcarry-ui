@@ -37,4 +37,4 @@ export function getWatchableKeys(filterKeys) {
 }
 
 export const getWatches = async () => await GET('watches')
-export const deleteWatch = async id => await DELETE(`watches/{id}`)
+export const deleteWatch = async id => await DELETE(`watches/${id}`)
