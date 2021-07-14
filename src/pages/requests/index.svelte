@@ -3,7 +3,7 @@ import FilteredDisplay from '../../components/FilteredDisplay.svelte'
 import GridListToggle from '../../components/GridListToggle.svelte'
 import RequestListEntry from '../../components/RequestListEntry.svelte'
 import RequestFilters from '../../components/RequestFilters.svelte'
-import RequestTile from '../../components/RequestTile.svelte'
+import RequestCard from '../../components/RequestCard.svelte'
 import NewRequestTile from '../../components/NewRequestTile.svelte'
 import { events } from '../../data/events'
 import { me } from '../../data/user'
@@ -51,7 +51,7 @@ function viewToggled(choice) {
         {#each filteredRequests as request (request.id) }
           <div class="col-6 my-1 col-lg-4"
                in:fade
-               animate:flip="{{ duration: 350 }}"><RequestTile {request} /></div>
+               animate:flip="{{ duration: 350 }}"><RequestCard {request}/></div>
         {/each}
       {/if}
     {:else}
