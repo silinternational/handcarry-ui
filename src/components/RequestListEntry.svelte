@@ -6,7 +6,7 @@ import { goto } from '@roxi/routify'
 
 export let request;
 
-$: user = request.createdBy || {}
+$: user = request.created_by || {}
 $: size = request.size
 $: from = request.origin && request.origin.description
 $: to = request.meeting ? request.meeting.name : request.destination.description

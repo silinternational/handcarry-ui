@@ -10,16 +10,16 @@ export function clearRequestFilter() {
     toCountry: false,
     toState: false,
     toCounty: false,
-    toLocality: false,
-    toSublocality: false,
+    toCity: false,
+    toBorough: false,
     toLatitude: false,
     toLongitude: false,
     fromDescription: false,
     fromCountry: false,
     fromState: false,
     fromCounty: false,
-    fromLocality: false,
-    fromSublocality: false,
+    fromCity: false,
+    fromBorough: false,
     fromLatitude: false,
     fromLongitude: false,
     event: false,
@@ -36,8 +36,8 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     country: queryStringData.toCountry,
     state: queryStringData.toState,
     county: queryStringData.toCounty,
-    locality: queryStringData.toLocality,
-    sublocality: queryStringData.toSublocality,
+    city: queryStringData.toCity,
+    borough: queryStringData.toBorough,
     latitude: Number(queryStringData.toLatitude),
     longitude: Number(queryStringData.toLongitude),
   }
@@ -46,8 +46,8 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     country: queryStringData.fromCountry,
     state: queryStringData.fromState,
     county: queryStringData.fromCounty,
-    locality: queryStringData.fromLocality,
-    sublocality: queryStringData.fromSublocality,
+    city: queryStringData.fromCity,
+    borough: queryStringData.fromBorough,
     latitude: Number(queryStringData.fromLatitude),
     longitude: Number(queryStringData.fromLongitude),
   }
@@ -100,7 +100,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
 
 function matchByRegion (location, requestLocation) {
   if (!location || !requestLocation) return true
-  if (location.sublocality || location.locality || location.county) {
+  if (location.borough || location.city || location.county) {
     return isNear(location, requestLocation)
   } else if (location.state) {
     return requestLocation.description.includes(location.state)  || requestLocation.description.includes(location.description)
@@ -152,8 +152,8 @@ export function removeRequestFilter(name) {
       toCountry: false,
       toState: false,
       toCounty: false,
-      toLocality: false,
-      toSublocality: false,
+      toCity: false,
+      toBorough: false,
       toLatitude: false,
       toLongitude: false,
     })
@@ -165,8 +165,8 @@ export function removeRequestFilter(name) {
       fromCountry: false,
       fromState: false,
       fromCounty: false,
-      fromLocality: false,
-      fromSublocality: false,
+      fromCity: false,
+      fromBorough: false,
       fromLatitude: false,
       fromLongitude: false,
     })

@@ -33,8 +33,8 @@ function selectLocation(description, place) {
     country: extractAddressComponent(place.address_components, 'country'),
     state: extractAddressComponent(place.address_components, 'administrative_area_level_1'),
     county: extractAddressComponent(place.address_components, 'administrative_area_level_2'),
-    locality: extractAddressComponent(place.address_components, 'locality'),
-    sublocality: extractAddressComponent(place.address_components, 'sublocality'),
+    city: extractAddressComponent(place.address_components, 'locality'),
+    borough: extractAddressComponent(place.address_components, 'sublocality'),
   })
 }
 

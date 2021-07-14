@@ -72,6 +72,7 @@ export async function createRequest(request) {
 
 export async function updateRequest(request) {
   // TODO: When API is updated to erase values when we send `null`, update `|| something` to `|| null`
+
   const response = await gql(`
     mutation {
       request:updateRequest(input: {

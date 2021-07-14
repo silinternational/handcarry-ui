@@ -8,7 +8,7 @@ export let requester
 let requestsFromThisRequester = []
 
 $: if (requester.id) {
-  requestsFromThisRequester = $requests.filter(({ createdBy }) => createdBy.id === requester.id)
+  requestsFromThisRequester = $requests.filter(({ created_by }) => created_by.id === requester.id)
 }
 $: otherRequests = requestsFromThisRequester.filter(({id}) => id !== request.id)
 </script>
