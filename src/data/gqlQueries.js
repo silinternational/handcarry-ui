@@ -368,6 +368,11 @@ const requestFieldsAbridged = `
   }
   size
   title
+  status
+  visibility
+  description
+  neededBefore
+  url
 `
 const messageFields = `
   content
