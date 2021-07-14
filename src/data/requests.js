@@ -65,7 +65,7 @@ export async function update(request) {
 }
 
 export async function cancel(requestId) {
-  await PUT(`requests/${requestId}`, {status: 'REMOVED'})
+  await PUT(`requests/${requestId}/status`, {status: 'REMOVED'})
 
   requests.update(currentRequests => currentRequests.filter(({id}) => id !== requestId))
 }
