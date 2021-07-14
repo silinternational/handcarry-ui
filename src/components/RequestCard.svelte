@@ -48,6 +48,10 @@
   .smaller {
     font-size: 0.9rem;
   }
+
+  .from-to {
+    height: 3.5rem;
+  }
 </style>
 
 <Card isClickable on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-1">
@@ -67,7 +71,7 @@
     <RequestImage {request} />
   </div>
 
-  <div class="flex justify-between align-items-center black fs-14 mb-1">
+  <div class="from-to flex justify-between black fs-14 mb-1">
     <div>
       <div class="uppercase fs-10">from</div>
       {#if from }
@@ -86,7 +90,7 @@
 
   {#if true}
     <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2">
-      {request.descripton  || ''}
+      {request.descripton  || 'This is a sentence. This is a sentence. This is a sentence. This is a sentence. This is a sentence. This is a sentence.'}
     </div>
   {/if}
 </Card>
