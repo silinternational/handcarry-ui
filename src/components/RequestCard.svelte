@@ -88,9 +88,7 @@
     </div>
   </div>
 
-  {#if true}
-    <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2">
-      {request.descripton  || ''}
-    </div>
-  {/if}
+  <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2">
+    {request.description  || ''}
+  </div>
 </Card>
