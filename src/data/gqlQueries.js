@@ -375,8 +375,8 @@ const requestFieldsAbridged = `
   size
   status
   title
-  visibility
   url
+  visibility
 `
 const messageFields = `
   content
