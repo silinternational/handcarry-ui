@@ -33,8 +33,8 @@ function selectLocation(description, place) {
     country: extractCountryCode(place.address_components),
     state: extractState(place.address_components),
     county: extractCounty(place.address_components),
-    locality: extractLocality(place.address_components),
-    sublocality: extractSublocality(place.address_components),
+    city: extractCity(place.address_components),
+    borough: extractBorough(place.address_components),
   })
 }
 
@@ -50,11 +50,11 @@ function extractCounty(addressComponents) {
   return addressComponents.filter(component => component.types.includes('administrative_area_level_2'))[0]?.short_name
 }
 
-function extractLocality(addressComponents) {
+function extractCity(addressComponents) {
   return addressComponents.filter(component => component.types.includes('locality'))[0]?.short_name
 }
 
-function extractSublocality(addressComponents) {
+function extractBorough(addressComponents) {
   return addressComponents.filter(component => component.types.includes('sublocality'))[0]?.short_name
 }
 

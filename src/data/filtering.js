@@ -63,8 +63,8 @@ export function removeFilter(name) {
       toCountry: false,
       toState: false,
       toCounty: false,
-      toLocality: false,
-      toSublocality: false,
+      toCity: false,
+      toBorough: false,
       toLatitude: false,
       toLongitude: false,
     }
@@ -74,8 +74,8 @@ export function removeFilter(name) {
       fromCountry: false,
       fromState: false,
       fromCounty: false,
-      fromLocality: false,
-      fromSublocality: false,
+      fromCity: false,
+      fromBorough: false,
       fromLatitude: false,
       fromLongitude: false,
     }
