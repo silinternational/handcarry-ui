@@ -338,6 +338,7 @@ const requestFields = `
   status
   title
   visibility
+  isEditable
 `
 const requestFieldsAbridged = `
   createdBy {
@@ -345,21 +346,26 @@ const requestFieldsAbridged = `
     avatarURL
     nickname
   }
+  description
   destination {
     description
     latitude
     longitude
+    country
   }
   meeting {
     id
     name
   }
+  neededBefore
   origin {
     description
     latitude
     longitude
+    country
   }
   id
+  kilograms
   photo {
     url
   }
@@ -367,7 +373,10 @@ const requestFieldsAbridged = `
     id
   }
   size
+  status
   title
+  url
+  visibility
 `
 const messageFields = `
   content

@@ -1,26 +1,17 @@
 <script>
+  import RequestImage from '../components/RequestImage.svelte'
   import UserAvatar from '../components/UserAvatar.svelte'
   import { goto } from '@roxi/routify'
   import { Card } from '@silintl/ui-components'
-  import { sizes } from '../data/sizes'
 
   export let request;
+  export let smaller = false;
 
   $: user = request.createdBy || {}
-  $: size = request.size
   $: from = request.origin?.description
   $: to = request.meeting ? request.meeting.name : request.destination.description
-  $: photoUrl = request.photo?.url || ''
-  $: imgUrl = photoUrl || getGraphicForSize(size)
-  $: console.log(request)
 
-  function getGraphicForSize(requestSize) {
-    for (const size of sizes) {
-      if (size.type === requestSize) {
-        return size.genericGraphicUrl
-      }
-    }
-  }
+  const gotoRequest = () => $goto(`/requests/${request.id}`)
 </script>
 
 <style>
@@ -37,64 +28,67 @@
     -webkit-line-clamp: 1; /* number of lines to show */
   }
 
-  .max-height {
-    max-height: 100px;
-    min-height: 40px;
-    overflow: hidden;
+  .line-clamp-3 {
+    -webkit-line-clamp: 3; /* number of lines to show */
   }
 
-  .max-height .fadeout { 
-    position: absolute; 
-    bottom: 0; 
-    left: 0;
-    margin: 0; padding: 60px 0; 
-    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0), white);
+  .request-image {
+    overflow: hidden;
+    height: 10rem;
+  }
+
+  .request-image.smaller {
+    height: 6rem;
+  }
+
+  h5.smaller {
+    font-size: 1.15rem;
+  }
+
+  .smaller {
+    font-size: 0.9rem;
+  }
+
+  .from-to {
+    height: 3.5rem;
   }
 </style>
 
-<div tabindex="0" on:click={ $goto(`/requests/${request.id}`) }>
-  <Card class="mdc-card__primary-action h-100 py-1">
-    <div class="flex justify-between align-items-center black m-2">
-      <UserAvatar {user} small />
+<Card isClickable on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-1">
+  <div class="flex justify-between align-items-center black m-2">
+    <UserAvatar {user} small />
 
-      <div class="request-header">
-        <h5 class="multi-line-truncate my-0">{request.title}</h5>
+    <div>
+      <h5 class="multi-line-truncate my-0" class:smaller>{request.title}</h5>
 
-        <div class="multi-line-truncate">{user.nickname}</div>
-      </div>
-
-      <span class="material-icons">chat</span>  
+      <div class="multi-line-truncate" class:smaller>{user.nickname}</div>
     </div>
 
-    <div class="request-image flex justify-center mb-2">
-      <img class="w-100" src={imgUrl} alt='item'/>
+    <span class="material-icons">chat</span>
+  </div>
+
+  <div class="card-img-top request-image text-center mb-2" class:smaller>
+    <RequestImage {request} />
+  </div>
+
+  <div class="from-to flex justify-between black fs-14 mb-1">
+    <div>
+      <div class="uppercase fs-10">from</div>
+      {#if from }
+        <p class="mb-1" class:smaller>{from}</p>
+      {:else}
+        <p class="mb-1 font-italic" class:smaller>anywhere</p>
+      {/if}
     </div>
 
-    <div class="fs-14 mb-1">
-      <div class="flex justify-between align-items-center black">
-        <div>
-          <div class="uppercase fs-10">from</div>
-          {#if from }
-            <p>{from}</p>
-          {:else}
-            <p class="font-italic">anywhere</p>
-          {/if}
-        </div>
+    <div>
+      <div class="uppercase fs-10">to</div>
 
-        <div>
-          <div class="uppercase fs-10">to</div>
-
-          <p>{to}</p>
-        </div>
-      </div>
+      <p class="mb-1" class:smaller>{to}</p>
     </div>
+  </div>
 
-    {#if true}
-      <div class="content fs-12 gray max-height h-100 mb-1">
-        Descriptons of stuff. More text to show how it will respond. Descriptons of stuff. More text to show how it will respond. Descriptons of stuff. More text to show how it will respond. Descriptons of stuff. More text to show how it will respond.
-        
-        <div class="fadeout align-center w-100"></div>
-      </div>
-    {/if}
-  </Card>
-</div>
+  <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2">
+    {request.description  || ''}
+  </div>
+</Card>
