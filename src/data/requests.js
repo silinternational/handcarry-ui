@@ -1,11 +1,4 @@
 import { GET, POST, PUT } from './api'
-import {
-  cancelRequest,
-  offerToProvide,
-  acceptOfferToProvide,
-  delivered,
-  received,
-} from './gqlQueries'
 import { onClear } from './storage'
 import { writable } from 'svelte/store'
 
@@ -72,13 +65,13 @@ export async function update(request) {
 }
 
 export async function cancel(requestId) {
-  await cancelRequest(requestId)
+  await PUT(`requests/${requestId}`, {status: 'REMOVED'})
 
   requests.update(currentRequests => currentRequests.filter(({id}) => id !== requestId))
 }
 
 export async function offer(requestId) {
-  const updatedRequest = await offerToProvide(requestId)
+  const updatedRequest = await POST(`requests/${requestId}/potentialprovider`)
 
   updateLocalRequests(updatedRequest)
 
@@ -86,7 +79,7 @@ export async function offer(requestId) {
 }
 
 export async function accept(requestId, potentialProviderId) {
-  const updatedRequest = await acceptOfferToProvide(requestId, potentialProviderId)
+  const updatedRequest = await PUT(`requests/${requestId}/status`, {status: 'ACCEPTED', provider_user_id: potentialProviderId})
 
   updateLocalRequests(updatedRequest)
 
@@ -94,7 +87,7 @@ export async function accept(requestId, potentialProviderId) {
 }
 
 export async function deliver(requestId) {
-  const updatedRequest = await delivered(requestId)
+  const updatedRequest = await PUT(`requests/${requestId}/status`, {status: 'DELIVERED'})
 
   updateLocalRequests(updatedRequest)
 
@@ -102,7 +95,7 @@ export async function deliver(requestId) {
 }
 
 export async function receive(requestId) {
-  const updatedRequest = await received(requestId)
+  const updatedRequest = await PUT(`requests/${requestId}/status`, {status: 'COMPLETED'})
 
   updateLocalRequests(updatedRequest)
 
