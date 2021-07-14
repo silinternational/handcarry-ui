@@ -16,7 +16,7 @@ const format = date => new Date(date).toLocaleDateString([], {
   year: 'numeric',
   timeZone: 'UTC',
 })
-const logoUrl = event => event.imageFile && event.imageFile.url || ''
+const logoUrl = event => event.image_file?.url || ''
 
 let eventFilter = {}
 
@@ -83,11 +83,11 @@ li {
 
                 <div>{event.location.description}</div>
                 <div class="pb-1">
-                  {format(event.startDate)} – {format(event.endDate)}
+                  {format(event.start_date)} – {format(event.end_date)}
                 </div>
 
-                {#if event.moreInfoURL}
-                  <a href="{event.moreInfoURL}" target="_blank">
+                {#if event.more_info_url}
+                  <a href="{event.more_info_url}" target="_blank">
                     <Icon icon={faExternalLinkAlt} />
                     <small class="align-bottom">Event Website</small>
                   </a>
