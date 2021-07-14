@@ -51,20 +51,7 @@ export async function wrappedFetch(method, url, body) {
     return response
   }
 
-  // errors found in one of two places:
-  //   buffalo => `key` (to be derived)
-  //   gql => `errors[0].message`
-  throwError(polyglot.t(contents.key) || contents.errors[0].message, response.status)
-}
-
-export async function gql(query) {
-  const response = await wrappedFetch('post', 'gql', { query })
-
-  if (response.errors) {
-    throwError(response.errors[0].message)
-  }
-
-  return response.data
+  throwError(polyglot.t(contents.key), response.status)
 }
 
 export function getInviteInfo(code) {
