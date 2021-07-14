@@ -122,11 +122,11 @@ export function labelFor(name, value) {
 }
 
 function iAmProviding(request, me) {
-  return me.id && request.provider && request.provider.id === me.id
+  return me.id && request.provider?.id === me.id
 }
 
 function isMyRequest(request, me) {
-  return me.id && request.createdBy && request.createdBy.id === me.id
+  return me.id && request.created_by?.id === me.id
 }
 
 function getEventName(events, eventId) {
@@ -137,7 +137,7 @@ function getEventName(events, eventId) {
 function requestMatchesSearchText(request, searchText) {
   return stringIsIn(searchText, request.title) ||
          stringIsIn(searchText, request.destination.description) ||
-         stringIsIn(searchText, request.createdBy.nickname)
+         stringIsIn(searchText, request.created_by.nickname)
 }
 
 /**
