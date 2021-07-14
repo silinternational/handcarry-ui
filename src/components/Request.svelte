@@ -102,7 +102,7 @@ function goToConversation(conversationId) {
         </div>
       </div>
       <p class="mb-4 keep-line-breaks">{ request.description || '' }</p>
-      {#if isMine}
+      {#if request.isEditable}
         <a href="/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary mb-2">Edit request</a>
       {/if}
       <RequestMessaging {request} {conversationId} on:conversation-selected={event => goToConversation(event.detail)} />
