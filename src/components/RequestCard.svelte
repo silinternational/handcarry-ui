@@ -54,8 +54,8 @@
   }
 </style>
 
-<Card isClickable on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-1">
-  <div class="flex justify-between align-items-center black m-2">
+<Card isClickable noPadding on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-1">
+  <div class="flex justify-between align-items-center black m-2 px-2">
     <UserAvatar {user} small />
 
     <div>
@@ -71,7 +71,7 @@
     <RequestImage {request} />
   </div>
 
-  <div class="from-to flex justify-between black fs-14 mb-1">
+  <div class="from-to flex justify-between black fs-14 mb-1 px-3">
     <div>
       <div class="uppercase fs-10">from</div>
       {#if from }
@@ -88,7 +88,7 @@
     </div>
   </div>
 
-  <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2">
+  <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2 px-3">
     {request.description  || ''}
   </div>
 </Card>
