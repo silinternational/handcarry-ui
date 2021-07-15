@@ -1,7 +1,7 @@
 <script>
 import { me } from '../data/user'
 import { offer, accept, deliver, receive } from '../data/requests'
-import { 
+import {
   accepted,
   offered,
   trackReceived,
@@ -11,8 +11,8 @@ import {
 export let request
 export let conversationParticipants = []
 
-$: creator = request.createdBy || {}
-$: potentialProviders = request.potentialProviders || []
+$: creator = request.created_by || {}
+$: potentialProviders = request.potential_providers || []
 $: provider = request.provider || {}
 $: hasProvider = !!provider.id
 $: status = request.status
@@ -30,7 +30,7 @@ $: isConversingWithProvider = isInList(provider, participants)
 
 async function acceptOfferFrom(potentialProvider) {
   // TODO: updating request like this shouldn't be necessary, having to do it this way because conversations and requests are separate stores
-  // and this component is only interested in the conversation (and it's attached request) and those changes aren't coming down... maybe a 
+  // and this component is only interested in the conversation (and it's attached request) and those changes aren't coming down... maybe a
   // refactor needs to be considered here.
   request = await accept(request.id, potentialProvider.id)
 
@@ -91,7 +91,7 @@ function isInList(user, listOfUsers) {
       <button class="btn btn-sm btn-info" on:click={delivered}>I delivered it</button>
     {:else}
       You delivered this.
-    {/if}          
+    {/if}
   {:else if hasProvider}
     Someone else has agreed to bring this.
   {:else if iOfferedToProvideIt }

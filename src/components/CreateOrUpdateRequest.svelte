@@ -51,14 +51,14 @@ async function onSubmit() {
 
   if (isNew) {
     await create({
-        orgID: request.viewableBy,
+        org_id: request.viewableBy,
         title: request.title,
         description: request.description,
         destination: request.destination,
         kilograms: request.kilograms,
-        neededBefore: request.neededBefore,
+        needed_before: request.needed_before,
         origin: request.origin,
-        photoID: request.photoID,
+        photo_id: request.photo?.id,
         size: request.size,
         visibility: request.visibility,
     })
@@ -76,7 +76,7 @@ async function onSubmit() {
 }
 
 function imageUploaded(event) {
-  request.photoID = event.detail.id
+  request.photo = event.detail
   imageUrl = event.detail.url
 }
 
@@ -211,7 +211,7 @@ function onWeightChanged(event) {
       </label>
     </div>
     <div class="col-auto">
-      <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={request.neededBefore} />
+      <input type="date" class="form-control form-control-lg" id="request-needed-before" min={tomorrow} bind:value={request.needed_before} />
     </div>
   </div>
 

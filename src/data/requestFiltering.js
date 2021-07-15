@@ -10,16 +10,16 @@ export function clearRequestFilter() {
     toCountry: false,
     toState: false,
     toCounty: false,
-    toLocality: false,
-    toSublocality: false,
+    toCity: false,
+    toBorough: false,
     toLatitude: false,
     toLongitude: false,
     fromDescription: false,
     fromCountry: false,
     fromState: false,
     fromCounty: false,
-    fromLocality: false,
-    fromSublocality: false,
+    fromCity: false,
+    fromBorough: false,
     fromLatitude: false,
     fromLongitude: false,
     event: false,
@@ -36,8 +36,8 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     country: queryStringData.toCountry,
     state: queryStringData.toState,
     county: queryStringData.toCounty,
-    locality: queryStringData.toLocality,
-    sublocality: queryStringData.toSublocality,
+    city: queryStringData.toCity,
+    borough: queryStringData.toBorough,
     latitude: Number(queryStringData.toLatitude),
     longitude: Number(queryStringData.toLongitude),
   }
@@ -46,8 +46,8 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     country: queryStringData.fromCountry,
     state: queryStringData.fromState,
     county: queryStringData.fromCounty,
-    locality: queryStringData.fromLocality,
-    sublocality: queryStringData.fromSublocality,
+    city: queryStringData.fromCity,
+    borough: queryStringData.fromBorough,
     latitude: Number(queryStringData.fromLatitude),
     longitude: Number(queryStringData.fromLongitude),
   }
@@ -79,7 +79,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     },
     requestSearch: {
       active: !! queryStringData.search,
-      label: labelFor('searchText', queryStringData.search),
+      label: labelFor('search_text', queryStringData.search),
       isMatch: request => requestMatchesSearchText(request, queryStringData.search),
       value: queryStringData.search,
     },
@@ -100,7 +100,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
 
 function matchByRegion (location, requestLocation) {
   if (!location || !requestLocation) return true
-  if (location.sublocality || location.locality || location.county) {
+  if (location.borough || location.city || location.county) {
     return isNear(location, requestLocation)
   } else if (location.state) {
     return requestLocation.description.includes(location.state)  || requestLocation.description.includes(location.description)
@@ -114,7 +114,7 @@ export function labelFor(name, value) {
     destination: 'To: ',
     meeting: 'To: ',
     origin: 'From: ',
-    searchText: 'Keyword: ',
+    search_text: 'Keyword: ',
     size: 'Size: ',
   }
 
@@ -122,11 +122,11 @@ export function labelFor(name, value) {
 }
 
 function iAmProviding(request, me) {
-  return me.id && request.provider && request.provider.id === me.id
+  return me.id && request.provider?.id === me.id
 }
 
 function isMyRequest(request, me) {
-  return me.id && request.createdBy && request.createdBy.id === me.id
+  return me.id && request.created_by?.id === me.id
 }
 
 function getEventName(events, eventId) {
@@ -137,7 +137,7 @@ function getEventName(events, eventId) {
 function requestMatchesSearchText(request, searchText) {
   return stringIsIn(searchText, request.title) ||
          stringIsIn(searchText, request.destination.description) ||
-         stringIsIn(searchText, request.createdBy.nickname)
+         stringIsIn(searchText, request.created_by.nickname)
 }
 
 /**
@@ -152,8 +152,8 @@ export function removeRequestFilter(name) {
       toCountry: false,
       toState: false,
       toCounty: false,
-      toLocality: false,
-      toSublocality: false,
+      toCity: false,
+      toBorough: false,
       toLatitude: false,
       toLongitude: false,
     })
@@ -165,8 +165,8 @@ export function removeRequestFilter(name) {
       fromCountry: false,
       fromState: false,
       fromCounty: false,
-      fromLocality: false,
-      fromSublocality: false,
+      fromCity: false,
+      fromBorough: false,
       fromLatitude: false,
       fromLongitude: false,
     })

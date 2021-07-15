@@ -1,16 +1,6 @@
-import { writable } from 'svelte/store'
-import {
-  createRequest,
-  updateRequest,
-  getRequest,
-  getRequests,
-  cancelRequest,
-  offerToProvide,
-  acceptOfferToProvide,
-  delivered,
-  received,
-} from './gqlQueries'
+import { GET, POST, PUT } from './api'
 import { onClear } from './storage'
+import { writable } from 'svelte/store'
 
 export const requests = writable([])
 export const loading = writable(false)
@@ -30,7 +20,7 @@ async function loadRequests() {
   try {
     loading.set(true)
 
-    const currentRequests = await getRequests()
+    const currentRequests = await GET('requests')
 
     requests.set(currentRequests)
   } catch (e) {
@@ -46,7 +36,7 @@ export async function getOneRequest(id) {
   try {
     loading.set(true)
 
-    return await getRequest(id)
+    return await GET(`requests/${id}`)
   } catch (e) {
     throw e
   } finally {
@@ -55,32 +45,37 @@ export async function getOneRequest(id) {
 }
 
 export async function create(request) {
-  const newRequest = await createRequest(request)
+  const newRequest = await POST('requests', request)
 
   requests.update(currentRequests => [newRequest, ...currentRequests])
 }
 
 export async function update(request) {
-  const updatedRequest = await updateRequest(request)
-
-  requests.update(currentRequests => {
-    const i = currentRequests.findIndex(({ id }) => id === updatedRequest.id)
-    if (i >= 0) {
-      currentRequests[i] = updatedRequest
-    }
-
-    return currentRequests
+  const updatedRequest = await PUT (`requests/${request.id}`, {
+    description: request.description,
+    destination: request.destination,
+    kilograms: request.kilograms,
+    needed_before: request.needed_before || null,
+    origin: request.origin,
+    photo_id: request.photo?.id,
+    size: request.size,
+    title: request.title,
+    visibility: request.visibility,
   })
+
+  updateLocalRequests(updatedRequest)
+
+  return updatedRequest
 }
 
 export async function cancel(requestId) {
-  await cancelRequest(requestId)
+  await PUT(`requests/${requestId}/status`, {status: 'REMOVED'})
 
   requests.update(currentRequests => currentRequests.filter(({id}) => id !== requestId))
 }
 
 export async function offer(requestId) {
-  const updatedRequest = await offerToProvide(requestId)
+  const updatedRequest = await POST(`requests/${requestId}/potentialprovider`)
 
   updateLocalRequests(updatedRequest)
 
@@ -88,7 +83,7 @@ export async function offer(requestId) {
 }
 
 export async function accept(requestId, potentialProviderId) {
-  const updatedRequest = await acceptOfferToProvide(requestId, potentialProviderId)
+  const updatedRequest = await PUT(`requests/${requestId}/status`, {status: 'ACCEPTED', provider_user_id: potentialProviderId})
 
   updateLocalRequests(updatedRequest)
 
@@ -96,7 +91,7 @@ export async function accept(requestId, potentialProviderId) {
 }
 
 export async function deliver(requestId) {
-  const updatedRequest = await delivered(requestId)
+  const updatedRequest = await PUT(`requests/${requestId}/status`, {status: 'DELIVERED'})
 
   updateLocalRequests(updatedRequest)
 
@@ -104,7 +99,7 @@ export async function deliver(requestId) {
 }
 
 export async function receive(requestId) {
-  const updatedRequest = await received(requestId)
+  const updatedRequest = await PUT(`requests/${requestId}/status`, {status: 'COMPLETED'})
 
   updateLocalRequests(updatedRequest)
 

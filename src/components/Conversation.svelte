@@ -69,7 +69,7 @@ const focusOnCreate = element => element.focus()
 
           <div class="text-center">
             <small>
-              <strong>{request.createdBy.nickname}</strong> @ {destination}
+              <strong>{request.created_by.nickname}</strong> @ {destination}
             </small>
           </div>
         </div>
@@ -86,12 +86,12 @@ const focusOnCreate = element => element.focus()
       {#if message.sender.id === $me.id}
         <blockquote class="blockquote text-right">
           <p class="mb-0 message-content">{message.content}</p>
-          <footer class="blockquote-footer">you, { whenWas(message.createdAt) }</footer>
+          <footer class="blockquote-footer">you, { whenWas(message.created_at) }</footer>
         </blockquote>
       {:else}
         <blockquote class="blockquote">
           <p class="mb-0 message-content">{message.content}</p>
-          <footer class="blockquote-footer">{message.sender.nickname}, {whenWas(message.createdAt)}</footer>
+          <footer class="blockquote-footer">{message.sender.nickname}, {whenWas(message.created_at)}</footer>
         </blockquote>
       {/if}
     {/each}

@@ -30,32 +30,16 @@ function selectLocation(description, place) {
     description: description,
     latitude: place.geometry.location.lat(),
     longitude: place.geometry.location.lng(),
-    country: extractCountryCode(place.address_components),
-    state: extractState(place.address_components),
-    county: extractCounty(place.address_components),
-    locality: extractLocality(place.address_components),
-    sublocality: extractSublocality(place.address_components),
+    country: extractAddressComponent(place.address_components, 'country'),
+    state: extractAddressComponent(place.address_components, 'administrative_area_level_1'),
+    county: extractAddressComponent(place.address_components, 'administrative_area_level_2'),
+    city: extractAddressComponent(place.address_components, 'locality'),
+    borough: extractAddressComponent(place.address_components, 'sublocality'),
   })
 }
 
-function extractCountryCode(addressComponents) {
-  return addressComponents.filter(component => component.types.includes('country'))[0].short_name
-}
-
-function extractState(addressComponents) {
-  return addressComponents.filter(component => component.types.includes('administrative_area_level_1'))[0]?.short_name
-}
-
-function extractCounty(addressComponents) {
-  return addressComponents.filter(component => component.types.includes('administrative_area_level_2'))[0]?.short_name
-}
-
-function extractLocality(addressComponents) {
-  return addressComponents.filter(component => component.types.includes('locality'))[0]?.short_name
-}
-
-function extractSublocality(addressComponents) {
-  return addressComponents.filter(component => component.types.includes('sublocality'))[0]?.short_name
+function extractAddressComponent(addressComponents, componentType) {
+  return addressComponents.filter(component => component.types.includes(componentType))[0]?.short_name
 }
 
 function clearLocation() {
