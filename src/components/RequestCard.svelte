@@ -72,7 +72,7 @@
   </div>
 
   <div class="from-to flex justify-between black fs-14 mb-1 px-3">
-    <div>
+    <div class="pr-3">
       <div class="uppercase fs-10">from</div>
       {#if from }
         <p class="mb-1" class:smaller>{from}</p>
