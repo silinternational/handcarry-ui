@@ -51,17 +51,21 @@ export async function create(request) {
 }
 
 export async function update(request) {
-  request.photo_id = request.photo?.id
-  const updatedRequest = await PUT(`requests/${request.id}`, request)
-
-  requests.update(currentRequests => {
-    const i = currentRequests.findIndex(({ id }) => id === updatedRequest.id)
-    if (i >= 0) {
-      currentRequests[i] = updatedRequest
-    }
-
-    return currentRequests
+  const updatedRequest = await PUT (`requests/${request.id}`, {
+    description: request.description,
+    destination: request.destination,
+    kilograms: request.kilograms,
+    needed_before: request.needed_before || null,
+    origin: request.origin,
+    photo_id: request.photo?.id,
+    size: request.size,
+    title: request.title,
+    visibility: request.visibility,
   })
+
+  updateLocalRequests(updatedRequest)
+
+  return updatedRequest
 }
 
 export async function cancel(requestId) {
