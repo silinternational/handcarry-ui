@@ -79,7 +79,7 @@ export function populateRequestFilterFrom(queryStringData, me, events) {
     },
     requestSearch: {
       active: !! queryStringData.search,
-      label: labelFor('searchText', queryStringData.search),
+      label: labelFor('search_text', queryStringData.search),
       isMatch: request => requestMatchesSearchText(request, queryStringData.search),
       value: queryStringData.search,
     },
@@ -114,7 +114,7 @@ export function labelFor(name, value) {
     destination: 'To: ',
     meeting: 'To: ',
     origin: 'From: ',
-    searchText: 'Keyword: ',
+    search_text: 'Keyword: ',
     size: 'Size: ',
   }
 

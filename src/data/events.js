@@ -1,12 +1,12 @@
 import { writable } from 'svelte/store'
-import { getEvents, joinEvent } from './gqlQueries'
+import { GET, POST } from './api'
 import { onClear } from './storage'
 
 export const events = writable([])
 export const loading = writable(false)
 
 export async function join(eventId) {
-  const updatedEvent = await joinEvent(eventId)
+  const updatedEvent = await POST('events/join', {meeting_id: eventId})
 
   updateLocalEvents(updatedEvent)
 }
@@ -19,11 +19,11 @@ export function init() {
 
 async function loadEvents() {
   loading.set(true)
-  
-  const evts = await getEvents()
+
+  const evts = await GET('events')
 
   events.set(evts)
-  
+
   loading.set(false)
 }
 

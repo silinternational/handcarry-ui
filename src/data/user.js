@@ -1,9 +1,9 @@
 import { writable, get } from 'svelte/store'
-import { getUser, updateUser} from './gqlQueries'
-import { 
+import {
   changedNickname,
   changedAvatar,
  } from '../data/analytics'
+import { GET, PUT } from './api'
 import { onClear } from './storage'
 
 export const me = writable({})
@@ -14,27 +14,24 @@ export function init() {
 }
 
 async function loadAuthenticatedUser() {
-  const user = await getUser()
+  const user = await GET('users/me')
 
   me.set(user)
 }
 
 export async function changeNickname(nickname) {
-  const mergedUpdates = Object.assign({}, get(me), { nickname })
+  const photo_id = get(me).photo_id
+  const updatedUser = await PUT('users/me', {nickname, photo_id})
 
-  const newUser = await updateUser(mergedUpdates)
-
-  me.set(newUser)
+  me.set(updatedUser)
 
   changedNickname()
 }
 
-export async function changeProfilePicture(photoID) {
-  const mergedUpdates = Object.assign({}, get(me), { photoID })
+export async function changeProfilePicture(photo_id) {
+  const updatedUser = await PUT('users/me', {photo_id})
 
-  const newUser = await updateUser(mergedUpdates)
-
-  me.set(newUser)
+  me.set(updatedUser)
 
   changedAvatar()
 }
