@@ -21,17 +21,17 @@ async function loadAuthenticatedUser() {
 
 export async function changeNickname(nickname) {
   const photo_id = get(me).photo_id
-  const newUser = await PUT('users/me', {nickname, photo_id})
+  const updatedUser = await PUT('users/me', {nickname, photo_id})
 
-  me.set(newUser)
+  me.set(updatedUser)
 
   changedNickname()
 }
 
 export async function changeProfilePicture(photo_id) {
-  const newUser = await PUT('users/me', {photo_id})
+  const updatedUser = await PUT('users/me', {photo_id})
 
-  me.set(newUser)
+  me.set(updatedUser)
 
   changedAvatar()
 }
