@@ -28,6 +28,10 @@
     -webkit-line-clamp: 1; /* number of lines to show */
   }
 
+  .line-clamp-2.smaller {
+    -webkit-line-clamp: 2; /* number of lines to show */
+  }
+
   .line-clamp-3 {
     -webkit-line-clamp: 3; /* number of lines to show */
   }
@@ -58,7 +62,7 @@
   <div class="flex justify-between align-items-center black m-2 px-2">
     <UserAvatar {user} small />
 
-    <div>
+    <div class="px-2">
       <h5 class="multi-line-truncate my-0" class:smaller>{request.title}</h5>
 
       <div class="multi-line-truncate" class:smaller>{user.nickname}</div>
@@ -88,7 +92,7 @@
     </div>
   </div>
 
-  <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2 px-3">
+  <div class="content multi-line-truncate line-clamp-3 line-clamp-2 fs-12 gray mb-2 px-3"  class:smaller>
     {request.description  || ''}
   </div>
 </Card>
