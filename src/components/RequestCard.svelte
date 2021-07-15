@@ -19,6 +19,10 @@
     overflow-wrap: anywhere;
   }
 
+  .header {
+    padding-left: 6px;
+  }
+
   .multi-line-truncate {
     /* See https://stackoverflow.com/a/13924997 and https://caniuse.com/#search=line-clamp for details. */
     overflow: hidden;
@@ -59,13 +63,13 @@
 </style>
 
 <Card isClickable noPadding on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-1">
-  <div class="flex justify-between align-items-center black m-2 px-2">
+  <div class="flex justify-between align-items-center black m-2 px-1">
     <UserAvatar {user} small />
 
-    <div class="px-2">
+    <div class="header">
       <h5 class="multi-line-truncate my-0" class:smaller>{request.title}</h5>
 
-      <div class="multi-line-truncate" class:smaller>{user.nickname}</div>
+      <div class="multi-line-truncate fs-14" class:smaller>{user.nickname}</div>
     </div>
 
     <span class="material-icons">chat</span>
