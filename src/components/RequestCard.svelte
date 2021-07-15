@@ -19,6 +19,10 @@
     overflow-wrap: anywhere;
   }
 
+  .header {
+    padding-left: 6px;
+  }
+
   .multi-line-truncate {
     /* See https://stackoverflow.com/a/13924997 and https://caniuse.com/#search=line-clamp for details. */
     overflow: hidden;
@@ -26,6 +30,10 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1; /* number of lines to show */
+  }
+
+  .line-clamp-2.smaller {
+    -webkit-line-clamp: 2; /* number of lines to show */
   }
 
   .line-clamp-3 {
@@ -54,14 +62,14 @@
   }
 </style>
 
-<Card isClickable on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-1">
-  <div class="flex justify-between align-items-center black m-2">
+<Card isClickable noPadding on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-1">
+  <div class="flex justify-between align-items-center black m-2 px-1">
     <UserAvatar {user} small />
 
-    <div>
+    <div class="header">
       <h5 class="multi-line-truncate my-0" class:smaller>{request.title}</h5>
 
-      <div class="multi-line-truncate" class:smaller>{user.nickname}</div>
+      <div class="multi-line-truncate fs-14" class:smaller>{user.nickname}</div>
     </div>
 
     <span class="material-icons">chat</span>
@@ -71,8 +79,8 @@
     <RequestImage {request} />
   </div>
 
-  <div class="from-to flex justify-between black fs-14 mb-1">
-    <div>
+  <div class="from-to flex justify-between black fs-14 mb-1 px-3">
+    <div class="pr-3">
       <div class="uppercase fs-10">from</div>
       {#if from }
         <p class="mb-1" class:smaller>{from}</p>
@@ -88,7 +96,7 @@
     </div>
   </div>
 
-  <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2">
+  <div class="content multi-line-truncate line-clamp-3 line-clamp-2 fs-12 gray mb-2 px-3"  class:smaller>
     {request.description  || ''}
   </div>
 </Card>
