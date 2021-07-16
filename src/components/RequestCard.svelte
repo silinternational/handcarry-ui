@@ -36,10 +36,6 @@
     -webkit-line-clamp: 2; /* number of lines to show */
   }
 
-  .line-clamp-1.smaller {
-    -webkit-line-clamp: 1;
-  }
-
   .line-clamp-3 {
     -webkit-line-clamp: 3;
   }
