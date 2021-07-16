@@ -29,7 +29,7 @@ hr {
     <div class="col-12"><h4>{requester.nickname}'s other requests</h4></div>
     {#each otherRequests as otherRequest }
       <div class="col-auto">
-        <div class="request-tile-container"><RequestCard request={otherRequest} smaller /></div>
+        <div class="request-tile-container h-100"><RequestCard request={otherRequest} smaller /></div>
       </div>
     {/each}
   </div>
