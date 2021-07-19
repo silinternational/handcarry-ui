@@ -1,6 +1,6 @@
 <script>
 import { requests } from '../data/requests'
-import RequestTile from './RequestTile.svelte'
+import RequestCard from './RequestCard.svelte'
 
 export let request
 export let requester
@@ -8,7 +8,7 @@ export let requester
 let requestsFromThisRequester = []
 
 $: if (requester.id) {
-  requestsFromThisRequester = $requests.filter(({ createdBy }) => createdBy.id === requester.id)
+  requestsFromThisRequester = $requests.filter(({ created_by }) => created_by.id === requester.id)
 }
 $: otherRequests = requestsFromThisRequester.filter(({id}) => id !== request.id)
 </script>
@@ -29,7 +29,7 @@ hr {
     <div class="col-12"><h4>{requester.nickname}'s other requests</h4></div>
     {#each otherRequests as otherRequest }
       <div class="col-auto">
-        <div class="request-tile-container"><RequestTile request={otherRequest} smaller /></div>
+        <div class="request-tile-container h-100"><RequestCard request={otherRequest} smaller /></div>
       </div>
     {/each}
   </div>

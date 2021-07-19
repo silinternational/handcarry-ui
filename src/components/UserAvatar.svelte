@@ -18,4 +18,4 @@ img {
 }
 </style>
 
-<img class="rounded-circle border" src={user.avatarURL} alt={nickname} title={nickname} class:small />
+<img class="rounded-circle border" src={user.avatar_url} alt={nickname} title={nickname} class:small />

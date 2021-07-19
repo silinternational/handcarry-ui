@@ -7,13 +7,13 @@ import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
 export let placeholder
 export let location = null
 
-$: description = (location && location.description) || ''
+$: description = location?.description || ''
 
 const dispatch = createEventDispatcher()
 const googlePlacesApiKey = process.env.GOOGLE_PLACES_API_KEY
 const options = {
   fields: ['address_components', 'geometry'],
-  types: ['(cities)']
+  types: ['(regions)']
 }
 
 function onPlaceChanged(event) {
@@ -30,12 +30,16 @@ function selectLocation(description, place) {
     description: description,
     latitude: place.geometry.location.lat(),
     longitude: place.geometry.location.lng(),
-    country: extractCountryCode(place.address_components),
+    country: extractAddressComponent(place.address_components, 'country'),
+    state: extractAddressComponent(place.address_components, 'administrative_area_level_1'),
+    county: extractAddressComponent(place.address_components, 'administrative_area_level_2'),
+    city: extractAddressComponent(place.address_components, 'locality'),
+    borough: extractAddressComponent(place.address_components, 'sublocality'),
   })
 }
 
-function extractCountryCode(addressComponents) {
-  return addressComponents.filter(component => component.types.includes('country'))[0].short_name
+function extractAddressComponent(addressComponents, componentType) {
+  return addressComponents.filter(component => component.types.includes(componentType))[0]?.short_name
 }
 
 function clearLocation() {
