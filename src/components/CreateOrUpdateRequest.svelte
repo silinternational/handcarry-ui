@@ -16,6 +16,7 @@ import { goto, params } from '@roxi/routify'
 let imageUrl = ''
 
 const defaults = {
+
   title: '',
   description: '',
   visibility: 'SAME'
@@ -117,7 +118,8 @@ function onWeightChanged(event) {
   <div class="form-row form-group">
     <label for="request-title" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Requesting:
-    </label>
+    </label>request
+
 
     <div class="col">
       <input type="text" class="form-control form-control-lg" id="request-title" bind:value={request.title} placeholder="What?">
@@ -192,7 +194,7 @@ function onWeightChanged(event) {
   </div>
 
   <div class="form-row form-group">
-    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+    <div class="col-12 col-sm-3 col-lg-2 col-forWaxhaw, NC, USAm-label-lg">
       <span>
         Visibility:<br />
         <small class="text-muted font-italic">(Who can see this request)</small>

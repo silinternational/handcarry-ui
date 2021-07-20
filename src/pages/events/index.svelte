@@ -1,14 +1,14 @@
 <script>
-import EventFilters from '../components/EventFilters.svelte'
-import FilteredDisplay from '../components/FilteredDisplay.svelte'
+import EventFilters from '../../components/EventFilters.svelte'
+import FilteredDisplay from '../../components/FilteredDisplay.svelte'
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-import { isParticipant, populateEventFilterFrom } from '../data/eventFiltering'
-import { join, events, loading } from '../data/events'
-import { me } from '../data/user'
+import { isParticipant, populateEventFilterFrom } from '../../data/eventFiltering'
+import { join, events, loading } from '../../data/events'
+import { me } from '../../data/user'
 import { flip } from 'svelte/animate';
 import { fade } from 'svelte/transition';
-import { params } from '@roxi/routify'
+import { goto, params } from '@roxi/routify'
 
 const format = date => new Date(date).toLocaleDateString([], {
   month: 'short',
@@ -66,6 +66,7 @@ li {
     <EventFilters filter={eventFilter} />
   </div>
   <div slot="items" let:items={filteredEvents}>
+    <button on:click={() => $goto("/events/create")} type="submit" class="btn btn-primary mb-2">Create Event</button>
     {#if $loading}
       <p>⏳ Retrieving events...</p>
     {:else if filteredEvents.length }

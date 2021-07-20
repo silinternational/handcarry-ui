@@ -17,6 +17,13 @@ export function init() {
   onClear(reset)
 }
 
+export async function create(event) {
+  console.log(event)
+  let newEvent = await POST('events', event)
+
+  events.update(currentEvents => [newEvent, ...currentEvents])
+}
+
 async function loadEvents() {
   loading.set(true)
 
