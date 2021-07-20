@@ -132,10 +132,13 @@ function onWeightChanged(event) {
 
     <div class="col">
       <div class="form-group">
-        Select a location:
+
+        {#if $events.length}
+          Select a location:
+        {/if}
         <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
                        placeholder="Destination" location={request.destination} />
-        {#if events}
+        {#if $events.length}
           Or choose an event:
           <EventSelect class="form-control form-control-lg" events={$events} {eventId} on:change={onEventChange} />
         {/if}
