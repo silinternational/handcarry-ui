@@ -50,18 +50,7 @@ async function onSubmit() {
   validate(request)
 
   if (isNew) {
-    await create({
-        org_id: request.viewableBy,
-        title: request.title,
-        description: request.description,
-        destination: request.destination,
-        kilograms: request.kilograms,
-        needed_before: request.needed_before,
-        origin: request.origin,
-        photo_id: request.photo?.id,
-        size: request.size,
-        visibility: request.visibility,
-    })
+    await create(request)
 
     $goto(`/requests`)
 
