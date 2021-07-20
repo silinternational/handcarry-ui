@@ -12,8 +12,11 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updated, created, cancelled } from '../data/analytics'
 import { throwError } from '../data/error'
 import { goto, params } from '@roxi/routify'
+import { events } from '../data/events'
+import EventSelect from './EventSelect.svelte'
 
 let imageUrl = ''
+let eventId = ''
 
 const defaults = {
   title: '',
@@ -26,6 +29,7 @@ const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 $: existingRequest = $requests.find(({ id }) => id === $params.requestId)
 $: initializeUpdates(existingRequest || defaults)
 $: isNew = !request.id
+$: eventId = request.event_id
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
@@ -41,8 +45,10 @@ function assertHas(value, errorMessage) {
 }
 
 function validate(request) {
+  const destination = request.destination || request.event_id
+
   assertHas(request.title, 'Please tell us what you are requesting')
-  assertHas(request.destination, 'Please provide a destination')
+  assertHas(destination, 'Please provide a destination')
   assertHas(request.size, 'Please tell us the size of the item you are requesting')
 }
 
@@ -77,8 +83,14 @@ async function cancelRequest() {
   cancelled()
 }
 
+function onEventChange(e) {
+  request.event_id = e.detail
+  request.destination = null
+}
+
 function onDestinationChanged(event) {
   request.destination = event.detail
+  request.event_id = null
 }
 
 function onOriginChanged(event) {
@@ -120,8 +132,13 @@ function onWeightChanged(event) {
 
     <div class="col">
       <div class="form-group">
+        Select a location:
         <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
                        placeholder="Destination" location={request.destination} />
+        {#if events}
+          Or choose an event:
+          <EventSelect class="form-control form-control-lg" events={$events} {eventId} on:change={onEventChange} />
+        {/if}
       </div>
     </div>
   </div>

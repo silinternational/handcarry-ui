@@ -56,6 +56,7 @@ export async function create(request) {
     photo_id: request.photo?.id,
     size: request.size,
     visibility: request.visibility,
+    event_id: request.event_id,
   })
 
   requests.update(currentRequests => [newRequest, ...currentRequests])
