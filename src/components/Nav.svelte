@@ -62,12 +62,12 @@ $: minimal = $page.path.startsWith('/welcome') || ! userIsAuthn
           </a>
         </li>
 
-<!--        <li class="nav-item">
+        <li class="nav-item">
           <a href="/events" class="nav-link" class:active={$page.path.startsWith('/events')}>
             {polyglot.t('nav-events')}
           </a>
         </li>
--->
+
         <li class="nav-item">
           <a href="/messages" class="nav-link d-flex align-items-start" class:active={$page.path.startsWith('/messages')}>
             {polyglot.t('nav-requests-messages')} <CountIndicator number={totalNumUnreads} />
