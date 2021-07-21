@@ -19,6 +19,7 @@ let imageUrl = ''
 let eventId = ''
 
 const defaults = {
+
   title: '',
   description: '',
   visibility: 'SAME'
@@ -117,6 +118,7 @@ function onWeightChanged(event) {
     <label for="request-title" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Requesting:
     </label>
+
 
     <div class="col">
       <input type="text" class="form-control form-control-lg" id="request-title" bind:value={request.title} placeholder="What?">

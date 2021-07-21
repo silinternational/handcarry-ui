@@ -17,6 +17,20 @@ export function init() {
   onClear(reset)
 }
 
+export async function create(event) {
+  const newEvent = await POST('events', {
+    name: event.name,
+    description: event.description,
+    image_file_id: event.photo?.id,
+    location: event.location,
+    start_date: event.start_date,
+    end_date: event.end_date,
+    more_info_url: event.more_info_url,
+  })
+
+  events.update(currentEvents => [newEvent, ...currentEvents])
+}
+
 async function loadEvents() {
   loading.set(true)
 
