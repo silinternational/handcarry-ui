@@ -30,7 +30,7 @@ const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 $: existingRequest = $requests.find(({ id }) => id === $params.requestId)
 $: initializeUpdates(existingRequest || defaults)
 $: isNew = !request.id
-$: eventId = request.event_id
+$: eventId = existingRequest?.meeting?.id
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
