@@ -45,10 +45,8 @@ function assertHas(value, errorMessage) {
 }
 
 function validate(request) {
-  const destination = request.destination || request.event_id
-
   assertHas(request.title, 'Please tell us what you are requesting')
-  assertHas(destination, 'Please provide a destination')
+  assertHas(request.destination, 'Please provide a destination')
   assertHas(request.size, 'Please tell us the size of the item you are requesting')
 }
 
@@ -132,7 +130,6 @@ function onWeightChanged(event) {
 
     <div class="col">
       <div class="form-group">
-
         {#if $events.length}
           Select a location:
         {/if}
