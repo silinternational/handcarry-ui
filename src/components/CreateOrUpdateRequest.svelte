@@ -12,8 +12,11 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { updated, created, cancelled } from '../data/analytics'
 import { throwError } from '../data/error'
 import { goto, params } from '@roxi/routify'
+import { events } from '../data/events'
+import EventSelect from './EventSelect.svelte'
 
 let imageUrl = ''
+let eventId = ''
 
 const defaults = {
   title: '',
@@ -26,6 +29,7 @@ const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 $: existingRequest = $requests.find(({ id }) => id === $params.requestId)
 $: initializeUpdates(existingRequest || defaults)
 $: isNew = !request.id
+$: eventId = request.event_id
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
@@ -50,18 +54,7 @@ async function onSubmit() {
   validate(request)
 
   if (isNew) {
-    await create({
-        org_id: request.viewableBy,
-        title: request.title,
-        description: request.description,
-        destination: request.destination,
-        kilograms: request.kilograms,
-        needed_before: request.needed_before,
-        origin: request.origin,
-        photo_id: request.photo?.id,
-        size: request.size,
-        visibility: request.visibility,
-    })
+    await create(request)
 
     $goto(`/requests`)
 
@@ -88,8 +81,14 @@ async function cancelRequest() {
   cancelled()
 }
 
+function onEventChange(e) {
+  request.event_id = e.detail
+  request.destination = $events.find(({ id }) => id === e.detail).location
+}
+
 function onDestinationChanged(event) {
   request.destination = event.detail
+  request.event_id = null
 }
 
 function onOriginChanged(event) {
@@ -131,8 +130,15 @@ function onWeightChanged(event) {
 
     <div class="col">
       <div class="form-group">
+        {#if $events.length}
+          Select a location:
+        {/if}
         <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
                        placeholder="Destination" location={request.destination} />
+        {#if $events.length}
+          Or choose an event:
+          <EventSelect class="form-control form-control-lg" events={$events} {eventId} on:change={onEventChange} />
+        {/if}
       </div>
     </div>
   </div>

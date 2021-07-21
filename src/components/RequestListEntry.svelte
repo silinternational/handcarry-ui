@@ -9,7 +9,7 @@ export let request;
 $: user = request.created_by || {}
 $: size = request.size
 $: from = request.origin && request.origin.description
-$: to = request.meeting ? request.meeting.name : request.destination.description
+$: to = request.destination.description
 </script>
 
 <style>
