@@ -85,7 +85,7 @@ async function cancelRequest() {
 
 function onEventChange(e) {
   request.event_id = e.detail
-  request.destination = null
+  request.destination = $events.find(({ id }) => id === e.detail).location
 }
 
 function onDestinationChanged(event) {
