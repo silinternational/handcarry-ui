@@ -1,5 +1,6 @@
 <script>
 import { sizes } from '../data/sizes'
+import { Badge } from '@silintl/ui-components'
 
 export let size
 
@@ -12,4 +13,4 @@ $: color = match.color || 'secondary'
 $: name = match.name || 'unknown'
 </script>
 
-<span class="badge badge-pill badge-{color}">{ name }</span>
+<Badge {color} bordered borderRadius={'16px'} padding={'0 .5em'}>{ name }</Badge>

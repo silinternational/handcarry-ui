@@ -5,7 +5,7 @@ export const sizes =  [
     type: 'TINY',
     pictureUrl: '/icons/envelope.svg',
     genericGraphicUrl: '/icons/envelope-generic.svg',
-    color: 'success',
+    color: '#67ae09',
     description: 'Fits in a purse'
   },
   {
@@ -13,7 +13,7 @@ export const sizes =  [
     type: 'SMALL',
     pictureUrl: '/icons/book.svg',
     genericGraphicUrl: '/icons/book-generic.svg',
-    color: 'info',
+    color: '#0d98aa',
     description: 'Fits in a carry-on bag'
   },
   {
@@ -21,7 +21,7 @@ export const sizes =  [
     type: 'MEDIUM',
     pictureUrl: '/icons/laptop.svg',
     genericGraphicUrl: '/icons/laptop-generic.svg',
-    color: 'warning',
+    color: '#ff731b',
     description: 'Fits in a backpack'
   },
   {
@@ -29,7 +29,7 @@ export const sizes =  [
     type: 'LARGE',
     pictureUrl: '/icons/tools.svg',
     genericGraphicUrl: '/icons/tools-generic.svg',
-    color: 'danger',
+    color: '#e0221f',
     description: 'Fits in a suitcase'
   },
   {
@@ -37,7 +37,7 @@ export const sizes =  [
     type: 'XLARGE',
     pictureUrl: '/icons/question-mark.svg',
     genericGraphicUrl: '/icons/question-mark-generic.svg',
-    color: 'dark',
+    color: '#292923',
     description: 'Is bigger than that...'
   },
 ]
