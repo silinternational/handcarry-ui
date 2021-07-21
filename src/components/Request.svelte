@@ -67,12 +67,15 @@ function goToConversation(conversationId) {
           <dl class="row">
             <dt class={dlTermColumns}>Deliver to</dt>
             <dd class={dlDescriptionColumns}>
-              {#if request.meeting}
-                <span class="badge badge-pill badge-info mr-2 align-text-top">Event</span>{request.meeting.name}
-              {:else}
-                { destination }
-              {/if}
+              { destination }
             </dd>
+
+            {#if request.meeting}
+              <dt class={dlTermColumns}>Event</dt>
+              <dd class={dlDescriptionColumns}>
+                {request.meeting.name}
+              </dd>
+            {/if}
 
             <dt class={dlTermColumns}>From</dt>
             <dd class={dlDescriptionColumns}>
