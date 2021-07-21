@@ -19,8 +19,8 @@ $: conversationId = $params.conversationId
 $: $params.requestId && getOneRequest($params.requestId).then(r => request = r)
 $: requester = request.created_by || {}
 $: isMine = $me.id && (requester.id === $me.id) // Check $me.id first to avoid `undefined === undefined`
-$: destination = (request.destination && request.destination.description) || ''
-$: origin = (request.origin && request.origin.description) || ''
+$: destination = request.destination?.description || ''
+$: origin = request.origin?.description || ''
 
 function goToConversation(conversationId) {
   $redirect(`/requests/${$params.requestId}/conversation/${conversationId}`)
@@ -83,7 +83,7 @@ function goToConversation(conversationId) {
               {/if}
             </dd>
 
-            {#if isMine && request.visibility }
+            {#if request.is_editable && request.visibility }
               <dt class={dlTermColumns}>Visible to</dt>
               <dd class={dlDescriptionColumns}>{ describeVisibility(request.visibility, [request.organization]) }</dd>
             {/if}
