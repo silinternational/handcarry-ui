@@ -53,7 +53,7 @@
 
 <style>
   .preview {
-      max-height: 160px;
+    max-height: 160px;
   }
 </style>
   
@@ -67,29 +67,29 @@
   <form on:submit|preventDefault={onSubmit} autocomplete="off">
   <div class="form-row form-group">
     <label for="event-name" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-    Event name:
+      Event name:
     </label>
 
     <div class="col">
-    <input type="text" class="form-control form-control-lg" id="event-name" bind:value={event.name} placeholder="Event Name">
+      <input type="text" class="form-control form-control-lg" id="event-name" bind:value={event.name} placeholder="Event Name">
     </div>
   </div>
 
   <div class="form-row form-group">
     <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-    <label for="request-description">Description:</label>
-    <small class="text-muted font-italic">(optional)</small>
+      <label for="request-description">Description:</label>
+      <small class="text-muted font-italic">(optional)</small>
     </div>
     <div class="col">
-    <textarea class="form-control" bind:value={event.description} rows="3"
-                id="event-description" placeholder="Please describe the item" />
+      <textarea class="form-control" bind:value={event.description} rows="3"
+                  id="event-description" placeholder="Please describe the item" />
     </div>
   </div>
 
   <div class="form-row form-group">
     <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
-    Upload image: <br />
-    <small class="text-muted font-italic">(optional)</small>
+      Upload image: <br />
+      <small class="text-muted font-italic">(optional)</small>
     </div>
 
     <div class="col-auto mt-1">
@@ -97,23 +97,23 @@
     </div>
 
     {#if event.image_file}
-    <div class="col-12 col-sm-5 text-center text-sm-left">
-        <!-- svelte-ignore a11y-img-redundant-alt -->
-        <img src={event.image_file.url} alt="Event image" class="preview" />
-    </div>
+      <div class="col-12 col-sm-5 text-center text-sm-left">
+          <!-- svelte-ignore a11y-img-redundant-alt -->
+          <img src={event.image_file.url} alt="Event image" class="preview" />
+      </div>
     {/if}
   </div>
 
   <div class="form-row form-group">
     <span class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-    Location: 
+      Location: 
     </span>
 
     <div class="col">
-    <div class="form-group">
+      <div class="form-group">
         <LocationInput class="form-control form-control-lg" on:change={onLocationChanged}
-                        placeholder="Location" location={event.location} />
-    </div>
+                          placeholder="Location" location={event.location} />
+      </div>
     </div>
   </div>
 
@@ -124,7 +124,7 @@
     </label>
     </div>
     <div class="col-auto">
-    <input type="date" class="form-control form-control-lg" id="event-start-date" min={tomorrow} bind:value={event.start_date} />
+      <input type="date" class="form-control form-control-lg" id="event-start-date" min={tomorrow} bind:value={event.start_date} />
     </div>
   </div>
 
@@ -135,18 +135,18 @@
     </label>
     </div>
     <div class="col-auto">
-    <input type="date" class="form-control form-control-lg" id="event-end-date" min={tomorrow} bind:value={event.end_date} />
+      <input type="date" class="form-control form-control-lg" id="event-end-date" min={tomorrow} bind:value={event.end_date} />
     </div>
   </div>
 
   <div class="form-row form-group">
     <label for="event-more-info-url" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-    More info URL:
+      More info URL:
     <small class="text-muted font-italic">(optional)</small>
     </label>
 
     <div class="col">
-    <input type="url" class="form-control form-control-lg" id="event-more-info-url" bind:value={event.more_info_url} placeholder="https://example.com">
+      <input type="url" class="form-control form-control-lg" id="event-more-info-url" bind:value={event.more_info_url} placeholder="https://example.com">
     </div>
   </div>
 
