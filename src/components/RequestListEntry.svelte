@@ -8,8 +8,8 @@ export let request;
 
 $: user = request.created_by || {}
 $: size = request.size
-$: from = request.origin && request.origin.description
-$: to = request.destination.description
+$: from = request.origin?.description || ''
+$: to = request.destination?.description || ''
 </script>
 
 <style>
