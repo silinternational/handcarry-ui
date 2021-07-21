@@ -1,5 +1,5 @@
 <script>
-import { kilogramsToPounds } from '../data/weight'
+import { kilogramsToPounds } from 'data/weight.js'
 
 export let kilograms
 

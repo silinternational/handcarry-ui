@@ -1,9 +1,10 @@
 <script>
-  import Uploader from '../../components/Uploader.svelte'
-  import { create } from '../../data/events'
+  import LocationInput from 'components/LocationInput.svelte'
+  import Uploader from 'components/Uploader.svelte'
+  import { throwError } from 'data/error.js'
+  import { create } from 'data/events.js'
+
   import { format, addDays } from 'date-fns'
-  import LocationInput from '../../components/LocationInput.svelte'
-  import { throwError } from '../../data/error'
   import { goto } from '@roxi/routify'
 
   // const defaults = {

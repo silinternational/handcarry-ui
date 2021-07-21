@@ -1,8 +1,8 @@
 <script>
-import Conversation from '../components/Conversation.svelte'
-import ConversationListEntry from './ConversationListEntry.svelte'
-import { createEventDispatcher } from 'svelte'
-import { tick } from 'svelte'
+import Conversation from 'components/Conversation.svelte'
+import ConversationListEntry from 'components/ConversationListEntry.svelte'
+
+import { createEventDispatcher, tick } from 'svelte'
 
 export let conversations
 export let conversationId
@@ -30,7 +30,7 @@ async function suggestDefaultConversation() {
   border: 2px solid var(--blue);
   border-top-left-radius: initial; /* blends the corner nicely with a msg list entry */
 }
-@media (max-width: 576px) { 
+@media (max-width: 576px) {
   .conversation-card {
     border-top-right-radius: initial; /* blends the corner nicely with a msg list entry (on phones) */
   }
@@ -48,7 +48,7 @@ async function suggestDefaultConversation() {
           <!-- on:conversation-selected is being passed up to consumer, i.e., views/Messages.svelte -->
           <ConversationListEntry {conversation} on:conversation-selected active={ selectedConversation.id === conversation.id } {minimal} />
         {/each}
-        
+
         {#if !hasConversation }
           <i class="text-muted">No ongoing conversations at this time</i>
         {/if}

@@ -1,10 +1,11 @@
 <script>
-import { me } from '../data/user'
+import CountIndicator from 'components/CountIndicator.svelte'
+import { listOtherParticipants, unreads } from 'data/messaging.js'
+import { me } from 'data/user.js'
+
 import Icon from 'fa-svelte'
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { createEventDispatcher } from 'svelte'
-import CountIndicator from './CountIndicator.svelte'
-import { listOtherParticipants, unreads } from '../data/messaging'
 
 export let active = false
 export let conversation = {}

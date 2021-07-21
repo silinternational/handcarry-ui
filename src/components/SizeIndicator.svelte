@@ -1,5 +1,5 @@
 <script>
-import { sizes } from '../data/sizes'
+import { sizes } from 'data/sizes.js'
 
 export let size
 

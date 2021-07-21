@@ -1,5 +1,6 @@
 <script>
-import { kilogramsToPounds, poundsToKilograms } from '../data/weight'
+import { kilogramsToPounds, poundsToKilograms } from 'data/weight.js'
+
 import { createEventDispatcher } from 'svelte'
 
 export let kilograms
@@ -23,7 +24,7 @@ let showCorrectUnitsOnInitialLoad = function() {
     units = 'lb'
     pounds = roundToSupportedPrecision(kilogramsToPounds(kilograms))
   }
-  
+
   showCorrectUnitsOnInitialLoad = Function() // noop since we want this to be a one-time check per "page view"
 }
 
@@ -46,7 +47,7 @@ function onNumberChanged(event) {
       kilograms = poundsToKilograms(pounds)
     }
   }
-  
+
   dispatch('change', kilograms)
 }
 
@@ -69,7 +70,7 @@ function onUnitsChanged(event) {
     pounds = kilograms
     kilograms = poundsToKilograms(pounds)
   }
-  
+
   dispatch('change', kilograms)
 }
 </script>

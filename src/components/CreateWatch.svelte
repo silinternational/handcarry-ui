@@ -1,13 +1,14 @@
 <script>
-import { getActiveFilterKeys } from '../data/filtering'
-import { getFiltersForWatch, getWatchableKeys, create } from '../data/watch'
-import { createdWatch } from '../data/analytics'
-import FilterTag from './FilterTag.svelte'
-import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
-import { onMount } from 'svelte'
-import { faBell } from '@fortawesome/free-solid-svg-icons'
+import FilterTag from 'components/FilterTag.svelte'
+import { createdWatch } from 'data/analytics.js'
+import { getActiveFilterKeys } from 'data/filtering.js'
+import { getFiltersForWatch, getWatchableKeys, create } from 'data/watch.js'
+
 import Icon from 'fa-svelte'
+import { faBell } from '@fortawesome/free-solid-svg-icons'
+import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
 import { goto } from '@roxi/routify'
+import { onMount } from 'svelte'
 
 export let filter
 

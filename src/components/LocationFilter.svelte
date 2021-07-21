@@ -1,6 +1,7 @@
 <script>
+import LocationInput from 'components/LocationInput.svelte'
+
 import { createEventDispatcher } from 'svelte'
-import LocationInput from './LocationInput.svelte'
 
 export let title
 export let location

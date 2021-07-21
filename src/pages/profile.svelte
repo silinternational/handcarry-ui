@@ -1,10 +1,11 @@
 <script>
-import UserAvatar from '../components/UserAvatar.svelte'
-import Uploader from '../components/Uploader.svelte'
-import { me, changeNickname, changeProfilePicture } from '../data/user'
+import Uploader from 'components/Uploader.svelte'
+import UserAvatar from 'components/UserAvatar.svelte'
+import Watches from 'components/Watches.svelte'
+import { me, changeNickname, changeProfilePicture } from 'data/user.js'
+
 import Icon from 'fa-svelte'
 import { faEdit } from '@fortawesome/free-solid-svg-icons'
-import Watches from '../components/Watches.svelte'
 
 let editingNickname = false
 let newNickname

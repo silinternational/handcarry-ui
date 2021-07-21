@@ -1,8 +1,7 @@
 <script>
-import RequestImage from '../components/RequestImage.svelte'
-import SizeIndicator from '../components/SizeIndicator.svelte'
+import { createRequestByTile } from 'data/analytics.js'
+
 import { goto } from '@roxi/routify'
-import { createRequestByTile } from '../data/analytics'
 
 function create() {
   $goto(`/requests/new`)

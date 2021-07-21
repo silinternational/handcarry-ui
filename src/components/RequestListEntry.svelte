@@ -1,7 +1,8 @@
 <script>
-import RequestImage from '../components/RequestImage.svelte'
-import SizeIndicator from '../components/SizeIndicator.svelte'
-import UserAvatar from '../components/UserAvatar.svelte'
+import RequestImage from 'components/RequestImage.svelte'
+import SizeIndicator from 'components/SizeIndicator.svelte'
+import UserAvatar from 'components/UserAvatar.svelte'
+
 import { goto } from '@roxi/routify'
 
 export let request;

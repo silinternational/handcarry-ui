@@ -1,14 +1,15 @@
 <script>
-import EventFilters from '../../components/EventFilters.svelte'
-import FilteredDisplay from '../../components/FilteredDisplay.svelte'
+import EventFilters from 'components/EventFilters.svelte'
+import FilteredDisplay from 'components/FilteredDisplay.svelte'
+import { isParticipant, populateEventFilterFrom } from 'data/eventFiltering.js'
+import { join, events, loading } from 'data/events.js'
+import { me } from 'data/user.js'
+
 import Icon from 'fa-svelte'
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-import { isParticipant, populateEventFilterFrom } from '../../data/eventFiltering'
-import { join, events, loading } from '../../data/events'
-import { me } from '../../data/user'
+import { goto, params } from '@roxi/routify'
 import { flip } from 'svelte/animate';
 import { fade } from 'svelte/transition';
-import { goto, params } from '@roxi/routify'
 
 const format = date => new Date(date).toLocaleDateString([], {
   month: 'short',
