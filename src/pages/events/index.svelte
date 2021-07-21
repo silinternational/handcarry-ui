@@ -66,7 +66,7 @@ li {
     <EventFilters filter={eventFilter} />
   </div>
   <div slot="items" let:items={filteredEvents}>
-    <button on:click={() => $goto("/events/create")} type="submit" class="btn btn-primary mb-2">Create Event</button>
+    <button on:click={() => $goto("/events/new")} type="submit" class="btn btn-primary mb-2">Create Event</button>
     {#if $loading}
       <p>⏳ Retrieving events...</p>
     {:else if filteredEvents.length }

@@ -118,7 +118,7 @@ function onWeightChanged(event) {
   <div class="form-row form-group">
     <label for="request-title" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Requesting:
-    </label>request
+    </label>
 
 
     <div class="col">
@@ -194,7 +194,7 @@ function onWeightChanged(event) {
   </div>
 
   <div class="form-row form-group">
-    <div class="col-12 col-sm-3 col-lg-2 col-forWaxhaw, NC, USAm-label-lg">
+    <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       <span>
         Visibility:<br />
         <small class="text-muted font-italic">(Who can see this request)</small>

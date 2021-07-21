@@ -18,8 +18,15 @@ export function init() {
 }
 
 export async function create(event) {
-  console.log(event)
-  let newEvent = await POST('events', event)
+  const newEvent = await POST('events', {
+    name: event.name,
+    description: event.description,
+    image_file_id: event.photo?.id,
+    location: event.location,
+    start_date: event.start_date,
+    end_date: event.end_date,
+    more_info_url: event.more_info_url,
+  })
 
   events.update(currentEvents => [newEvent, ...currentEvents])
 }

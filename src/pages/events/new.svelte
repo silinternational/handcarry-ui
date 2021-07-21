@@ -1,21 +1,19 @@
 <script>
   import Uploader from '../../components/Uploader.svelte'
-  import { me } from '../../data/user'
-  import { events, create } from '../../data/events'
+  import { create } from '../../data/events'
   import { format, addDays } from 'date-fns'
   import LocationInput from '../../components/LocationInput.svelte'
-  import Icon from 'fa-svelte'
   import { throwError } from '../../data/error'
   import { goto } from '@roxi/routify'
   
-  let imageUrl = ''
-  
-  const defaults = {
-    name: '',
-    start_date: new Date(),
-    end_date: new Date(),
-  }
+  // const defaults = {
+  //   name: '',
+  //   start_date: new Date(),
+  //   end_date: new Date(),
+  // }
+
   let event = {}
+  let imageUrl = ''
   const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
             
   function assertHas(value, errorMessage) {
@@ -34,15 +32,7 @@
   async function onSubmit() {
     validate(event)
   
-    await create({
-      name: event.name,
-      description: event.description,
-      image_file_id: event.photo?.id,
-      location: event.location,
-      start_date: event.start_date,
-      end_date: event.end_date,
-      more_info_url: event.more_info_url,
-    })
+    await create(event)
 
     $goto(`/events`)
 
@@ -96,12 +86,13 @@
     </div>
 
     <div class="col-auto mt-1">
-      <Uploader on:uploaded={imageUploaded} type={ event.photo && event.photo.url ? 'change' : 'add'}/>
+      <Uploader on:uploaded={imageUploaded} type={ event.photo?.url ? 'change' : 'add'}/>
     </div>
 
     {#if imageUrl || event.photo && event.photo.url}
       <div class="col-12 col-sm-5 text-center text-sm-left">
-        <img src={imageUrl || event.photo && event.photo.url} alt="Event imagine" class="preview" />
+        <!-- svelte-ignore a11y-img-redundant-alt -->
+        <img src={imageUrl || event.photo && event.photo.url} alt="Event image" class="preview" />
       </div>
     {/if}
   </div>
