@@ -73,7 +73,7 @@ function goToConversation(conversationId) {
             {#if request.meeting}
               <dt class={dlTermColumns}>Event</dt>
               <dd class={dlDescriptionColumns}>
-                {request.meeting.name}
+                {request.meeting?.name || ''}
               </dd>
             {/if}
 

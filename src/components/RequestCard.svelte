@@ -8,8 +8,8 @@
   export let smaller = false;
 
   $: user = request.created_by || {}
-  $: from = request.origin?.description
-  $: to = request.destination.description
+  $: from = request.origin?.description || ''
+  $: to = request.destination?.description || ''
 
   const gotoRequest = () => $goto(`/requests/${request.id}`)
 </script>
