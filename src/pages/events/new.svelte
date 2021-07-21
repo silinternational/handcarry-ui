@@ -99,8 +99,7 @@
   <div class="form-row form-group">
     <span class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Location: 
-    </span>-fns'
-    import LocationInput from '../../../com
+    </span>
 
     <div class="col">
       <div class="form-group">
