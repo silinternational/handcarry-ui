@@ -5,7 +5,7 @@
   import LocationInput from '../../components/LocationInput.svelte'
   import { throwError } from '../../data/error'
   import { goto } from '@roxi/routify'
-  
+
   // const defaults = {
   //   name: '',
   //   start_date: new Date(),
@@ -15,7 +15,7 @@
   let event = {}
   let imageUrl = ''
   const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
-            
+
   function assertHas(value, errorMessage) {
     if (!value) {
       throwError(errorMessage)
@@ -27,22 +27,25 @@
     assertHas(event.location, 'Please provide a location')
     assertHas(event.start_date, 'Please tell us the start date')
     assertHas(event.end_date, 'Please tell us the end date')
+    if (new Date(event.end_date) < new Date(event.start_date)) {
+      throwError('The start date must be before the end date')
+    }
   }
-  
+
   async function onSubmit() {
     validate(event)
-  
+
     await create(event)
 
     $goto(`/events`)
 
   }
-  
+
   function imageUploaded(e) {
     event.photo = e.detail
     imageUrl = e.detail.url
   }
-    
+
   function onLocationChanged(e) {
     event.location = e.detail
   }
@@ -99,7 +102,7 @@
 
   <div class="form-row form-group">
     <span class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      Location: 
+      Location:
     </span>
 
     <div class="col">
