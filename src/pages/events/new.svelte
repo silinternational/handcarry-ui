@@ -1,8 +1,8 @@
 <script>
+  import LocationInput from '../../components/LocationInput.svelte'
   import Uploader from '../../components/Uploader.svelte'
   import { create } from '../../data/events'
   import { format, addDays } from 'date-fns'
-  import LocationInput from '../../components/LocationInput.svelte'
   import { throwError } from '../../data/error'
   import { goto } from '@roxi/routify'
   
@@ -35,7 +35,6 @@
     await create(event)
 
     $goto(`/events`)
-
   }
   
   function imageUploaded(e) {
@@ -100,7 +99,8 @@
   <div class="form-row form-group">
     <span class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Location: 
-    </span>
+    </span>-fns'
+    import LocationInput from '../../../com
 
     <div class="col">
       <div class="form-group">
