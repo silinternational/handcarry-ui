@@ -9,7 +9,7 @@
 
   $: user = request.created_by || {}
   $: from = request.origin?.description
-  $: to = request.meeting ? request.meeting.name : request.destination.description
+  $: to = request.destination.description
 
   const gotoRequest = () => $goto(`/requests/${request.id}`)
 </script>
