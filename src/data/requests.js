@@ -73,6 +73,7 @@ export async function update(request) {
     size: request.size,
     title: request.title,
     visibility: request.visibility,
+    meeting_id: request.event_id,
   })
 
   updateLocalRequests(updatedRequest)
