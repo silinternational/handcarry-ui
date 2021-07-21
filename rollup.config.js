@@ -9,8 +9,17 @@ import { terser } from 'rollup-plugin-terser'
 import { generateSW } from 'rollup-plugin-workbox'
 import routify from '@roxi/routify/plugins/rollup'
 import autoPreprocess from 'svelte-preprocess'
+import alias from '@rollup/plugin-alias'
 
 const production = !process.env.ROLLUP_WATCH
+
+const aliases = alias({
+  // resolve: ['.svelte', '.js'],
+  entries: [
+    { find: 'components', replacement: 'src/components' },
+    { find: 'data', replacement: 'src/data' },
+  ]
+})
 
 export default {
 	input: 'src/main.js',
@@ -22,6 +31,7 @@ export default {
 	preserveEntrySignatures: 'strict',
 	inlineDynamicImports: true,
 	plugins: [
+    aliases,
 		svelte({
 			// enable run-time checks when not in production
 			dev: !production,
