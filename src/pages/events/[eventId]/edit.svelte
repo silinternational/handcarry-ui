@@ -83,7 +83,7 @@
     </div>
     <div class="col">
       <textarea class="form-control" bind:value={event.description} rows="3"
-                  id="event-description" placeholder="Please describe the item" />
+                  id="event-description" placeholder="Please describe the event" />
     </div>
   </div>
 
