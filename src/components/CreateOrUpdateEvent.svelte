@@ -3,7 +3,6 @@
   import Uploader from 'components/Uploader.svelte'
   import { throwError } from 'data/error.js'
   import { events, update, create } from 'data/events.js'
-  import { me } from 'data/user.js'
 
   import { format, addDays } from 'date-fns'
   import { goto, params } from '@roxi/routify'
@@ -11,7 +10,7 @@
   const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
   $: event = {}
-  $: existingEvent = $events.find(({ id }) => id === $params.eventId)
+  $: existingEvent = $events == null ? null : $events.find(({ id }) => id === $params.eventId)
   $: initializeUpdates(existingEvent)
   $: isNew = !event.id
 
@@ -61,12 +60,12 @@
     max-height: 160px;
   }
 </style>
-  
-{#if $events.length && !existingEvent && !isNew }
+
+{#if $events && !existingEvent && !isNew }
   <h2 class="mb-e">Event does not exist!</h2>
 {:else if !isNew && !existingEvent?.is_editable }
   <h2 class="mb-e">You cannot edit this event!</h2>
-{:else if $events.length }
+{:else if $events}
   <h2 class="mb-3">{isNew ? "Create an " : "Edit"} Event</h2>
 
   <form on:submit|preventDefault={onSubmit} autocomplete="off">
@@ -163,4 +162,4 @@
       </div>
     </div>
   </form>
-{/if}
+{/if} 
