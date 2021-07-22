@@ -26,6 +26,7 @@ export async function create(event) {
     start_date: event.start_date,
     end_date: event.end_date,
     more_info_url: event.more_info_url,
+    emails: event.emails,
   })
 
   events.update(currentEvents => [newEvent, ...currentEvents])

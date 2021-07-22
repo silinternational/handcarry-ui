@@ -9,6 +9,7 @@
 
   let event = {}
   let logoUrl = ''
+
   const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
   function assertHas(value, errorMessage) {
@@ -137,6 +138,18 @@
 
     <div class="col">
       <input type="url" class="form-control form-control-lg" id="event-more-info-url" bind:value={event.more_info_url} placeholder="https://example.com">
+    </div>
+  </div>
+
+  <div class="form-row form-group">
+    <label for="event-more-info-url" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+      Invite participants:
+      <small class="text-muted font-italic">(optional)</small>
+    </label>
+
+    <div class="col">
+      <textarea class="form-control" bind:value={event.emails} rows="3"
+        id="event-description" placeholder="Paste in a list of emails separated by commas or line breaks" />
     </div>
   </div>
 
