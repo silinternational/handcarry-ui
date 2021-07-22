@@ -72,11 +72,11 @@
   }
 </style>
   
-{#if $events.length != 0 && !existingEvent && !isNew }
-  <h2 class="mb-e">Event does not exist!</h2>photo
+{#if $events.length && !existingEvent && !isNew }
+  <h2 class="mb-e">Event does not exist!</h2>
 {:else if existingEvent && event.created_by?.id != $me.id && !isNew }
   <h2 class="mb-e">You cannot edit this event!</h2>
-{:else if $events.length != 0 }
+{:else if $events.length }
   <h2 class="mb-3">{isNew ? "Create an " : "Edit"} Event</h2>
 
   <form on:submit|preventDefault={onSubmit} autocomplete="off">
