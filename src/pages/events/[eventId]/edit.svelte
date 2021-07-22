@@ -1,20 +1,23 @@
 <script>
-  import LocationInput from '../../components/LocationInput.svelte'
-  import Uploader from '../../components/Uploader.svelte'
-  import { create } from '../../data/events'
+  import Uploader from '../../../components/Uploader.svelte'
+  import { events, update } from '../../../data/events'
   import { format, addDays } from 'date-fns'
-  import { throwError } from '../../data/error'
-  import { goto } from '@roxi/routify'
-
-  // const defaults = {
-  //   name: '',
-  //   start_date: new Date(),
-  //   end_date: new Date(),
-  // }
+  import LocationInput from '../../../components/LocationInput.svelte'
+  import { throwError } from '../../../data/error'
+  import { me } from '../../../data/user'
+  import { goto, params } from '@roxi/routify'
 
   let event = {}
   let imageUrl = ''
   const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
+
+  $: existingEvent = $events.find(({ id }) => id === $params.eventId)
+  $: initializeUpdates(existingEvent)
+              
+  function initializeUpdates(eventBeingEdited) {
+    if (!eventBeingEdited) return
+    event = Object.assign({}, eventBeingEdited)
+  }
 
   function assertHas(value, errorMessage) {
     if (!value) {
@@ -27,24 +30,21 @@
     assertHas(event.location, 'Please provide a location')
     assertHas(event.start_date, 'Please tell us the start date')
     assertHas(event.end_date, 'Please tell us the end date')
-    if (new Date(event.end_date) < new Date(event.start_date)) {
-      throwError('The start date must be before the end date')
-    }
   }
 
   async function onSubmit() {
     validate(event)
 
-    await create(event)
+    await update(event)
 
     $goto(`/events`)
+
   }
 
   function imageUploaded(e) {
-    event.photo = e.detail
-    imageUrl = e.detail.url
+    event.image_file = e.detail
   }
-
+      
   function onLocationChanged(e) {
     event.location = e.detail
   }
@@ -56,10 +56,15 @@
     max-height: 160px;
   }
 </style>
+  
+{#if !existingEvent }
+  <h2 class="mb-e">Event does not exist!</h2>
+{:else if event.created_by.id != $me.id }
+  <h2 class="mb-e">You cannot edit this event!</h2>
+{:else}
+  <h2 class="mb-3">Edit Event</h2>
 
-<h2 class="mb-3">Create an Event</h2>
-
-<form on:submit|preventDefault={onSubmit} autocomplete="off">
+  <form on:submit|preventDefault={onSubmit} autocomplete="off">
   <div class="form-row form-group">
     <label for="event-name" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Event name:
@@ -77,7 +82,7 @@
     </div>
     <div class="col">
       <textarea class="form-control" bind:value={event.description} rows="3"
-                id="event-description" placeholder="Please describe the item" />
+                  id="event-description" placeholder="Please describe the item" />
     </div>
   </div>
 
@@ -88,35 +93,35 @@
     </div>
 
     <div class="col-auto mt-1">
-      <Uploader on:uploaded={imageUploaded} type={ event.photo?.url ? 'change' : 'add'}/>
+      <Uploader on:uploaded={imageUploaded} type={ event.image_file?.url ? 'change' : 'add'}/>
     </div>
 
-    {#if imageUrl || event.photo && event.photo.url}
+    {#if event.image_file}
       <div class="col-12 col-sm-5 text-center text-sm-left">
-        <!-- svelte-ignore a11y-img-redundant-alt -->
-        <img src={imageUrl || event.photo && event.photo.url} alt="Event image" class="preview" />
+          <!-- svelte-ignore a11y-img-redundant-alt -->
+          <img src={event.image_file.url} alt="Event image" class="preview" />
       </div>
     {/if}
   </div>
 
   <div class="form-row form-group">
     <span class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      Location:
+      Location: 
     </span>
 
     <div class="col">
       <div class="form-group">
         <LocationInput class="form-control form-control-lg" on:change={onLocationChanged}
-                       placeholder="Location" location={event.location} />
+                          placeholder="Location" location={event.location} />
       </div>
     </div>
   </div>
 
   <div class="form-row form-group">
     <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      <label for="event-start-date">
+    <label for="event-start-date">
         Start Date:<br />
-      </label>
+    </label>
     </div>
     <div class="col-auto">
       <input type="date" class="form-control form-control-lg" id="event-start-date" min={tomorrow} bind:value={event.start_date} />
@@ -125,9 +130,9 @@
 
   <div class="form-row form-group">
     <div class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      <label for="event-end-date">
+    <label for="event-end-date">
         End Date:<br />
-      </label>
+    </label>
     </div>
     <div class="col-auto">
       <input type="date" class="form-control form-control-lg" id="event-end-date" min={tomorrow} bind:value={event.end_date} />
@@ -137,7 +142,7 @@
   <div class="form-row form-group">
     <label for="event-more-info-url" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       More info URL:
-      <small class="text-muted font-italic">(optional)</small>
+    <small class="text-muted font-italic">(optional)</small>
     </label>
 
     <div class="col">
@@ -147,9 +152,10 @@
 
   <div class="form-row form-group">
     <div class="col-auto">
-      <button type="submit" class="btn btn-primary float-right">
-        Create Event
-      </button>
+    <button type="submit" class="btn btn-primary float-right">
+      Update Event
+    </button>
     </div>
   </div>
-</form>
+  </form>
+{/if}

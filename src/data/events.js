@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { GET, POST } from './api'
+import { GET, POST, PUT } from './api'
 import { onClear } from './storage'
 
 export const events = writable([])
@@ -29,6 +29,22 @@ export async function create(event) {
   })
 
   events.update(currentEvents => [newEvent, ...currentEvents])
+}
+
+export async function update(event) {
+  const updatedEvent = await PUT(`events/${event.id}`, {
+    name: event.name,
+    description: event.description,
+    image_file_id: event.photo?.id,
+    location: event.location,
+    start_date: event.start_date,
+    end_date: event.end_date,
+    more_info_url: event.more_info_url,
+  })
+
+  updateLocalEvents(updatedEvent)
+
+  return updatedEvent
 }
 
 async function loadEvents() {
