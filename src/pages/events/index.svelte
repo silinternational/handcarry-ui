@@ -81,7 +81,11 @@
     cursor: unset;
   }
 
-  /* these will get used only on XS screens */
+  .event-title-link {
+    text-decoration: none;
+    color: black;
+  }
+
   .logo img {
     max-height: 5rem;
     margin-bottom: 2rem;
@@ -132,16 +136,7 @@
                 <img src={logoUrl(event) || "logo.svg"} alt="event logo" />
               </div>
               <div class="col">
-                <div class="flex">
-                  <h4 style="padding-right: 10px">{event.name}</h4>
-                  {#if event.created_by.id == $me.id}
-                    <a
-                      style="paddding-top: 5px"
-                      href="/events/{encodeURIComponent(event.id)}/edit">
-                      <Icon style="padding-top: 2px;" icon={faEdit} />
-                    </a>
-                  {/if}
-                </div>
+                <h4 style="padding-right: 10px">{event.name}</h4>
 
                 <div>{event.location.description}</div>
                 <div class="pb-1">
