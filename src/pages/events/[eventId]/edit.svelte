@@ -1,9 +1,9 @@
 <script>
   import LocationInput from 'components/LocationInput.svelte'
   import Uploader from 'components/Uploader.svelte'
-  import { throwError } from 'data/error'
-  import { events, update } from 'data/events'
-  import { me } from 'data/user'
+  import { throwError } from 'data/error.js'
+  import { events, update } from 'data/events.js'
+  import { me } from 'data/user.js'
 
   import { format, addDays } from 'date-fns'
   import { goto, params } from '@roxi/routify'
