@@ -7,14 +7,8 @@
   import { format, addDays } from 'date-fns'
   import { goto } from '@roxi/routify'
 
-  // const defaults = {
-  //   name: '',
-  //   start_date: new Date(),
-  //   end_date: new Date(),
-  // }
-
   let event = {}
-  let imageUrl = ''
+  let logoUrl = ''
   const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
   function assertHas(value, errorMessage) {
@@ -43,7 +37,7 @@
 
   function imageUploaded(e) {
     event.photo = e.detail
-    imageUrl = e.detail.url
+    logoUrl = e.detail.url
   }
 
   function onLocationChanged(e) {
@@ -84,7 +78,7 @@
 
   <div class="form-row form-group">
     <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
-      Upload image: <br />
+      Upload logo: <br />
       <small class="text-muted font-italic">(optional)</small>
     </div>
 
@@ -92,10 +86,10 @@
       <Uploader on:uploaded={imageUploaded} type={ event.photo?.url ? 'change' : 'add'}/>
     </div>
 
-    {#if imageUrl || event.photo && event.photo.url}
+    {#if logoUrl || event.photo && event.photo.url}
       <div class="col-12 col-sm-5 text-center text-sm-left">
         <!-- svelte-ignore a11y-img-redundant-alt -->
-        <img src={imageUrl || event.photo && event.photo.url} alt="Event image" class="preview" />
+        <img src={logoUrl || event.photo && event.photo.url} alt="Event logo" class="preview" />
       </div>
     {/if}
   </div>
