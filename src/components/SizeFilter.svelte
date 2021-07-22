@@ -1,6 +1,7 @@
 <script>
-import SizeIndicator from './SizeIndicator.svelte'
-import { sizes, includedInSizeSelection } from '../data/sizes'
+import SizeIndicator from 'components/SizeIndicator.svelte'
+import { sizes, includedInSizeSelection } from 'data/sizes.js'
+
 import { createEventDispatcher } from 'svelte'
 
 export let initialValue

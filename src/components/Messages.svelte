@@ -1,7 +1,8 @@
 <script>
-import Messaging from '../components/Messaging.svelte'
+import Messaging from 'components/Messaging.svelte'
+import { conversations } from 'data/messaging.js'
+
 import { redirect } from '@roxi/routify'
-import { conversations } from '../data/messaging'
 
 export let conversationId
 

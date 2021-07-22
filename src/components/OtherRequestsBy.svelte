@@ -1,6 +1,6 @@
 <script>
-import { requests } from '../data/requests'
-import RequestCard from './RequestCard.svelte'
+import RequestCard from 'components/RequestCard.svelte'
+import { requests } from 'data/requests.js'
 
 export let request
 export let requester

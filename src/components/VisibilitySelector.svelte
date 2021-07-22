@@ -1,7 +1,8 @@
 <script>
+import { me } from 'data/user.js'
+import { describeVisibility, values } from 'data/visibility.js'
+
 import { createEventDispatcher } from 'svelte'
-import { me } from '../data/user.js'
-import { describeVisibility, values } from '../data/visibility.js'
 
 export let visibility
 

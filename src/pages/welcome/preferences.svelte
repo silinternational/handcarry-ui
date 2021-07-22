@@ -1,9 +1,9 @@
 <script>
-import UserAvatar from '../../components/UserAvatar.svelte'
-import Uploader from '../../components/Uploader.svelte'
-import { me, changeNickname, changeProfilePicture } from '../../data/user'
+import Uploader from 'components/Uploader.svelte'
+import UserAvatar from 'components/UserAvatar.svelte'
+import { me, changeNickname, changeProfilePicture } from 'data/user.js'
+
 import { goto, params } from '@roxi/routify'
-import qs from 'qs'
 
 let weightPreference = ''
 let home = null

@@ -1,17 +1,12 @@
 <script>
-import { unreads } from '../data/messaging'
-import { isActive, page } from '@roxi/routify'
+import CountIndicator from 'components/CountIndicator.svelte'
+import UserAvatar from 'components/UserAvatar.svelte'
+import { createRequestByFab, clickedLogo, createRequestByButton, choseMyRequests, choseMyCommitments } from 'data/analytics.js'
+import { logout } from 'data/auth.js'
+import { unreads } from 'data/messaging.js'
 import polyglot from '../i18n'
-import UserAvatar from './UserAvatar.svelte'
-import { logout } from '../data/auth'
-import CountIndicator from './CountIndicator.svelte'
-import {
-  createRequestByFab,
-  clickedLogo,
-  createRequestByButton,
-  choseMyRequests,
-  choseMyCommitments,
-} from '../data/analytics'
+
+import { isActive, page } from '@roxi/routify'
 
 export let user = {}
 

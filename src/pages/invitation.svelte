@@ -1,8 +1,9 @@
 <script>
-import { onMount } from 'svelte'
-import { getInviteInfo } from '../data/api'
-import Login from '../components/Login.svelte'
+import Login from 'components/Login.svelte'
+import { getInviteInfo } from 'data/api.js'
+
 import { params } from '@roxi/routify'
+import { onMount } from 'svelte'
 
 let loading = false
 let inviteInfo = {}

@@ -1,10 +1,11 @@
 <script>
-  import Uploader from '../../../components/Uploader.svelte'
-  import { events, update } from '../../../data/events'
+  import LocationInput from 'components/LocationInput.svelte'
+  import Uploader from 'components/Uploader.svelte'
+  import { throwError } from 'data/error.js'
+  import { events, update } from 'data/events.js'
+  import { me } from 'data/user.js'
+
   import { format, addDays } from 'date-fns'
-  import LocationInput from '../../../components/LocationInput.svelte'
-  import { throwError } from '../../../data/error'
-  import { me } from '../../../data/user'
   import { goto, params } from '@roxi/routify'
 
   let event = {}
@@ -13,7 +14,7 @@
 
   $: existingEvent = $events.find(({ id }) => id === $params.eventId)
   $: initializeUpdates(existingEvent)
-              
+
   function initializeUpdates(eventBeingEdited) {
     if (!eventBeingEdited) return
     event = Object.assign({}, eventBeingEdited)
@@ -44,7 +45,7 @@
   function imageUploaded(e) {
     event.image_file = e.detail
   }
-      
+
   function onLocationChanged(e) {
     event.location = e.detail
   }
@@ -56,7 +57,7 @@
     max-height: 160px;
   }
 </style>
-  
+
 {#if !existingEvent }
   <h2 class="mb-e">Event does not exist!</h2>
 {:else if event.created_by.id != $me.id }
@@ -106,7 +107,7 @@
 
   <div class="form-row form-group">
     <span class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
-      Location: 
+      Location:
     </span>
 
     <div class="col">

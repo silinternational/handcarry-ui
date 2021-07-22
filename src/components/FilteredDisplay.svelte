@@ -1,6 +1,7 @@
 <script>
-import { filterItems, removeFilter } from '../data/filtering'
-import FilterTags from './FilterTags.svelte'
+import FilterTags from 'components/FilterTags.svelte'
+import { filterItems, removeFilter } from 'data/filtering.js'
+
 import { goto } from '@roxi/routify'
 
 export let items = []

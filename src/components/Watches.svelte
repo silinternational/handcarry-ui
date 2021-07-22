@@ -1,10 +1,11 @@
 <script>
+import FilterTag from 'components/FilterTag.svelte'
+import { labelFor } from 'data/requestFiltering.js'
+import { getWatches, deleteWatch } from 'data/watch.js'
+
 import Icon from 'fa-svelte'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { getWatches, deleteWatch } from '../data/watch'
 import { onMount } from 'svelte'
-import FilterTag from './FilterTag.svelte'
-import { labelFor } from '../data/requestFiltering'
 import { fly } from 'svelte/transition'
 
 let watches = []
@@ -14,7 +15,7 @@ let numVisibleLimited = true
 onMount(async () => {
   try {
     loading = true
-    watches = await getWatches()  
+    watches = await getWatches()
   } finally {
     loading = false
   }
@@ -51,7 +52,7 @@ function showAll() {
       <div class="col">
         <div class="card-body">
           <h5 class="card-title">{watch.name}</h5>
-          
+
           <p class="card-text">
             {#each relevantCriteria(watch) as criteria}
               <FilterTag label={labelFor(criteria, valueFor(criteria, watch))} hideCloseButton />

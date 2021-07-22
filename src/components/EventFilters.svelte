@@ -1,15 +1,11 @@
 <script>
-import {
-  filteredMeetingsByAll,
-  filteredMeetingsByLocation,
-  filteredMeetingsByMine,
-  searchedMeetings,
-} from '../data/analytics'
-import { clearEventFilter } from '../data/eventFiltering'
-import { removeFilter, setFilters } from '../data/filtering'
-import LocationFilter from './LocationFilter.svelte'
-import SearchFilter from './SearchFilter.svelte'
-import ToggleFilter from './ToggleFilter.svelte'
+import LocationFilter from 'components/LocationFilter.svelte'
+import SearchFilter from 'components/SearchFilter.svelte'
+import ToggleFilter from 'components/ToggleFilter.svelte'
+import { filteredMeetingsByAll, filteredMeetingsByLocation, filteredMeetingsByMine, searchedMeetings } from 'data/analytics.js'
+import { clearEventFilter } from 'data/eventFiltering.js'
+import { removeFilter, setFilters } from 'data/filtering.js'
+
 import { goto } from '@roxi/routify'
 
 export let filter = {}

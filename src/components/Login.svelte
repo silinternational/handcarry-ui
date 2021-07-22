@@ -1,9 +1,10 @@
 <script>
-import { login } from '../data/auth'
-import { goto, params } from '@roxi/routify'
-import { me } from '../data/user'
+import { login } from 'data/auth.js'
+import { retrieve, save, LIFESPAN, clear } from 'data/storage.js'
+import { me } from 'data/user.js'
+
 import jquery from 'jquery' // $ is already a reserved token in Svelte (stores)
-import { retrieve, save, LIFESPAN, clear } from '../data/storage'
+import { goto, params } from '@roxi/routify'
 
 export let placeholder = 'Enter email address'
 export let buttonText = 'Sign in'
