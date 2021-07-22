@@ -15,22 +15,9 @@
   $: initializeUpdates(existingEvent)
   $: isNew = !event.id
 
-  new Date().getDate
-
-  const parseDate = dateString => {
-    let date = new Date(dateString)
-    let month = date.getMonth() + 1
-    let dayOfMonth = date.getDate() + 1
-    let monthLength = `${month}`.length
-    let dateLength = `${dayOfMonth}`.length
-    return `${date.getFullYear()}-${monthLength == 1 ? `0${month}` : month}-${dateLength == 1 ? `0${dayOfMonth}` : dayOfMonth}`
-  }
-
   function initializeUpdates(eventBeingEdited) {
     if (!eventBeingEdited) return
     event = Object.assign({}, eventBeingEdited)
-    event.start_date = parseDate(event.start_date)
-    event.end_date = parseDate(event.end_date)
   }
 
   function assertHas(value, errorMessage) {
@@ -44,6 +31,9 @@
     assertHas(event.location, 'Please provide a location')
     assertHas(event.start_date, 'Please tell us the start date')
     assertHas(event.end_date, 'Please tell us the end date')
+    let startDate = new Date(event.start_date)
+    let endDate = new Date(event.endd_date)
+    assertHas(startDate > endDate, "Start date can't be after end date")
   }
 
   async function onSubmit() {
@@ -74,7 +64,7 @@
   
 {#if $events.length && !existingEvent && !isNew }
   <h2 class="mb-e">Event does not exist!</h2>
-{:else if existingEvent && event.created_by?.id != $me.id && !isNew }
+{:else if !isNew && !existingEvent?.is_editable }
   <h2 class="mb-e">You cannot edit this event!</h2>
 {:else if $events.length }
   <h2 class="mb-3">{isNew ? "Create an " : "Edit"} Event</h2>
