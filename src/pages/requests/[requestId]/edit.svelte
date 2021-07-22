@@ -1,5 +1,5 @@
 <script>
-  import CreateOrUpdateRequest from '../../../components/CreateOrUpdateRequest.svelte'
+  import CreateOrUpdateRequest from 'components/CreateOrUpdateRequest.svelte'
 
 </script>
 

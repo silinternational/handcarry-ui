@@ -1,14 +1,15 @@
 <script>
-import EventFilters from '../../components/EventFilters.svelte'
-import FilteredDisplay from '../../components/FilteredDisplay.svelte'
+import EventFilters from 'components/EventFilters.svelte'
+import FilteredDisplay from 'components/FilteredDisplay.svelte'
+import { isParticipant, populateEventFilterFrom } from 'data/eventFiltering.js'
+import { join, events, loading } from 'data/events.js'
+import { me } from 'data/user.js'
+
 import Icon from 'fa-svelte'
-import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons'
-import { isParticipant, populateEventFilterFrom } from '../../data/eventFiltering'
-import { join, events, loading } from '../../data/events'
-import { me } from '../../data/user'
+import { faExternalLinkAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { goto, params } from '@roxi/routify'
 import { flip } from 'svelte/animate';
 import { fade } from 'svelte/transition';
-import { goto, params } from '@roxi/routify'
 
 const format = date => new Date(date).toLocaleDateString([], {
   month: 'short',
@@ -80,7 +81,14 @@ li {
                 <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
               </div>
               <div class="col">
-                <h4>{event.name}</h4>
+                <div style="display: flex">
+                  <h4 style="padding-right: 10px">{event.name}</h4>
+                  {#if event.created_by.id == $me.id}
+                    <a style="paddding-top: 5px" href="/events/{ encodeURIComponent(event.id) }/edit">
+                      <Icon style="padding-top: 2px;" icon={faEdit} />
+                    </a>
+                  {/if}
+                </div>
 
                 <div>{event.location.description}</div>
                 <div class="pb-1">

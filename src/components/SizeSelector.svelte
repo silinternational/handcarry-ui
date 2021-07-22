@@ -1,13 +1,13 @@
 <script>
-import SizeTile from './SizeTile.svelte'
-import { sizes } from '../data/sizes'
+import SizeTile from 'components/SizeTile.svelte'
+import { sizes } from 'data/sizes.js'
 
 export let selectedName = ''
 </script>
 
 <style>
 /* Technique based on https://stackoverflow.com/a/17541916 */
-[type=radio] { 
+[type=radio] {
   position: absolute;
   opacity: 0;
   width: 0;

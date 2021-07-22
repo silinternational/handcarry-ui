@@ -1,5 +1,6 @@
 <script>
-import { sizes } from '../data/sizes'
+import { sizes } from 'data/sizes.js'
+
 import { Badge } from '@silintl/ui-components'
 
 export let size

@@ -1,6 +1,6 @@
 <script>
-import { sizes } from '../data/sizes'
-import SizeIndicator from '../components/SizeIndicator.svelte'
+import SizeIndicator from 'components/SizeIndicator.svelte'
+import { sizes } from 'data/sizes.js'
 
 export let size
 export let selected = false

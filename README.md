@@ -25,7 +25,7 @@ To see what Bootstrap responsive breakpoint you are currently viewing, add the f
 ```
 <script>
 // ADD THIS:
-import BootstrapWidthIndicator from '../components/BootstrapWidthIndicator.svelte'
+import BootstrapWidthIndicator from 'components/BootstrapWidthIndicator.svelte'
 </script>
 
 ...

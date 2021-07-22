@@ -1,11 +1,12 @@
 <script>
-import { me } from '../data/user'
-import { init as loadEvents } from '../data/events'
-import { init as loadMessaging } from '../data/messaging'
-import { init as loadRequests } from '../data/requests'
-import { Router } from '@roxi/routify'
+import { init as loadEvents } from 'data/events.js'
+import { init as loadMessaging } from 'data/messaging.js'
+import { init as loadRequests } from 'data/requests.js'
+import { me } from 'data/user.js'
 import { routes } from '../../.routify/routes'
+
 import { parse, stringify } from 'qs'
+import { Router } from '@roxi/routify'
 
 $: $me.id && loadData()
 

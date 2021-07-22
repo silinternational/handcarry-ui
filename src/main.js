@@ -1,7 +1,7 @@
+import App from 'components/App.svelte'
 import './components/global.css'
-import './data/analytics'
-import './data/error'
-import App from './components/App.svelte'
+import 'data/analytics.js'
+import 'data/error.js'
 
 const app = new App({
 	target: document.body,

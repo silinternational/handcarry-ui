@@ -1,10 +1,11 @@
 <script>
-import { me } from '../data/user'
+import RequestAction from 'components/RequestAction.svelte'
+import { sentMessage } from 'data/analytics.js'
+import { unreads, saw, send } from 'data/messaging.js'
+import { me } from 'data/user.js'
+
 import { formatDistanceToNow } from 'date-fns'
 import { createEventDispatcher } from 'svelte'
-import { unreads, saw, send } from '../data/messaging'
-import { sentMessage } from '../data/analytics'
-import RequestAction from './RequestAction.svelte'
 
 export let conversation = {}
 export let minimal = false
