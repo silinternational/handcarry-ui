@@ -21,7 +21,7 @@ export async function create(event) {
   const newEvent = await POST('events', {
     name: event.name,
     description: event.description,
-    image_file_id: event.photo?.id,
+    image_file_id: event.image_file?.id,
     location: event.location,
     start_date: event.start_date,
     end_date: event.end_date,
@@ -35,7 +35,7 @@ export async function update(event) {
   const updatedEvent = await PUT(`events/${event.id}`, {
     name: event.name,
     description: event.description,
-    image_file_id: event.photo?.id,
+    image_file_id: event.image_file?.id,
     location: event.location,
     start_date: event.start_date,
     end_date: event.end_date,

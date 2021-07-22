@@ -1,4 +1,10 @@
 <script>
+  import CreateOrUpdateEvent from 'components/CreateOrUpdateEvent.svelte'
+</script>
+
+<CreateOrUpdateEvent />
+
+<!-- <script>
   import LocationInput from 'components/LocationInput.svelte'
   import Uploader from 'components/Uploader.svelte'
   import { throwError } from 'data/error.js'
@@ -98,9 +104,9 @@
     </div>
 
     {#if event.image_file}
-      <div class="col-12 col-sm-5 text-center text-sm-left">
+      <div class="col-12 col-sm-5 text-center text-sm-left">-->
           <!-- svelte-ignore a11y-img-redundant-alt -->
-          <img src={event.image_file.url} alt="Event image" class="preview" />
+          <!--<img src={event.image_file.url} alt="Event image" class="preview" />
       </div>
     {/if}
   </div>
@@ -159,4 +165,4 @@
     </div>
   </div>
   </form>
-{/if}
+{/if}-->
