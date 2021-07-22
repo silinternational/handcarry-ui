@@ -22,49 +22,49 @@ const aliases = alias({
 })
 
 export default {
-	input: 'src/main.js',
-	output: {
-		file: 'dist/bundle.js',
-		format: 'iife',
-		sourcemap: production,
-	},
-	preserveEntrySignatures: 'strict',
-	inlineDynamicImports: true,
-	plugins: [
+  input: 'src/main.js',
+  output: {
+    file: 'dist/bundle.js',
+    format: 'iife',
+    sourcemap: production,
+  },
+  preserveEntrySignatures: 'strict',
+  inlineDynamicImports: true,
+  plugins: [
     aliases,
-		svelte({
-			// enable run-time checks when not in production
-			dev: !production,
-			emitCss: true, // give component style to postcss() for processing
-			preprocess: autoPreprocess(),
-		}),
+    svelte({
+      // enable run-time checks when not in production
+      dev: !production,
+      emitCss: true, // give component style to postcss() for processing
+      preprocess: autoPreprocess(),
+    }),
 
-		// If you have external dependencies installed from
-		// npm, you'll most likely need these plugins. In
-		// some cases you'll need additional configuration -
-		// consult the documentation for details:
-		// https://github.com/rollup/plugins/tree/master/packages/commonjs
-		resolve({
-			browser: true,
-			dedupe: ['svelte'],
-		}),
-		commonjs(),
+    // If you have external dependencies installed from
+    // npm, you'll most likely need these plugins. In
+    // some cases you'll need additional configuration -
+    // consult the documentation for details:
+    // https://github.com/rollup/plugins/tree/master/packages/commonjs
+    resolve({
+      browser: true,
+      dedupe: ['svelte'],
+    }),
+    commonjs(),
 
-		// added so i18n/[lang].json files can be loaded in i18n/index.js
-		json(),
-		postcss({
-			extract: true, // create a css file alongside the output.file
-			sourceMap: production,
-			use: {
-				sass: {
-					includePaths: ['node_modules']
-				}
-			},
-		}),
-		routify({}),
+    // added so i18n/[lang].json files can be loaded in i18n/index.js
+    json(),
+    postcss({
+      extract: true, // create a css file alongside the output.file
+      sourceMap: production,
+      use: {
+        sass: {
+          includePaths: ['node_modules']
+        }
+      },
+    }),
+    routify({}),
 
-		// makes NAME=VALUE pairs in a .env file available in the app as process.env.<NAME> vars
-		dotenv(),
+    // makes NAME=VALUE pairs in a .env file available in the app as process.env.<NAME> vars
+    dotenv(),
 
     // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.generateSW
     generateSW({
@@ -76,10 +76,10 @@ export default {
       swDest: 'dist/service-worker.js',
     }),
 
-		//           minify     auto-refresh browser on changes
-		production ? terser() : livereload('dist'),
-	],
-	watch: {
-		clearScreen: false,
-	}
+    //           minify     auto-refresh browser on changes
+    production ? terser() : livereload('dist'),
+  ],
+  watch: {
+    clearScreen: false,
+  }
 }
