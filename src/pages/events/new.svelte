@@ -77,24 +77,6 @@
   </div>
 
   <div class="form-row form-group">
-    <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
-      Upload logo: <br />
-      <small class="text-muted font-italic">(optional)</small>
-    </div>
-
-    <div class="col-auto mt-1">
-      <Uploader on:uploaded={imageUploaded} type={ event.photo?.url ? 'change' : 'add'}/>
-    </div>
-
-    {#if logoUrl || event.photo && event.photo.url}
-      <div class="col-12 col-sm-5 text-center text-sm-left">
-        <!-- svelte-ignore a11y-img-redundant-alt -->
-        <img src={logoUrl || event.photo && event.photo.url} alt="Event logo" class="preview" />
-      </div>
-    {/if}
-  </div>
-
-  <div class="form-row form-group">
     <span class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
       Location:
     </span>
@@ -127,6 +109,24 @@
     <div class="col-auto">
       <input type="date" class="form-control form-control-lg" id="event-end-date" min={tomorrow} bind:value={event.end_date} />
     </div>
+  </div>
+
+  <div class="form-row form-group">
+    <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
+      Upload logo: <br />
+      <small class="text-muted font-italic">(optional)</small>
+    </div>
+
+    <div class="col-auto mt-1">
+      <Uploader on:uploaded={imageUploaded} type={ event.photo?.url ? 'change' : 'add'}/>
+    </div>
+
+    {#if logoUrl || event.photo && event.photo.url}
+      <div class="col-12 col-sm-5 text-center text-sm-left">
+        <!-- svelte-ignore a11y-img-redundant-alt -->
+        <img src={logoUrl || event.photo && event.photo.url} alt="Event logo" class="preview" />
+      </div>
+    {/if}
   </div>
 
   <div class="form-row form-group">
