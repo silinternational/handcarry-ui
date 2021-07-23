@@ -2,8 +2,8 @@ import { writable } from 'svelte/store'
 import { GET, POST, PUT } from './api'
 import { onClear } from './storage'
 
-export const events = writable(null)
-export const loading = writable(false)
+export const events = writable([])
+export const loading = writable(true)
 
 export async function join(eventId) {
   const updatedEvent = await POST('events/join', {meeting_id: eventId})

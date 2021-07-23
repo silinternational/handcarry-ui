@@ -2,7 +2,7 @@
   import LocationInput from 'components/LocationInput.svelte'
   import Uploader from 'components/Uploader.svelte'
   import { throwError } from 'data/error.js'
-  import { events, update, create } from 'data/events.js'
+  import { create, events, loading, update } from 'data/events.js'
 
   import { format, addDays } from 'date-fns'
   import { goto, params } from '@roxi/routify'
@@ -10,7 +10,7 @@
   const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 
   $: event = {}
-  $: existingEvent = $events == null ? null : $events.find(({ id }) => id === $params.eventId)
+  $: existingEvent = $events.find(({ id }) => id === $params.eventId)
   $: initializeUpdates(existingEvent)
   $: isNew = !event.id
 
@@ -31,8 +31,9 @@
     assertHas(event.start_date, 'Please tell us the start date')
     assertHas(event.end_date, 'Please tell us the end date')
     let startDate = new Date(event.start_date)
-    let endDate = new Date(event.endd_date)
-    assertHas(startDate > endDate, "Start date can't be after end date")
+    let endDate = new Date(event.end_date)
+    console.log(startDate, endDate, startDate > endDate)
+    assertHas(startDate <= endDate, "Start date can't be after end date")
   }
 
   async function onSubmit() {
@@ -61,11 +62,11 @@
   }
 </style>
 
-{#if $events && !existingEvent && !isNew }
+{#if !$loading && !existingEvent && !isNew }
   <h2 class="mb-e">Event does not exist!</h2>
 {:else if !isNew && !existingEvent?.is_editable }
   <h2 class="mb-e">You cannot edit this event!</h2>
-{:else if $events}
+{:else if !$loading}
   <h2 class="mb-3">{isNew ? "Create an " : "Edit"} Event</h2>
 
   <form on:submit|preventDefault={onSubmit} autocomplete="off">
