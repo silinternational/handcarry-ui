@@ -87,26 +87,8 @@
       </div>
       <div class="col">
         <textarea class="form-control" bind:value={event.description} rows="3"
-                    id="event-description" placeholder="Please describe the item" />
+                    id="event-description" placeholder="Please describe the event" />
       </div>
-    </div>
-
-    <div class="form-row form-group">
-      <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
-        Upload image: <br />
-        <small class="text-muted font-italic">(optional)</small>
-      </div>
-
-      <div class="col-auto mt-1">
-        <Uploader on:uploaded={imageUploaded} type={ event.image_file?.url ? 'change' : 'add'}/>
-      </div>
-
-      {#if event.image_file}
-        <div class="col-12 col-sm-5 text-center text-sm-left">
-            <!-- svelte-ignore a11y-img-redundant-alt -->
-            <img src={event.image_file.url} alt="Event image" class="preview" />
-        </div>
-      {/if}
     </div>
 
     <div class="form-row form-group">
@@ -145,6 +127,24 @@
     </div>
 
     <div class="form-row form-group">
+      <div class="col-auto col-sm-3 col-lg-2 col-form-label-lg">
+        Upload image: <br />
+        <small class="text-muted font-italic">(optional)</small>
+      </div>
+
+      <div class="col-auto mt-1">
+        <Uploader on:uploaded={imageUploaded} type={ event.image_file?.url ? 'change' : 'add'}/>
+      </div>
+
+      {#if event.image_file}
+        <div class="col-12 col-sm-5 text-center text-sm-left">
+            <!-- svelte-ignore a11y-img-redundant-alt -->
+            <img src={event.image_file.url} alt="Event image" class="preview" />
+        </div>
+      {/if}
+    </div>
+
+    <div class="form-row form-group">
       <label for="event-more-info-url" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
         More info URL:
       <small class="text-muted font-italic">(optional)</small>
@@ -155,6 +155,20 @@
       </div>
     </div>
 
+    {#if isNew}
+      <div class="form-row form-group">
+        <label for="event-more-info-url" class="col-12 col-sm-3 col-lg-2 col-form-label-lg">
+          Invite participants:
+          <small class="text-muted font-italic">(optional)</small>
+        </label>
+
+        <div class="col">
+          <textarea class="form-control" bind:value={event.emails} rows="3"
+            id="event-description" placeholder="Paste in a list of emails separated by commas or line breaks" />
+        </div>
+      </div>
+    {/if}
+
     <div class="form-row form-group">
       <div class="col-auto">
       <button type="submit" class="btn btn-primary float-right">
@@ -163,4 +177,4 @@
       </div>
     </div>
   </form>
-{/if} 
+{/if}
