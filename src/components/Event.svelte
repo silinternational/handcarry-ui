@@ -116,6 +116,16 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .participant-avatar {
+    margin-right: 5px;
+    width: 34px;
+  }
+
+  .alternate-padding {
+    padding: 3px;
+    padding-left: 0 !important;
+  }
 </style>
 
 <!-- svelte-ignore empty-block -->
@@ -177,7 +187,7 @@
         </tr>
         {#each event.participants as participant}
           <tr class="meeting-row">
-            <td>{participant.user.nickname}</td>
+            <td class="alternate-padding"><img class="participant-avatar" src="{participant.user.avatar_url}" alt="Participant avatar">{participant.user.nickname}</td>
             <!--TODO: add support for user specific orgs (can't access them right now)-->
             <td>SIL</td>
             <!--TODO: add support for join method-->
