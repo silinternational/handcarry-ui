@@ -28,7 +28,6 @@
         name: "cqptain"
       }
     ]
-    console.log(event.image_file)
   }
 
   const format = date => new Date(date).toLocaleDateString([], {
@@ -136,7 +135,7 @@
   <div id="top">
     <h2 class="mb-3">Event Details: {event.name}</h2>
     {#if hasPermission }
-    <a href="/events/{ encodeURIComponent(event.id) }/edit" class="btn btn-primary d-block m-2">Edit Event</a>
+      <a href="/events/{ encodeURIComponent(event.id) }/edit" class="btn btn-primary d-block m-2">Edit Event</a>
     {/if}
   </div>
   <div id="middle">
@@ -222,4 +221,3 @@
   </div>
 </div>
 {/if}
-
