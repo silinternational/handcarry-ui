@@ -4,6 +4,7 @@ import { onClear } from './storage'
 
 export const events = writable([])
 export const loading = writable(false)
+export const isInitialized = writable(false)
 
 export async function join(eventId) {
   const updatedEvent = await POST('events/join', {meeting_id: eventId})
@@ -21,7 +22,7 @@ export async function create(event) {
   const newEvent = await POST('events', {
     name: event.name,
     description: event.description,
-    image_file_id: event.photo?.id,
+    image_file_id: event.image_file?.id,
     location: event.location,
     start_date: event.start_date,
     end_date: event.end_date,
@@ -36,7 +37,7 @@ export async function update(event) {
   const updatedEvent = await PUT(`events/${event.id}`, {
     name: event.name,
     description: event.description,
-    image_file_id: event.photo?.id,
+    image_file_id: event.image_file?.id,
     location: event.location,
     start_date: event.start_date,
     end_date: event.end_date,
@@ -56,6 +57,7 @@ async function loadEvents() {
   events.set(evts)
 
   loading.set(false)
+  isInitialized.set(true)
 }
 
 function reset() {
