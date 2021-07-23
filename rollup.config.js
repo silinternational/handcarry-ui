@@ -10,7 +10,6 @@ import { generateSW } from 'rollup-plugin-workbox'
 import routify from '@roxi/routify/plugins/rollup'
 import autoPreprocess from 'svelte-preprocess'
 import alias from '@rollup/plugin-alias'
-// import replace from '@rollup/plugin-replace'
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -66,9 +65,6 @@ export default {
 
     // makes NAME=VALUE pairs in a .env file available in the app as process.env.<NAME> vars
     dotenv(),
-    // replace({
-    //   'process.env.NODE_ENV': JSON.stringify( 'production' )
-    // }),
 
     // https://developers.google.com/web/tools/workbox/reference-docs/latest/module-workbox-build#.generateSW
     generateSW({
