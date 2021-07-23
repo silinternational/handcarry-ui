@@ -2,7 +2,7 @@
   import LocationInput from 'components/LocationInput.svelte'
   import Uploader from 'components/Uploader.svelte'
   import { throwError } from 'data/error.js'
-  import { create, events, loading, update } from 'data/events.js'
+  import { create, events, isInitialized, update } from 'data/events.js'
 
   import { format, addDays } from 'date-fns'
   import { goto, params } from '@roxi/routify'
@@ -12,7 +12,7 @@
   $: event = {}
   $: existingEvent = $events.find(({ id }) => id === $params.eventId)
   $: initializeUpdates(existingEvent)
-  $: isNew = !event.id
+  $: isNew = !$params.eventId
 
   function initializeUpdates(eventBeingEdited) {
     if (!eventBeingEdited) return
@@ -62,11 +62,11 @@
   }
 </style>
 
-{#if !$loading && !existingEvent && !isNew }
+{#if $isInitialized && !existingEvent && !isNew }
   <h2 class="mb-e">Event does not exist!</h2>
-{:else if !isNew && !existingEvent?.is_editable }
+{:else if !isNew && existingEvent?.is_editable === false }
   <h2 class="mb-e">You cannot edit this event!</h2>
-{:else if !$loading}
+{:else if $isInitialized || isNew }
   <h2 class="mb-3">{isNew ? "Create an " : "Edit"} Event</h2>
 
   <form on:submit|preventDefault={onSubmit} autocomplete="off">

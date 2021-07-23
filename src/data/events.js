@@ -3,7 +3,8 @@ import { GET, POST, PUT } from './api'
 import { onClear } from './storage'
 
 export const events = writable([])
-export const loading = writable(true)
+export const loading = writable(false)
+export const isInitialized = writable(false)
 
 export async function join(eventId) {
   const updatedEvent = await POST('events/join', {meeting_id: eventId})
@@ -55,6 +56,7 @@ async function loadEvents() {
   events.set(evts)
 
   loading.set(false)
+  isInitialized.set(true)
 }
 
 function reset() {
