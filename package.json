@@ -4,7 +4,7 @@
   "scripts": {
     "prebuild:dev": "npm run clean:build",
     "build:dev": "rollup -c -w",
-    "prebuild:prod": "echo 'BASE_API_URL=${BASE_API_URL}' >> .env; echo 'GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY}' >> .env; echo 'GOOGLE_ANALYTICS_ID=${'//httpbin.org'}' >> .env; npm run clean:build;",
+    "prebuild:prod": "echo BASE_API_URL=${BASE_API_URL} >> .env; echo GOOGLE_PLACES_API_KEY=${GOOGLE_PLACES_API_KEY} >> .env; echo GOOGLE_ANALYTICS_ID=//httpbin.org >> .env; npm run clean:build;",
     "build:prod": "rollup -c",
     "clean": "run-p -l clean:build clean:deps",
     "clean:build": "rimraf dist/bundle* dist/service-worker* dist/workbox*",
