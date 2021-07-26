@@ -50,6 +50,17 @@
     $goto("/events")
   }
 
+  function getOrganizers() {
+    let orgs = []
+
+    event.participants.forEach(val => {
+      if (val.is_organizer) orgs.push({name: val.user.nickname})
+    })
+
+    orgs.push({name: event.created_by.nickname})
+    return orgs
+  }
+
 </script>
 
 <style>
@@ -168,8 +179,7 @@
         <div>{format(event.start_date)} - {format(event.end_date)}</div>
         <!--TODO: add support for meeting organization-->
         {#if $me.organizations} <div>Visible to members of {formatOrgs($me.organizations)}</div> {/if}
-        <!--TODO: add support for co-orgnizers-->
-        <div>Co-orgnizers: Jeff (<a href="/events/{ encodeURIComponent(event.id)}/add-co-organizer">Add</a>)</div>
+        <div>Orgnizers: {formatOrgs(getOrganizers())} (<a href="/events/{ encodeURIComponent(event.id)}/add-co-organizer">Add</a>)</div>
         {#if event.description }
           <br />
           <div>{event.description}</div>
