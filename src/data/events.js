@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store'
-import { GET, POST } from './api'
+import { DELETE, GET, POST } from './api'
 import { onClear } from './storage'
 
 export const events = writable([])
@@ -24,6 +24,20 @@ export async function getOneEvent(id) {
     return await GET(`/events/${id}`)
   } catch (err) {
     throw err
+  } finally {
+    loading.set(false)
+  }
+}
+
+export async function deleteOneEvent(id) {
+  try {
+    loading.set(true)
+
+    await DELETE(`/events/${id}`)
+    loadEvents()
+    return null
+  } catch (err) {
+    throw err 
   } finally {
     loading.set(false)
   }

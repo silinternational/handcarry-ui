@@ -38,11 +38,6 @@ $: eventFilter = populateEventFilterFrom($params, $me)
   justify-content: center;
 }
 
-.event-title-link {
-  text-decoration: none;
-  color: black;
-}
-
 /* these will get used only on XS screens */
 .logo img {
   max-height: 5rem;
@@ -62,6 +57,11 @@ li {
   }
   li {
     max-height: 11rem;
+    cursor: pointer;
+  }
+
+  li:hover {
+    background-color: #f5f5f5;;
   }
 }
 </style>
@@ -79,13 +79,14 @@ li {
         {#each filteredEvents as event (event.id) }
           <li class="border rounded mb-2 p-2"
               animate:flip="{{ duration: 350 }}"
-              in:fade>
+              in:fade
+              on:click={() => $goto(`/events/${event.id}`)}>
             <div class="row align-items-center">
               <div class="col-md-4 col-sm-5 logo">
-                <a href="/events/{ encodeURIComponent(event.id) }"><img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" /></a>
+                <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
               </div>
               <div class="col">
-                <a class="event-title-link" href="/events/{ encodeURIComponent(event.id) }"><h4>{event.name}</h4></a>
+                <h4>{event.name}</h4>
 
                 <div>{event.location.description}</div>
                 <div class="pb-1">

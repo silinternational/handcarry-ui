@@ -1,12 +1,10 @@
 <script>
-  import Uploader from './Uploader.svelte'
-  import { events, getOneEvent, loading } from '../data/events'
-  import LocationInput from './LocationInput.svelte'
-  import { throwError } from '../data/error'
+  import { getOneEvent, deleteOneEvent } from '../data/events'
   import { me } from '../data/user'
   import { goto, params } from '@roxi/routify'
 
-  $: event = null
+  let event = {}
+
   $: existingEvent = null
   $: $params.eventId && getOneEvent($params.eventId).then(e => existingEvent = e)
   $: initializeEvent(existingEvent)
@@ -44,6 +42,12 @@
     }
 
     return output += orgs[orgs.length - 1].name
+  }
+
+  function handleDelete() {
+    deleteOneEvent(event.id)
+
+    $goto("/events")
   }
 
 </script>
@@ -101,6 +105,16 @@
     border-bottom-width: 2px;
   }
 
+  #delete-button{
+    background-color: #F30000;
+    border-color: #F30000;
+  }
+
+  #delete-button:hover {
+    background-color: #cd0000;
+    border-color: #c00000;
+  }
+
   #invite-button {
     border-width: 1px;
     border-color: black;
@@ -126,16 +140,20 @@
   }
 </style>
 
-<!-- svelte-ignore empty-block -->
-{#if !$loading && !event }
-<h2 class="mb-3">Event not found!</h2>
-{:else if !$loading }
+<div class="row mb-3">
+  <div class="col">
+    <a href="/events" class="text-secondary mb-3">« back to events</a>
+  </div>
+</div>
+
+{#if event.id }
 <div>
   <div id="top">
     <h2 class="mb-3">Event Details: {event.name}</h2>
-    {#if event.is_editable }
-      <a href="/events/{ encodeURIComponent(event.id) }/edit" class="btn btn-primary d-block m-2">Edit Event</a>
-    {/if}
+    <div style="display: flex;">
+      {#if event.is_deletable }<a on:click={handleDelete} class="btn btn-primary d-block m-2" id="delete-button">Delete Event</a>{/if}
+      {#if event.is_editable }<a href="/events/{ encodeURIComponent(event.id) }/edit" class="btn btn-primary d-block m-2">Edit Event</a>{/if}
+    </div>
   </div>
   <div id="middle">
       {#if event.image_file?.url}
@@ -214,9 +232,10 @@
   {/if}
   <div id="bottom">
     <div></div>
-    {#if event.is_editable}
-    <a href="/events/{ encodeURIComponent(event.id) }/edit" class="btn btn-primary d-block m-2">Edit Event</a>
-    {/if}
+    <div style="display: flex;">
+      {#if event.is_deletable }<a on:click={handleDelete} class="btn btn-primary d-block m-2" id="delete-button">Delete Event</a>{/if}
+      {#if event.is_editable }<a href="/events/{ encodeURIComponent(event.id) }/edit" class="btn btn-primary d-block m-2">Edit Event</a>{/if}
+    </div>
   </div>
 </div>
 {/if}
