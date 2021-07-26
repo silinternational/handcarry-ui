@@ -30,7 +30,9 @@ export async function create(event) {
     emails: event.emails,
   })
 
-  events.update(currentEvents => [newEvent, ...currentEvents])
+  loadEvents()
+
+  return newEvent
 }
 
 export async function update(event) {
@@ -44,7 +46,7 @@ export async function update(event) {
     more_info_url: event.more_info_url,
   })
 
-  updateLocalEvents(updatedEvent)
+  loadEvents()
 
   return updatedEvent
 }
