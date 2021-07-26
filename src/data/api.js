@@ -29,6 +29,8 @@ export async function wrappedFetch(method, url, body) {
     body,
   })
 
+  if (response.status == 204) return null
+
   const contents = await response.json()
 
   // gql responses can be the following:

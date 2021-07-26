@@ -91,20 +91,12 @@
     margin-bottom: 2rem;
   }
   li {
-    max-height: initial;
+    max-height: 11rem;
+    cursor: pointer;
   }
 
-  /* https://getbootstrap.com/docs/4.4/layout/overview/#responsive-breakpoints */
-  /* these will get used on everything above XS screens using bootstrap's breakpoint settings */
-  @media (min-width: 576px) {
-    .logo img {
-      max-width: 90%;
-      max-height: 9rem;
-      margin-bottom: initial;
-    }
-    li {
-      max-height: 11rem;
-    }
+  li:hover {
+    background-color: #f5f5f5;;
   }
 </style>
 
@@ -122,21 +114,19 @@
     {:else if filteredEvents.length}
       {scrollToEvent(filteredEvents)}
       <ol class="list-unstyled">
-        {#each filteredEvents as event, i (event.id)}
-          <li
-            id="event-{i + 1}"
-            class="rounded mb-2 p-2 event-item {$params.scrollTo &&
-            event.id == $params.scrollTo
-              ? 'blinking'
-              : ''}"
-            animate:flip={{ duration: 350 }}
-            in:fade>
+        {#each filteredEvents as event, i (event.id) }
+          <li 
+              id="event-{i + 1}"
+              class="rounded mb-2 p-2 event-item {$params.scrollTo && event.id == $params.scrollTo ? 'blinking' : ''}"
+              animate:flip="{{ duration: 350 }}"
+              in:fade
+              on:click={() => $goto(`/events/${event.id}`)}>
             <div class="row align-items-center">
               <div class="col-md-4 col-sm-5 flex justify-center align-items-center logo">
-                <img src={logoUrl(event) || "logo.svg"} alt="event logo" />
+                <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
               </div>
               <div class="col">
-                <h4 style="padding-right: 10px">{event.name}</h4>
+                <h4>{event.name}</h4>
 
                 <div>{event.location.description}</div>
                 <div class="pb-1">
