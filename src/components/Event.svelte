@@ -1,23 +1,22 @@
 <script>
   import Uploader from './Uploader.svelte'
-  import { events } from '../data/events'
+  import { events, getOneEvent, loading } from '../data/events'
   import LocationInput from './LocationInput.svelte'
   import { throwError } from '../data/error'
   import { me } from '../data/user'
   import { goto, params } from '@roxi/routify'
 
   $: event = null
-  $: existingEvent = $events.find(({ id }) => id === $params.eventId)
+  $: existingEvent = null
+  $: $params.eventId && getOneEvent($params.eventId).then(e => existingEvent = e)
   $: initializeEvent(existingEvent)
   $: partsSelected = true
-  $: hasPermission = false
 
   function initializeEvent(existingEvent) {
     if (!existingEvent) {
       return
     }
     event = existingEvent
-    hasPermission = $me.id == event.created_by.id
     event.invitations = [
       {
         email: "levi_wenger@sil.org",
@@ -128,13 +127,13 @@
 </style>
 
 <!-- svelte-ignore empty-block -->
-{#if $events.length != 0 && !event }
+{#if !$loading && !event }
 <h2 class="mb-3">Event not found!</h2>
-{:else if $events.length != 0}
+{:else if !$loading }
 <div>
   <div id="top">
     <h2 class="mb-3">Event Details: {event.name}</h2>
-    {#if hasPermission }
+    {#if event.is_editable }
       <a href="/events/{ encodeURIComponent(event.id) }/edit" class="btn btn-primary d-block m-2">Edit Event</a>
     {/if}
   </div>
@@ -152,7 +151,7 @@
         <!--TODO: add support for meeting organization-->
         {#if $me.organizations} <div>Visible to members of {formatOrgs($me.organizations)}</div> {/if}
         <!--TODO: add support for co-orgnizers-->
-        <div>Co-orgnizers: Jeff (<a href="/events/${ encodeURIComponent(event.id)}/add-co-organizer">Add</a>)</div>
+        <div>Co-orgnizers: Jeff (<a href="/events/{ encodeURIComponent(event.id)}/add-co-organizer">Add</a>)</div>
         {#if event.description }
           <br />
           <div>{event.description}</div>
@@ -165,8 +164,8 @@
   </div>
   <br />
   <br />
-  <!--TODO: FUTURE - make this dependent on weather backend sends the participant and invite list-->
-  {#if hasPermission }
+  <!--TODO: FUTURE - make this dependent on wether backend sends the participant and invite list-->
+  {#if event.is_editable }
   <div id="tables">
     <div id="button-row">
       <div>
@@ -215,7 +214,7 @@
   {/if}
   <div id="bottom">
     <div></div>
-    {#if hasPermission}
+    {#if event.is_editable}
     <a href="/events/{ encodeURIComponent(event.id) }/edit" class="btn btn-primary d-block m-2">Edit Event</a>
     {/if}
   </div>
