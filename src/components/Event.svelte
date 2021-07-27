@@ -177,8 +177,7 @@
         <div>{event.name}</div>
         <div>{event.location?.description}</div>
         <div>{format(event.start_date)} - {format(event.end_date)}</div>
-        <!--TODO: add support for meeting organization-->
-        {#if $me.organizations} <div>Visible to members of {formatOrgs($me.organizations)}</div> {/if}
+        <!--TODO FUTURE: add support for meeting organization-->
         <div>Orgnizers: {formatOrgs(getOrganizers())} (<a href="/events/{ encodeURIComponent(event.id)}/add-co-organizer">Add</a>)</div>
         {#if event.description }
           <br />
@@ -192,7 +191,7 @@
   </div>
   <br />
   <br />
-  <!--TODO: FUTURE - make this dependent on wether backend sends the participant and invite list-->
+  <!--TODO FUTURE: make this dependent on wether backend sends the participant and invite list-->
   {#if event.is_editable }
   <div id="tables">
     <div id="button-row">
@@ -208,17 +207,16 @@
       <table id="meeting-table">
         <tr class="meeting-row">
           <th>Name</th>
-          <th>Organization</th>
           <th>Join Method</th>
         </tr>
         {#each event.participants as participant}
           <tr class="meeting-row">
             <td class="alternate-padding"><img class="participant-avatar" src="{participant.user.avatar_url}" alt="Participant avatar">{participant.user.nickname}</td>
-            <!--TODO: add support for user specific orgs (can't access them right now)-->
-            <td>SIL</td>
+            <!--TODO FUTURE: add support for user specific orgs (can't access them right now)-->
             <!--TODO: add support for join method-->
-            <td>Invitation</td>
-            <td><a href="/events/{ encodeURIComponent(event.id) }/delete">Delete</a></td>
+            <td>Opt-In</td>
+            <!--TODO: add support for the delete participant endpoint-->
+            <!-- <td><a href="/events/{ encodeURIComponent(event.id) }/delete">Delete</a></td> -->
           </tr>
         {/each}
       </table>
