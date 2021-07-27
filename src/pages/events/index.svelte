@@ -96,7 +96,7 @@
   }
 
   li:hover {
-    background-color: #f5f5f5;;
+    background-color: #f5f5f5;
   }
 </style>
 
