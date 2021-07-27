@@ -174,7 +174,7 @@
     <div class="form-row form-group">
       <div class="col-auto">
       <button type="submit" class="btn btn-primary float-right">
-        {isNew ? "Create" : "Edit"} Event
+        {isNew ? "Create" : "Update"} Event
       </button>
       </div>
     </div>
