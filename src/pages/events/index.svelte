@@ -1,65 +1,107 @@
 <script>
-import EventFilters from 'components/EventFilters.svelte'
-import FilteredDisplay from 'components/FilteredDisplay.svelte'
-import { isParticipant, populateEventFilterFrom } from 'data/eventFiltering.js'
-import { join, events, loading } from 'data/events.js'
-import { me } from 'data/user.js'
+  import EventFilters from "components/EventFilters.svelte"
+  import FilteredDisplay from "components/FilteredDisplay.svelte"
+  import { isParticipant, populateEventFilterFrom } from "data/eventFiltering.js"
+  import { join, events, loading } from "data/events.js"
+  import { me } from "data/user.js"
 
-import Icon from 'fa-svelte'
-import { faExternalLinkAlt, faEdit } from '@fortawesome/free-solid-svg-icons'
-import { goto, params } from '@roxi/routify'
-import { flip } from 'svelte/animate';
-import { fade } from 'svelte/transition';
+  import Icon from "fa-svelte"
+  import { faExternalLinkAlt, faEdit } from "@fortawesome/free-solid-svg-icons"
+  import { goto, params } from "@roxi/routify"
+  import * as animateScroll from "svelte-scrollto"
+  import { flip } from "svelte/animate"
+  import { fade } from "svelte/transition"
 
-const format = date => new Date(date).toLocaleDateString([], {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric',
-  timeZone: 'UTC',
-})
-const logoUrl = event => event.image_file?.url || ''
+  const format = date =>
+    new Date(date).toLocaleDateString([], {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      timeZone: "UTC",
+    });
+  const logoUrl = event => event.image_file?.url || ""
 
-let eventFilter = {}
+  let eventFilter = {}
 
-$: eventFilter = populateEventFilterFrom($params, $me)
+  $: eventFilter = populateEventFilterFrom($params, $me)
+
+  function scrollToEvent(filteredEvents) {
+    if ($params.scrollTo) {
+      let eventNum
+
+      filteredEvents.forEach((val, i) => {
+        if (val.id == $params.scrollTo) eventNum = i + 1
+      });
+
+      if (!eventNum) return "";
+      let eventId = `#event-${eventNum}`
+
+      setTimeout(() => {
+        animateScroll.scrollTo({
+          element: eventId,
+          duration: 1000,
+        });
+      }, 1000)
+
+    }
+
+    return ""
+  }
 </script>
 
 <style>
-.event-buttons-container .btn {
-  width: 10em;
-}
+  @keyframes event-blinking {
+    25% {
+      border-color: #dee2e6;
+      background-color: white;
+    }
+    43.75%, 81.25% {
+      border-color: #85888a;
+      background-color: #f5f5f5;
+    }
+    62.5%, 100% {
+      border-color: #dee2e6;
+      background-color: white;
+    }
+  }
 
-.event-buttons-container .btn:disabled {
-  cursor: unset;
-}
+  .blinking {
+    animation: event-blinking 4s;
+  }
 
-.logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .event-item {
+    border: 1px solid #dee2e6;
+  }
 
-/* these will get used only on XS screens */
-.logo img {
-  max-height: 5rem;
-  margin-bottom: 2rem;
-}
-li {
-  max-height: initial;
-}
+  .event-buttons-container .btn {
+    width: 10em;
+  }
 
-/* https://getbootstrap.com/docs/4.4/layout/overview/#responsive-breakpoints */
-/* these will get used on everything above XS screens using bootstrap's breakpoint settings */
-@media (min-width: 576px) {
+  .event-buttons-container .btn:disabled {
+    cursor: unset;
+  }
+
+  /* these will get used only on XS screens */
   .logo img {
-    max-width: 90%;
-    max-height: 9rem;
-    margin-bottom: initial;
+    max-height: 5rem;
+    margin-bottom: 2rem;
   }
   li {
-    max-height: 11rem;
+    max-height: initial;
   }
-}
+
+  /* https://getbootstrap.com/docs/4.4/layout/overview/#responsive-breakpoints */
+  /* these will get used on everything above XS screens using bootstrap's breakpoint settings */
+  @media (min-width: 576px) {
+    .logo img {
+      max-width: 90%;
+      max-height: 9rem;
+      margin-bottom: initial;
+    }
+    li {
+      max-height: 11rem;
+    }
+  }
 </style>
 
 <FilteredDisplay title="Events" filter={eventFilter} items={$events}>
@@ -67,24 +109,35 @@ li {
     <EventFilters filter={eventFilter} />
   </div>
   <div slot="items" let:items={filteredEvents}>
-    <button on:click={() => $goto("/events/new")} type="submit" class="btn btn-primary mb-2">Create Event</button>
+    <button
+      on:click={() => $goto("/events/new")}
+      type="submit"
+      class="btn btn-primary mb-2">Create Event</button>
     {#if $loading}
       <p>⏳ Retrieving events...</p>
-    {:else if filteredEvents.length }
+    {:else if filteredEvents.length}
+      {scrollToEvent(filteredEvents)}
       <ol class="list-unstyled">
-        {#each filteredEvents as event (event.id) }
-          <li class="border rounded mb-2 p-2"
-              animate:flip="{{ duration: 350 }}"
-              in:fade>
+        {#each filteredEvents as event, i (event.id)}
+          <li
+            id="event-{i + 1}"
+            class="rounded mb-2 p-2 event-item {$params.scrollTo &&
+            event.id == $params.scrollTo
+              ? 'blinking'
+              : ''}"
+            animate:flip={{ duration: 350 }}
+            in:fade>
             <div class="row align-items-center">
-              <div class="col-md-4 col-sm-5 logo">
-                <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
+              <div class="col-md-4 col-sm-5 flex justify-center align-items-center logo">
+                <img src={logoUrl(event) || "logo.svg"} alt="event logo" />
               </div>
               <div class="col">
-                <div style="display: flex">
+                <div class="flex">
                   <h4 style="padding-right: 10px">{event.name}</h4>
                   {#if event.created_by.id == $me.id}
-                    <a style="paddding-top: 5px" href="/events/{ encodeURIComponent(event.id) }/edit">
+                    <a
+                      style="paddding-top: 5px"
+                      href="/events/{encodeURIComponent(event.id)}/edit">
                       <Icon style="padding-top: 2px;" icon={faEdit} />
                     </a>
                   {/if}
@@ -96,7 +149,7 @@ li {
                 </div>
 
                 {#if event.more_info_url}
-                  <a href="{event.more_info_url}" target="_blank">
+                  <a href={event.more_info_url} target="_blank">
                     <Icon icon={faExternalLinkAlt} />
                     <small class="align-bottom">Event Website</small>
                   </a>
@@ -104,11 +157,15 @@ li {
               </div>
               <div class="col-auto align-self-start">
                 <div class="event-buttons-container">
-                  <a href="/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
-                  {#if isParticipant($me, event) }
+                  <a
+                    href="/requests?event={encodeURIComponent(event.id)}"
+                    class="btn btn-primary d-block m-2">View Requests</a>
+                  {#if isParticipant($me, event)}
                     <button class="btn btn-light d-block m-2" disabled>Added</button>
                   {:else}
-                    <button class="btn btn-secondary d-block m-2" on:click="{ () => join(event.id) }">Add to my events</button>
+                    <button
+                      class="btn btn-secondary d-block m-2"
+                      on:click={() => join(event.id)}>Add to my events</button>
                   {/if}
                 </div>
               </div>

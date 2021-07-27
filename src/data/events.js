@@ -16,6 +16,7 @@ export function init() {
   loadEvents()
 
   onClear(reset)
+  isInitialized.set(true)
 }
 
 export async function create(event) {
@@ -31,6 +32,9 @@ export async function create(event) {
   })
 
   events.update(currentEvents => [newEvent, ...currentEvents])
+  sort()
+
+  return newEvent
 }
 
 export async function update(event) {
@@ -45,6 +49,7 @@ export async function update(event) {
   })
 
   updateLocalEvents(updatedEvent)
+  sort()
 
   return updatedEvent
 }
@@ -57,11 +62,14 @@ async function loadEvents() {
   events.set(evts)
 
   loading.set(false)
-  isInitialized.set(true)
 }
 
 function reset() {
   events.set([])
+}
+
+function sort() {
+  events.update(currentEvents => currentEvents.sort((a, b) => new Date(a.start_date) - new Date(b.start_date)))
 }
 
 const updateLocalEvents = updatedEvent => {

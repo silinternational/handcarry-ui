@@ -32,17 +32,19 @@
     assertHas(event.end_date, 'Please tell us the end date')
     let startDate = new Date(event.start_date)
     let endDate = new Date(event.end_date)
-    console.log(startDate, endDate, startDate > endDate)
     assertHas(startDate <= endDate, "Start date can't be after end date")
   }
 
   async function onSubmit() {
     validate(event)
 
-    if (isNew) await create(event)
-    else await update(event)
-
-    $goto(`/events`)
+    if (isNew) {
+      let newEvent = await create(event)
+      $goto(`/events?scrollTo=${newEvent.id}`)
+    } else {
+      await update(event)
+      $goto(`/events`)
+    } 
 
   }
 
