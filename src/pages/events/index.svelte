@@ -19,6 +19,7 @@ const format = date => new Date(date).toLocaleDateString([], {
 const logoUrl = event => event.image_file?.url || ''
 
 let eventFilter = {}
+let goingToEventWebsite = false
 
 $: eventFilter = populateEventFilterFrom($params, $me)
 </script>
@@ -80,7 +81,10 @@ li {
           <li class="border rounded mb-2 p-2"
               animate:flip="{{ duration: 350 }}"
               in:fade
-              on:click={() => $goto(`/events/${event.id}`)}>
+              on:click={() => {
+                if (!goingToEventWebsite) $goto(`/events/${event.id}`)
+                else goingToEventWebsite = false
+              }}>
             <div class="row align-items-center">
               <div class="col-md-4 col-sm-5 logo">
                 <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
@@ -94,7 +98,7 @@ li {
                 </div>
 
                 {#if event.more_info_url}
-                  <a href="{event.more_info_url}" target="_blank">
+                  <a on:click={() => goingToEventWebsite = true} href="{event.more_info_url}" target="_blank">
                     <Icon icon={faExternalLinkAlt} />
                     <small class="align-bottom">Event Website</small>
                   </a>
