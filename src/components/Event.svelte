@@ -1,6 +1,5 @@
 <script>
   import { getOneEvent, deleteOneEvent } from '../data/events'
-  import { me } from '../data/user'
   import { goto, params } from '@roxi/routify'
 
   let event = {}

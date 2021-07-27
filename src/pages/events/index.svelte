@@ -22,8 +22,9 @@
   const logoUrl = event => event.image_file?.url || ""
 
   let eventFilter = {}
+  let goingToEventWebsite = false
 
-  $: eventFilter = populateEventFilterFrom($params)
+  $: eventFilter = populateEventFilterFrom($params, $me)
 
   function scrollToEvent(filteredEvents) {
     if ($params.scrollTo) {
@@ -120,7 +121,10 @@
               class="rounded mb-2 p-2 event-item {$params.scrollTo && event.id == $params.scrollTo ? 'blinking' : ''}"
               animate:flip="{{ duration: 350 }}"
               in:fade
-              on:click={() => $goto(`/events/${event.id}`)}>
+              on:click={() => {
+                if (!goingToEventWebsite) $goto(`/events/${event.id}`)
+                else goingToEventWebsite = false
+              }}>
             <div class="row align-items-center">
               <div class="col-md-4 col-sm-5 flex justify-center align-items-center logo">
                 <img src="{logoUrl(event) || 'logo.svg'}" alt="event logo" />
@@ -134,7 +138,7 @@
                 </div>
 
                 {#if event.more_info_url}
-                  <a href={event.more_info_url} target="_blank">
+                  <a on:click={() => goingToEventWebsite = true} href="{event.more_info_url}" target="_blank">
                     <Icon icon={faExternalLinkAlt} />
                     <small class="align-bottom">Event Website</small>
                   </a>
