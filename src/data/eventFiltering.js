@@ -35,6 +35,5 @@ export function populateEventFilterFrom(queryStringData) {
 }
 
 export function isParticipant(event) {
-  // `has_joined` is not always provided, so we should explicitly check against `true`
-  return event.has_joined === true
+  return !!event.has_joined
 }
