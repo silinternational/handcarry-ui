@@ -16,6 +16,7 @@ export function init() {
   loadEvents()
 
   onClear(reset)
+  isInitialized.set(true)
 }
 
 export async function create(event) {
@@ -30,7 +31,8 @@ export async function create(event) {
     emails: event.emails,
   })
 
-  loadEvents()
+  events.update(currentEvents => [newEvent, ...currentEvents])
+  sort()
 
   return newEvent
 }
@@ -46,7 +48,8 @@ export async function update(event) {
     more_info_url: event.more_info_url,
   })
 
-  loadEvents()
+  updateLocalEvents(updatedEvent)
+  sort()
 
   return updatedEvent
 }
@@ -59,11 +62,14 @@ async function loadEvents() {
   events.set(evts)
 
   loading.set(false)
-  isInitialized.set(true)
 }
 
 function reset() {
   events.set([])
+}
+
+function sort() {
+  events.update(currentEvents => currentEvents.sort((a, b) => new Date(a.start_date) - new Date(b.start_date)))
 }
 
 const updateLocalEvents = updatedEvent => {

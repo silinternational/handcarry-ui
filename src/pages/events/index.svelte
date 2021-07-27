@@ -1,62 +1,51 @@
 <script>
-  import EventFilters from "components/EventFilters.svelte";
-  import FilteredDisplay from "components/FilteredDisplay.svelte";
-  import {
-    isParticipant,
-    populateEventFilterFrom,
-  } from "data/eventFiltering.js";
-  import { join, events, loading } from "data/events.js";
-  import { me } from "data/user.js";
+  import EventFilters from "components/EventFilters.svelte"
+  import FilteredDisplay from "components/FilteredDisplay.svelte"
+  import { isParticipant, populateEventFilterFrom } from "data/eventFiltering.js"
+  import { join, events, loading } from "data/events.js"
+  import { me } from "data/user.js"
 
-  import Icon from "fa-svelte";
-  import { faExternalLinkAlt, faEdit } from "@fortawesome/free-solid-svg-icons";
-  import { goto, params } from "@roxi/routify";
-  import * as animateScroll from "svelte-scrollto";
-  import { flip } from "svelte/animate";
-  import { fade } from "svelte/transition";
+  import Icon from "fa-svelte"
+  import { faExternalLinkAlt, faEdit } from "@fortawesome/free-solid-svg-icons"
+  import { goto, params } from "@roxi/routify"
+  import * as animateScroll from "svelte-scrollto"
+  import { flip } from "svelte/animate"
+  import { fade } from "svelte/transition"
 
-  const format = (date) =>
+  const format = date =>
     new Date(date).toLocaleDateString([], {
       month: "short",
       day: "numeric",
       year: "numeric",
       timeZone: "UTC",
     });
-  const logoUrl = (event) => event.image_file?.url || "";
+  const logoUrl = event => event.image_file?.url || ""
 
-  let eventFilter = {};
-  // let scrollTo = $params.scrollTo
+  let eventFilter = {}
 
-  $: eventFilter = populateEventFilterFrom($params, $me);
+  $: eventFilter = populateEventFilterFrom($params, $me)
 
   function scrollToEvent(filteredEvents) {
     if ($params.scrollTo) {
-      let eventNum;
+      let eventNum
 
       filteredEvents.forEach((val, i) => {
-        if (val.id == $params.scrollTo) eventNum = i + 1;
+        if (val.id == $params.scrollTo) eventNum = i + 1
       });
 
-      if (!eventNum) return;
-
-      let eventId = `#event-${eventNum}`;
+      if (!eventNum) return "";
+      let eventId = `#event-${eventNum}`
 
       setTimeout(() => {
         animateScroll.scrollTo({
           element: eventId,
           duration: 1000,
         });
-      }, 1000);
-
-      // if the 'scrollTo' url parameter should be removed from the url, uncomment this and the 'scrollTo'
-      // variable above and then change all the '$params.scrollTo' to just 'scrollTo'
-
-      // let stateObj = { id: "100" };
-      // window.history.replaceState(stateObj, "Events", "/events");
+      }, 1000)
 
     }
 
-    return "";
+    return ""
   }
 </script>
 
@@ -64,14 +53,15 @@
   @keyframes event-blinking {
     25% {
       border-color: #dee2e6;
+      background-color: white;
     }
-    43.75%,
-    81.25% {
+    43.75%, 81.25% {
       border-color: #85888a;
+      background-color: #f5f5f5;
     }
-    62.5%,
-    100% {
+    62.5%, 100% {
       border-color: #dee2e6;
+      background-color: white;
     }
   }
 
@@ -80,9 +70,7 @@
   }
 
   .event-item {
-    border-style: solid;
-    border-width: 1px;
-    border-color: #dee2e6;
+    border: 1px solid #dee2e6;
   }
 
   .event-buttons-container .btn {
@@ -91,12 +79,6 @@
 
   .event-buttons-container .btn:disabled {
     cursor: unset;
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   /* these will get used only on XS screens */
@@ -130,8 +112,7 @@
     <button
       on:click={() => $goto("/events/new")}
       type="submit"
-      class="btn btn-primary mb-2">Create Event</button
-    >
+      class="btn btn-primary mb-2">Create Event</button>
     {#if $loading}
       <p>⏳ Retrieving events...</p>
     {:else if filteredEvents.length}
@@ -145,20 +126,18 @@
               ? 'blinking'
               : ''}"
             animate:flip={{ duration: 350 }}
-            in:fade
-          >
+            in:fade>
             <div class="row align-items-center">
-              <div class="col-md-4 col-sm-5 logo">
+              <div class="col-md-4 col-sm-5 flex justify-center align-items-center logo">
                 <img src={logoUrl(event) || "logo.svg"} alt="event logo" />
               </div>
               <div class="col">
-                <div style="display: flex">
+                <div class="flex">
                   <h4 style="padding-right: 10px">{event.name}</h4>
                   {#if event.created_by.id == $me.id}
                     <a
                       style="paddding-top: 5px"
-                      href="/events/{encodeURIComponent(event.id)}/edit"
-                    >
+                      href="/events/{encodeURIComponent(event.id)}/edit">
                       <Icon style="padding-top: 2px;" icon={faEdit} />
                     </a>
                   {/if}
@@ -180,17 +159,13 @@
                 <div class="event-buttons-container">
                   <a
                     href="/requests?event={encodeURIComponent(event.id)}"
-                    class="btn btn-primary d-block m-2">View Requests</a
-                  >
+                    class="btn btn-primary d-block m-2">View Requests</a>
                   {#if isParticipant($me, event)}
-                    <button class="btn btn-light d-block m-2" disabled
-                      >Added</button
-                    >
+                    <button class="btn btn-light d-block m-2" disabled>Added</button>
                   {:else}
                     <button
                       class="btn btn-secondary d-block m-2"
-                      on:click={() => join(event.id)}>Add to my events</button
-                    >
+                      on:click={() => join(event.id)}>Add to my events</button>
                   {/if}
                 </div>
               </div>
