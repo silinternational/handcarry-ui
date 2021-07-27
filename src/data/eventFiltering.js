@@ -11,7 +11,7 @@ export function clearEventFilter() {
 }
 
 /** NOTE: All values used here should be cleared by `clearEventFilter()` */
-export function populateEventFilterFrom(queryStringData, me) {
+export function populateEventFilterFrom(queryStringData) {
   return {
     location: {
       active: !! queryStringData.location,
@@ -22,7 +22,7 @@ export function populateEventFilterFrom(queryStringData, me) {
     participating: {
       active: queryStringData.hasOwnProperty('participating'),
       label: 'Only my events',
-      isMatch: event => isParticipant(me, event),
+      isMatch: event => isParticipant(event),
       value: queryStringData.hasOwnProperty('participating'),
     },
     search: {
@@ -34,7 +34,6 @@ export function populateEventFilterFrom(queryStringData, me) {
   }
 }
 
-export function isParticipant(user, event) {
-  const participantUserIds = event.participants.map(participant => participant.user.id)
-  return participantUserIds.some(id => id === user.id)
+export function isParticipant(event) {
+  return !!event.has_joined
 }

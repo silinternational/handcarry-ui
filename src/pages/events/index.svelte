@@ -23,7 +23,7 @@
 
   let eventFilter = {}
 
-  $: eventFilter = populateEventFilterFrom($params, $me)
+  $: eventFilter = populateEventFilterFrom($params)
 
   function scrollToEvent(filteredEvents) {
     if ($params.scrollTo) {
@@ -157,15 +157,11 @@
               </div>
               <div class="col-auto align-self-start">
                 <div class="event-buttons-container">
-                  <a
-                    href="/requests?event={encodeURIComponent(event.id)}"
-                    class="btn btn-primary d-block m-2">View Requests</a>
-                  {#if isParticipant($me, event)}
+                  <a href="/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
+                  {#if isParticipant(event) }
                     <button class="btn btn-light d-block m-2" disabled>Added</button>
                   {:else}
-                    <button
-                      class="btn btn-secondary d-block m-2"
-                      on:click={() => join(event.id)}>Add to my events</button>
+                    <button class="btn btn-secondary d-block m-2" on:click="{ () => join(event.id) }">Add to my events</button>
                   {/if}
                 </div>
               </div>
