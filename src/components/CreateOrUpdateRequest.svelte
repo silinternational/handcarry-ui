@@ -35,6 +35,7 @@ $: eventId = existingRequest?.meeting?.id
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
+$: myEvents = $events?.filter(e => e.has_joined) || []
 
 function initializeUpdates(requestBeingEdited) {
   request = Object.assign({}, requestBeingEdited)
@@ -133,14 +134,14 @@ function onWeightChanged(event) {
 
     <div class="col">
       <div class="form-group">
-        {#if $events.length}
+        {#if myEvents.length}
           Select a location:
         {/if}
         <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
                        placeholder="Destination" location={request.destination} />
-        {#if $events.length}
+        {#if myEvents.length}
           Or choose an event:
-          <EventSelect class="form-control form-control-lg" events={$events} {eventId} on:change={onEventChange} />
+          <EventSelect class="form-control form-control-lg" events={myEvents} {eventId} on:change={onEventChange} />
         {/if}
       </div>
     </div>
