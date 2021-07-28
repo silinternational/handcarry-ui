@@ -19,6 +19,33 @@ export function init() {
   isInitialized.set(true)
 }
 
+export async function inviteUsers(id, emails, sendEmail) {
+  try {
+    loading.set(true)
+
+    // TODO: redo when it is known what the format will be
+    // return await PUT(`events/${id}/invite`, {emails: emails, sendEmail: sendEmail})
+    console.log(emails)
+    return null
+  } catch (err) {
+    throw err
+  } finally {
+    loading.set(false)
+  }
+}
+
+export async function getOneEvent(id) {
+  try {
+    loading.set(true)
+
+    return await GET(`/events/${id}`)
+  } catch (err) {
+    throw err
+  } finally {
+    loading.set(false)
+  }
+}
+
 export async function create(event) {
   const newEvent = await POST('events', {
     name: event.name,
