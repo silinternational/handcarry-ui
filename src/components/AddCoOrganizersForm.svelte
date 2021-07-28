@@ -1,23 +1,22 @@
 <script>
-  import { getOneEvent, inviteUsers } from 'data/events.js'
+  import { getOneEvent, addCoOrganizers } from 'data/events.js'
   import { throwError, reset } from 'data/error.js'
   import { goto, params } from '@roxi/routify'
 
   let event = {}
   let emails
-  let sendEmail = false
 
   $: $params.eventId && getOneEvent($params.eventId).then(e => event = e)
 
   /**
    * @description a function to handle submiting of invites
    */
-  async function submitInvites() {
-    if (!emails) return throwError("Please provide emails to invite")
+  async function submitCoOrganizers() {
+    if (!emails) return throwError("Please provide emails to add as co-organizers")
 
     let parsedEmails = parseEmails(emails)
 
-    await inviteUsers($params.eventId, parsedEmails, sendEmail)
+    await addCoOrganizers($params.eventId, parsedEmails)
 
     $goto("/events")
     // TODO: use this when feature/meeting-detail branch is merged
@@ -86,12 +85,6 @@
     background-color: #e9ebf0;
   }
 
-  .send-email-label {
-    margin: 5px;
-    display: inline !important;
-    line-height: 1.25 !important
-  }
-
   #emails {
     margin-top: 0 !important;
     width: 100%;
@@ -100,28 +93,19 @@
     padding: 15px;
     resize: none;
   }
-  #send-email {
-    margin: 5px;
-    margin-bottom: 10px !important;
-    width: 20px;
-  }
 </style>
 
 {#if event.id }
   <div class="text-align-center">
     <div class="col-6 form-container">
-      <h2>Invite Participants to {event.name}</h2>
-      <form on:submit|preventDefault={submitInvites}>
-        <label style="margin: 10px !important;" for="emails">Paste in a list of email addresses seperated by new lines or commas.</label>
+      <h2>Add Co-organizers to {event.name}</h2>
+      <form on:submit|preventDefault={submitCoOrganizers}>
+        <label style="margin: 10px !important;" for="emails">Co-organizers can update this event and invite participants. Paste in a list of email addresses seperated by new lines or commas. An email will be sent notifying them of their new role for this event.</label>
         <textarea rows="4" id="emails" placeholder="Paste email addresses here" bind:value={emails} />
         <br />
-        <div class="flex text-align-left" style="margin: 0 !important;">
-          <input id="send-email" type="checkbox" bind:checked={sendEmail} />
-          <label class="send-email-label" for="send-email">Send email with unique link to each participant to join the {event.name} event on WeCarry.</label>
-        </div>
         <div class="flex justify-between">
           <button id="cancel-button" on:click={() => $goto(`/events/${ encodeURIComponent(event.id) }`)}>{"<<"} Cancel</button>
-          <input class="btn btn-primary d-block m-2 invite-submit" type="submit" value="Submit">
+          <input class="btn btn-primary d-block m-2 invite-submit" type="submit" value="Add">
         </div>
       </form>
     </div>

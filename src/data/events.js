@@ -19,6 +19,20 @@ export function init() {
   isInitialized.set(true)
 }
 
+export async function addCoOrganizers(id, emails) {
+  try {
+    loading.set(true)
+
+    // TODO: redo when it is known what the format will be
+    // return await POST(`/events/${id}/invite`, {emails: emails})
+    console.log(emails)
+  } catch(err) {
+    throw err
+  } finally {
+    loading.set(false)
+  }
+}
+
 export async function inviteUsers(id, emails, sendEmail) {
   try {
     loading.set(true)
