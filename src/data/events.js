@@ -19,6 +19,24 @@ export function init() {
   isInitialized.set(true)
 }
 
+/**
+ * 
+ * @description a function to cancel an invite for an event
+ * @param {String} eventId 
+ * @returns {Object}
+ */
+export async function cancelInvite(eventId, inviteEmail) {
+  try {
+    loading.set(true)
+
+    return await DELETE(`/events/${eventId}/invite`, {invite_email: inviteEmail})
+  } catch (err) {
+    throw err
+  } finally {
+    loading.set(false)
+  }
+} 
+
 export async function getOneEvent(id) {
   try {
     loading.set(true)
@@ -35,9 +53,8 @@ export async function deleteOneEvent(id) {
   try {
     loading.set(true)
 
-    await DELETE(`/events/${id}`)
-    loadEvents()
-    return null
+    setTimeout(() => events.update(currentEvents => currentEvents.filter(e => e.id != id)), 1000)
+    return await DELETE(`/events/${id}`)
   } catch (err) {
     throw err 
   } finally {
