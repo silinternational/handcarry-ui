@@ -1,9 +1,5 @@
 import { writable } from 'svelte/store'
-<<<<<<< HEAD
-import { GET, POST, PUT } from './api'
-=======
-import { DELETE, GET, POST } from './api'
->>>>>>> Added a delete button to the meeting details
+import { DELETE, GET, POST, PUT } from './api'
 import { onClear } from './storage'
 
 export const events = writable([])

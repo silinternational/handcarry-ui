@@ -65,39 +65,42 @@
       background-color: white;
     }
   }
-
   .blinking {
     animation: event-blinking 4s;
   }
-
   .event-item {
     border: 1px solid #dee2e6;
   }
-
   .event-buttons-container .btn {
     width: 10em;
   }
-
   .event-buttons-container .btn:disabled {
     cursor: unset;
   }
-
-  .event-title-link {
-    text-decoration: none;
-    color: black;
-  }
-
+  /* these will get used only on XS screens */
   .logo img {
     max-height: 5rem;
     margin-bottom: 2rem;
   }
   li {
-    max-height: 11rem;
+    max-height: inital;
     cursor: pointer;
   }
-
   li:hover {
     background-color: #f5f5f5;
+  }
+  
+  /* https://getbootstrap.com/docs/4.4/layout/overview/#responsive-breakpoints */
+  /* these will get used on everything above XS screens using bootstrap's breakpoint settings */
+  @media (min-width: 576px) {
+    .logo img {
+      max-width: 90%;
+      max-height: 9rem;
+      margin-bottom: initial;
+    }
+    li {
+      max-height: 11rem;
+    }
   }
 </style>
 
