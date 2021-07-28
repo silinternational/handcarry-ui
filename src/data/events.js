@@ -45,6 +45,32 @@ export async function deleteOneEvent(id) {
   }
 }
 
+export async function getOneEvent(id) {
+  try {
+    loading.set(true)
+
+    return await GET(`/events/${id}`)
+  } catch (err) {
+    throw err
+  } finally {
+    loading.set(false)
+  }
+}
+
+export async function deleteOneEvent(id) {
+  try {
+    loading.set(true)
+
+    await DELETE(`/events/${id}`)
+    loadEvents()
+    return null
+  } catch (err) {
+    throw err 
+  } finally {
+    loading.set(false)
+  }
+}
+
 export async function create(event) {
   const newEvent = await POST('events', {
     name: event.name,
