@@ -104,7 +104,7 @@
         <textarea rows="4" id="emails" placeholder="Paste email addresses here" bind:value={emails} />
         <br />
         <div class="flex justify-between">
-          <button id="cancel-button" on:click={() => $goto(`/events/${ encodeURIComponent(event.id) }`)}>{"<<"} Cancel</button>
+          <button id="cancel-button" on:click|preventDefault={() => $goto(`/events/${ encodeURIComponent(event.id) }`)}>{"<<"} Cancel</button>
           <input class="btn btn-primary d-block m-2 invite-submit" type="submit" value="Add">
         </div>
       </form>

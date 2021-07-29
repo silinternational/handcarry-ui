@@ -120,7 +120,7 @@
           <label class="send-email-label" for="send-email">Send email with unique link to each participant to join the {event.name} event on WeCarry.</label>
         </div>
         <div class="flex justify-between">
-          <button id="cancel-button" on:click={() => $goto(`/events/${ encodeURIComponent(event.id) }`)}>{"<<"} Cancel</button>
+          <button id="cancel-button" on:click|preventDefault={() => $goto(`/events/${ encodeURIComponent(event.id) }`)}>{"<<"} Cancel</button>
           <input class="btn btn-primary d-block m-2 invite-submit" type="submit" value="Submit">
         </div>
       </form>
