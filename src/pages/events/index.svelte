@@ -22,7 +22,7 @@
   const logoUrl = event => event.image_file?.url || ""
 
   let eventFilter = {}
-  let goingToEventWebsite = false
+  let goingElseWhere = false
 
   $: eventFilter = populateEventFilterFrom($params, $me)
 
@@ -65,6 +65,11 @@
       background-color: white;
     }
   }
+
+  .added-button {
+    background-color: lightgrey;
+  }
+
   .blinking {
     animation: event-blinking 4s;
   }
@@ -125,8 +130,8 @@
               animate:flip="{{ duration: 350 }}"
               in:fade
               on:click={() => {
-                if (!goingToEventWebsite) $goto(`/events/${event.id}`)
-                else goingToEventWebsite = false
+                if (!goingElseWhere) $goto(`/events/${event.id}`)
+                else goingElseWhere = false
               }}>
             <div class="row align-items-center">
               <div class="col-md-4 col-sm-5 flex justify-center align-items-center logo">
@@ -141,7 +146,7 @@
                 </div>
 
                 {#if event.more_info_url}
-                  <a on:click={() => goingToEventWebsite = true} href="{event.more_info_url}" target="_blank">
+                  <a on:click={() => goingElseWhere = true} href="{event.more_info_url}" target="_blank">
                     <Icon icon={faExternalLinkAlt} />
                     <small class="align-bottom">Event Website</small>
                   </a>
@@ -149,11 +154,11 @@
               </div>
               <div class="col-auto align-self-start">
                 <div class="event-buttons-container">
-                  <a href="/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
+                  <a on:click={ () => goingElseWhere = true} href="/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
                   {#if isParticipant(event) }
-                    <button class="btn btn-light d-block m-2" disabled>Added</button>
+                    <button class="btn btn-light d-block m-2 added-button" on:click={ () => { console.log("Un Added"); goingElseWhere = true }}>Added</button>
                   {:else}
-                    <button class="btn btn-secondary d-block m-2" on:click="{ () => join(event.id) }">Add to my events</button>
+                    <button class="btn btn-secondary d-block m-2" on:click={ () => { join(event.id); goingElseWhere = true }}>Add to my events</button>
                   {/if}
                 </div>
               </div>
