@@ -37,10 +37,8 @@ export async function inviteUsers(id, emails, sendEmail) {
   try {
     loading.set(true)
 
-    // TODO: redo when it is known what the format will be
-    // return await PUT(`events/${id}/invite`, {emails: emails, sendEmail: sendEmail})
-    console.log(emails)
-    return null
+    // TODO: add support for 'sendEmail' field to determine wether to send an invite email to the user(s)
+    return await POST(`events/${id}/invite`, {emails: emails, send_email: sendEmail})
   } catch (err) {
     throw err
   } finally {
