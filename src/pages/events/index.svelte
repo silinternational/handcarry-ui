@@ -156,6 +156,7 @@
                 <div class="event-buttons-container">
                   <a on:click={ () => goingElseWhere = true} href="/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-2">View Requests</a>
                   {#if isParticipant(event) }
+                    <!--TODO: add support for leaving an event-->
                     <button class="btn btn-light d-block m-2 added-button" on:click={ () => { console.log("Un Added"); goingElseWhere = true }}>Added</button>
                   {:else}
                     <button class="btn btn-secondary d-block m-2" on:click={ () => { join(event.id); goingElseWhere = true }}>Add to my events</button>

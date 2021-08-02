@@ -1,5 +1,5 @@
 <script>
-  import { getOneEvent, deleteOneEvent, cancelInvite } from "data/events.js";
+  import { getOneEvent, deleteOneEvent, cancelInvite, removeParticipant } from "data/events.js";
   import { goto, params } from "@roxi/routify";
   import { flip } from "svelte/animate"
   import { fade, slide, fly, scale } from "svelte/transition"
@@ -27,6 +27,12 @@
     return (output += orgs[orgs.length - 1].name);
   };
 
+  async function handleParticipantRemove(participant) {
+    // await removeParticipant(event.id, participant.id)
+
+    event.participants = event.participants.filter(p => p.id != participant.id)
+  }
+
   async function handleDelete() {
     deleteOneEvent(event.id);
 
@@ -36,7 +42,7 @@
   async function handleCancelInvite(invite) {
     await cancelInvite(event.id, invite.email);
 
-    event.invites = event.invites.filter((i) => i.email != invite.email);
+    event.invites = event.invites.filter(i => i.email != invite.email);
   }
 
   function getOrganizers() {
@@ -222,7 +228,8 @@
                 <!--TODO FUTURE: add support for user specific orgs (can't access them right now)-->
                 <td>{wasInvited(participant) ? "Invited" : "Opt-In"}</td>
                 <!--TODO: add support for the delete participant endpoint-->
-                <!-- <td><a href="/events/{ encodeURIComponent(event.id) }/delete">Delete</a></td> -->
+                <!-- svelte-ignore a11y-invalid-attribute -->
+                <td><a on:click|preventDefault={() => handleParticipantRemove(participant)} href="">Remove</a></td>
               </tr>
             {/each}
           </table>

@@ -21,6 +21,24 @@ export function init() {
 
 /**
  * 
+ * @param {*} eventId 
+ * @param {*} participantId 
+ * @returns 
+ */
+export async function removeParticipant(eventId, participantId) {
+  try {
+    loading.set(true)
+
+    return await DELETE(`/events/${eventId}/participant/${participantId}`)
+  } catch (err) {
+    throw err
+  } finally {
+    loading.set(false)
+  }
+}
+
+/**
+ * 
  * @description a function to cancel an invite for an event
  * @param {String} eventId 
  * @returns {Object}
