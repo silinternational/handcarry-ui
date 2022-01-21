@@ -1,14 +1,15 @@
 <script>
-import { me } from '../data/user'
+import OtherRequestsBy from 'components/OtherRequestsBy.svelte'
+import RequestImage from 'components/RequestImage.svelte'
+import RequestMessaging from 'components/RequestMessaging.svelte'
+import SizeTile from 'components/SizeTile.svelte'
+import UserAvatar from 'components/UserAvatar.svelte'
+import WeightDisplay from 'components/WeightDisplay.svelte'
+import { getOneRequest, loading } from 'data/requests.js'
+import { me } from 'data/user.js'
+import { describeVisibility } from 'data/visibility.js'
+
 import { params, redirect } from '@roxi/routify'
-import RequestImage from './RequestImage.svelte'
-import SizeTile from './SizeTile.svelte'
-import { getOneRequest, loading } from '../data/requests'
-import UserAvatar from './UserAvatar.svelte'
-import RequestMessaging from './RequestMessaging.svelte'
-import OtherRequestsBy from './OtherRequestsBy.svelte'
-import { describeVisibility } from '../data/visibility.js'
-import WeightDisplay from './WeightDisplay.svelte'
 
 const dlTermColumns        = 'col-12 col-md-5 col-lg-3'
 const dlDescriptionColumns = 'col-12 col-md-7 col-lg-9'
@@ -19,8 +20,8 @@ $: conversationId = $params.conversationId
 $: $params.requestId && getOneRequest($params.requestId).then(r => request = r)
 $: requester = request.created_by || {}
 $: isMine = $me.id && (requester.id === $me.id) // Check $me.id first to avoid `undefined === undefined`
-$: destination = (request.destination && request.destination.description) || ''
-$: origin = (request.origin && request.origin.description) || ''
+$: destination = request.destination?.description || ''
+$: origin = request.origin?.description || ''
 
 function goToConversation(conversationId) {
   $redirect(`/requests/${$params.requestId}/conversation/${conversationId}`)
@@ -66,7 +67,16 @@ function goToConversation(conversationId) {
           <h3 class="card-title">{ request.title || ''}</h3>
           <dl class="row">
             <dt class={dlTermColumns}>Deliver to</dt>
-            <dd class={dlDescriptionColumns}>{ destination }</dd>
+            <dd class={dlDescriptionColumns}>
+              { destination }
+            </dd>
+
+            {#if request.meeting}
+              <dt class={dlTermColumns}>Event</dt>
+              <dd class={dlDescriptionColumns}>
+                {request.meeting?.name || ''}
+              </dd>
+            {/if}
 
             <dt class={dlTermColumns}>From</dt>
             <dd class={dlDescriptionColumns}>
@@ -77,7 +87,7 @@ function goToConversation(conversationId) {
               {/if}
             </dd>
 
-            {#if isMine && request.visibility }
+            {#if request.is_editable && request.visibility }
               <dt class={dlTermColumns}>Visible to</dt>
               <dd class={dlDescriptionColumns}>{ describeVisibility(request.visibility, [request.organization]) }</dd>
             {/if}

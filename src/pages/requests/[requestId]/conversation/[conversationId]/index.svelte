@@ -1,5 +1,5 @@
 <script>
-import Request from '../../../../../components/Request.svelte'
+import Request from 'components/Request.svelte'
 
 </script>
 

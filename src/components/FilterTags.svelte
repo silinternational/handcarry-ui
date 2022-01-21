@@ -1,11 +1,12 @@
 <script>
-import { isActive, getActiveFilterKeys } from '../data/filtering'
-import FilterTag from './FilterTag.svelte'
+import CreateWatch from 'components/CreateWatch.svelte'
+import FilterTag from 'components/FilterTag.svelte'
+import { isActive, getActiveFilterKeys } from 'data/filtering.js'
+
 import { createEventDispatcher } from 'svelte'
-import { flip } from 'svelte/animate';
-import { quintInOut } from 'svelte/easing';
-import { crossfade } from 'svelte/transition';
-import CreateWatch from './CreateWatch.svelte'
+import { flip } from 'svelte/animate'
+import { quintInOut } from 'svelte/easing'
+import { crossfade } from 'svelte/transition'
 
 export let filter = {}
 

@@ -1,8 +1,8 @@
 <script>
-import GooglePlacesAutocomplete from '@silintl/svelte-google-places-autocomplete'
-import { createEventDispatcher } from 'svelte'
 import Icon from 'fa-svelte'
 import { faMapMarkerAlt } from '@fortawesome/free-solid-svg-icons'
+import GooglePlacesAutocomplete from '@silintl/svelte-google-places-autocomplete'
+import { createEventDispatcher } from 'svelte'
 
 export let placeholder
 export let location = null

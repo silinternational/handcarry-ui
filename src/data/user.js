@@ -2,7 +2,7 @@ import { writable, get } from 'svelte/store'
 import {
   changedNickname,
   changedAvatar,
- } from '../data/analytics'
+ } from 'data/analytics.js'
 import { GET, PUT } from './api'
 import { onClear } from './storage'
 

@@ -1,11 +1,11 @@
 <script>
-import { conversations, listOtherParticipants } from '../data/messaging'
+import Messaging from 'components/Messaging.svelte'
+import RequestAction from 'components/RequestAction.svelte'
+import { sentMessage } from 'data/analytics.js'
+import { conversations, listOtherParticipants, send } from 'data/messaging.js'
+import { me } from 'data/user.js'
+
 import { createEventDispatcher } from 'svelte'
-import { me } from '../data/user'
-import Messaging from '../components/Messaging.svelte'
-import { send } from '../data/messaging'
-import { sentMessage } from '../data/analytics'
-import RequestAction from './RequestAction.svelte'
 
 export let conversationId
 export let request

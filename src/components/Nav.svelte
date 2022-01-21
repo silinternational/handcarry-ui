@@ -1,17 +1,12 @@
 <script>
-import { unreads } from '../data/messaging'
-import { isActive, page } from '@roxi/routify'
+import CountIndicator from 'components/CountIndicator.svelte'
+import UserAvatar from 'components/UserAvatar.svelte'
+import { createRequestByFab, clickedLogo, createRequestByButton, choseMyRequests, choseMyCommitments } from 'data/analytics.js'
+import { logout } from 'data/auth.js'
+import { unreads } from 'data/messaging.js'
 import polyglot from '../i18n'
-import UserAvatar from './UserAvatar.svelte'
-import { logout } from '../data/auth'
-import CountIndicator from './CountIndicator.svelte'
-import {
-  createRequestByFab,
-  clickedLogo,
-  createRequestByButton,
-  choseMyRequests,
-  choseMyCommitments,
-} from '../data/analytics'
+
+import { isActive, page } from '@roxi/routify'
 
 export let user = {}
 
@@ -62,12 +57,12 @@ $: minimal = $page.path.startsWith('/welcome') || ! userIsAuthn
           </a>
         </li>
 
-<!--        <li class="nav-item">
+        <li class="nav-item">
           <a href="/events" class="nav-link" class:active={$page.path.startsWith('/events')}>
             {polyglot.t('nav-events')}
           </a>
         </li>
--->
+
         <li class="nav-item">
           <a href="/messages" class="nav-link d-flex align-items-start" class:active={$page.path.startsWith('/messages')}>
             {polyglot.t('nav-requests-messages')} <CountIndicator number={totalNumUnreads} />

@@ -1,21 +1,26 @@
 <script>
-import SizeSelector from './SizeSelector.svelte'
-import VisibilitySelector from './VisibilitySelector.svelte'
-import Uploader from './Uploader.svelte'
-import { me } from '../data/user'
-import { requests, cancel, create, update } from '../data/requests'
+import EventSelect from 'components/EventSelect.svelte'
+import LocationInput from 'components/LocationInput.svelte'
+import SizeSelector from 'components/SizeSelector.svelte'
+import VisibilitySelector from 'components/VisibilitySelector.svelte'
+import Uploader from 'components/Uploader.svelte'
+import WeightSelector from 'components/WeightSelector.svelte'
+import { updated, created, cancelled } from 'data/analytics.js'
+import { throwError } from 'data/error.js'
+import { events } from 'data/events.js'
+import { requests, cancel, create, update } from 'data/requests.js'
+import { me } from 'data/user.js'
+
 import { format, addDays } from 'date-fns'
-import LocationInput from './LocationInput.svelte'
-import WeightSelector from './WeightSelector.svelte'
 import Icon from 'fa-svelte'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { updated, created, cancelled } from '../data/analytics'
-import { throwError } from '../data/error'
 import { goto, params } from '@roxi/routify'
 
 let imageUrl = ''
+let eventId = ''
 
 const defaults = {
+
   title: '',
   description: '',
   visibility: 'SAME'
@@ -26,9 +31,11 @@ const tomorrow = format(addDays(Date.now(), 1), 'yyyy-MM-dd')
 $: existingRequest = $requests.find(({ id }) => id === $params.requestId)
 $: initializeUpdates(existingRequest || defaults)
 $: isNew = !request.id
+$: eventId = existingRequest?.meeting?.id
 $: if ($me.organizations && $me.organizations.length > 0) {
   request.viewableBy = $me.organizations[0].id
 }
+$: myEvents = $events?.filter(e => e.has_joined) || []
 
 function initializeUpdates(requestBeingEdited) {
   request = Object.assign({}, requestBeingEdited)
@@ -50,18 +57,7 @@ async function onSubmit() {
   validate(request)
 
   if (isNew) {
-    await create({
-        org_id: request.viewableBy,
-        title: request.title,
-        description: request.description,
-        destination: request.destination,
-        kilograms: request.kilograms,
-        needed_before: request.needed_before,
-        origin: request.origin,
-        photo_id: request.photo?.id,
-        size: request.size,
-        visibility: request.visibility,
-    })
+    await create(request)
 
     $goto(`/requests`)
 
@@ -88,8 +84,14 @@ async function cancelRequest() {
   cancelled()
 }
 
+function onEventChange(e) {
+  request.event_id = e.detail
+  request.destination = $events.find(({ id }) => id === e.detail).location
+}
+
 function onDestinationChanged(event) {
   request.destination = event.detail
+  request.event_id = null
 }
 
 function onOriginChanged(event) {
@@ -119,6 +121,7 @@ function onWeightChanged(event) {
       Requesting:
     </label>
 
+
     <div class="col">
       <input type="text" class="form-control form-control-lg" id="request-title" bind:value={request.title} placeholder="What?">
     </div>
@@ -131,8 +134,15 @@ function onWeightChanged(event) {
 
     <div class="col">
       <div class="form-group">
+        {#if myEvents.length}
+          Select a location:
+        {/if}
         <LocationInput class="form-control form-control-lg" on:change={onDestinationChanged}
                        placeholder="Destination" location={request.destination} />
+        {#if myEvents.length}
+          Or choose an event:
+          <EventSelect class="form-control form-control-lg" events={myEvents} {eventId} on:change={onEventChange} />
+        {/if}
       </div>
     </div>
   </div>

@@ -1,6 +1,7 @@
 <script>
-  import RequestImage from '../components/RequestImage.svelte'
-  import UserAvatar from '../components/UserAvatar.svelte'
+  import RequestImage from 'components/RequestImage.svelte'
+  import UserAvatar from 'components/UserAvatar.svelte'
+
   import { goto } from '@roxi/routify'
   import { Card } from '@silintl/ui-components'
 
@@ -8,8 +9,8 @@
   export let smaller = false;
 
   $: user = request.created_by || {}
-  $: from = request.origin?.description
-  $: to = request.meeting ? request.meeting.name : request.destination.description
+  $: from = request.origin?.description || ''
+  $: to = request.destination?.description || ''
 
   const gotoRequest = () => $goto(`/requests/${request.id}`)
 </script>

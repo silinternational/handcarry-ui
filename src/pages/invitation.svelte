@@ -1,20 +1,22 @@
 <script>
+import Login from 'components/Login.svelte'
+import { getInviteInfo } from 'data/api.js'
+
+import { goto, params } from '@roxi/routify'
 import { onMount } from 'svelte'
-import { getInviteInfo } from '../data/api'
-import Login from '../components/Login.svelte'
-import { params } from '@roxi/routify'
 
 let loading = false
 let inviteInfo = {}
 
 onMount(async () => {
-  try {
-    loading = true
+  $goto('/')
+  // try {
+  //   loading = true
 
-    inviteInfo = await getInviteInfo($params.code)
-  } finally {
-    loading = false
-  }
+  //   inviteInfo = await getInviteInfo($params.code)
+  // } finally {
+  //   loading = false
+  // }
 })
 
 const config = {

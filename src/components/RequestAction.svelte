@@ -1,12 +1,7 @@
 <script>
-import { me } from '../data/user'
-import { offer, accept, deliver, receive } from '../data/requests'
-import {
-  accepted,
-  offered,
-  trackReceived,
-  trackDelivered,
- } from '../data/analytics'
+import { accepted, offered, trackReceived, trackDelivered } from 'data/analytics.js'
+import { offer, accept, deliver, receive } from 'data/requests.js'
+import { me } from 'data/user.js'
 
 export let request
 export let conversationParticipants = []

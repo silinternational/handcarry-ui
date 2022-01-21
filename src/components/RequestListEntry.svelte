@@ -1,15 +1,16 @@
 <script>
-import RequestImage from '../components/RequestImage.svelte'
-import SizeIndicator from '../components/SizeIndicator.svelte'
-import UserAvatar from '../components/UserAvatar.svelte'
+import RequestImage from 'components/RequestImage.svelte'
+import SizeIndicator from 'components/SizeIndicator.svelte'
+import UserAvatar from 'components/UserAvatar.svelte'
+
 import { goto } from '@roxi/routify'
 
 export let request;
 
 $: user = request.created_by || {}
 $: size = request.size
-$: from = request.origin && request.origin.description
-$: to = request.meeting ? request.meeting.name : request.destination.description
+$: from = request.origin?.description || ''
+$: to = request.destination?.description || ''
 </script>
 
 <style>

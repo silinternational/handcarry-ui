@@ -1,24 +1,16 @@
 <script>
-import {
-  filteredRequestsByDestination,
-  filteredRequestsByEvent,
-  filteredRequestsByOrigin,
-  filteredRequestsBySize,
-  filteredRequestsByMine,
-  filteredRequestsByProviding,
-  filteredRequestsByAll,
-  searchedRequests,
-} from '../data/analytics'
-import { events } from '../data/events'
-import { setFilters, removeFilter } from '../data/filtering'
-import { clearRequestFilter, removeRequestFilter } from '../data/requestFiltering'
-import { isDefaultSizeFilter } from '../data/sizes'
-import { me } from '../data/user'
-import EventFilter from './EventFilter.svelte'
-import LocationFilter from './LocationFilter.svelte'
-import SearchFilter from './SearchFilter.svelte'
-import SizeFilter from './SizeFilter.svelte'
-import ToggleFilter from './ToggleFilter.svelte'
+import EventSelect from 'components/EventSelect.svelte'
+import LocationFilter from 'components/LocationFilter.svelte'
+import SearchFilter from 'components/SearchFilter.svelte'
+import SizeFilter from 'components/SizeFilter.svelte'
+import ToggleFilter from 'components/ToggleFilter.svelte'
+import { filteredRequestsByDestination, filteredRequestsByEvent, filteredRequestsByOrigin, filteredRequestsBySize, filteredRequestsByMine, filteredRequestsByProviding, filteredRequestsByAll, searchedRequests } from 'data/analytics.js'
+import { events } from 'data/events.js'
+import { setFilters, removeFilter } from 'data/filtering.js'
+import { clearRequestFilter, removeRequestFilter } from 'data/requestFiltering.js'
+import { isDefaultSizeFilter } from 'data/sizes.js'
+import { me } from 'data/user.js'
+
 import { goto } from '@roxi/routify'
 
 export let filter = {}
@@ -159,7 +151,7 @@ function resetFilters() {
     <LocationFilter title="To" placeholder="Destination" location={destination} on:change={onDestinationChange}/>
     {#if $events.length }
       <p class="mb-2 text-center text-muted">– or –</p>
-      <EventFilter events={$events} {eventId} on:change={onEventChange} />
+      <EventSelect class="form-control form-control-sm" events={$events} {eventId} on:change={onEventChange} />
     {/if}
     <hr />
     <SearchFilter title="Keyword" value={searchText} on:input={onKeywordInput} />

@@ -45,7 +45,19 @@ export async function getOneRequest(id) {
 }
 
 export async function create(request) {
-  const newRequest = await POST('requests', request)
+  const newRequest = await POST('requests', {
+    org_id: request.viewableBy,
+    title: request.title,
+    description: request.description,
+    destination: request.destination,
+    kilograms: request.kilograms,
+    needed_before: request.needed_before,
+    origin: request.origin,
+    photo_id: request.photo?.id,
+    size: request.size,
+    visibility: request.visibility,
+    meeting_id: request.event_id,
+  })
 
   requests.update(currentRequests => [newRequest, ...currentRequests])
 }
@@ -61,6 +73,7 @@ export async function update(request) {
     size: request.size,
     title: request.title,
     visibility: request.visibility,
+    meeting_id: request.event_id,
   })
 
   updateLocalRequests(updatedRequest)
