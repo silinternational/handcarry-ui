@@ -21,7 +21,7 @@ $: name = match.name || 'unknown'
 </style>
 
 <Badge {color} bordered borderRadius={'16px'} padding={'0 .5em'}>
-  <span class="capitalize fs-14">
+  <span class="capitalize fs-14 black">
     { name }
   </span>
 </Badge>
