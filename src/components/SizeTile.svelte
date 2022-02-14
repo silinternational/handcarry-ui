@@ -6,7 +6,7 @@ export let size
 export let selected = false
 export let isButton = false
 
-const nonButtonCssClasses = 'border half-p rounded text-center'
+const nonButtonCssClasses = 'border p-half rounded text-center'
 
 $: buttonCssClasses = 'btn btn-block ' + (selected ? 'btn-primary' : 'btn-outline-dark')
 $: extraCssClasses = isButton ? buttonCssClasses : nonButtonCssClasses
