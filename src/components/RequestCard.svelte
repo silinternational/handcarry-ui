@@ -69,7 +69,7 @@
 </style>
 
 <Card isClickable noPadding on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-quarter">
-  <div class="flex justify-between align-items-center black half-m px-quarter">
+  <div class="flex justify-between align-items-center black m-half px-quarter">
     <UserAvatar {user} small />
 
     <div class="header">

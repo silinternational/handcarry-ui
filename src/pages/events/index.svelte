@@ -121,7 +121,7 @@
         {#each filteredEvents as event, i (event.id)}
           <li
             id="event-{i + 1}"
-            class="rounded mb-2 half-p event-item {$params.scrollTo &&
+            class="rounded mb-2 p-half event-item {$params.scrollTo &&
             event.id == $params.scrollTo
               ? 'blinking'
               : ''}"
@@ -157,11 +157,11 @@
               </div>
               <div class="col-auto align-self-start">
                 <div class="event-buttons-container">
-                  <a href="/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block half-m">View Requests</a>
+                  <a href="/requests?event={ encodeURIComponent(event.id) }" class="btn btn-primary d-block m-half">View Requests</a>
                   {#if isParticipant(event) }
-                    <button class="btn btn-light d-block half-m" disabled>Added</button>
+                    <button class="btn btn-light d-block m-half" disabled>Added</button>
                   {:else}
-                    <button class="btn btn-secondary d-block half-m" on:click="{ () => join(event.id) }">Add to my events</button>
+                    <button class="btn btn-secondary d-block m-half" on:click="{ () => join(event.id) }">Add to my events</button>
                   {/if}
                 </div>
               </div>
