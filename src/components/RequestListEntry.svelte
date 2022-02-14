@@ -36,7 +36,7 @@ $: to = request.destination?.description || ''
       </div>
     </div>
     <div class="col-7 col-sm-9">
-      <div class="card-body p-1">
+      <div class="card-body p-quarter">
         <h3 class="card-title text-truncate">{request.title}</h3>
         <div class="form-row">
           <div class="col-12 col-sm text-truncate" title={to}>

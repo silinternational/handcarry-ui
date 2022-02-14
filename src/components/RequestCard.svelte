@@ -68,8 +68,8 @@
   }
 </style>
 
-<Card isClickable noPadding on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-1">
-  <div class="flex justify-between align-items-center black m-2 px-1">
+<Card isClickable noPadding on:click={gotoRequest} on:keypress={gotoRequest} class="h-100 py-quarter">
+  <div class="flex justify-between align-items-center black half-m px-quarter">
     <UserAvatar {user} small />
 
     <div class="header">
@@ -86,24 +86,24 @@
     <RequestImage {request} />
   </div>
 
-  <div class="from-to flex justify-between black fs-14 mb-1 px-3" class:smaller>
-    <div class="pr-3">
+  <div class="from-to flex justify-between black fs-14 mb-quarter px-1" class:smaller>
+    <div class="pr-1">
       <div class="uppercase fs-10">from</div>
       {#if from }
-        <p class="mb-1 multi-line-truncate" class:smaller>{from}</p>
+        <p class="mb-quarter multi-line-truncate" class:smaller>{from}</p>
       {:else}
-        <p class="mb-1 font-italic" class:smaller>anywhere</p>
+        <p class="mb-quarter font-italic" class:smaller>anywhere</p>
       {/if}
     </div>
 
     <div>
       <div class="uppercase fs-10">to</div>
 
-      <p class="mb-1 multi-line-truncate" class:smaller>{to}</p>
+      <p class="mb-quarter multi-line-truncate" class:smaller>{to}</p>
     </div>
   </div>
 
-  <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-2 px-3"  class:smaller>
+  <div class="content multi-line-truncate line-clamp-3 fs-12 gray mb-half px-1"  class:smaller>
     {request.description  || ''}
   </div>
 </Card>
