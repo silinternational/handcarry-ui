@@ -48,7 +48,7 @@ async function saveNewNickname() {
         </form>
       {:else}
         <h2 class="d-flex flex-row align-items-center">
-          <span class="pr-3">{$me.nickname}</span>
+          <span class="pr-1">{$me.nickname}</span>
 
           <button on:click={() => editingNickname = true} class="btn btn-outline-primary btn-sm rounded-circle">
             <Icon icon={faEdit} />

@@ -208,7 +208,7 @@ function onWeightChanged(event) {
         <small class="text-muted font-italic">(Who can see this request)</small>
       </span>
     </div>
-    <div class="col p-2">
+    <div class="col half-p">
       <VisibilitySelector on:change={OnVisibilityChanged} visibility={request.visibility} />
     </div>
   </div>
