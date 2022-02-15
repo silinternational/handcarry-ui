@@ -21,7 +21,7 @@ label {
 
 <div class="form-row justify-content-center">
   {#each sizes as size }
-    <div class="col-6 col-sm d-flex align-items-stretch mb-2">
+    <div class="col-6 col-sm d-flex align-items-stretch mb-half">
       <label class="form-check-label d-block mb-1 w-100" for="{size.type}">
         <input type="radio" name="size" id="{size.type}" value={size.type} class="form-check-input" bind:group={selectedName}>
         <SizeTile isButton size={size.type} selected={selectedName === size.type} />

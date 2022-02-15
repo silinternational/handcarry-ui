@@ -112,7 +112,7 @@
     <button
       on:click={() => $goto("/events/new")}
       type="submit"
-      class="btn btn-primary mb-2">Create Event</button>
+      class="btn btn-primary mb-half">Create Event</button>
     {#if $loading}
       <p>⏳ Retrieving events...</p>
     {:else if filteredEvents.length}
@@ -121,7 +121,7 @@
         {#each filteredEvents as event, i (event.id)}
           <li
             id="event-{i + 1}"
-            class="rounded mb-2 p-half event-item {$params.scrollTo &&
+            class="rounded mb-half p-half event-item {$params.scrollTo &&
             event.id == $params.scrollTo
               ? 'blinking'
               : ''}"
@@ -144,7 +144,7 @@
                 </div>
 
                 <div>{event.location.description}</div>
-                <div class="pb-1">
+                <div class="pb-quarter">
                   {format(event.start_date)} – {format(event.end_date)}
                 </div>
 

@@ -40,7 +40,7 @@ img {
 </style>
 
 <div class="text-center">
-  <h1 class="pb-4">Welcome to WeCarry!</h1>
+  <h1 class="pb-1dot5">Welcome to WeCarry!</h1>
 
   {#if inviteInfo.imageURL}
     <img src={inviteInfo.imageURL} alt={altText} class="mb-3">

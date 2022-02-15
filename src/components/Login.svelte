@@ -65,7 +65,7 @@ a > img {
 
 <form on:submit|preventDefault={signIn} class="row mt-2">
   <div class="col-12 col-sm-8 offset-sm-1 col-md-6 offset-md-2 col-lg-5 offset-lg-3">
-    <h1 class="pb-3"><slot /></h1>
+    <h1 class="pb-1"><slot /></h1>
   </div>
 
   <!-- the input and button should stack on phones but go inline (and centered) on everything else -->
@@ -106,12 +106,12 @@ a > img {
         </button>
       </div>
       <div class="modal-body d-flex flex-column align-items-center">
-        <p class="pb-3">
+        <p class="pb-1">
           To sign in as <strong>{email}</strong>, choose a provider below:
         </p>
 
         {#each identityProviders as { RedirectURL, Name }}
-          <a href={RedirectURL} class="mb-2">
+          <a href={RedirectURL} class="mb-half">
             <img src={logo(Name)} alt={`Sign in with ${Name}`}>
           </a>
         {/each}

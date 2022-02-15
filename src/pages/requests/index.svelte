@@ -44,24 +44,24 @@ function viewToggled(choice) {
     {:else if filteredRequests.length }
       {#if showAsList }
         {#each filteredRequests as request (request.id) }
-          <div class="col-12 my-1"
+          <div class="col-12 my-quarter"
                in:fade
                animate:flip="{{ duration: 350 }}"><RequestListEntry {request} /></div>
         {/each}
       {:else}
         {#each filteredRequests as request (request.id) }
-          <div class="col-6 my-1 col-lg-4"
+          <div class="col-6 my-quarter col-lg-4"
                in:fade
                animate:flip="{{ duration: 350 }}"><RequestCard {request}/></div>
         {/each}
       {/if}
     {:else}
-      <div class="col-12 my-2 mx-5">
+      <div class="col-12 my-half mx-3">
         <i class="text-muted">None found </i>
       </div>
     {/if}
 
-    <div class:d-md-block={showAsList} class="d-none col-12 my-1">
+    <div class:d-md-block={showAsList} class="d-none col-12 my-quarter">
       <button on:click="{() => $goto('/requests/new')}" class="btn btn-success btn-sm w-100"><span style="font-size: larger">+</span> Make a request</button>
     </div>
 

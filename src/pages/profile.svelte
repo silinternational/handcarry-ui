@@ -24,13 +24,13 @@ async function saveNewNickname() {
 }
 </script>
 
-<div class="row pt-4">
+<div class="row pt-1dot5">
   <div class="col-md"/>
 
   <div class="col-md-2 d-flex flex-column align-items-center">
     <UserAvatar user={$me} />
 
-    <div class="pt-2">
+    <div class="pt-half">
       <Uploader on:uploaded={imageUploaded} type='change' small />
     </div>
   </div>
@@ -63,7 +63,7 @@ async function saveNewNickname() {
       <span class="badge badge-pill badge-info mr-2">{org.name}</span>
     {/each}
 
-    <h2 class="pt-4 pb-2">Saved alerts</h2>
+    <h2 class="pt-1dot5 pb-half">Saved alerts</h2>
     <Watches />
   </div>
 

@@ -103,12 +103,12 @@ const focusOnCreate = element => element.focus()
           <div class="col">
             <label class="sr-only" for="replyField">Reply</label>
 
-            <input bind:value={reply} class="form-control mb-2 mr-sm-2"
+            <input bind:value={reply} class="form-control mb-half mr-sm-2"
                    placeholder="Reply" autocomplete="off" use:focusOnCreate />
           </div>
 
           <div class="col-auto">
-            <button type="submit" class="btn btn-primary mb-2">Send</button>
+            <button type="submit" class="btn btn-primary mb-half">Send</button>
           </div>
         </div>
       </form>

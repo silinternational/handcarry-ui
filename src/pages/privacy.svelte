@@ -3,9 +3,13 @@ h2 {
   margin-top: 36px;
   margin-bottom: 18px;
 }
+h1 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
 </style>
 
-<h1 class="py-4">WeCarry Privacy Policy</h1>
+<h1>WeCarry Privacy Policy</h1>
 <p>Effective February 4, 2020</p>
 <p>Thank you for entrusting WeCarry with your hand-carry coordination needs. We understand this may include personal information about you such as your location and name, and so we take great care and responsibility to protect your information. This page describes what information we collect and how we use it.</p>
 

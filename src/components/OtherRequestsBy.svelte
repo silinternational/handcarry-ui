@@ -21,11 +21,16 @@ hr {
 .request-tile-container {
   width: 128px;
 }
+
+.row-spaceing {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
 </style>
 
 {#if otherRequests.length > 0 }
   <hr />
-  <div class="row my-4">
+  <div class="row row-spaceing">
     <div class="col-12"><h4>{requester.nickname}'s other requests</h4></div>
     {#each otherRequests as otherRequest }
       <div class="col-auto">

@@ -15,6 +15,6 @@ function goToConversation(conversationId) {
 }
 </script>
 
-<h2 class="pb-4">Messages</h2>
+<h2 class="pb-1dot5">Messages</h2>
 
 <Messaging conversations={$conversations} {conversationId} on:conversation-selected={event => goToConversation(event.detail)} />

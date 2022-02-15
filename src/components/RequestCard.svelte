@@ -82,7 +82,7 @@
     {/if}
   </div>
 
-  <div class="card-img-top request-image text-center mb-2" class:smaller>
+  <div class="card-img-top request-image text-center mb-half" class:smaller>
     <RequestImage {request} />
   </div>
 

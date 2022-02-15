@@ -48,3 +48,11 @@ h3{
 nav img {
   height: 2rem;
 }
+
+.pt-1dot5 {
+  padding-top: 1.5rem;
+}
+
+.pb-1dot5 {
+  padding-bottom: 1.5rem;
+}

@@ -1,11 +1,15 @@
 <style>
+h1 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
 h2 {
   margin-top: 36px;
   margin-bottom: 18px;
 }
 </style>
 
-<h1 class="py-4">WeCarry Terms of Use</h1>
+<h1>WeCarry Terms of Use</h1>
 <p>Effective December 1, 2019</p>
 <p>Thank you for using WeCarry! We're happy to be able to help in your hand-carry coordination needs. Please read this agreement carefully before using WeCarry to ensure you understand the scope of use and limits of liability for the WeCarry service.</p>
 

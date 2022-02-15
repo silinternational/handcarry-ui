@@ -35,11 +35,16 @@ async function startConversation() {
 hr {
   width: 80%;
 }
+
+.row-spaceing {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
 </style>
 
 {#if hasConversation }
   <hr />
-  <div class="row my-4">
+  <div class="row row-spaceing">
     <div class="col">
 
       <div class="row">
@@ -62,7 +67,7 @@ hr {
   </div>
 {:else if !isMine }
   <hr />
-  <div class="row my-4">
+  <div class="row row-spaceing">
     <div class="col">
       <h4>Chat privately with { requester.nickname }</h4>
       <form on:submit|preventDefault={startConversation}>

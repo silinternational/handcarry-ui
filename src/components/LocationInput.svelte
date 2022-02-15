@@ -47,7 +47,7 @@ function clearLocation() {
 }
 </script>
 
-<div class="input-group mb-2">
+<div class="input-group mb-half">
   <div class="input-group-prepend">
       <div class="input-group-text">
           <Icon icon={faMapMarkerAlt} />

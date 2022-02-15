@@ -150,7 +150,7 @@ function resetFilters() {
     <hr />
     <LocationFilter title="To" placeholder="Destination" location={destination} on:change={onDestinationChange}/>
     {#if $events.length }
-      <p class="mb-2 text-center text-muted">– or –</p>
+      <p class="mb-half text-center text-muted">– or –</p>
       <EventSelect class="form-control form-control-sm" events={$events} {eventId} on:change={onEventChange} />
     {/if}
     <hr />
