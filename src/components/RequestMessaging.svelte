@@ -67,7 +67,7 @@ hr {
   </div>
 {:else if !isMine }
   <hr />
-  <div class="row row-spaceing">
+  <div class="row row-spacing">
     <div class="col">
       <h4>Chat privately with { requester.nickname }</h4>
       <form on:submit|preventDefault={startConversation}>
