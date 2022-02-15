@@ -36,7 +36,7 @@ hr {
   width: 80%;
 }
 
-.row-spaceing {
+.row-spacing {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
 }
