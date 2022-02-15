@@ -44,7 +44,7 @@ hr {
 
 {#if hasConversation }
   <hr />
-  <div class="row row-spaceing">
+  <div class="row row-spacing">
     <div class="col">
 
       <div class="row">
