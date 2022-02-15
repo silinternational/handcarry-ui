@@ -30,7 +30,7 @@ hr {
 
 {#if otherRequests.length > 0 }
   <hr />
-  <div class="row row-spaceing">
+  <div class="row row-spacing">
     <div class="col-12"><h4>{requester.nickname}'s other requests</h4></div>
     {#each otherRequests as otherRequest }
       <div class="col-auto">
