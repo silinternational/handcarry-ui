@@ -14,7 +14,7 @@ function onInput(event) {
 </script>
 
 <p class="mb-1 text-muted" id="search-filter-label">{ title }:</p>
-<div class="input-group mb-2">
+<div class="input-group mb-half">
   <div class="input-group-prepend">
     <div class="input-group-text"><Icon icon={faSearch} /></div>
   </div>

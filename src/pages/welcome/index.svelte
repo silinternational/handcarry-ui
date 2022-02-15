@@ -9,8 +9,17 @@ if (returnTo) {
 }
 </script>
 
-<div class="d-flex flex-column align-items-center pt-3 pt-md-5">
-  <h1 class="py-4 text-center">Welcome to WeCarry!</h1>
+<style>
+  .anchor-margin {
+    margin-top: 1.5rem;
+  }
+  h1 {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+</style>
+<div class="d-flex flex-column align-items-center pt-1 pt-md-5">
+  <h1 class="text-center">Welcome to WeCarry!</h1>
 
   <p>
     We (the team behind WeCarry) appreciate you coming to check out WeCarry. We're excited about its potential
@@ -30,5 +39,5 @@ if (returnTo) {
     <a href="/privacy" target="_blank">Privacy Policy</a>.
   </p>
 
-  <a href={nextUrl} class="btn btn-primary mt-4">Agree & Continue</a>
+  <a href={nextUrl} class="btn btn-primary anchor-margin">Agree & Continue</a>
 </div>

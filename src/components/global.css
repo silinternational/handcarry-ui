@@ -49,63 +49,10 @@ nav img {
   height: 2rem;
 }
 
-/* Spacing temporary until added to ui-components */
-.p-quarter {
-  padding: 0.25rem;
-}
-.py-quarter {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-}
-.px-quarter {
-  padding-right: 0.25rem;
-  padding-left: 0.25rem;
+.pt-1dot5 {
+  padding-top: 1.5rem;
 }
 
-.p-half {
-  padding: 0.5rem;
-}
-.py-half {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-.px-half {
-  padding-right: 0.5rem;
-  padding-left: 0.5rem;
-}
-
-.m-quarter {
-  margin: 0.25rem;
-}
-.my-quarter {
-  margin-top: 0.25rem;
-  margin-bottom: 0.25rem;
-}
-.mx-quarter {
-  margin-right: 0.25rem;
-  margin-left: 0.25rem;
-}
-.mb-quarter {
-  margin-bottom: .25rem;
-}
-.mt-quarter {
-  margin-top: .25rem;
-}
-
-.m-half {
-  margin: 0.5rem;
-}
-.my-half {
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
-}
-.mx-half {
-  margin-right: 0.5rem;
-  margin-left: 0.5rem;
-}
-.mb-half {
-  margin-bottom: 0.5rem;
-}
-.mt-half {
-  margin-top: 0.5rem;
+.pb-1dot5 {
+  padding-bottom: 1.5rem;
 }
