@@ -1,4 +1,5 @@
 <script>
+import DeleteRequestModal from 'components/DeleteRequestModal.svelte'
 import EventSelect from 'components/EventSelect.svelte'
 import LocationInput from 'components/LocationInput.svelte'
 import SizeSelector from 'components/SizeSelector.svelte'
@@ -18,6 +19,7 @@ import { goto, params } from '@roxi/routify'
 
 let imageUrl = ''
 let eventId = ''
+let deleteModalOpen = false
 
 const defaults = {
 
@@ -77,6 +79,8 @@ function imageUploaded(event) {
 }
 
 async function cancelRequest() {
+  deleteModalOpen = false
+
   await cancel($params.requestId)
 
   $goto(`/requests`)
@@ -233,12 +237,14 @@ function onWeightChanged(event) {
 
     {#if !isNew}
       <div class="col-auto text-center">
-        <button type="button" on:click={cancelRequest} class="btn btn-outline-danger">
+        <button type="button" on:click={() => (deleteModalOpen = true)} class="btn btn-outline-danger">
           <Icon icon={faTrash} /> Delete
         </button>
       </div>
       <div class="col"></div>
     {/if}
+
+    <DeleteRequestModal on:delete={cancelRequest} on:closed={() => (deleteModalOpen = false)} on:cancel={() => (deleteModalOpen = false)} open={deleteModalOpen} />
 
     <div class="col-auto">
       <button type="submit" class="btn btn-primary float-right">
