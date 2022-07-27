@@ -23,7 +23,7 @@ async function imageUploaded(event) {
 }
 </script>
 
-<div class="row pt-4">
+<div class="row pt-1dot5">
   <div class="col-lg"/>
 
   <div class="col-lg-7">
@@ -37,19 +37,19 @@ async function imageUploaded(event) {
   <div class="col-lg"/>
 </div>
 
-<div class="row pt-4">
+<div class="row pt-1dot5">
   <div class="col-lg"/>
 
   <div class="col-lg-2 d-flex flex-column align-items-center">
     <UserAvatar user={$me} />
 
-    <div class="pt-2">
+    <div class="pt-half">
       <Uploader on:uploaded={imageUploaded} type='change' small />
     </div>
   </div>
 
   <div class="col-lg-5">
-    <div class="form-group pb-4">
+    <div class="form-group pb-1dot5">
       <label for="nickname"><strong>Choose a nickname</strong></label>
       <input id="nickname" aria-describedby="nicknameHelp" bind:value={newNickname} class="form-control">
       <small id="nicknameHelp" class="form-text text-muted">
@@ -57,8 +57,8 @@ async function imageUploaded(event) {
       </small>
     </div>
 
-    <!-- <div class="form-group pb-4">
-      <strong class="d-block pb-1">How do you prefer to measure weight?</strong>
+    <!-- <div class="form-group pb-1dot5">
+      <strong class="d-block pb-quarter">How do you prefer to measure weight?</strong>
       <div class="form-check">
         <input id="pounds" type="radio" name="weightPreference" bind:group={weightPreference} value="pounds" class="form-check-input mr-2">
         <label for="pounds" class="form-check-label">pounds</label>
@@ -69,7 +69,7 @@ async function imageUploaded(event) {
       </div>
     </div>
 
-    <div class="form-group pb-4">
+    <div class="form-group pb-1dot5">
       <label for="home"><strong>What is your "home" location?</strong></label>
       <input id="home" aria-describedby="homeHelp" bind:value={home} class="form-control">
       <small id="homeHelp" class="form-text text-muted">
@@ -79,7 +79,7 @@ async function imageUploaded(event) {
 
 <!-- TODO: if you can get this from the browser, use it as the default to the backend (Intl.DateTimeFormat().resolvedOptions().timeZone) -->
 <!-- TODO: same for preferred lang. (const langOnlyNoVariant = navigator.language.substring(0,2) OR Intl.DateTimeFormat().resolvedOptions().locale..substring(0,2)) -->
-    <!-- <div class="form-group pb-4">
+    <!-- <div class="form-group pb-1dot5">
       <label for="timezone"><strong>What is your timezone?</strong></label>
       <input id="timezone" aria-describedby="timezoneHelp" bind:value={timezone} class="form-control">
       <small id="timezoneHelp" class="form-text text-muted">

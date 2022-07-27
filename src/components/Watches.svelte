@@ -47,7 +47,7 @@ function showAll() {
 </script>
 
 {#each visibleWatches as watch (watch.id)} <!-- id needed for animation -->
-  <div class="card mb-2" out:fly={{ x: 300, duration: 200}}>
+  <div class="card mb-half" out:fly={{ x: 300, duration: 200}}>
     <div class="row no-gutters">
       <div class="col">
         <div class="card-body">

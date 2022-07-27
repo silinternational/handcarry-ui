@@ -32,7 +32,7 @@ function onRemoveFilter(event) {
 </div>
 
 <div class="row mt-2">
-  <div class="col-12 col-md-4 col-lg-3 mb-2">
+  <div class="col-12 col-md-4 col-lg-3 mb-half">
     <div>
       <slot name="filters"></slot>
     </div>

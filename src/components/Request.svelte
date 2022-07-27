@@ -29,6 +29,9 @@ function goToConversation(conversationId) {
 </script>
 
 <style>
+.mb-1dot5 {
+  margin-bottom: 1.5rem;
+}
 .keep-line-breaks {
   white-space: pre-line;
 }
@@ -56,8 +59,8 @@ function goToConversation(conversationId) {
   <div class="row">
     <div class="col-12 col-sm-4 col-lg-3">
       <div class="row">
-        <div class="col col-sm-12 mb-4"><div class="request-image-container"><RequestImage {request} hideSize /></div></div>
-        <div class="col col-sm-12 mb-4"><div class="size-tile-container"><SizeTile size={request.size} /></div></div>
+        <div class="col col-sm-12 mb-1dot5"><div class="request-image-container"><RequestImage {request} hideSize /></div></div>
+        <div class="col col-sm-12 mb-1dot5"><div class="size-tile-container"><SizeTile size={request.size} /></div></div>
       </div>
     </div>
 
@@ -105,15 +108,15 @@ function goToConversation(conversationId) {
           </dl>
         </div>
         <div class="col-auto">
-          <div class="text-center mb-2">
+          <div class="text-center mb-half">
             <UserAvatar user={requester} />
             <div>{ requester.nickname || '' }</div>
           </div>
         </div>
       </div>
-      <p class="mb-4 keep-line-breaks">{ request.description || '' }</p>
+      <p class="mb-1dot5 keep-line-breaks">{ request.description || '' }</p>
       {#if request.is_editable}
-        <a href="/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary mb-2">Edit request</a>
+        <a href="/requests/{request.id}/edit" class="btn btn-sm btn-outline-secondary mb-half">Edit request</a>
       {/if}
       <RequestMessaging {request} {conversationId} on:conversation-selected={event => goToConversation(event.detail)} />
       {#if !isMine }

@@ -25,10 +25,10 @@ function create() {
 </style>
 
 <div class="card request-tile bg-light" on:click={create}>
-  <div class="card-body p-2 position-relative">
+  <div class="card-body p-half position-relative">
     <div class="card-text plus-icon text-success">+</div>
   </div>
-  <div class="card-footer p-2 bg-success">
+  <div class="card-footer p-half bg-success">
     <div class="row">
       <div class="col text-center"><a class="text-light" href="/requests/new">Make a request</a></div>
     </div>

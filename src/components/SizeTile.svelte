@@ -6,7 +6,7 @@ export let size
 export let selected = false
 export let isButton = false
 
-const nonButtonCssClasses = 'border p-2 rounded text-center'
+const nonButtonCssClasses = 'border p-half rounded text-center'
 
 $: buttonCssClasses = 'btn btn-block ' + (selected ? 'btn-primary' : 'btn-outline-dark')
 $: extraCssClasses = isButton ? buttonCssClasses : nonButtonCssClasses
@@ -41,7 +41,7 @@ img {
 </style>
 
 <div class="{extraCssClasses} h-100 d-flex align-items-end flex-column">
-  <div class="description w-100 d-sm-inline pb-2">{description}</div>
-  <div class="picture mt-auto w-100 d-sm-inline pb-2"><img src="{pictureUrl}" {alt} /></div>
+  <div class="description w-100 d-sm-inline pb-half">{description}</div>
+  <div class="picture mt-auto w-100 d-sm-inline pb-half"><img src="{pictureUrl}" {alt} /></div>
   <div class="w-100 d-sm-inline"><SizeIndicator {size} /></div>
 </div>

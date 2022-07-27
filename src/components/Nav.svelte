@@ -22,6 +22,9 @@ $: minimal = $page.path.startsWith('/welcome') || ! userIsAuthn
   bottom: 0.5rem;
   z-index: 1030; /* matches bootstrap's suggestion for z-index-fixed */
 }
+nav {
+  margin-bottom: 1.5rem;
+}
 </style>
 
 {#if $isActive('/requests')}
@@ -31,7 +34,7 @@ $: minimal = $page.path.startsWith('/welcome') || ! userIsAuthn
   </a>
 {/if}
 
-<nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
+<nav class="navbar navbar-expand-md navbar-light bg-light">
   <a class="navbar-brand" href={userIsAuthn ? '/requests' : '/login'} on:click={clickedLogo}>
     <img src="/logo.svg" alt="WeCarry logo" />
   </a>
