@@ -4,6 +4,7 @@
 
 # build files
 dist/bundle*
+dist/index.html
 dist/service-worker*
 dist/workbox*
 .routify
