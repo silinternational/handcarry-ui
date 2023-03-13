@@ -10,6 +10,7 @@ import { generateSW } from 'rollup-plugin-workbox'
 import routify from '@roxi/routify/plugins/rollup'
 import autoPreprocess from 'svelte-preprocess'
 import alias from '@rollup/plugin-alias'
+import html from '@rollup/plugin-html'
 
 const production = !process.env.ROLLUP_WATCH
 
@@ -24,7 +25,8 @@ const aliases = alias({
 export default {
   input: 'src/main.js',
   output: {
-    file: 'dist/bundle.js',
+    dir: 'dist',
+    entryFileNames: 'bundle.[hash].js',
     format: 'iife',
     sourcemap: production,
   },
@@ -78,8 +80,53 @@ export default {
 
     //           minify     auto-refresh browser on changes
     production ? terser() : livereload('dist'),
+    html({
+      template: ({ files }) => {
+        const script = (files.js || [])
+          .map(({ fileName }) => `<script defer src='/${fileName}'></script>`)
+          .join('\n')
+
+        const css = (files.css || [])
+          .map(({ fileName }) => `<link rel='stylesheet' href='/${fileName}'>`)
+          .join('\n')
+        return getHtml(script, css)
+      }
+    }),
   ],
   watch: {
     clearScreen: false,
   }
+}
+
+function getHtml (script, css) {
+  return `<!doctype html>
+  <html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  
+    <title>WeCarry</title>
+  
+    <link rel='icon' type='image/png' href='/favicon.ico'>
+    <link rel="manifest" href="/manifest.json">
+  
+    <script>
+      'serviceWorker' in navigator && window.addEventListener('load', navigator.serviceWorker.register('/service-worker.js'))
+    </script>
+  
+    ${css}
+  </head>
+  
+  <body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyglot.js/2.2.2/polyglot.min.js"></script>
+    <script>
+      window.fwSettings={
+      'widget_id':48000002116
+      };
+      !function(){if("function"!=typeof window.FreshworksWidget){var n=function(){n.q.push(arguments)};n.q=[],window.FreshworksWidget=n}}()
+    </script>
+    <script type='text/javascript' src='https://widget.freshworks.com/widgets/48000002116.js' async defer></script>
+    ${script}
+  </body>
+  </html>`
 }
