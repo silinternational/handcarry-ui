@@ -1,40 +1,61 @@
+import { route } from '@roxi/routify'
+
+const GOOGLE_ANALYTICS_ID = process.env.GOOGLE_ANALYTICS_ID || ''
+
 init()
 
-// https://developers.google.com/analytics/devguides/collection/analyticsjs
+// https://developers.google.com/analytics/devguides/collection/gtagjs
+// https://developers.google.com/analytics/devguides/collection/upgrade/analyticsjs
 function init() {
-  window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)}
-  ga.l=+new Date
-
-  ga('create', process.env.GOOGLE_ANALYTICS_ID, 'auto')
-
   loadLib()
+
+  ;(window).dataLayer = (window).dataLayer || []
+  window.gtag = () => (window).dataLayer.push(arguments)
+
+  gtag('js', new Date())
+
+  //since we are sending manually we need to disable the default of sending each pageview
+  gtag('config', GOOGLE_ANALYTICS_ID, {
+    send_page_view: false,
+  })
+
+  route.subscribe(trackPageView)
 }
 
 function loadLib() {
-  const el = document.createElement('script')
+  const script = document.createElement('script')
 
-  el.src = 'https://www.google-analytics.com/analytics.js'
-  el.async = true
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`
+  script.async = true
 
-  document.head.appendChild(el)
+  document.head.appendChild(script)
 }
 
-export function trackPageView() {
-  // https://developers.google.com/analytics/devguides/collection/analyticsjs/pages#pageview_fields
-  ga('send', 'pageview', window.location.pathname)
+function trackPageView(page) {
+  if (page) {
+    // https://developers.google.com/analytics/devguides/collection/gtagjs/pages#default_behavior
+    gtag('event', 'page_view', {
+      page_path: location.pathname, //page.path or page.shortPath are also available
+    })
+  }
 }
 
-function trackEvent(primary, secondary, tertiary) {
-  // https://developers.google.com/analytics/devguides/collection/analyticsjs/events#event_fields
-  ga('send', 'event', primary, secondary, tertiary)
+// https://developers.google.com/analytics/devguides/collection/gtagjs/events
+function trackEvent(eventName, eventLabel, value) {
+  gtag('event', eventName, {
+    event_label: eventLabel,
+    value,
+  })
 }
 
-const trackAuthEvent     = secondary             => trackEvent('Auth'    , secondary)
-const trackMeetingsEvent = (secondary, tertiary) => trackEvent('Meetings', secondary, tertiary)
-const trackMenuEvent     = (secondary, tertiary) => trackEvent('Menu'    , secondary, tertiary)
-const trackRequestsEvent = (secondary, tertiary) => trackEvent('Requests', secondary, tertiary)
-const trackRequestEvent  = secondary             => trackEvent('Request' , secondary)
-const trackUserEvent     = secondary             => trackEvent('User'    , secondary)
+export const notFound = () => trackEvent('Error', 'Page not found')
+
+const trackAuthEvent     = (eventLabel)        => trackEvent('Auth'    , eventLabel)
+const trackMeetingsEvent = (eventLabel, value) => trackEvent('Meetings', eventLabel, value)
+const trackMenuEvent     = (eventLabel, value) => trackEvent('Menu', eventLabel, value)
+const trackRequestsEvent = (eventLabel, value) => trackEvent('Requests', eventLabel, value)
+const trackRequestEvent  = (eventLabel)        => trackEvent('Request' , eventLabel)
+const trackUserEvent     = (eventLabel)        => trackEvent('User'    , eventLabel)
 
 export const loggedIn  = () => trackAuthEvent('logged in')
 export const loggedOut = () => trackAuthEvent('logged out')
