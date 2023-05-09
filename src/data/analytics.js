@@ -41,57 +41,60 @@ function trackPageView(page) {
 }
 
 // https://developers.google.com/analytics/devguides/collection/gtagjs/events
-function trackEvent(eventName, eventParameters) {
-  gtag('event', eventName, eventParameters)
+function trackEvent(eventName, eventLabel, value) {
+  gtag('event', eventName, {
+    event_label: eventLabel,
+    value,
+  })
 }
 
 export const notFound = () => trackEvent('Error', 'Page not found')
 
-const trackAuthEvent     = eventParameters => trackEvent('Auth'    , eventParameters)
-const trackMeetingsEvent = eventParameters => trackEvent('Meetings', eventParameters)
-const trackMenuEvent     = eventParameters => trackEvent('Menu'    , eventParameters)
-const trackRequestsEvent = eventParameters => trackEvent('Requests', eventParameters)
-const trackRequestEvent  = eventParameters => trackEvent('Request' , eventParameters)
-const trackUserEvent     = eventParameters => trackEvent('User'    , eventParameters)
+const trackAuthEvent     = (eventLabel) => trackEvent('Auth'    , eventLabel)
+const trackMeetingsEvent = (eventLabel, value) => trackEvent('Meetings', eventLabel, value)
+const trackMenuEvent     = (eventLabel, value) => trackEvent('Menu', eventLabel, value)
+const trackRequestsEvent = (eventLabel, value) => trackEvent('Requests', eventLabel, value)
+const trackRequestEvent  = (eventLabel) => trackEvent('Request' , eventLabel)
+const trackUserEvent     = (eventLabel) => trackEvent('User'    , eventLabel)
 
-export const loggedIn  = () => trackAuthEvent({event_label: 'logged in'})
-export const loggedOut = () => trackAuthEvent({event_label: 'logged out'})
+export const loggedIn  = () => trackAuthEvent('logged in')
+export const loggedOut = () => trackAuthEvent('logged out')
 
-export const createRequestByFab    = () => trackMenuEvent({event_label: 'create request', value: 'fab'})
-export const createRequestByButton = () => trackMenuEvent({event_label: 'create request', value: 'button'})
-export const createRequestByTile   = () => trackMenuEvent({event_label: 'create request', value: 'tile'})
-export const clickedLogo           = () => trackMenuEvent({event_label: 'logo clicked'})
-export const choseMyRequests       = () => trackMenuEvent({event_label: 'my requests'})
-export const choseMyCommitments    = () => trackMenuEvent({event_label: 'my commitments'})
+export const createRequestByFab    = () => trackMenuEvent('create request', 'fab')
+export const createRequestByButton = () => trackMenuEvent('create request', 'button')
+export const createRequestByTile   = () => trackMenuEvent('create request', 'tile')
+export const clickedLogo           = () => trackMenuEvent('logo clicked')
+export const choseMyRequests       = () => trackMenuEvent('my requests')
+export const choseMyCommitments    = () => trackMenuEvent('my commitments')
 
-export const filteredRequestsByDestination = query => trackRequestsEvent({event_label: 'destination', value: query})
-export const filteredRequestsByEvent       = name  => trackRequestsEvent({event_label: 'event', value: name})
-export const filteredRequestsByOrigin      = query => trackRequestsEvent({event_label: 'origin', value: query})
-export const filteredRequestsBySize        = size  => trackRequestsEvent({event_label: 'filter', value: size})
-export const filteredRequestsByMine        = ()    => trackRequestsEvent({event_label: 'filter', value: 'mine'})
-export const filteredRequestsByProviding   = ()    => trackRequestsEvent({event_label: 'filter', value: 'providing'})
-export const filteredRequestsByAll         = ()    => trackRequestsEvent({event_label: 'filter', value: 'all'})
-export const viewedRequestsAs              = type  => trackRequestsEvent({event_label: 'view', value: type})
-export const searchedRequests              = query => trackRequestsEvent({event_label: 'search', value: query})
+export const filteredRequestsByDestination = query => trackRequestsEvent('destination', query)
+export const filteredRequestsByEvent       = name  => trackRequestsEvent('event', name)
+export const filteredRequestsByOrigin      = query => trackRequestsEvent('origin', query)
+export const filteredRequestsBySize        = size  => trackRequestsEvent('filter', size)
+export const filteredRequestsByMine        = ()    => trackRequestsEvent('filter', 'mine')
+export const filteredRequestsByProviding   = ()    => trackRequestsEvent('filter', 'providing')
+export const filteredRequestsByAll         = ()    => trackRequestsEvent('filter', 'all')
+export const viewedRequestsAs              = type  => trackRequestsEvent('view'  , type)
+export const searchedRequests              = query => trackRequestsEvent('search', query)
 
-export const filteredMeetingsByAll      = ()    => trackMeetingsEvent({event_label: 'filter', value: 'all'})
-export const filteredMeetingsByLocation = query => trackMeetingsEvent({event_label: 'location', value: query})
-export const filteredMeetingsByMine     = ()    => trackMeetingsEvent({event_label: 'filter', value: 'mine'})
-export const searchedMeetings           = query => trackMeetingsEvent({event_label: 'search', value: query})
+export const filteredMeetingsByAll      = ()    => trackMeetingsEvent('filter', 'all')
+export const filteredMeetingsByLocation = query => trackMeetingsEvent('location', query)
+export const filteredMeetingsByMine     = ()    => trackMeetingsEvent('filter', 'mine')
+export const searchedMeetings           = query => trackMeetingsEvent('search', query)
 
-export const accepted       = () => trackRequestEvent({event_label:'accepted'})
-export const offered        = () => trackRequestEvent({event_label:'offered'})
-export const trackReceived  = () => trackRequestEvent({event_label:'received'})
-export const trackDelivered = () => trackRequestEvent({event_label:'delivered'})
-export const updated        = () => trackRequestEvent({event_label:'updated'})
-export const created        = () => trackRequestEvent({event_label:'created'})
-export const cancelled      = () => trackRequestEvent({event_label:'cancelled'})
+export const accepted       = () => trackRequestEvent('accepted')
+export const offered        = () => trackRequestEvent('offered')
+export const trackReceived  = () => trackRequestEvent('received')
+export const trackDelivered = () => trackRequestEvent('delivered')
+export const updated        = () => trackRequestEvent('updated')
+export const created        = () => trackRequestEvent('created')
+export const cancelled      = () => trackRequestEvent('cancelled')
 
-export const changedNickname = () => trackUserEvent({event_label:'changed nickname'})
-export const changedAvatar   = () => trackUserEvent({event_label:'changed avatar'})
+export const changedNickname = () => trackUserEvent('changed nickname')
+export const changedAvatar   = () => trackUserEvent('changed avatar')
 
-export const sentMessage = () => trackEvent({event_label:'Messaging', value: 'sent'})
+export const sentMessage = () => trackEvent('Messaging', 'sent')
 
-export const uploadedImage = () => trackEvent({event_label:'Image', value: 'uploaded'})
+export const uploadedImage = () => trackEvent('Image', 'uploaded')
 
-export const createdWatch = () => trackEvent({event_label:'watch', value: 'created'})
+export const createdWatch = () => trackEvent('watch', 'created')
