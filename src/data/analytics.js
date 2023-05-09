@@ -50,12 +50,12 @@ function trackEvent(eventName, eventLabel, value) {
 
 export const notFound = () => trackEvent('Error', 'Page not found')
 
-const trackAuthEvent     = (eventLabel) => trackEvent('Auth'    , eventLabel)
+const trackAuthEvent     = (eventLabel)        => trackEvent('Auth'    , eventLabel)
 const trackMeetingsEvent = (eventLabel, value) => trackEvent('Meetings', eventLabel, value)
 const trackMenuEvent     = (eventLabel, value) => trackEvent('Menu', eventLabel, value)
 const trackRequestsEvent = (eventLabel, value) => trackEvent('Requests', eventLabel, value)
-const trackRequestEvent  = (eventLabel) => trackEvent('Request' , eventLabel)
-const trackUserEvent     = (eventLabel) => trackEvent('User'    , eventLabel)
+const trackRequestEvent  = (eventLabel)        => trackEvent('Request' , eventLabel)
+const trackUserEvent     = (eventLabel)        => trackEvent('User'    , eventLabel)
 
 export const loggedIn  = () => trackAuthEvent('logged in')
 export const loggedOut = () => trackAuthEvent('logged out')
