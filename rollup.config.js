@@ -109,6 +109,8 @@ function getHtml (script, css) {
   
     <link rel='icon' type='image/png' href='/favicon.ico'>
     <link rel="manifest" href="/manifest.json">
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.google-analytics.com">
   
     <script>
       'serviceWorker' in navigator && window.addEventListener('load', navigator.serviceWorker.register('/service-worker.js'))

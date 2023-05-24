@@ -9,8 +9,11 @@ init()
 function init() {
   loadLib()
 
-  ;(window).dataLayer = (window).dataLayer || []
-  window.gtag = () => (window).dataLayer.push(arguments)
+  window.dataLayer = window.dataLayer || []
+
+  window.gtag = function (){
+    dataLayer.push(arguments)
+  }
 
   gtag('js', new Date())
 
