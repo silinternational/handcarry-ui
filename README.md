@@ -1,3 +1,7 @@
+# Archived
+
+WeCarry has been discontinued and will not be developed further
+
 # WeCarry app
 
 ## Dependencies
